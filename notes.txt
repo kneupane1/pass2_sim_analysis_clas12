@@ -1,0 +1,5 @@
+# May-10-2024: I started new c++ program to do my pass2 analysis. I will try to summarize every actions in this file:
+
+1. I hava fresh README.md file, I have looked in previous pass1 version and modified it (done: 05/10/2024)
+2. CMakeLists.txt file is copied and modified from pass1 version (done: 05/10/2024)
+3.
