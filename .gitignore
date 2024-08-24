@@ -1,4 +1,5 @@
 build/
+.DS_Store
 exe/acc_hist
 exe/bin_content_checks.cpp
 exe/inclusive_cs.cpp
