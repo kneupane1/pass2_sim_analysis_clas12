@@ -652,7 +652,7 @@ bool Pass2_Cuts::CD_fiducial_had(int i)
                 double theta = atan2(momT, _data->pz(i)) * 180 / PI;
                 double phi = atan2(_data->py(i), _data->px(i)) * 180 / PI;
 
-                double fiducial_phi_width = 5; // 3 is used by andrew
+                double fiducial_phi_width = 3; // 3 is used by andrew
                 double fiducial_phi_shift = 0;
                 double fiducial_momT_start = 0.15;
                 double fiducial_phi_central = (-asin(fiducial_momT_start / momT) - (PI / 2)) * 180 / PI;

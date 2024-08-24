@@ -22,7 +22,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         if (std::is_same<CutType, Pass2_Cuts>::value)
         {
                 if (thread_id == 0)
-                        std::cout << BLUE << "Using UConn RGA Cuts" << DEF << std::endl;
+                        std::cout << BLUE << "Using Pass2 RGA Cuts" << DEF << std::endl;
 
                 beam_energy = 10.6041;
         }
