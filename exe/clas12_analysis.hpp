@@ -168,123 +168,90 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         //  if (data->gpart() > 1) continue;
                         for (int part = 0; part < data->gpart(); part++)
                         {
-                                // if (((!std::isnan(data->sc_ctof_time(part))) && (!std::isnan(data->sc_ftof_1b_time(part)))) || ((!std::isnan(data->sc_ctof_time(part))) && (!std::isnan(data->sc_ftof_1a_time(part)))) || ((!std::isnan(data->sc_ctof_time(part))) && (!std::isnan(data->sc_ftof_2_time(part)))))
-                                // {
-                                // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() || event->TwoPion_exclusive())
-                                // {
-
-                                // total_part++;
-                                dt->dt_calc(part);
-                                // //dt->dt_calc_ctof(part);
-                                _hists->Fill_MomVsBeta(data, part, event);
-                                // // //if (event->TwoPion_missingPim()) {
-                                // // // if (event->TwoPion_missingPim()) {
-                                // // if(data->status(part) >=2000 && data->status(part) < 4000) {
-                                // // _hists->Fill_deltat_pi(data, dt, part, event);
-                                // // //}
-                                _hists->Fill_deltat_before_cut(data, dt, part, event);
-                                // // _hists->Fill_deltat_prot(data, dt, part, event);
-                                // // //}
-                                // // // }
-                                // // Check particle ID's and fill the reaction class
-                                if (cuts->IsProton(part))
+                                if (data->charge(part) != 0)
                                 {
-
-                                        _hists->FillHists_prot_pid_cuts(data, event, part);
-
-                                        //// // if (cuts->HadronsCuts(part))
+                                        // total_part++;
+                                        dt->dt_calc(part);
+                                        // //dt->dt_calc_ctof(part);
+                                        _hists->Fill_MomVsBeta(data, part, event);
+                                        // // //if (event->TwoPion_missingPim()) {
+                                        // // // if (event->TwoPion_missingPim()) {
+                                        // // if(data->status(part) >=2000 && data->status(part) < 4000) {
+                                        // // _hists->Fill_deltat_pi(data, dt, part, event);
+                                        // // //}
+                                        _hists->Fill_deltat_before_cut(data, dt, part, event);
+                                        // // _hists->Fill_deltat_prot(data, dt, part, event);
+                                        // // //}
+                                        // // // }
+                                        // // Check particle ID's and fill the reaction class
+                                        if (cuts->IsProton(part))
                                         {
-                                                prot++;
-                                                event->SetProton(part);
-                                                prot_idx++;
-                                                more_than_1_prot++;
 
-                                                // if (prot >= 2)
+                                                //// // if (cuts->HadronsCuts(part))
                                                 {
-                                                        // std::cout << " event no  = " << current_event << " part is =  " << part << " prot " << '\n';
+                                                        prot++;
+                                                        event->SetProton(part);
+                                                        prot_idx++;
+                                                        more_than_1_prot++;
 
                                                         statusProt = abs(data->status(part));
                                                         sectorProt = data->dc_sec(part);
-                                                        // if (statusProt < 4000)
-                                                        // {
-                                                        //         _hists->Fill_hist_cd_fid(data, event, part);
-                                                        // if (cuts->CD_fiducial_had(part))
-                                                        // {
-                                                        _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
+
+                                                        // _hists->FillHists_prot_pid_cuts(data, event, part);
+                                                        // _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                        // _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
                                                 }
                                         }
-                                }
-                                if (cuts->IsPip(part))
-                                {
-
-                                        _hists->FillHists_pip_pid_cuts(data, event, part);
-
-                                        //////  // if (cuts->HadronsCuts(part))
+                                        if (cuts->IsPip(part))
                                         {
-                                                event->SetPip(part);
 
-                                                pip_idx++;
-                                                pip++;
-                                                more_than_1_pip++;
-
-                                                // if (pip >= 2)
+                                                //////  // if (cuts->HadronsCuts(part))
                                                 {
-                                                        // std::cout << " event no  = " << current_event << " part is =  " << part << " pip " << '\n';
+                                                        event->SetPip(part);
+
+                                                        pip_idx++;
+                                                        pip++;
+                                                        more_than_1_pip++;
 
                                                         statusPip = abs(data->status(part));
                                                         sectorPip = data->dc_sec(part);
-                                                        // if (cuts->CD_fiducial_had(part))
-                                                        // {
-                                                        _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
-                                                        // }
-                                                        // else _hists->FillHists_pip_pid_with_cuts(data, event, part);
+                                                        // _hists->FillHists_pip_pid_cuts(data, event, part);
+                                                        // _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
+                                                        // _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
                                                 }
                                         }
-                                }
 
-                                if (cuts->IsPim(part))
-                                {
-                                        ////// if (cuts->HadronsCuts(part))
-                                        event->SetPim(part);
-
-                                        _hists->FillHists_pim_pid_cuts(data, event, part);
-
-                                        ///// // if (cuts->HadronsCuts(part))
+                                        if (cuts->IsPim(part))
                                         {
-                                                pim++;
-                                                more_than_1_pim++;
+                                                event->SetPim(part);
 
-                                                // if (pim >= 2)
+                                                ///// // if (cuts->HadronsCuts(part))
                                                 {
-                                                        // std::cout << " event no  = " << current_event << " part is =  " << part << " pim " << '\n';
+                                                        pim++;
+                                                        more_than_1_pim++;
 
-                                                        //   if (event->MM_cut()) {
                                                         statusPim = abs(data->status(part));
                                                         sectorPim = data->dc_sec(part);
-                                                        _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_pim_pid_with_cuts(data, event, part);
-                                                        // }
-                                                        // }
-                                                        // else _hists->FillHists_pim_pid_with_cuts(data, event, part);
+                                                        // _hists->FillHists_pim_pid_cuts(data, event, part);
+                                                        // _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
+                                                        // _hists->FillHists_pim_pid_with_cuts(data, event, part);
                                                 }
                                         }
-                                }
 
-                                // } else if (cuts->IsmissingPim(part)) {
-                                //   if (event->MM_cut()) event->SetmissingPim(part);
+                                        // } else if (cuts->IsmissingPim(part)) {
+                                        //   if (event->MM_cut()) event->SetmissingPim(part);
 
-                                else
-                                {
-                                        other++;
-                                        event->SetOther(part);
-                                }
-                                // }
+                                        else
+                                        {
+                                                other++;
+                                                event->SetOther(part);
+                                        }
+                                        // }
 
-                                if ((cuts->IsPip(part)) && (cuts->IsProton(part)))
-                                {
-                                        both_prot_pip++;
+                                        if ((cuts->IsPip(part)) && (cuts->IsProton(part)))
+                                        {
+                                                both_prot_pip++;
+                                        }
                                 }
                         }
                         /////////////////////////
@@ -322,16 +289,22 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 //         {
                                 //                 for (size_t j = 0; j < event->GetPips().size(); ++j)
                                 //                 {
-                                //                         for (size_t k = 0; k < event->GetPims().size(); ++k)
-                                //                         {
-                                //                                 event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+                                for (size_t k = 0; k < event->GetPims().size(); ++k)
+                                {
+                                        //                                 event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
-                                //                                 two_pion_Excl_events++;
-                                //                                 _hists->Fill_WvsQ2(event);
-                                //                         }
+                                        //                                 two_pion_Excl_events++;
+                                        //                                 _hists->Fill_WvsQ2(event);
+
+                                        // // You should have a similar method for π⁻ if applicable
+                                        dt->dt_calc(event->GetPimIndices()[k]);
+                                        _hists->Fill_deltat_pim_after_cut(data, dt, event->GetPimIndices()[k], event);
+                                        _hists->FillHists_pim_pid_with_cuts(data, event, event->GetPimIndices()[k]);
+                                }
                                 //                 }
                                 //         }
                                 // }
+
                                 if (event->TwoPion_missingPim())
 
                                 { // // Retrieve the number of protons and pions in the event
@@ -371,6 +344,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                 // if (event->Fixed_MM_cut())
                                                                 // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
+
                                                                 {
                                                                         // _hists->FillHists_electron_with_cuts(data, event);
 
@@ -379,11 +354,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         // _hists->Fill_MMSQ_mPim(event);
                                                                         _hists->Fill_WvsQ2(event);
 
-                                                                        // // // // // // // //############# THESE ARE OUR MOM CORRECTIONS w<2.55 version ####################
-
-                                                                        // // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-                                                                        // // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-                                                                        // // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+                                                                        // if (data->p(event->GetProtonIndices()[i]) > 3.0)
+                                                                        {
+                                                                                dt->dt_calc(event->GetProtonIndices()[i]);
+                                                                                _hists->Fill_deltat_prot_after_cut(data, dt, event->GetProtonIndices()[i], event);
+                                                                                _hists->FillHists_prot_pid_with_cuts(data, event, event->GetProtonIndices()[i], *event->GetProtons()[i]);
+                                                                        }
+                                                                        // if (data->p(event->GetPipIndices()[j]) > 3.0)
+                                                                        {
+                                                                                dt->dt_calc(event->GetPipIndices()[j]);
+                                                                                _hists->Fill_deltat_pip_after_cut(data, dt, event->GetPipIndices()[j], event);
+                                                                                _hists->FillHists_pip_pid_with_cuts(data, event, event->GetPipIndices()[j], *event->GetPips()[j]);
+                                                                        }
 
                                                                         _hists->Fill_histSevenD_prot(event);
                                                                         _hists->Fill_histSevenD_pip(event);

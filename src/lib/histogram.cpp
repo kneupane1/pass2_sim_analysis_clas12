@@ -2660,7 +2660,7 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
 
                         if (charge == 1)
                         {
-                                if (pid == PIP)
+                                // if (pid == PIP)
                                 {
                                         time[1] = dt->dt_Pi();
                                         time_fd[1] = dt->dt_Pi();
@@ -2669,7 +2669,7 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
                                 // std::cout << " dt_Pi() .... =  " << dt->dt_Pi() << std::endl;
                                 // std::cout << " dt_Pi(int i) .... =  " << dt->dt_Pi(pid) << std::endl;
 
-                                else if (pid == PROTON)
+                                // else if (pid == PROTON)
                                 {
 
                                         time[0] = dt->dt_P();
@@ -2679,8 +2679,8 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
                         }
                         else if (charge == -1)
                         {
-                                if (pid == PIM)
-                                // if (pid != ELECTRON)
+                                // if (pid == PIM)
+                                if (pid != ELECTRON)
                                 {
 
                                         time[2] = dt->dt_Pi();
@@ -2703,7 +2703,7 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
                         if (charge == 1)
                         {
                                 // std::cout << " charge after cd =  " << charge << std::endl;
-                                if (pid == PROTON)
+                                // if (pid == PROTON)
                                 {
 
                                         time[0] = dt->dt_P();
@@ -2711,7 +2711,7 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
                                         delta_t_hist[0][0][2]->Fill(mom, time_cd[0], _e->weight());
                                 }
 
-                                else if (pid == PIP)
+                                // else if (pid == PIP)
                                 {
                                         time[1] = dt->dt_Pi();
                                         time_cd[1] = dt->dt_Pi();
@@ -2720,9 +2720,8 @@ void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, 
                         }
                         else if (charge == -1)
                         {
-                                if (pid == PIM)
-                                // if (pid != ELECTRON)
-
+                                // if (pid == PIM)
+                                if (pid != ELECTRON)
                                 {
                                         time[2] = dt->dt_Pi();
                                         time_cd[2] = dt->dt_Pi();
@@ -2765,7 +2764,7 @@ void Histogram::Fill_deltat_prot_after_cut(const std::shared_ptr<Branches12> &da
                 // if (_e->TwoPion_exclusive())
                 // {
 
-                if (pid == PROTON)
+                // if (pid == PROTON)
                 {
 
                         if (charge == 1)
@@ -2811,8 +2810,7 @@ void Histogram::Fill_deltat_pip_after_cut(const std::shared_ptr<Branches12> &dat
 
                 //         if (_e->TwoPion_exclusive())
                 // {
-                if (pid == PIP)
-
+                // if (pid == PIP)
                 {
 
                         if (charge == 1)
@@ -2853,7 +2851,7 @@ void Histogram::Fill_deltat_pim_after_cut(const std::shared_ptr<Branches12> &dat
                 float time_cd = NAN;
                 float time_fd = NAN;
 
-                if (pid == PIM)
+                // if (pid == PIM)
                 // if (_e->TwoPion_exclusive() || _e->TwoPion_missingPim() || _e->TwoPion_missingPip() || _e->TwoPion_missingProt())
                 {
 

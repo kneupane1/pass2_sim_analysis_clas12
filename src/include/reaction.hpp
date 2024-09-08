@@ -316,8 +316,6 @@ public:
 
         // float EffCorrFactor();
 
-
-
         void boost(const TLorentzVector &prot, const TLorentzVector &pip);
         // void CalcMissMass();
         void CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip);
@@ -485,20 +483,27 @@ public:
         float alpha_pippim_pipf();
         float alpha_ppim_pipip();
         ///////////// related to lab system before boost ////////////
-
-        float prot_theta_lab(const TLorentzVector &prot);
-        float pip_theta_lab(const TLorentzVector &pip);
-        float pim_theta_lab(const TLorentzVector &prot, const TLorentzVector &pip);
-        float pim_theta_lab_measured(const TLorentzVector &pim);
-
-        float elec_momentum();
         float prot_momentum(const TLorentzVector &prot);
+        float prot_theta_lab(const TLorentzVector &prot);
+        float prot_Phi_lab(const TLorentzVector &prot);
+        float prot_momT(const TLorentzVector &prot);
+
         float pip_momentum(const TLorentzVector &pip);
+        float pip_theta_lab(const TLorentzVector &pip);
+        float pip_Phi_lab(const TLorentzVector &pip);
+        float pip_momT(const TLorentzVector &pip);
+
         float pim_momentum(const TLorentzVector &prot, const TLorentzVector &pip);
         float pim_momentum_measured(const TLorentzVector &pim);
+        float pim_theta_lab(const TLorentzVector &prot, const TLorentzVector &pip);
+        float pim_theta_lab_measured(const TLorentzVector &pim);
         float pim_E(const TLorentzVector &prot, const TLorentzVector &pip);
         float pim_E_measured(const TLorentzVector &prot);
+        float pim_Phi_lab(const TLorentzVector &prot, const TLorentzVector &pip);
+        float pim_Phi_lab_measured(const TLorentzVector &pim);
+        float pim_momT(const TLorentzVector &pim);
 
+        float elec_momentum();
         float theta_beam();
         float theta_elec();
         float Phi_elec();
@@ -507,15 +512,6 @@ public:
         float Energy_excl();
 
         float AlphaCalc();
-
-        float prot_Phi_lab(const TLorentzVector &prot);
-        float pip_Phi_lab(const TLorentzVector &pip);
-        float pim_Phi_lab(const TLorentzVector &prot, const TLorentzVector &pip);
-        float pim_Phi_lab_measured(const TLorentzVector &pim);
-
-        float prot_momT(const TLorentzVector &prot);
-        float pip_momT(const TLorentzVector &pip);
-        float pim_momT(const TLorentzVector &pim);
 
         inline float W()
         {
@@ -644,7 +640,6 @@ private:
         std::vector<int> _pip_mc_indices;
         std::vector<int> _pim_mc_indices;
 
-
         std::unique_ptr<TLorentzVector> _boosted_gamma_mc;
         std::unique_ptr<TLorentzVector> _boosted_prot_mc;
         std::unique_ptr<TLorentzVector> _boosted_pip_mc;
@@ -699,8 +694,6 @@ public:
         const std::vector<int> &GetProtonMcIndices() const { return _prot_mc_indices; }
         const std::vector<int> &GetPipMcIndices() const { return _pip_mc_indices; }
         const std::vector<int> &GetPimMcIndices() const { return _pim_mc_indices; }
-
-
 
         void boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector &pim_mc);
 
