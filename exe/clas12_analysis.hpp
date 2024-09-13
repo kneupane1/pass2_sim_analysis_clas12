@@ -10,10 +10,24 @@
 #include "cuts.hpp"
 #include "histogram.hpp"
 #include "reaction.hpp"
+#include "QADB.h"
 
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
+// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
+           const std::shared_ptr<QA::QADB> &_qa = nullptr, int thread_id)
 {
+        if (_mc)
+        {
+                // Monte Carlo data processing (no QA)
+                std::cout << "Processing without QA (MC)" << std::endl;
+        }
+        else
+        {
+                // Real data processing with QA checks
+                std::cout << "Processing with QA" << std::endl;
+        }
+
         // Get the number of events in this thread
         size_t num_of_events = (int)_chain->GetEntries();
 
@@ -34,11 +48,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         std::cout << "=============== " << RED << "Thread " << thread_id << DEF << " =============== " << BLUE
                   << num_of_events << " Events " << DEF << "===============\n";
 
-        // // Make a data object which all the branches can be accessed from
-        //// // auto data = std::make_shared<Branches12>(_chain);
-
         // // // Make a data object which all the branches can be accessed from
-        auto data = std::make_shared<Branches12>(_chain, true);
+        if (_mc)
+        {
+                auto data = std::make_shared<Branches12>(_chain, true);
+        }
+        else
+        {
+                auto data = std::make_shared<Branches12>(_chain);
+                if (!_qa->Golden(data->getRun(), data->getEvent()))
+                        continue;
+        }
 
         // Total number of events "Processed"
         size_t total = 0;
@@ -63,13 +83,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
                 /////////// This part is only for mc events /////////////
-                if (data->mc_npart() < 1)
-                        continue;
-
-                // Make a reaction class from the data given
-                auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-                if (mc_event->weight() > 0.0)
+                /////////// This part is only for mc events /////////////
+                /////////// This part is only for mc events /////////////
+                /////////// This part is only for mc events /////////////
+                /////////// This part is only for mc events /////////////
+                if (_mc)
                 {
+                        if (data->mc_npart() < 1 || data->mc_weight() <= 0)
+                                continue;
+
+                        // Make a reaction class from the data given
+                        auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+                        // if (mc_event->weight() <= 0.0)
+                        //         continue;
+                        // {
                         for (int part = 1; part < data->mc_npart(); part++)
                         {
 
@@ -134,293 +161,303 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         }
                                 }
                         }
-                        ///////// This part was only for mc events /////////////
+                }
+                ///////// This part is only for Rec events both mc and exp/////////////
+                ///////// This part is only for Rec events both mc and exp/////////////
+                ///////// This part is only for Rec events both mc and exp/////////////
+                ///////// This part is only for Rec events both mc and exp/////////////
 
-                        auto event = std::make_shared<Reaction>(data, beam_energy);
-                        no_of_events++;
-                        // // if (data->charge(0) == -1)
-                        _hists->FillHists_electron_cuts(data, event);
+                auto event = std::make_shared<Reaction>(data, beam_energy);
+                no_of_events++;
+                // // if (data->charge(0) == -1)
 
-                        // auto cuts = std::make_unique<rga_Cuts>(data);
-                        auto cuts = std::make_unique<Pass2_Cuts>(data);
+                _hists->FillHists_electron_cuts(data, event);
 
-                        if (!cuts->ElectronCuts())
-                                continue;
-                        ////// event->SetMomCorrElec();
-                        _hists->FillHists_electron_with_cuts(data, event);
+                // auto cuts = std::make_unique<rga_Cuts>(data);
+                auto cuts = std::make_unique<Pass2_Cuts>(data);
 
-                        // If we pass electron cuts the event is processed
-                        elec++;
-                        // total++;
-                        int statusPim = -99;
-                        int statusPip = -99;
-                        int statusProt = -99;
-                        int sectorPim = -99;
-                        int sectorPip = -99;
-                        int sectorProt = -99;
-                        int prot_idx = -1;
-                        int pip_idx = -1;
+                if (!cuts->ElectronCuts())
+                        continue;
+                event->SetMomCorrElec();
 
-                        // // Make a reaction class from the data givenhvghghhghhgfhchfgfghggghghhg
-                        auto dt = std::make_shared<Delta_T>(data);
+                _hists->FillHists_electron_with_cuts(data, event);
 
-                        // For each particle in the event
-                        //  if (data->gpart() > 1) continue;
-                        for (int part = 0; part < data->gpart(); part++)
+                // If we pass electron cuts the event is processed
+                elec++;
+                // total++;
+                int statusPim = -99;
+                int statusPip = -99;
+                int statusProt = -99;
+                int sectorPim = -99;
+                int sectorPip = -99;
+                int sectorProt = -99;
+                int prot_idx = -1;
+                int pip_idx = -1;
+
+                // // Make a reaction class from the data
+                auto dt = std::make_shared<Delta_T>(data);
+
+                // For each particle in the event
+                for (int part = 0; part < data->gpart(); part++)
+                {
+                        if (data->charge(part) != 0)
                         {
-                                if (data->charge(part) != 0)
+                                // total_part++;
+                                dt->dt_calc(part);
+                                // //dt->dt_calc_ctof(part);
+                                _hists->Fill_MomVsBeta(data, part, event);
+                                // // //if (event->TwoPion_missingPim()) {
+                                // // // if (event->TwoPion_missingPim()) {
+                                // // if(data->status(part) >=2000 && data->status(part) < 4000) {
+                                // // _hists->Fill_deltat_pi(data, dt, part, event);
+                                // // //}
+                                _hists->Fill_deltat_before_cut(data, dt, part, event);
+                                // // _hists->Fill_deltat_prot(data, dt, part, event);
+                                // // //}
+                                // // // }
+                                // // Check particle ID's and fill the reaction class
+                                if (data->charge(part) > 0)
                                 {
-                                        // total_part++;
-                                        dt->dt_calc(part);
-                                        // //dt->dt_calc_ctof(part);
-                                        _hists->Fill_MomVsBeta(data, part, event);
-                                        // // //if (event->TwoPion_missingPim()) {
-                                        // // // if (event->TwoPion_missingPim()) {
-                                        // // if(data->status(part) >=2000 && data->status(part) < 4000) {
-                                        // // _hists->Fill_deltat_pi(data, dt, part, event);
-                                        // // //}
-                                        _hists->Fill_deltat_before_cut(data, dt, part, event);
-                                        // // _hists->Fill_deltat_prot(data, dt, part, event);
-                                        // // //}
-                                        // // // }
-                                        // // Check particle ID's and fill the reaction class
-                                        if (cuts->IsProton(part))
+                                        _hists->FillHists_prot_pid_cuts(data, event, part);
+                                        _hists->FillHists_pip_pid_cuts(data, event, part);
+                                }
+                                else
+                                        _hists->FillHists_pim_pid_cuts(data, event, part);
+
+                                if (cuts->IsProton(part))
+                                {
+
+                                        //// // if (cuts->HadronsCuts(part))
                                         {
+                                                prot++;
+                                                event->SetProton(part);
+                                                prot_idx++;
+                                                more_than_1_prot++;
 
-                                                //// // if (cuts->HadronsCuts(part))
-                                                {
-                                                        prot++;
-                                                        event->SetProton(part);
-                                                        prot_idx++;
-                                                        more_than_1_prot++;
+                                                statusProt = abs(data->status(part));
+                                                sectorProt = data->dc_sec(part);
 
-                                                        statusProt = abs(data->status(part));
-                                                        sectorProt = data->dc_sec(part);
-
-                                                        // _hists->FillHists_prot_pid_cuts(data, event, part);
-                                                        // _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
-                                                        // _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
-                                                }
-                                        }
-                                        if (cuts->IsPip(part))
-                                        {
-
-                                                //////  // if (cuts->HadronsCuts(part))
-                                                {
-                                                        event->SetPip(part);
-
-                                                        pip_idx++;
-                                                        pip++;
-                                                        more_than_1_pip++;
-
-                                                        statusPip = abs(data->status(part));
-                                                        sectorPip = data->dc_sec(part);
-                                                        // _hists->FillHists_pip_pid_cuts(data, event, part);
-                                                        // _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
-                                                        // _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
-                                                }
-                                        }
-
-                                        if (cuts->IsPim(part))
-                                        {
-                                                event->SetPim(part);
-
-                                                ///// // if (cuts->HadronsCuts(part))
-                                                {
-                                                        pim++;
-                                                        more_than_1_pim++;
-
-                                                        statusPim = abs(data->status(part));
-                                                        sectorPim = data->dc_sec(part);
-                                                        // _hists->FillHists_pim_pid_cuts(data, event, part);
-                                                        // _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
-                                                        // _hists->FillHists_pim_pid_with_cuts(data, event, part);
-                                                }
-                                        }
-
-                                        // } else if (cuts->IsmissingPim(part)) {
-                                        //   if (event->MM_cut()) event->SetmissingPim(part);
-
-                                        else
-                                        {
-                                                other++;
-                                                event->SetOther(part);
-                                        }
-                                        // }
-
-                                        if ((cuts->IsPip(part)) && (cuts->IsProton(part)))
-                                        {
-                                                both_prot_pip++;
+                                                _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
                                         }
                                 }
-                        }
-                        /////////////////////////
-                        if (more_than_1_prot > 1)
-                        {
-                                more_prot++;
-                        }
-                        if (more_than_1_pip > 1)
-                        {
-                                more_pip++;
-                        }
-                        if (more_than_1_pim > 1)
-                        {
-                                more_pim++;
-                        }
-                        if (both_prot_pip >= 1)
-                        {
-                                prot_pip++;
-                        }
-                        // std::cout << "no of events = " << no_of_events << '\n'
-                        //           << " elec " << elec << " prot " << prot << " pip " << pip << " pim " << pim << '\n';
-                        // //  if (event->TwoPion_missingPim()) {
-                        // for (int part = 1; part < data->gpart(); part++) {
-                        //   if (event->MM_cut()) event->SetmissingPim(part);
-                        //   //  }
-                        // }
-
-                        // Check the reaction class what kind of event it is and fill the appropriate histograms
-
-                        if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() > 0.0)
-                        {
-                                // if (event->TwoPion_exclusive())
-                                // {
-                                //         for (size_t i = 0; i < event->GetProtons().size(); ++i)
-                                //         {
-                                //                 for (size_t j = 0; j < event->GetPips().size(); ++j)
-                                //                 {
-                                for (size_t k = 0; k < event->GetPims().size(); ++k)
+                                if (cuts->IsPip(part))
                                 {
-                                        //                                 event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
-                                        //                                 two_pion_Excl_events++;
-                                        //                                 _hists->Fill_WvsQ2(event);
+                                        //////  // if (cuts->HadronsCuts(part))
+                                        {
+                                                event->SetPip(part);
 
-                                        // // You should have a similar method for π⁻ if applicable
-                                        dt->dt_calc(event->GetPimIndices()[k]);
-                                        _hists->Fill_deltat_pim_after_cut(data, dt, event->GetPimIndices()[k], event);
-                                        _hists->FillHists_pim_pid_with_cuts(data, event, event->GetPimIndices()[k]);
+                                                pip_idx++;
+                                                pip++;
+                                                more_than_1_pip++;
+
+                                                statusPip = abs(data->status(part));
+                                                sectorPip = data->dc_sec(part);
+                                                _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
+                                                _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
+                                        }
                                 }
-                                //                 }
-                                //         }
+
+                                if (cuts->IsPim(part))
+                                {
+                                        event->SetPim(part);
+
+                                        ///// // if (cuts->HadronsCuts(part))
+                                        {
+                                                pim++;
+                                                more_than_1_pim++;
+
+                                                statusPim = abs(data->status(part));
+                                                sectorPim = data->dc_sec(part);
+                                                // _hists->FillHists_pim_pid_cuts(data, event, part);
+                                                _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
+                                                _hists->FillHists_pim_pid_with_cuts(data, event, part);
+                                        }
+                                }
+
+                                // } else if (cuts->IsmissingPim(part)) {
+                                //   if (event->MM_cut()) event->SetmissingPim(part);
+
+                                else
+                                {
+                                        other++;
+                                        event->SetOther(part);
+                                }
                                 // }
 
-                                if (event->TwoPion_missingPim())
+                                if ((cuts->IsPip(part)) && (cuts->IsProton(part)))
+                                {
+                                        both_prot_pip++;
+                                }
+                        }
+                }
+                /////////////////////////
+                if (more_than_1_prot > 1)
+                {
+                        more_prot++;
+                }
+                if (more_than_1_pip > 1)
+                {
+                        more_pip++;
+                }
+                if (more_than_1_pim > 1)
+                {
+                        more_pim++;
+                }
+                if (both_prot_pip >= 1)
+                {
+                        prot_pip++;
+                }
+                // std::cout << "no of events = " << no_of_events << '\n'
+                //           << " elec " << elec << " prot " << prot << " pip " << pip << " pim " << pim << '\n';
+                // //  if (event->TwoPion_missingPim()) {
+                // for (int part = 1; part < data->gpart(); part++) {
+                //   if (event->MM_cut()) event->SetmissingPim(part);
+                //   //  }
+                // }
 
-                                { // // Retrieve the number of protons and pions in the event
-                                        size_t num_protons = event->GetProtons().size();
-                                        size_t num_pips = event->GetPips().size();
+                // Check the reaction class what kind of event it is and fill the appropriate histograms
 
-                                        // // Calculate the total number of combinations
-                                        // size_t num_combinations = num_protons * num_pips;
+                if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() > 0.0)
+                {
+                        // // if (event->TwoPion_exclusive())
+                        // // {
+                        // //         for (size_t i = 0; i < event->GetProtons().size(); ++i)
+                        // //         {
+                        // //                 for (size_t j = 0; j < event->GetPips().size(); ++j)
+                        // //                 {
+                        // for (size_t k = 0; k < event->GetPims().size(); ++k)
+                        // {
+                        //         //                                 event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
-                                        // // Get the vector of protons
-                                        // const auto &protons = event->GetProtons();
-                                        // const auto &pip = event->GetPips();
+                        //         //                                 two_pion_Excl_events++;
+                        //         //                                 _hists->Fill_WvsQ2(event);
 
-                                        for (size_t i = 0; i < num_protons; ++i)
+                        //         // // You should have a similar method for π⁻ if applicable
+                        //         dt->dt_calc(event->GetPimIndices()[k]);
+                        //         _hists->Fill_deltat_pim_after_cut(data, dt, event->GetPimIndices()[k], event);
+                        //         _hists->FillHists_pim_pid_with_cuts(data, event, event->GetPimIndices()[k]);
+                        // }
+                        // //                 }
+                        // //         }
+                        // // }
+
+                        if (event->TwoPion_missingPim())
+
+                        { // // Retrieve the number of protons and pions in the event
+                                size_t num_protons = event->GetProtons().size();
+                                size_t num_pips = event->GetPips().size();
+
+                                // // Calculate the total number of combinations
+                                // size_t num_combinations = num_protons * num_pips;
+
+                                // // Get the vector of protons
+                                // const auto &protons = event->GetProtons();
+                                // const auto &pip = event->GetPips();
+
+                                for (size_t i = 0; i < num_protons; ++i)
+                                {
+                                        for (size_t j = 0; j < num_pips; ++j)
                                         {
-                                                for (size_t j = 0; j < num_pips; ++j)
+                                                if (event->GetProtonIndices()[i] == event->GetPipIndices()[j])
+                                                        no_prot_pip++;
+
+                                                // // // Print//////////////////////////////////////
+                                                // std::cout << "Event " << current_event << ": "
+                                                //           << num_protons << " proton(s), "
+                                                //           << num_pips << " pip(s), "
+                                                //           << num_combinations << " combination(s)." << std::endl;
+
+                                                // if (both_prot_pip >= 1)
+                                                // Access the i-th proton and j-th pip
+
+                                                // Exclude the case where the same particle is assigned as both proton and pip
+                                                if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
                                                 {
-                                                        if (event->GetProtonIndices()[i] == event->GetPipIndices()[j])
-                                                                no_prot_pip++;
+                                                        event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                        event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
 
-                                                        // // // Print//////////////////////////////////////
-                                                        // std::cout << "Event " << current_event << ": "
-                                                        //           << num_protons << " proton(s), "
-                                                        //           << num_pips << " pip(s), "
-                                                        //           << num_combinations << " combination(s)." << std::endl;
+                                                        _hists->Fill_MMSQ_mPim(event);
 
-                                                        // if (both_prot_pip >= 1)
-                                                        // Access the i-th proton and j-th pip
+                                                        // if (event->Fixed_MM_cut())
+                                                        // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                        // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
 
-                                                        // Exclude the case where the same particle is assigned as both proton and pip
-                                                        if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
                                                         {
-                                                                event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
-                                                                event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                                // _hists->FillHists_electron_with_cuts(data, event);
 
-                                                                _hists->Fill_MMSQ_mPim(event);
+                                                                two_pion_mPim_events++;
+                                                                // {
+                                                                // _hists->Fill_MMSQ_mPim(event);
+                                                                _hists->Fill_WvsQ2(event);
 
-                                                                // if (event->Fixed_MM_cut())
-                                                                // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
+                                                                // // if (data->p(event->GetProtonIndices()[i]) > 3.0)
+                                                                // {
+                                                                //         dt->dt_calc(event->GetProtonIndices()[i]);
+                                                                //         _hists->Fill_deltat_prot_after_cut(data, dt, event->GetProtonIndices()[i], event);
+                                                                //         _hists->FillHists_prot_pid_with_cuts(data, event, event->GetProtonIndices()[i], *event->GetProtons()[i]);
+                                                                // }
+                                                                // // if (data->p(event->GetPipIndices()[j]) > 3.0)
+                                                                // {
+                                                                //         dt->dt_calc(event->GetPipIndices()[j]);
+                                                                //         _hists->Fill_deltat_pip_after_cut(data, dt, event->GetPipIndices()[j], event);
+                                                                //         _hists->FillHists_pip_pid_with_cuts(data, event, event->GetPipIndices()[j], *event->GetPips()[j]);
+                                                                // }
 
-                                                                {
-                                                                        // _hists->FillHists_electron_with_cuts(data, event);
+                                                                _hists->Fill_histSevenD_prot(event);
+                                                                _hists->Fill_histSevenD_pip(event);
+                                                                _hists->Fill_histSevenD_pim(event);
 
-                                                                        two_pion_mPim_events++;
-                                                                        // {
-                                                                        // _hists->Fill_MMSQ_mPim(event);
-                                                                        _hists->Fill_WvsQ2(event);
+                                                                // _hists->Fill_histSevenD_prot_evt(event);
+                                                                // _hists->Fill_histSevenD_pip_evt(event);
+                                                                // _hists->Fill_histSevenD_pim_evt(event);
 
-                                                                        // if (data->p(event->GetProtonIndices()[i]) > 3.0)
-                                                                        {
-                                                                                dt->dt_calc(event->GetProtonIndices()[i]);
-                                                                                _hists->Fill_deltat_prot_after_cut(data, dt, event->GetProtonIndices()[i], event);
-                                                                                _hists->FillHists_prot_pid_with_cuts(data, event, event->GetProtonIndices()[i], *event->GetProtons()[i]);
-                                                                        }
-                                                                        // if (data->p(event->GetPipIndices()[j]) > 3.0)
-                                                                        {
-                                                                                dt->dt_calc(event->GetPipIndices()[j]);
-                                                                                _hists->Fill_deltat_pip_after_cut(data, dt, event->GetPipIndices()[j], event);
-                                                                                _hists->FillHists_pip_pid_with_cuts(data, event, event->GetPipIndices()[j], *event->GetPips()[j]);
-                                                                        }
+                                                                // // //         }
+                                                                // // // }
+                                                                // // //         else if (event->TwoPion_missingPip())
+                                                                // // //                 miss_pip++;
+                                                                // // //         else if (event->TwoPion_missingProt())
+                                                                // // //                 miss_prot++;
 
-                                                                        _hists->Fill_histSevenD_prot(event);
-                                                                        _hists->Fill_histSevenD_pip(event);
-                                                                        _hists->Fill_histSevenD_pim(event);
+                                                                // // //         //{
+                                                                // // //         twopi++;
 
-                                                                        // _hists->Fill_histSevenD_prot_evt(event);
-                                                                        // _hists->Fill_histSevenD_pip_evt(event);
-                                                                        // _hists->Fill_histSevenD_pim_evt(event);
+                                                                // for (int part = 0; part < data->gpart(); part++)
+                                                                // {
+                                                                //         dt->dt_calc(part);
+                                                                //         _hists->Fill_deltat_before_cut(data, dt, part, event);
 
-                                                                        // // //         }
-                                                                        // // // }
-                                                                        // // //         else if (event->TwoPion_missingPip())
-                                                                        // // //                 miss_pip++;
-                                                                        // // //         else if (event->TwoPion_missingProt())
-                                                                        // // //                 miss_prot++;
+                                                                //         if (cuts->IsProton(part))
+                                                                //         {
 
-                                                                        // // //         //{
-                                                                        // // //         twopi++;
+                                                                //                 _hists->FillHists_prot_pid_cuts(data, event, part);
+                                                                //                 if (cuts->HadronsCuts(part))
+                                                                //                 {
+                                                                //                         _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                                //                         _hists->FillHists_prot_pid_with_cuts(data, event, part);
+                                                                //                 }
+                                                                //         }
+                                                                //         if (cuts->IsPip(part))
+                                                                //         {
+                                                                //                 _hists->FillHists_pip_pid_cuts(data, event, part);
 
-                                                                        // for (int part = 0; part < data->gpart(); part++)
-                                                                        // {
-                                                                        //         dt->dt_calc(part);
-                                                                        //         _hists->Fill_deltat_before_cut(data, dt, part, event);
+                                                                //                 if (cuts->HadronsCuts(part))
+                                                                //                 {
+                                                                //                         _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
+                                                                //                         _hists->FillHists_pip_pid_with_cuts(data, event, part);
+                                                                //                 }
+                                                                //         }
+                                                                //         if (cuts->IsPim(part))
+                                                                //         {
+                                                                //                 if (cuts->HadronsCuts(part))
 
-                                                                        //         if (cuts->IsProton(part))
-                                                                        //         {
-
-                                                                        //                 _hists->FillHists_prot_pid_cuts(data, event, part);
-                                                                        //                 if (cuts->HadronsCuts(part))
-                                                                        //                 {
-                                                                        //                         _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
-                                                                        //                         _hists->FillHists_prot_pid_with_cuts(data, event, part);
-                                                                        //                 }
-                                                                        //         }
-                                                                        //         if (cuts->IsPip(part))
-                                                                        //         {
-                                                                        //                 _hists->FillHists_pip_pid_cuts(data, event, part);
-
-                                                                        //                 if (cuts->HadronsCuts(part))
-                                                                        //                 {
-                                                                        //                         _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
-                                                                        //                         _hists->FillHists_pip_pid_with_cuts(data, event, part);
-                                                                        //                 }
-                                                                        //         }
-                                                                        //         if (cuts->IsPim(part))
-                                                                        //         {
-                                                                        //                 if (cuts->HadronsCuts(part))
-
-                                                                        //                 {
-                                                                        //                         _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
-                                                                        //                         _hists->FillHists_pim_pid_with_cuts(data, event, part);
-                                                                        //                 }
-                                                                        //         }
-                                                                        // }
-                                                                }
+                                                                //                 {
+                                                                //                         _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
+                                                                //                         _hists->FillHists_pim_pid_with_cuts(data, event, part);
+                                                                //                 }
+                                                                //         }
+                                                                // }
                                                         }
                                                 }
                                         }
@@ -428,6 +465,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         }
                 }
         }
+        // }
         std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
         std::cout << "   % of events having more than one proton  " << float(more_prot) / float(prot) << std::endl;
         std::cout << "   % of events having more than one pip  " << float(more_pip) / float(pip) << std::endl;

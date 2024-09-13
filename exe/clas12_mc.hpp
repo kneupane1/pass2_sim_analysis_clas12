@@ -20,8 +20,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         float beam_energy = 10.6041;
         // float beam_energy = 5.754;
 
-
-         if (std::is_same<CutType, Pass2_Cuts>::value)
+        if (std::is_same<CutType, Pass2_Cuts>::value)
         {
                 beam_energy = 10.6041;
                 // beam_energy = 5.754;

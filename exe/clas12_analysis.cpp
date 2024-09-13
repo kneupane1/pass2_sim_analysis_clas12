@@ -8,11 +8,23 @@ int main(int argc, char **argv)
         // Need this to make sure root doesn't break
         ROOT::EnableThreadSafety();
 
+        bool _mc = false; // Default: not MC data
+
         int NUM_THREADS = 2;
         if (getenv("NUM_THREADS") != NULL)
                 NUM_THREADS = atoi(getenv("NUM_THREADS"));
         if (NUM_THREADS > argc - NUM_THREADS)
                 NUM_THREADS = 1;
+
+        // Check for MC flag
+        std::string mc_flag = "--mc";
+        for (int i = 1; i < argc; ++i)
+        {
+                if (std::string(argv[i]) == mc_flag)
+                {
+                        _mc = true;
+                }
+        }
 
         // Make a vector of vectors of strings the size of the number of threads
         std::vector<std::vector<std::string>> infilenames(NUM_THREADS);
@@ -35,15 +47,38 @@ int main(int argc, char **argv)
         // Make your histograms object as a shared pointer that all the threads will have
         auto hists = std::make_shared<Histogram>(outfilename);
 
-        auto run_files = [&hists](std::vector<std::string> inputs, int thread_id) {
+        // auto run_files = [&hists](std::vector<std::string> inputs, int thread_id) {
+        //         // Called once for each thread
+        //         // Make a new chain to process for this thread
+        //         auto chain = std::make_shared<TChain>("clas12");
+        //         // Add every file to the chain
+        //         for (auto in : inputs)
+        //                 chain->Add(in.c_str());
+        //         // Run the function over each thread
+        //         return run<Pass2_Cuts>(std::move(chain), hists, thread_id);
+        // };
+        //// this is for QADB
+
+        auto run_files = [&hists](auto &&inputs, auto &&thread_id) mutable {
                 // Called once for each thread
                 // Make a new chain to process for this thread
                 auto chain = std::make_shared<TChain>("clas12");
-                // Add every file to the chain
-                for (auto in : inputs)
-                        chain->Add(in.c_str());
-                // Run the function over each thread
-                return run<Pass2_Cuts>(std::move(chain), hists, thread_id);
+                if (_mc)
+                {
+                        for (auto in : inputs)
+                                chain->Add(in.c_str());
+                        return run<Pass2_Cuts>(std::move(chain), hists, thread_id);
+                }
+                else
+                {
+                        auto qa = std::make_shared<QA::QADB>();
+                        // Add every file to the chain
+                        for (auto in : inputs)
+                                chain->Add(in.c_str());
+
+                        // Run the function over each thread
+                        return run<Pass2_Cuts>(chain, hists, qa, thread_id);
+                }
         };
 
         // Make a set of threads (Futures are special threads which return a value)

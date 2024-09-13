@@ -6,6 +6,12 @@
 #include <map>
 #include <unordered_map>
 
+////////////////////////////////////////////
+static const bool _mc = true;
+// static const bool _mc = false;
+
+///////////////////////////////////////////
+
 static const int MAX_PARTS = 100;
 static const int N_SIGMA = 3;
 static const double PI = TMath::Pi();

@@ -72,14 +72,12 @@ protected:
 
         float _weight = NAN;
 
-        bool _mc = false;
         bool _is_eff_corrected = false;
 
         bool _is_boosted = false;
 
         bool _hasE = false;
         bool _hasP = false;
-
         bool _hasPip = false;
         bool _hasPim = false;
         bool _hasOther = false;
@@ -107,22 +105,16 @@ protected:
         bool _is_FD = false;
         bool _is_CD = false;
 
-        bool _is_lower_band = false;
         float _MM_mPim = NAN;
         float _MM2_mPim = NAN;
-
         float _MM_mpip = NAN;
         float _MM2_mpip = NAN;
         float _MM_mprot = NAN;
         float _MM2_mprot = NAN;
-        float _pi0_mass = NAN;
         float _MM2_exclusive = NAN;
         float _MM_exclusive = NAN;
         float _W = NAN;
         float _Q2 = NAN;
-
-        float _W_e_Prot = NAN;
-        float _Q2_e_Prot = NAN;
 
         float _inv_Ppip = NAN;
         float _inv_Ppim = NAN;
@@ -138,23 +130,12 @@ protected:
         float _alpha_pippim_pipf = NAN;
         float _alpha_ppim_pipip = NAN;
 
-        float _x_mu_Px = NAN;
-        float _x_mu_Py = NAN;
-        float _x_mu_Pz = NAN;
-
-        float _x_mu_m = NAN;
-        float _x_mu_m2 = NAN;
-        float _x_mu_P = NAN;
-        float _x_mu_E = NAN;
-        float _x_mu_theta = NAN;
         float _beam_theta = NAN;
         float _elec_theta = NAN;
         float _E_elec = NAN;
         float _pim_theta_measured = NAN;
         short _pim_sec = -9999;
-
         float _theta_e = NAN;
-
         float _P_elec = NAN;
         float _elec_status;
         float _prot_status = NAN;
@@ -232,22 +213,11 @@ protected:
         double _pz_prime_pim_mom = NAN;
 
         float _excl_Energy = NAN;
-        float lcut_me = -0.11;
-        float rcut_me = 0.25;
-        float lcut_pim = -0.18;
-        float rcut_pim = 0.20;
-        float lcut_pip = -0.20;
-        float rcut_pip = 0.28;
-        float lcut_Prot = 0.80; // original is 0.80
-        float rcut_Prot = 1.06; // original is 1.06
 
         double fe = NAN;
         double fpro = NAN;
         double fpip = NAN;
         double fpim = NAN;
-        float _thetaDC_r1_Prot = NAN;
-        float _thetaDC_r1_Pip = NAN;
-        float _thetaDC_r1_Pim = NAN;
 
         float _pr_p = NAN;
         float _pr_th = NAN;
@@ -272,6 +242,23 @@ protected:
         double _elec_mom_corrected = NAN;
         double _elec_mom = NAN;
 
+        ///////////////// This one need to switch for exp and sim data analysis ////////////////
+        // // bool _mc = true;
+        // bool _mc = false;
+
+        // Check lists when you swich from mc to exp or vice-versa
+        // 1. change          bool _mc = false; and
+        // 2. enable  event->SetMomCorrElec();
+        // 3. check the deltat cuts and sampling fraction cuts
+        // remember to include or exclude momentum corrections for all four particles and our hadron corr too
+        //4. Change mmsq_low and mmsq_high for MM_cut function in histogram.hpp file
+        //5. check it at boosted four vector, if you need mom corrected
+        // also:  TVector3 ux = ((_beam->Vect()).Cross(_mom_corr_elec->Vect())).Unit(); // unit vector along e cross e'
+        //6.0 change clas12_analysis.cpp for QADB
+        //7.0 change clas12_analysis.hpp for QADB (run function, golden cut), also chain true
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 public:
         Reaction(){};
         Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -291,6 +278,7 @@ public:
         const std::vector<std::unique_ptr<TLorentzVector>> &GetProtons() const { return _prot; }
         const std::vector<std::unique_ptr<TLorentzVector>> &GetPips() const { return _pip; }
         const std::vector<std::unique_ptr<TLorentzVector>> &GetPims() const { return _pim; }
+
         const std::vector<int> &GetProtonIndices() const { return _prot_indices; }
         const std::vector<int> &GetPipIndices() const { return _pip_indices; }
         const std::vector<int> &GetPimIndices() const { return _pim_indices; }
@@ -308,7 +296,7 @@ public:
         // void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD[4], float alCD[3]);
 
         // momentum correction
-        // void SetMomCorrElec();
+        void SetMomCorrElec();
 
         // double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
         // double Corr_elec_mom();
@@ -316,7 +304,6 @@ public:
 
         // float EffCorrFactor();
 
-        void boost(const TLorentzVector &prot, const TLorentzVector &pip);
         // void CalcMissMass();
         void CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip);
         void CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector &pip, const TLorentzVector &pim);
@@ -324,34 +311,17 @@ public:
         float MM2_mPim();
         float MM2_mpip();
         float MM2_mprot();
-        void CalcMassPi0();
-        float pi0_mass();
         float MM2_exclusive();
         float MM_exclusive();
         // float weight();
         inline float weight()
         {
-                return _data->mc_weight(); //
-                // return 1.0;
+                if (_mc)
+                        return _data->mc_weight();
+
+                else
+                        return 1.0;
         }
-
-        // Check lists when you swich from mc to exp or vice-versa
-        // 1. inline weight function above and also in class mc, careful when you do wt =1 for sim to calculate erreors
-        // 2. check the deltat cuts and sampling fraction cuts
-
-        // 3. gamma, _w, _q2 and dpp function in electron four vector set up at reaction.cpp because of momentum corrections
-        // for elec included only for exp data
-
-        // event->SetMomCorrElec(); please adjust this one also
-        // remember to include or exclude momentum corrections for all four particles and our hadron corr too
-
-        //4. check if you have momentum corrected four vectors different
-        //5. Change mmsq_low and mmsq_high for MM_cut function in histogram.hpp file
-
-        //6. check it at boosted four vector, if you need mom corrected
-        // also:  TVector3 ux = ((_beam->Vect()).Cross(_mom_corr_elec->Vect())).Unit(); // unit vector along e cross e'
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// smearing fx's function
         void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
@@ -461,6 +431,10 @@ public:
                         }
                 }
         }
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        ///////////// related to cm system after boost ////////////
+        void boost(const TLorentzVector &prot, const TLorentzVector &pip);
 
         float prot_theta();
         float pip_theta();
@@ -553,19 +527,14 @@ public:
         inline bool TwoPion_missingPim()
         {
                 bool _channelTwoPi = true;
-                _channelTwoPi &= ((_numProt >= 1 && _numPip >= 1) &&
-                                  (_hasE && _hasP && _hasPip
-                                   /*&&!_hasPim && !_hasNeutron
-                              &&!_hasOther*/
-                                   ));
+                _channelTwoPi &= ((_numProt >= 1 && _numPip >= 1) && (_hasE && _hasP && _hasPip));
                 return _channelTwoPi;
         }
         inline bool TwoPion_exclusive()
         {
                 bool _channelTwoPi_excl = true;
 
-                _channelTwoPi_excl &= ((_numProt >= 1 && _numPip >= 1 && _numPim >= 1) &&
-                                       (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
+                _channelTwoPi_excl &= ((_numProt >= 1 && _numPip >= 1 && _numPim >= 1) && (_hasE && _hasP && _hasPip && _hasPim));
                 return _channelTwoPi_excl;
         }
         inline bool TwoPion_missingPip()
@@ -573,15 +542,13 @@ public:
                 bool _channelTwoPi_mpip = true;
 
                 _channelTwoPi_mpip &= ((_numProt >= 1 && _numPim >= 1) &&
-                                       (_hasE && _hasP &&
-                                        _hasPim /*&&!_hasPip && !_hasNeutron && !_hasOther*/));
+                                       (_hasE && _hasP && _hasPim));
                 return _channelTwoPi_mpip;
         }
         inline bool TwoPion_missingProt()
         {
                 bool _channelTwoPi_mprot = true;
-                _channelTwoPi_mprot &= ((_numPip >= 1 && _numPim >= 1) &&
-                                        (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
+                _channelTwoPi_mprot &= ((_numPip >= 1 && _numPim >= 1) && (_hasE && _hasPip && _hasPim));
                 return _channelTwoPi_mprot;
         }
         inline bool inclusive()

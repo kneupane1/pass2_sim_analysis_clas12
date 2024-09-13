@@ -8,11 +8,16 @@ namespace boost_cms
         // Create a copy of the particle to apply transformations
         TLorentzVector boosted_particle = particle;
         TLorentzVector boosted_gamma = gamma;
+        double _beam_en = 10.6041;
+        std::unique_ptr<TLorentzVector> _beam_elec = std::make_unique<TLorentzVector>();
+        _beam_elec->SetPxPyPzE(0.0, 0.0, sqrt(_beam_en * _beam_en - MASS_E * MASS_E), _beam_en);
 
         // Determine the unit vectors for rotation
-        TVector3 uz = gamma.Vect().Unit();                         // uit vector along virtual photon
-        TVector3 ux = (gamma.Vect().Cross(e_prime.Vect())).Unit(); // unit vector along e cross e'
-        ux.Rotate(3. * PI / 2, uz);                                // rotating ux by 3pi/2 with uz as axis of roration
+        TVector3 uz = gamma.Vect().Unit(); // uit vector along virtual photon
+        // TVector3 ux = (gamma.Vect().Cross(e_prime.Vect())).Unit();         // unit vector along e cross e'
+        TVector3 ux = ((_beam_elec->Vect()).Cross(e_prime.Vect())).Unit(); // unit vector along e cross e'
+
+        ux.Rotate(3. * PI / 2, uz); // rotating ux by 3pi/2 with uz as axis of roration
 
         // Apply rotation
         TRotation rot;
