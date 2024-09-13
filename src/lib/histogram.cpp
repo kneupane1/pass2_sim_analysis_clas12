@@ -2621,7 +2621,7 @@ void Histogram::makeHists_deltat()
                                                                 cut_name[c].c_str(), tof.c_str()),
                                                            Form("#Deltat %s %s %s", p_name[p].c_str(),
                                                                 cut_name[c].c_str(), tof.c_str()),
-                                                           bins, p_min, p_max, bins, Dt_min, Dt_max);
+                                                           bins, p_min, p_max, bins, -6, 6);
                         }
                 }
         }

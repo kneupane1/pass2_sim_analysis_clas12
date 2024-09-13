@@ -11,13 +11,12 @@ Reaction::Reaction(const std::shared_ptr<Branches12> &data, float beam_energy)
 
         _gamma = std::make_unique<TLorentzVector>();
         _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
-
         _elecUnSmear = std::make_unique<TLorentzVector>();
-        _elec = std::make_unique<TLorentzVector>();
-        this->SetElec();
 
+        _elec = std::make_unique<TLorentzVector>();
         // // mom corr
-        _mom_corr_elec = std::make_unique<TLorentzVector>();
+        // _mom_corr_elec = std::make_unique<TLorentzVector>();
+        this->SetElec();
 
         _prot = std::vector<std::unique_ptr<TLorentzVector>>(); // Initialize _protons as an empty vector
         _pip = std::vector<std::unique_ptr<TLorentzVector>>();
@@ -54,17 +53,17 @@ void Reaction::SetElec()
 {
         _numPart++;
         _hasE = true;
-        _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-        // // // // // _elec->SetPxPyPzE(_data->px(0), _data->py(0), _data->pz(0), sqrt(_data->px(0) * _data->px(0) + _data->py(0) * _data->py(0) + _data->pz(0) * _data->pz(0) + MASS_E * MASS_E));
+        // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+        // ////////_elec->SetPxPyPzE(_data->px(0), _data->py(0), _data->pz(0), sqrt(_data->px(0) * _data->px(0) + _data->py(0) * _data->py(0) + _data->pz(0) * _data->pz(0) + MASS_E * MASS_E));
 
-        // *_gamma += *_beam - *_elec;
-        // // // Can calculate W and Q2 here
-        _W = physics::W_calc(*_beam, *_elec);
-        _Q2 = physics::Q2_calc(*_beam, *_elec);
+        // // // *_gamma += *_beam - *_elec;
+        // // // // // Can calculate W and Q2 here
+        // _W = physics::W_calc(*_beam, *_elec);
+        // _Q2 = physics::Q2_calc(*_beam, *_elec);
         // _mom_corr_elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
-        // //
+        // // // //
+        // // // // // //////////////////////////////////////////////////////////////
         // // // //////////////////////////////////////////////////////////////
-        // //////////////////////////////////////////////////////////////
         _sectorElec = _data->dc_sec(0);
         _elec_status = abs(_data->status(0));
 
@@ -97,65 +96,66 @@ void Reaction::SetElec()
                     _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
 
                 // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-                _mom_corr_elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E); // smeared
+                _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E); // smeared
                 // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // unsmeared
 
-                *_gamma += *_beam - *_mom_corr_elec; // be careful you are commenting this only to include the momentum correction
+                *_gamma += *_beam - *_elec; // be careful you are commenting this only to include the momentum correction
 
                 // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-                _W = physics::W_calc(*_beam, *_mom_corr_elec);
-                _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+                _W = physics::W_calc(*_beam, *_elec);
+                _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-                _elec_mom = _mom_corr_elec->P();
-                _E_elec = _mom_corr_elec->E();
-                _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+                _elec_mom = _elec->P();
+                _E_elec = _elec->E();
+                _theta_e = _elec->Theta() * 180 / PI;
 
-                // if (_mom_corr_elec->Phi() > 0)
-                //   _phi_elec = _mom_corr_elec->Phi() * 180 / PI;
-                // else if (_mom_corr_elec->Phi() < 0)
-                //   _phi_elec = (_mom_corr_elec->Phi() + 2 * PI) * 180 / PI;
+                // if (_elec->Phi() > 0)
+                //         _phi_elec = _elec->Phi() * 180 / PI;
+                // else if (_elec->Phi() < 0)
+                //         _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
         }
-        // else
-        // {
-        //         fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-        //         _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-        //                                 MASS_E); // this is new electron mom corrections aug 2022
-        //         // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-        //         //                MASS_E); // elec and mom corr elec are SAME !!!!!
-        // _mom_corr_elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
+        else
+        {
+                fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+                _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+                               MASS_E); // this is new electron mom corrections aug 2022
+                // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+                //                MASS_E); // elec and mom corr elec are SAME !!!!!
+                // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
 
-        // *_gamma += *_beam - *_mom_corr_elec;
-        // _W = physics::W_calc(*_beam, *_mom_corr_elec);
-        // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+                *_gamma += *_beam - *_elec;
+                _W = physics::W_calc(*_beam, *_elec);
+                _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-        // // _P_elec = _mom_corr_elec->P();
-        // // _E_elec = _mom_corr_elec->E();
-        // // _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+                // _P_elec = _elec->P();
+                // _E_elec = _elec->E();
+                // _theta_e = _elec->Theta() * 180 / PI;
+        }
 }
-// }
 // // // ///////////////////////////// MOM CORR /////////////////////////////////
 // // //////////////////////////////// MOM CORR //////////////////////////////
 
-void Reaction::SetMomCorrElec()
-{ // New electron momentum corrections
-        if (!_mc)
-        {
-                fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-                _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                                        MASS_E); // this is new electron mom corrections aug 2022
-                // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                //                MASS_E); // elec and mom corr elec are SAME !!!!!
+// void Reaction::SetMomCorrElec()
+// { // New electron momentum corrections
 
-                *_gamma += *_beam - *_mom_corr_elec;
-                // // // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
-                // _W = physics::W_calc(*_beam, *_mom_corr_elec);
-                // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+//         if (!_mc)
+//         {
+//                 fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+//                 _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+//                                         MASS_E); // this is new electron mom corrections aug 2022
+//                 // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+//                 //                MASS_E); // elec and mom corr elec are SAME !!!!!
 
-                _P_elec = _mom_corr_elec->P();
-                _E_elec = _mom_corr_elec->E();
-                _theta_e = _mom_corr_elec->Theta() * 180 / PI;
-        }
-}
+//                 *_gamma += *_beam - *_mom_corr_elec;
+//                 // // // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+//                 // _W = physics::W_calc(*_beam, *_mom_corr_elec);
+//                 // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+
+//                 _P_elec = _mom_corr_elec->P();
+//                 _E_elec = _mom_corr_elec->E();
+//                 _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+//         }
+// }
 
 void Reaction::SetProton(int i)
 {
@@ -632,7 +632,7 @@ float Reaction::Energy_excl()
 float Reaction::elec_momentum()
 {
         if (TwoPion_missingPim())
-                return _mom_corr_elec->P();
+                return _elec->P();
         else
                 return NAN;
 }
@@ -698,28 +698,28 @@ float Reaction::pim_E_measured(const TLorentzVector &pim)
 float Reaction::theta_elec()
 { /// lab theta mattrai hunchha electron ko case ma
         // if (TwoPion_missingPim())
-        if (_mom_corr_elec->Theta() > -500)
-                return _mom_corr_elec->Theta() * 180.0 / PI;
+        if (_elec->Theta() > -500)
+                return _elec->Theta() * 180.0 / PI;
         else
                 return NAN;
 }
 float Reaction::Phi_elec()
 { /// lab theta mattrai hunchha electron ko case ma
         // if (TwoPion_missingPim()) {
-        //         if ((_mom_corr_elec->Phi() * 180.0 / PI) > -150)
-        //                 return _mom_corr_elec->Phi() * 180.0 / PI;
+        //         if ((_elec->Phi() * 180.0 / PI) > -150)
+        //                 return _elec->Phi() * 180.0 / PI;
         //         else
-        //                 return ((_mom_corr_elec->Phi() * 180.0 / PI) + 360);
+        //                 return ((_elec->Phi() * 180.0 / PI) + 360);
         // }
         // else
         //         return NAN;
 
-        if (_mom_corr_elec->Phi() > -500)
+        if (_elec->Phi() > -500)
         {
-                if (_mom_corr_elec->Phi() > 0)
-                        return _mom_corr_elec->Phi() * 180 / PI;
-                else if (_mom_corr_elec->Phi() < 0)
-                        return (_mom_corr_elec->Phi() + 2 * PI) * 180 / PI;
+                if (_elec->Phi() > 0)
+                        return _elec->Phi() * 180 / PI;
+                else if (_elec->Phi() < 0)
+                        return (_elec->Phi() + 2 * PI) * 180 / PI;
                 else
                         return NAN;
         }
@@ -849,10 +849,10 @@ void Reaction::boost(const TLorentzVector &prot, const TLorentzVector &pip)
         const TLorentzVector pim = *_gamma + *_target - prot - pip;
 
         // Boost all particles to the center of mass frame
-        _boosted_gamma = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(*_gamma, *_gamma, *_mom_corr_elec, _Q2));
-        _boosted_prot = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot, *_gamma, *_mom_corr_elec, _Q2));
-        _boosted_pip = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip, *_gamma, *_mom_corr_elec, _Q2));
-        _boosted_pim = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim, *_gamma, *_mom_corr_elec, _Q2));
+        _boosted_gamma = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(*_gamma, *_gamma, *_elec, _Q2));
+        _boosted_prot = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot, *_gamma, *_elec, _Q2));
+        _boosted_pip = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip, *_gamma, *_elec, _Q2));
+        _boosted_pim = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim, *_gamma, *_elec, _Q2));
 }
 // // // Calculate invariant masse
 float Reaction::inv_Ppip()

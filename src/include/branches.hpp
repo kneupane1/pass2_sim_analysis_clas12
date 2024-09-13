@@ -503,6 +503,8 @@ public:
   void init();
   void initMC();
   int gpart();
+  int getRun();
+  int getEvent();
   int pid(int i);
   float p(int i);
   float p2(int i);

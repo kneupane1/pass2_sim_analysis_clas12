@@ -243,19 +243,9 @@ protected:
         double _elec_mom = NAN;
 
         ///////////////// This one need to switch for exp and sim data analysis ////////////////
-        // // bool _mc = true;
-        // bool _mc = false;
-
-        // Check lists when you swich from mc to exp or vice-versa
-        // 1. change          bool _mc = false; and
-        // 2. enable  event->SetMomCorrElec();
-        // 3. check the deltat cuts and sampling fraction cuts
-        // remember to include or exclude momentum corrections for all four particles and our hadron corr too
-        //4. Change mmsq_low and mmsq_high for MM_cut function in histogram.hpp file
-        //5. check it at boosted four vector, if you need mom corrected
-        // also:  TVector3 ux = ((_beam->Vect()).Cross(_mom_corr_elec->Vect())).Unit(); // unit vector along e cross e'
-        //6.0 change clas12_analysis.cpp for QADB
-        //7.0 change clas12_analysis.hpp for QADB (run function, golden cut), also chain true
+        // 1. change          bool _mc = false; it is on constant.hpp file, so we can use it in required classes
+        //2. change clas12_analysis.cpp for QADB
+        //3. change clas12_analysis.hpp for QADB (run function, golden cut), also chain true
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

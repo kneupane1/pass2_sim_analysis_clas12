@@ -10,12 +10,12 @@
 #include "cuts.hpp"
 #include "histogram.hpp"
 #include "reaction.hpp"
-#include "QADB.h"
+// #include "QADB.h"
 
 template <class CutType>
-// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
-           const std::shared_ptr<QA::QADB> &_qa = nullptr, int thread_id)
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
+// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
+//            const std::shared_ptr<QA::QADB> &_qa = nullptr, int thread_id)
 {
         if (_mc)
         {
@@ -49,16 +49,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                   << num_of_events << " Events " << DEF << "===============\n";
 
         // // // Make a data object which all the branches can be accessed from
-        if (_mc)
-        {
-                auto data = std::make_shared<Branches12>(_chain, true);
-        }
-        else
-        {
-                auto data = std::make_shared<Branches12>(_chain);
-                if (!_qa->Golden(data->getRun(), data->getEvent()))
-                        continue;
-        }
+        // auto data = std::make_shared<Branches12>(_chain, true);
+        auto data = std::make_shared<Branches12>(_chain, _mc);
+        //         // if (!_qa->Golden(data->getRun(), data->getEvent()))
+        //         //         continue;
 
         // Total number of events "Processed"
         size_t total = 0;
@@ -178,7 +172,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 if (!cuts->ElectronCuts())
                         continue;
-                event->SetMomCorrElec();
+                // event->SetMomCorrElec();
 
                 _hists->FillHists_electron_with_cuts(data, event);
 
