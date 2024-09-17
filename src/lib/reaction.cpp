@@ -127,9 +127,9 @@ void Reaction::SetElec()
                 _W = physics::W_calc(*_beam, *_elec);
                 _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-                // _P_elec = _elec->P();
-                // _E_elec = _elec->E();
-                // _theta_e = _elec->Theta() * 180 / PI;
+                _P_elec = _elec->P();
+                _E_elec = _elec->E();
+                _theta_e = _elec->Theta() * 180 / PI;
         }
 }
 // // // ///////////////////////////// MOM CORR /////////////////////////////////
