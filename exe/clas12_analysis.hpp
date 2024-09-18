@@ -226,10 +226,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                 if (cuts->IsProton(part))
                                 { // Get the generated proton indices
-                                        Prot_pid_mc = data->mc_pid(part);
                                         Prot_pid_rec = data->pid(part);
-                                        // if (Prot_pid_rec != PROTON)
-                                        // {
+                                        const std::vector<int> &mc_proton_indices = mc_event->GetProtonMcIndices();
+                                        int mc_proton = mc_proton_indices[0]; // Access the first (and only) proton index
+                                        Prot_pid_mc = data->mc_pid(mc_proton);
                                         if (Prot_pid_mc == PROTON)
                                         {
                                                 prot++;
@@ -251,10 +251,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 if (cuts->IsPip(part))
                                 {
 
-                                        Pip_pid_mc = data->mc_pid(part);
+                                        const std::vector<int> &mc_pip_indices = mc_event->GetPipMcIndices();
+                                        // if (mc_pip_indices.size() != 1) std::cout << "Number of gen pip : " << mc_pip_indices.size() << std::endl;
+                                        int mc_pip = mc_pip_indices[0]; // Access the first (and only) pip index
+                                        Pip_pid_mc = data->mc_pid(mc_pip);
                                         Pip_pid_rec = data->pid(part);
                                         // if (Pip_pid_rec != PIP)
                                         // {
+                                        // if (data->mc_pid(part) == PIP)
                                         if (Pip_pid_mc == PIP)
                                         {
                                                 event->SetPip(part);
@@ -274,14 +278,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 }
                                 if (cuts->IsPim(part))
                                 {
-                                        event->SetPim(part);
 
-                                        Pim_pid_mc = data->mc_pid(part);
+                                        const std::vector<int> &mc_pim_indices = mc_event->GetPimMcIndices();
+                                        int mc_pim = mc_pim_indices[0]; // Access the first (and only) pim index
+                                        Pim_pid_mc = data->mc_pid(mc_pim);
                                         Pim_pid_rec = data->pid(part);
                                         // if (Pim_pid_rec != PIM)
                                         // {
-                                        if (Pim_pid_mc == PIM)
+                                        if (data->mc_pid(part) == PIM)
                                         {
+                                                event->SetPim(part);
+
                                                 pim++;
                                                 more_than_1_pim++;
 
@@ -341,7 +348,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() > 0.0)
                 {
-                        if ((Prot_pid_mc == PROTON) && (Pip_pid_mc == PIP))
+                        //  if ((Prot_pid_mc == PROTON) && (Pip_pid_mc == PIP))
                         {
 
                                 // // if (event->TwoPion_exclusive())
