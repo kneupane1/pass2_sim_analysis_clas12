@@ -234,6 +234,29 @@ Histogram::Histogram(const std::string &output_file)
         alpha_Pip_cm = std::make_shared<TH1D>("alpha_pip_cm", "alpha pip cm", 500, 0.0, 360.0);
         alpha_Pim_cm = std::make_shared<TH1D>("alpha_pim_cm", "alpha pim cm", 500, 0.0, 360.0);
 
+        dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom", 500, -0.5, 0.5);
+        dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom", 500, -0.5, 0.5);
+
+        dp_prot_for_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot_for_pip", "Prot (Gen - Rec) Mom (for pip)", 500, -5, 5);
+        dp_pip_for_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip_for_Proton", "Pip (Gen - Rec) Mom (for Prot)", 500, 5, 5);
+
+        dp_ambi_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", "Ambi Prot (Gen - Rec) Mom", 500, -0.5, 0.5);
+        dp_ambi_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", "Ambi Pip (Gen - Rec) Mom", 500, -0.5, 0.5);
+
+        p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
+        p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
+        p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", 500, 0, 5);
+        p_gen_pip_for_prot_hist = std::make_shared<TH1D>("P_gen_Pip_for_Proton", "Pip (Gen ) Mom (for Prot)", 500, 0, 5);
+        p_gen_ambi_prot_hist = std::make_shared<TH1D>("P_gen_ambi_Prot", "Ambi Prot (Gen) Mom", 500, 0, 5);
+        p_gen_ambi_pip_hist = std::make_shared<TH1D>("P_gen_ambi_Pip", "Ambi Pip (Gen) Mom", 500, 0, 5);
+
+        p_rec_prot_hist = std::make_shared<TH1D>("P_rec_Prot", "Prot (rec) Mom", 500, 0, 5);
+        p_rec_pip_hist = std::make_shared<TH1D>("P_rec_Pip", "Pip (rec) Mom", 500, 0, 5);
+        p_rec_prot_for_pip_hist = std::make_shared<TH1D>("P_rec_Prot_for_pip", "Prot (rec ) Mom (for pip)", 500, 0, 5);
+        p_rec_pip_for_prot_hist = std::make_shared<TH1D>("P_rec_Pip_for_Proton", "Pip (rec ) Mom (for Prot)", 500, 0, 5);
+        p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
+        p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
+
         W_hist = std::make_shared<TH1D>("W", "W", bins, w_min, w_max);
 
         // Theta_vs_mom_x_mu = std::make_shared<TH2D>("theta_vs_mom_x_mu_all_sec",
@@ -546,6 +569,10 @@ void Histogram::Write()
         MMSQ_mPim_folder->cd();
         writeMMSQ_mPim();
 
+        std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
+        TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
+        Write_deltaP_folder->cd();
+        Write_deltaP();
         // // //
         // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
         // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
@@ -2633,6 +2660,7 @@ void Histogram::makeHists_deltat()
         // delta_t_hist_pip[0][2] = std::make_shared<TH2D>("pip_CD_bc", "#Dt pip CD bc ", bins, p_min, p_max, bins, Dt_min, Dt_max);
         // delta_t_hist_pip[1][2] = std::make_shared<TH2D>("pip_CD_ac", "#Dt pip CD ac ", bins, p_min, p_max, bins, Dt_min, Dt_max);
 }
+
 void Histogram::Fill_deltat_before_cut(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt, int part,
                                        const std::shared_ptr<Reaction> &_e)
 {
@@ -3015,3 +3043,50 @@ void Histogram::Write_MomVsBeta()
                 }
         }
 }
+
+void Histogram::Fill_deltaP_prot(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_prot_hist->Fill(dp, _e->weight());
+}
+void Histogram::Fill_deltaP_pip(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_pip_hist->Fill(dp, _e->weight());
+}
+
+void Histogram::Fill_deltaP_pip_for_prot(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_pip_for_prot_hist->Fill(dp, _e->weight());
+}
+void Histogram::Fill_deltaP_prot_for_pip(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_prot_for_pip_hist->Fill(dp, _e->weight());
+}
+
+void Histogram::Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_ambi_prot_hist->Fill(dp, _e->weight());
+}
+void Histogram::Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_ambi_pip_hist->Fill(dp, _e->weight());
+}
+void Histogram::Write_deltaP()
+{
+        dp_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_prot_hist->Write();
+
+        dp_pip_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_pip_hist->Write();
+
+        dp_prot_for_pip_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_prot_for_pip_hist->Write();
+
+        dp_pip_for_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_pip_for_prot_hist->Write();
+
+        dp_ambi_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_ambi_prot_hist->Write();
+
+        dp_ambi_pip_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_ambi_pip_hist->Write();
+};

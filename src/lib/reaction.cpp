@@ -276,6 +276,7 @@ void Reaction::SetProton(int i)
                 _prot.push_back(std::move(proton)); // Add proton to the vector
                 // _mom_corr_prot.push_back(std::move(mom_corr_proton)); // Add proton to the vector
                 _prot_indices.push_back(i);
+
         } // Store the index
 }
 void Reaction::SetPip(int i)
@@ -993,6 +994,7 @@ void MCReaction::SetMCProton(int i)
         proton_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_P);
         _prot_mc.push_back(std::move(proton_mc));
         _prot_mc_indices.push_back(i);
+        // std::cout << "mc_prot  index  " << i << std::endl;
 }
 
 void MCReaction::SetMCPip(int i)
@@ -1002,6 +1004,7 @@ void MCReaction::SetMCPip(int i)
         pionp_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_PIP);
         _pip_mc.push_back(std::move(pionp_mc));
         _pip_mc_indices.push_back(i);
+        // std::cout << "mc_pip  index  " << i << std::endl;
 }
 
 void MCReaction::SetMCPim(int i)
@@ -1010,46 +1013,123 @@ void MCReaction::SetMCPim(int i)
         pionm_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_PIM);
         _pim_mc.push_back(std::move(pionm_mc));
         _pim_mc_indices.push_back(i);
+        // std::cout << "mc_pim  index  " << i << std::endl;
 }
 // void MCReaction::SetMCOther(int i) {
 //   _other_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i),
 //   mass[_data->pid(i)]);
 // }
 
-// float MCReaction::MCprot_theta_lab()
-// {
-//         return _prot_mc->Theta() * 180.0 / PI;
-// }
-// float MCReaction::MCpip_theta_lab()
-// {
-//         return _pip_mc->Theta() * 180.0 / PI;
-// }
-// float MCReaction::MCpim_theta_lab()
-// {
-//         return _pim_mc->Theta() * 180.0 / PI;
-// }
+float MCReaction::pim_mom_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        return pim_mc->P();
+}
+float MCReaction::pip_mom_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        return pip_mc->P();
+}
+float MCReaction::prot_mom_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        return prot_mc->P();
+}
 
-// // float Reaction::pim_theta_lab_thrown() {
-// //         if (TwoPion_missingPim()) {
-// //                 auto missingpim_ = std::make_unique<TLorentzVector>();
-// //                 *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-// //                 return missingpim_->Theta() * 180.0 / PI;
-// //         } else
-// //                 return NAN;
-// // }
-// float MCReaction::prot_momentum_thrown()
-// {
-//         return _prot_mc->P();
-// }
-// float MCReaction::pip_momentum_thrown()
-// {
-//         return _pip_mc->P();
-// }
-// float MCReaction::pim_momentum_thrown()
-// {
-//         return _pim_mc->P();
-// }
+float MCReaction::pim_momX_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        return pim_mc->Px();
+}
+float MCReaction::pip_momX_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        return pip_mc->Px();
+}
+float MCReaction::prot_momX_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        return prot_mc->Px();
+}
 
+float MCReaction::pim_momY_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        return pim_mc->Py();
+}
+float MCReaction::pip_momY_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        return pip_mc->Py();
+}
+float MCReaction::prot_momY_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        return prot_mc->Py();
+}
+
+float MCReaction::pim_momZ_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        return pim_mc->Pz();
+}
+float MCReaction::pip_momZ_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        return pip_mc->Pz();
+}
+float MCReaction::prot_momZ_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        return prot_mc->Pz();
+}
+
+float MCReaction::pim_theta_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        return pim_mc->Theta() * 180 / PI;
+}
+float MCReaction::pip_theta_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        return pip_mc->Theta() * 180 / PI;
+}
+float MCReaction::prot_theta_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        return prot_mc->Theta() * 180 / PI;
+}
+
+float MCReaction::pim_phi_mc_gen()
+{
+        TLorentzVector *pim_mc = _pim_mc[0].get();
+        if (pim_mc->Phi() >= 0)
+                return (pim_mc->Phi() * 180 / PI);
+        else if (pim_mc->Phi() < 0)
+                return ((pim_mc->Phi() + 2 * PI) * 180 / PI);
+        else
+                return NAN;
+}
+float MCReaction::pip_phi_mc_gen()
+{
+        TLorentzVector *pip_mc = _pip_mc[0].get();
+        if (pip_mc->Phi() >= 0)
+                return (pip_mc->Phi() * 180 / PI);
+        else if (pip_mc->Phi() < 0)
+                return ((pip_mc->Phi() + 2 * PI) * 180 / PI);
+        else
+                return NAN;
+}
+float MCReaction::prot_phi_mc_gen()
+{
+        TLorentzVector *prot_mc = _prot_mc[0].get();
+        if (prot_mc->Phi() >= 0)
+                return (prot_mc->Phi() * 180 / PI);
+        else if (prot_mc->Phi() < 0)
+                return ((prot_mc->Phi() + 2 * PI) * 180 / PI);
+        else
+                return NAN;
+}
 ////////////////////////////////  BOOST TO CM SYSTEM ///////////////////////////////
 ////////////////////////////////  BOOST TO CM SYSTEM ///////////////////////////////
 ////////////////////////////////  BOOST TO CM SYSTEM ///////////////////////////////

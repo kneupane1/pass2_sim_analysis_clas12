@@ -11,7 +11,20 @@
 #include "histogram.hpp"
 #include "reaction.hpp"
 // #include "QADB.h"
+bool is_match(std::shared_ptr<Branches12> data, int rec_part, int mc_part)
+{
+        // Example matching based on momentum similarity
+        TVector3 rec_momentum(data->px(rec_part), data->py(rec_part), data->pz(rec_part));
+        TVector3 mc_momentum(data->mc_px(mc_part), data->mc_py(mc_part), data->mc_pz(mc_part));
 
+        // Check if the momentum vectors are approximately equal
+        if (rec_momentum.Mag() - mc_momentum.Mag() < 0.1)
+        { // Adjust tolerance as needed
+                return true;
+        }
+
+        return false;
+}
 template <class CutType>
 size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
 // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
@@ -69,12 +82,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         int Pip_pid_rec = -9999;
         int Prot_pid_rec = -9999;
         int Pim_pid_rec = -9999;
+        double dp_prot1 = NAN;
+        double dp_pip1 = NAN;
+        double dp_prot2 = NAN;
+        double dp_pip2 = NAN;
+        double dp_prot3 = NAN;
+        double dp_pip3 = NAN;
+        double dp_pim1 = NAN;
+        double dp_pim2 = NAN;
+        double dp_pim3 = NAN;
         // For each event
         for (size_t current_event = 0; current_event < num_of_events; current_event++)
-        // for (size_t current_event = 0; current_event < 500; current_event++)
-
+        // for (size_t current_event = 0; current_event < 10; current_event++)
         {
-                int more_than_1_prot = 0, more_than_1_pip = 0, more_than_1_pim = 0, both_prot_pip = 0;
 
                 // Get current event
                 _chain->GetEntry(current_event);
@@ -97,8 +117,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 // if (mc_event->weight() <= 0.0)
                 //         continue;
                 // {
-                for (int part = 1; part < data->mc_npart(); part++)
+                // std::cout << "  mc  pid at : 3  " << data->mc_pid(3) << std::endl;
+
+                for (int part = 0; part < data->mc_npart(); part++)
+                // for (int part = 0; part < 2; part++)
+
                 {
+                        // std::cout << part << "  mc_pip  pid  " << data->mc_pid(part) << std::endl;
 
                         // Check particle ID's and fill the reaction class
                         if (data->mc_pid(part) == PIP)
@@ -116,7 +141,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 //   mc_event->SetMCOther(part);
                         }
                 }
-
+                // if (data->mc_pid(3) != PIP)
+                // std::cout << "mc_pip  pid  " << data->mc_pid(1) << std::endl;
                 //         // if (mc_event->W_mc() < 2.15 && mc_event->W_mc() > 1.3 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.5 && mc_event->weight() > 0.0)
                 {
 
@@ -169,9 +195,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 auto event = std::make_shared<Reaction>(data, beam_energy);
                 no_of_events++;
-                // // if (data->charge(0) == -1)
-
-                _hists->FillHists_electron_cuts(data, event);
+                if (data->charge(0) == -1)
+                        _hists->FillHists_electron_cuts(data, event);
 
                 // auto cuts = std::make_unique<rga_Cuts>(data);
                 auto cuts = std::make_unique<Pass2_Cuts>(data);
@@ -198,10 +223,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 auto dt = std::make_shared<Delta_T>(data);
 
                 // For each particle in the event
-                for (int part = 0; part < data->gpart(); part++)
+                int more_than_1_prot = 0, more_than_1_pip = 0, more_than_1_pim = 0, both_prot_pip = 0;
+
+                for (int part = 1; part < data->gpart(); part++)
                 {
+                        // std::cout << "mc_pip  pid  " << data->mc_pid(5) << std::endl;
+                        // std::cout << "  rec particle no is :   " << part << std::endl;
                         if (data->charge(part) != 0)
                         {
+                                // std::cout << "  rec particle no is :   " << part << std::endl;
+
                                 // total_part++;
                                 dt->dt_calc(part);
                                 // //dt->dt_calc_ctof(part);
@@ -220,52 +251,95 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 {
                                         _hists->FillHists_prot_pid_cuts(data, event, part);
                                         _hists->FillHists_pip_pid_cuts(data, event, part);
-                                }
-                                else
-                                        _hists->FillHists_pim_pid_cuts(data, event, part);
 
-                                if (cuts->IsProton(part))
-                                { // Get the generated proton indices
-                                        Prot_pid_rec = data->pid(part);
-                                        const std::vector<int> &mc_proton_indices = mc_event->GetProtonMcIndices();
-                                        int mc_proton = mc_proton_indices[0]; // Access the first (and only) proton index
-                                        Prot_pid_mc = data->mc_pid(mc_proton);
-                                        if (Prot_pid_mc == PROTON)
+                                        if ((cuts->IsProton(part)) && (cuts->IsPip(part)))
                                         {
+
+                                                // std::cout << "event is :  " << current_event << "   part is  " << part << std::endl;
+
+                                                dp_prot1 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+
+                                                dp_pip1 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+
+                                                if (dp_prot1 < dp_pip1)
+                                                {
+                                                        _hists->Fill_deltaP_ambi_prot(event, dp_prot1);
+
+                                                        event->SetProton(part);
+                                                        prot_idx++;
+                                                        statusProt = abs(data->status(part));
+                                                        sectorProt = data->dc_sec(part);
+                                                        _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                        _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
+                                                        prot++;
+                                                }
+                                                else
+                                                {
+                                                        _hists->Fill_deltaP_ambi_pip(event, dp_pip1);
+                                                        event->SetPip(part);
+                                                        pip_idx++;
+                                                        statusPip = abs(data->status(part));
+                                                        sectorPip = data->dc_sec(part);
+                                                        _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
+                                                        _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
+                                                }
+                                        }
+
+                                        else if (cuts->IsProton(part))
+                                        {
+
                                                 prot++;
+                                                // more_than_1_prot++;
+                                                // std::cout << "event is :  " << current_event << "   part is  " << part << "  mre than 1 protons  =  " << more_than_1_prot << std::endl;
+
+                                                dp_prot2 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_pip2 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                // std::cout << "event is :  " << current_event << "   part is  " << part << "  diff = " << dp_pip1 << "  && "
+                                                //           << dp_pip2 << std::endl;
+                                                _hists->Fill_deltaP_prot(event, dp_prot2);
+                                                _hists->Fill_deltaP_pip_for_prot(event, dp_pip2);
+
                                                 event->SetProton(part);
                                                 prot_idx++;
-                                                more_than_1_prot++;
 
                                                 statusProt = abs(data->status(part));
                                                 sectorProt = data->dc_sec(part);
 
-                                                // if (Prot_pid_mc == PROTON)
-                                                {
-                                                        _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
-                                                        // }
-                                                }
+                                                _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
                                         }
-                                }
-                                if (cuts->IsPip(part))
-                                {
 
-                                        const std::vector<int> &mc_pip_indices = mc_event->GetPipMcIndices();
-                                        // if (mc_pip_indices.size() != 1) std::cout << "Number of gen pip : " << mc_pip_indices.size() << std::endl;
-                                        int mc_pip = mc_pip_indices[0]; // Access the first (and only) pip index
-                                        Pip_pid_mc = data->mc_pid(mc_pip);
-                                        Pip_pid_rec = data->pid(part);
-                                        // if (Pip_pid_rec != PIP)
-                                        // {
-                                        // if (data->mc_pid(part) == PIP)
-                                        if (Pip_pid_mc == PIP)
+                                        else if (cuts->IsPip(part))
                                         {
+                                                pip++;
+                                                // more_than_1_pip++;
+
+                                                dp_prot3 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_pip3 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
+                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
+                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+
+                                                // if (more_than_1_pip > 1)
+                                                // {
+                                                // std::cout << "event is :  " << current_event << "   part is  " << part << "  diff = " << dp_pip1 << "  && "
+                                                //           << dp_pip2 << std::endl;
+                                                _hists->Fill_deltaP_prot_for_pip(event, dp_prot3);
+                                                _hists->Fill_deltaP_pip(event, dp_pip3);
+                                                // }
+
                                                 event->SetPip(part);
 
                                                 pip_idx++;
-                                                pip++;
-                                                more_than_1_pip++;
 
                                                 statusPip = abs(data->status(part));
                                                 sectorPip = data->dc_sec(part);
@@ -276,16 +350,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 }
                                         }
                                 }
-                                if (cuts->IsPim(part))
+                                else
                                 {
+                                        _hists->FillHists_pim_pid_cuts(data, event, part);
 
-                                        const std::vector<int> &mc_pim_indices = mc_event->GetPimMcIndices();
-                                        int mc_pim = mc_pim_indices[0]; // Access the first (and only) pim index
-                                        Pim_pid_mc = data->mc_pid(mc_pim);
-                                        Pim_pid_rec = data->pid(part);
-                                        // if (Pim_pid_rec != PIM)
-                                        // {
-                                        if (data->mc_pid(part) == PIM)
+                                        if (cuts->IsPim(part))
+
                                         {
                                                 event->SetPim(part);
 
@@ -306,12 +376,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 // } else if (cuts->IsmissingPim(part)) {
                                 //   if (event->MM_cut()) event->SetmissingPim(part);
 
-                                else
-                                {
-                                        other++;
-                                        event->SetOther(part);
-                                }
+                                // else
+                                // {
+                                //         other++;
+                                //         event->SetOther(part);
                                 // }
+                                // // }
 
                                 if ((cuts->IsPip(part)) && (cuts->IsProton(part)))
                                 {
@@ -497,6 +567,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 }
         }
         std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
+        std::cout << "   there are  " << prot_pip << "  particles identified as both prot and pip" << std::endl;
         std::cout << "   % of events having more than one proton  " << float(more_prot) / float(prot) << std::endl;
         std::cout << "   % of events having more than one pip  " << float(more_pip) / float(pip) << std::endl;
         std::cout << "   % of events having more than one pim  " << float(more_pim) / float(pim) << std::endl;

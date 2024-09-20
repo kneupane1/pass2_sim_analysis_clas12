@@ -652,6 +652,30 @@ public:
         const std::vector<int> &GetPipMcIndices() const { return _pip_mc_indices; }
         const std::vector<int> &GetPimMcIndices() const { return _pim_mc_indices; }
 
+        float pim_mom_mc_gen();
+        float pip_mom_mc_gen();
+        float prot_mom_mc_gen();
+
+        float pim_momX_mc_gen();
+        float pip_momX_mc_gen();
+        float prot_momX_mc_gen();
+
+        float pim_momY_mc_gen();
+        float pip_momY_mc_gen();
+        float prot_momY_mc_gen();
+
+        float pim_momZ_mc_gen();
+        float pip_momZ_mc_gen();
+        float prot_momZ_mc_gen();
+
+        float pim_theta_mc_gen();
+        float pip_theta_mc_gen();
+        float prot_theta_mc_gen();
+
+        float pim_phi_mc_gen();
+        float pip_phi_mc_gen();
+        float prot_phi_mc_gen();
+
         void boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector &pim_mc);
 
         float MCinv_Ppip();

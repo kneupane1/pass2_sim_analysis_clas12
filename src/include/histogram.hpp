@@ -422,6 +422,27 @@ protected:
     TH1D_ptr alpha_Pip_cm;
     TH1D_ptr alpha_Pim_cm;
 
+    TH1D_ptr dp_prot_hist;
+    TH1D_ptr dp_pip_hist;
+    TH1D_ptr dp_ambi_prot_hist;
+    TH1D_ptr dp_ambi_pip_hist;
+    TH1D_ptr dp_prot_for_pip_hist;
+    TH1D_ptr dp_pip_for_prot_hist;
+
+    TH1D_ptr p_gen_prot_hist;
+    TH1D_ptr p_gen_pip_hist;
+    TH1D_ptr p_gen_ambi_prot_hist;
+    TH1D_ptr p_gen_ambi_pip_hist;
+    TH1D_ptr p_gen_prot_for_pip_hist;
+    TH1D_ptr p_gen_pip_for_prot_hist;
+
+    TH1D_ptr p_rec_prot_hist;
+    TH1D_ptr p_rec_pip_hist;
+    TH1D_ptr p_rec_ambi_prot_hist;
+    TH1D_ptr p_rec_ambi_pip_hist;
+    TH1D_ptr p_rec_prot_for_pip_hist;
+    TH1D_ptr p_rec_pip_for_prot_hist;
+
     TH1D_ptr scalar_triple_product_hist;
     TH1D_ptr scalar_triple_product_hist_with_mmsq_cuts;
     TH2D_ptr W_vs_sclar_product;
@@ -745,9 +766,16 @@ public:
                                    const std::shared_ptr<Delta_T> &dt, int part, const std::shared_ptr<Reaction> &_e);
     void Write_deltat();
 
-    // EC Sampling Fraction
-    //  void Fill_EC(double etot, double momentum);
-    // void Write_EC();
+    //////////////
+    void Fill_deltaP_prot(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_pip(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_prot_for_pip(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_pip_for_prot(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp);
+    void Write_deltaP();
+
+    ///////////////
 
     void makeHistTheta_pim_measured();
     void populate_theta_pim_measured(const std::shared_ptr<Reaction> &_e, double min, double max, short index_theta_pim);
