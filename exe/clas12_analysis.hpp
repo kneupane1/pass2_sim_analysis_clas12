@@ -257,35 +257,40 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                 // std::cout << "event is :  " << current_event << "   part is  " << part << std::endl;
 
-                                                dp_prot1 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_prot1 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
+                                                            pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
 
-                                                dp_pip1 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_pip1 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
 
-                                                if (dp_prot1 < dp_pip1)
+                                                _hists->Fill_deltaP_ambi_all_prot(event, dp_prot1);
+                                                _hists->Fill_deltaP_ambi_all_pip(event, dp_pip1);
+                                                if ((dp_prot1 < 0.1) || (dp_pip1 < 0.1))
                                                 {
-                                                        _hists->Fill_deltaP_ambi_prot(event, dp_prot1);
+                                                        if (dp_prot1 < dp_pip1)
+                                                        {
+                                                                _hists->Fill_deltaP_ambi_prot(event, dp_prot1);
 
-                                                        event->SetProton(part);
-                                                        prot_idx++;
-                                                        statusProt = abs(data->status(part));
-                                                        sectorProt = data->dc_sec(part);
-                                                        _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
-                                                        prot++;
-                                                }
-                                                else
-                                                {
-                                                        _hists->Fill_deltaP_ambi_pip(event, dp_pip1);
-                                                        event->SetPip(part);
-                                                        pip_idx++;
-                                                        statusPip = abs(data->status(part));
-                                                        sectorPip = data->dc_sec(part);
-                                                        _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
+                                                                event->SetProton(part);
+                                                                prot_idx++;
+                                                                statusProt = abs(data->status(part));
+                                                                sectorProt = data->dc_sec(part);
+                                                                _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
+                                                                _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
+                                                                prot++;
+                                                        }
+                                                        else
+                                                        {
+                                                                _hists->Fill_deltaP_ambi_pip(event, dp_pip1);
+                                                                event->SetPip(part);
+                                                                pip_idx++;
+                                                                statusPip = abs(data->status(part));
+                                                                sectorPip = data->dc_sec(part);
+                                                                _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
+                                                                _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
+                                                        }
                                                 }
                                         }
 
@@ -296,14 +301,15 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 // more_than_1_prot++;
                                                 // std::cout << "event is :  " << current_event << "   part is  " << part << "  mre than 1 protons  =  " << more_than_1_prot << std::endl;
 
-                                                dp_prot2 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
-                                                dp_pip2 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_prot2 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
+                                                            pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
+                                                dp_pip2 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
                                                 // std::cout << "event is :  " << current_event << "   part is  " << part << "  diff = " << dp_pip1 << "  && "
                                                 //           << dp_pip2 << std::endl;
+
                                                 _hists->Fill_deltaP_prot(event, dp_prot2);
                                                 _hists->Fill_deltaP_pip_for_prot(event, dp_pip2);
 
@@ -322,12 +328,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 pip++;
                                                 // more_than_1_pip++;
 
-                                                dp_prot3 = ((mc_event->prot_momX_mc_gen() * mc_event->prot_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                            (mc_event->prot_momY_mc_gen() * mc_event->prot_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                            (mc_event->prot_momZ_mc_gen() * mc_event->prot_momZ_mc_gen() - data->pz(part) * data->pz(part)));
-                                                dp_pip3 = ((mc_event->pip_momX_mc_gen() * mc_event->pip_momX_mc_gen() - data->px(part) * data->px(part)) +
-                                                           (mc_event->pip_momY_mc_gen() * mc_event->pip_momY_mc_gen() - data->py(part) * data->py(part)) +
-                                                           (mc_event->pip_momZ_mc_gen() * mc_event->pip_momZ_mc_gen() - data->pz(part) * data->pz(part)));
+                                                dp_prot3 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) + pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
+                                                dp_pip3 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
 
                                                 // if (more_than_1_pip > 1)
                                                 // {

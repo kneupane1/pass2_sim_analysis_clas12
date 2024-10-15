@@ -396,7 +396,7 @@ protected:
     TH2D_ptr pim_phi_vs_theta_measured_FD_sec[num_sectors];
     TH2D_ptr pim_phi_vs_theta_measured_FD_after_exclusive_sec[num_sectors];
 
-    //missingPiP
+    // missingPiP
     static const short HADRON_NUM = 3;
     std::string HADRON_NAME[HADRON_NUM] = {
         "mProt", "mPip", "mPim"};
@@ -424,6 +424,8 @@ protected:
 
     TH1D_ptr dp_prot_hist;
     TH1D_ptr dp_pip_hist;
+    TH1D_ptr dp_ambi_prot_all_hist;
+    TH1D_ptr dp_ambi_pip_all_hist;
     TH1D_ptr dp_ambi_prot_hist;
     TH1D_ptr dp_ambi_pip_hist;
     TH1D_ptr dp_prot_for_pip_hist;
@@ -646,7 +648,7 @@ public:
     void populate_eff_check_mPim(const std::shared_ptr<Reaction> &_e, double min_w, double max_w, double min_theta, double max_theta, double min_phi, double max_phi, short index_w, short index_theta, short index_phi);
     // void populate_eff_check_exclusive(const std::shared_ptr<Reaction> &_e, double min, double max, short index_w);
     void Fill_eff_ckeck_mPim(const std::shared_ptr<Reaction> &_e);
-    //void Fill_eff_ckeck_exclusive(const std::shared_ptr<Reaction> &_e);
+    // void Fill_eff_ckeck_exclusive(const std::shared_ptr<Reaction> &_e);
     void writeHist_eff_check_mPim();
     // void writeHist_eff_check_mPim_after_MMSQ_cuts();
     // void writeHist_eff_check_exclusive();
@@ -773,6 +775,9 @@ public:
     void Fill_deltaP_pip_for_prot(const std::shared_ptr<Reaction> &_e, double dp);
     void Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp);
     void Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp);
+
+    void Fill_deltaP_ambi_all_prot(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, double dp);
     void Write_deltaP();
 
     ///////////////

@@ -31,8 +31,8 @@ Histogram::Histogram(const std::string &output_file)
         // Int_t bins_5D_original[ndims_5D] = {7, 7, 10, 6, 10};
         // Int_t bins_5D[ndims_5D] = {7, 7, 10, 6, 10};
 
-        //Mlower = mh1 + mh2
-        // Double_t xmin_5D_original[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
+        // Mlower = mh1 + mh2
+        //  Double_t xmin_5D_original[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
 
         // for (short q2 = 3; q2 < 4; q2++)
         for (short q2 = 1; q2 < q2_bin_size; q2++)
@@ -57,8 +57,8 @@ Histogram::Histogram(const std::string &output_file)
                         // Double_t xmin_5D[ndims_5D] = {(0.938272 + 0.13957) - 3 * Bin_size_pPip, (0.13957 + 0.13957) - 3 * Bin_size_pipPim, 0., 0., 0.};
                         // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w - MASS_PIM) + 4 * Bin_size_pPip, (1.0 + 0.05 * w - MASS_P) + 4 * Bin_size_pipPim, 180, 360, 360};
 
-                        //25 MeV w bin
-                        // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.025 * w - MASS_PIM), (1.0 + 0.025 * w - MASS_P), 180, 360, 360};
+                        // 25 MeV w bin
+                        //  Double_t xmax_5D[ndims_5D] = {(1.0 + 0.025 * w - MASS_PIM), (1.0 + 0.025 * w - MASS_P), 180, 360, 360};
 
                         // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w + 0.05), (1.0 + 0.05 * w + 0.05) / 2.0 + 0.1, 180, 360, 360};
 
@@ -72,7 +72,7 @@ Histogram::Histogram(const std::string &output_file)
 
                         // std::cout << " name is :" << name << std::endl;
 
-                        //25 MeV w bin
+                        // 25 MeV w bin
 
                         // auto name = Form("h_5dim_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.025 * w), (1.0 + 0.025 * w + 0.025));
                         // auto name_evt = Form("h_5dim_evt_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.025 * w), (1.0 + 0.025 * w + 0.025));
@@ -234,28 +234,30 @@ Histogram::Histogram(const std::string &output_file)
         alpha_Pip_cm = std::make_shared<TH1D>("alpha_pip_cm", "alpha pip cm", 500, 0.0, 360.0);
         alpha_Pim_cm = std::make_shared<TH1D>("alpha_pim_cm", "alpha pim cm", 500, 0.0, 360.0);
 
-        dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom", 500, -0.5, 0.5);
-        dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom", 500, -0.5, 0.5);
+        dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom", 500, 0, 0.1);
+        dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom", 500, 0, 0.1);
 
-        dp_prot_for_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot_for_pip", "Prot (Gen - Rec) Mom (for pip)", 500, -5, 5);
-        dp_pip_for_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip_for_Proton", "Pip (Gen - Rec) Mom (for Prot)", 500, 5, 5);
+        dp_prot_for_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot_for_pip", "Prot (Gen - Rec) Mom (for pip)", 500, 0, 5);
+        dp_pip_for_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip_for_Proton", "Pip (Gen - Rec) Mom (for Prot)", 500, 0, 5);
 
-        dp_ambi_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", "Ambi Prot (Gen - Rec) Mom", 500, -0.5, 0.5);
-        dp_ambi_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", "Ambi Pip (Gen - Rec) Mom", 500, -0.5, 0.5);
+        dp_ambi_prot_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot_all", "Ambi Prot (Gen - Rec) Mom all", 500, 0, 5.);
+        dp_ambi_pip_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip_all", "Ambi Pip (Gen - Rec) Mom all", 500, 0, 5.);
+        dp_ambi_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", "Ambi Prot (Gen - Rec) Mom", 500, 0, 0.1);
+        dp_ambi_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", "Ambi Pip (Gen - Rec) Mom", 500, 0, 0.1);
 
-        p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
-        p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
-        p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", 500, 0, 5);
-        p_gen_pip_for_prot_hist = std::make_shared<TH1D>("P_gen_Pip_for_Proton", "Pip (Gen ) Mom (for Prot)", 500, 0, 5);
-        p_gen_ambi_prot_hist = std::make_shared<TH1D>("P_gen_ambi_Prot", "Ambi Prot (Gen) Mom", 500, 0, 5);
-        p_gen_ambi_pip_hist = std::make_shared<TH1D>("P_gen_ambi_Pip", "Ambi Pip (Gen) Mom", 500, 0, 5);
+        // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
+        // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
+        // p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", 500, 0, 5);
+        // p_gen_pip_for_prot_hist = std::make_shared<TH1D>("P_gen_Pip_for_Proton", "Pip (Gen ) Mom (for Prot)", 500, 0, 5);
+        // p_gen_ambi_prot_hist = std::make_shared<TH1D>("P_gen_ambi_Prot", "Ambi Prot (Gen) Mom", 500, 0, 5);
+        // p_gen_ambi_pip_hist = std::make_shared<TH1D>("P_gen_ambi_Pip", "Ambi Pip (Gen) Mom", 500, 0, 5);
 
-        p_rec_prot_hist = std::make_shared<TH1D>("P_rec_Prot", "Prot (rec) Mom", 500, 0, 5);
-        p_rec_pip_hist = std::make_shared<TH1D>("P_rec_Pip", "Pip (rec) Mom", 500, 0, 5);
-        p_rec_prot_for_pip_hist = std::make_shared<TH1D>("P_rec_Prot_for_pip", "Prot (rec ) Mom (for pip)", 500, 0, 5);
-        p_rec_pip_for_prot_hist = std::make_shared<TH1D>("P_rec_Pip_for_Proton", "Pip (rec ) Mom (for Prot)", 500, 0, 5);
-        p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
-        p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
+        // p_rec_prot_hist = std::make_shared<TH1D>("P_rec_Prot", "Prot (rec) Mom", 500, 0, 5);
+        // p_rec_pip_hist = std::make_shared<TH1D>("P_rec_Pip", "Pip (rec) Mom", 500, 0, 5);
+        // p_rec_prot_for_pip_hist = std::make_shared<TH1D>("P_rec_Prot_for_pip", "Prot (rec ) Mom (for pip)", 500, 0, 5);
+        // p_rec_pip_for_prot_hist = std::make_shared<TH1D>("P_rec_Pip_for_Proton", "Pip (rec ) Mom (for Prot)", 500, 0, 5);
+        // p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
+        // p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
 
         W_hist = std::make_shared<TH1D>("W", "W", bins, w_min, w_max);
 
@@ -657,7 +659,7 @@ void Histogram::Fill_histSevenD_prot(const std::shared_ptr<Reaction> &_e)
                                 sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
-                                //sevenDHist_prot[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_prot[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -702,7 +704,7 @@ void Histogram::Fill_histSevenD_prot_evt(const std::shared_ptr<Reaction> &_e)
                                 h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * pow(background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1], 2));
 
-                                //sevenDHist_prot[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_prot[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -737,7 +739,7 @@ void Histogram::Fill_histSevenD_thrown_prot(const std::shared_ptr<MCReaction> &_
                 {
                         TThread::Lock();
                         sevenD_Hist_thrown_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight());
-                        //sevenD_Hist_thrown_prot[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_prot[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
                         TThread::UnLock();
                         sevenD_Hist_thrown_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
 
@@ -778,7 +780,7 @@ void Histogram::Fill_histSevenD_thrown_prot_evt(const std::shared_ptr<MCReaction
                 {
                         TThread::Lock();
                         h_5dim_thrown_prot_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight() * _e->weight());
-                        //sevenD_Hist_thrown_prot[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_prot[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
                         TThread::UnLock();
                         h_5dim_thrown_prot_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
                 }
@@ -815,7 +817,7 @@ void Histogram::Fill_histSevenD_pip(const std::shared_ptr<Reaction> &_e)
                                 TThread::Lock();
                                 sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
-                                //sevenDHist_pip[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_pip[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -854,7 +856,7 @@ void Histogram::Fill_histSevenD_pip_evt(const std::shared_ptr<Reaction> &_e)
                                 h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * pow(background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1], 2));
 
-                                //sevenDHist_pip[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_pip[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -889,7 +891,7 @@ void Histogram::Fill_histSevenD_thrown_pip(const std::shared_ptr<MCReaction> &_e
                 {
                         TThread::Lock();
                         sevenD_Hist_thrown_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight());
-                        //sevenD_Hist_thrown_pip[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_pip[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
 
                         TThread::UnLock();
                         sevenD_Hist_thrown_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
@@ -925,7 +927,7 @@ void Histogram::Fill_histSevenD_thrown_pip_evt(const std::shared_ptr<MCReaction>
                 {
                         TThread::Lock();
                         h_5dim_thrown_pip_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight() * _e->weight());
-                        //sevenD_Hist_thrown_pip[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_pip[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
 
                         TThread::UnLock();
                         h_5dim_thrown_pip_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
@@ -964,7 +966,7 @@ void Histogram::Fill_histSevenD_pim(const std::shared_ptr<Reaction> &_e)
                                 TThread::Lock();
                                 sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
-                                //sevenDHist_pim[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_pim[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -1004,7 +1006,7 @@ void Histogram::Fill_histSevenD_pim_evt(const std::shared_ptr<Reaction> &_e)
                                 h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
-                                //sevenDHist_pim[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
+                                // sevenDHist_pim[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();
                                 TThread::UnLock();
                                 h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->GetNbins();
                         }
@@ -1039,7 +1041,7 @@ void Histogram::Fill_histSevenD_thrown_pim(const std::shared_ptr<MCReaction> &_e
                 {
                         TThread::Lock();
                         sevenD_Hist_thrown_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight());
-                        //sevenD_Hist_thrown_pim[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_pim[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
                         TThread::UnLock();
                         sevenD_Hist_thrown_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
                 }
@@ -1075,7 +1077,7 @@ void Histogram::Fill_histSevenD_thrown_pim_evt(const std::shared_ptr<MCReaction>
                 {
                         TThread::Lock();
                         h_5dim_thrown_pim_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(x_thrown, _e->weight() * _e->weight());
-                        //sevenD_Hist_thrown_pim[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
+                        // sevenD_Hist_thrown_pim[int(_e->Q2_mc() - 1.0)/q2_bin_size(_e->Q2_mc())][int((_e->W_mc()-1.0)/0.05)] -> Sumw2();
                         TThread::UnLock();
                         h_5dim_thrown_pim_evt[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->GetNbins();
                 }
@@ -1362,13 +1364,14 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
 
         W_vs_MM->Fill(_e->W(), _e->MM_mPim(), _e->weight());
         W_vs_MM2->Fill(_e->W(), _e->MM2_mPim(), _e->weight());
+
         //}
         // }
         if (_e->TwoPion_exclusive())
         {
                 // MM_twoPi->Fill(_e->MM2_mPim(), _e->weight());
 
-                //if(_e->cut2(_e->MM2_mPim()) &&  _e->cut3(_e->MM2_mpip()) &&  _e->cut4(_e->MM2_mprot())) {
+                // if(_e->cut2(_e->MM2_mPim()) &&  _e->cut3(_e->MM2_mpip()) &&  _e->cut4(_e->MM2_mprot())) {
                 missing_Energy_hist->Fill(_e->Energy_excl(), _e->weight());
                 MM2_twoPi_excl->Fill(_e->MM2_exclusive(), _e->weight());
                 MM_twoPi_excl->Fill(_e->MM_exclusive(), _e->weight());
@@ -1376,13 +1379,13 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
 
                 // if (_e->TwoPion_missingPip())
                 // {
-                //if(_e->cut1(_e->Energy_excl()) &&  _e->cut2(_e->MM2_mPim()) &&  _e->cut4(_e->MM2_mprot())) {
+                // if(_e->cut1(_e->Energy_excl()) &&  _e->cut2(_e->MM2_mPim()) &&  _e->cut4(_e->MM2_mprot())) {
                 MM2_twoPi_missingPip->Fill(_e->MM2_mpip(), _e->weight());
                 //}
                 // }
                 // if (_e->TwoPion_missingProt())
                 // {
-                //if(_e->cut1(_e->Energy_excl()) &&  _e->cut2(_e->MM2_mPim()) &&  _e->cut3(_e->MM2_mpip())) {
+                // if(_e->cut1(_e->Energy_excl()) &&  _e->cut2(_e->MM2_mPim()) &&  _e->cut3(_e->MM2_mpip())) {
                 MM2_twoPi_missingProt->Fill(_e->MM2_mprot(), _e->weight());
                 //}
         }
@@ -1903,7 +1906,7 @@ void Histogram::FillHists_electron_cuts(const std::shared_ptr<Branches12> &_d, c
                 else
                         pcal_hx_hy_sec[outside_one_cut]->Fill(_d->ec_pcal_x(0), _d->ec_pcal_y(0), _e->weight());
 
-                //dc
+                // dc
                 dcr1_sec[before_any_cuts]->Fill(_d->dc_r1_x(0), _d->dc_r1_y(0), _e->weight());
                 dcr2_sec[before_any_cuts]->Fill(_d->dc_r2_x(0), _d->dc_r2_y(0), _e->weight());
                 dcr3_sec[before_any_cuts]->Fill(_d->dc_r3_x(0), _d->dc_r3_y(0), _e->weight());
@@ -1951,7 +1954,7 @@ void Histogram::FillHists_electron_cuts(const std::shared_ptr<Branches12> &_d, c
                         else
                                 htcc_nphe_sec[outside_one_cut][sec - 1]->Fill(_d->cc_htcc_nphe(0), _e->weight());
 
-                        //chi2pid
+                        // chi2pid
                         elec_Chi2pid_sec[before_any_cuts][sec - 1]->Fill(_d->chi2pid(0), _e->weight());
                         if (_d->chi2pid(0) < 3)
                                 elec_Chi2pid_sec[with_one_cut][sec - 1]->Fill(_d->chi2pid(0), _e->weight());
@@ -3070,6 +3073,15 @@ void Histogram::Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double
 {
         dp_ambi_pip_hist->Fill(dp, _e->weight());
 }
+
+void Histogram::Fill_deltaP_ambi_all_prot(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_ambi_prot_all_hist->Fill(dp, _e->weight());
+}
+void Histogram::Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, double dp)
+{
+        dp_ambi_pip_all_hist->Fill(dp, _e->weight());
+}
 void Histogram::Write_deltaP()
 {
         dp_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
@@ -3089,4 +3101,10 @@ void Histogram::Write_deltaP()
 
         dp_ambi_pip_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
         dp_ambi_pip_hist->Write();
+
+        dp_ambi_prot_all_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_ambi_prot_all_hist->Write();
+
+        dp_ambi_pip_all_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_ambi_pip_all_hist->Write();
 };

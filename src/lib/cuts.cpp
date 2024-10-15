@@ -520,7 +520,7 @@ bool Pass2_Cuts::DC_fiducial_cut_XY(int i, int pid)
 
         short dc_sector = (_data->dc_sec(i) - 1);
 
-        //region 1
+        // region 1
         double X1 = _data->dc_r1_x(i);
         double Y1 = _data->dc_r1_y(i);
         float X1_new = X1 * cos(DEG2RAD * (-60 * (dc_sector))) - Y1 * sin(DEG2RAD * (-60 * (dc_sector)));

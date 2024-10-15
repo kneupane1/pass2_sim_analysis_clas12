@@ -21,7 +21,7 @@ static const double RAD2DEG = 180.0 / PI;
 static const int POSITIVE = 1;
 static const int NEGATIVE = -1;
 
-static const double c_special_units = 29.9792458; //speed of light in centimeters per nanosecond (cm/ns).
+static const double c_special_units = 29.9792458; // speed of light in centimeters per nanosecond (cm/ns).
 // misc. constants
 static const double FSC = 0.00729735253;             //  fine-structure constant (α = 1/137) ??
 static const double NA = 6.02214129E23;              // Avigadro's number
