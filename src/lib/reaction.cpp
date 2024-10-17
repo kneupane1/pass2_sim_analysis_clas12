@@ -188,6 +188,7 @@ void Reaction::SetProton(int i)
         }
         if (_is_FD_Prot)
         {
+
                 // // these are Andrey's corrections
                 if (_prot_theta_uncorr < 27)
                 {

@@ -245,6 +245,10 @@ Histogram::Histogram(const std::string &output_file)
         dp_ambi_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", "Ambi Prot (Gen - Rec) Mom", 500, 0, 0.1);
         dp_ambi_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", "Ambi Pip (Gen - Rec) Mom", 500, 0, 0.1);
 
+        entries_in_each_event = std::make_shared<TH1D>("Entries_per_event", "No of entries per event", 20, -1, 10);
+        entries_prot = std::make_shared<TH1D>("protons_per_event", "No of prot per event", 20, -1, 10);
+        entries_pip = std::make_shared<TH1D>("pips_per_event", "No of pip per event", 20, -1, 10);
+
         // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
         // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
         // p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", 500, 0, 5);
@@ -3082,6 +3086,19 @@ void Histogram::Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, do
 {
         dp_ambi_pip_all_hist->Fill(dp, _e->weight());
 }
+
+void Histogram::Fill_Entries(int num_entries)
+{
+        entries_in_each_event->Fill(num_entries);
+}
+void Histogram::Fill_Entries_prot(int num_entries)
+{
+        entries_prot->Fill(num_entries);
+}
+void Histogram::Fill_Entries_pip(int num_entries)
+{
+        entries_pip->Fill(num_entries);
+}
 void Histogram::Write_deltaP()
 {
         dp_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
@@ -3107,4 +3124,8 @@ void Histogram::Write_deltaP()
 
         dp_ambi_pip_all_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
         dp_ambi_pip_all_hist->Write();
+
+        entries_in_each_event->Write();
+        entries_prot->Write();
+        entries_pip->Write();
 };

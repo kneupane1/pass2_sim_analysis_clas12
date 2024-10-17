@@ -431,6 +431,10 @@ protected:
     TH1D_ptr dp_prot_for_pip_hist;
     TH1D_ptr dp_pip_for_prot_hist;
 
+    TH1D_ptr entries_in_each_event;
+    TH1D_ptr entries_prot;
+    TH1D_ptr entries_pip;
+
     TH1D_ptr p_gen_prot_hist;
     TH1D_ptr p_gen_pip_hist;
     TH1D_ptr p_gen_ambi_prot_hist;
@@ -779,6 +783,10 @@ public:
     void Fill_deltaP_ambi_all_prot(const std::shared_ptr<Reaction> &_e, double dp);
     void Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, double dp);
     void Write_deltaP();
+
+    void Fill_Entries(int num_entries);
+    void Fill_Entries_prot(int num_entries);
+    void Fill_Entries_pip(int num_entries);
 
     ///////////////
 
