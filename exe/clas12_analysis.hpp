@@ -26,9 +26,9 @@ bool is_match(std::shared_ptr<Branches12> data, int rec_part, int mc_part)
         return false;
 }
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
-// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
-//            const std::shared_ptr<QA::QADB> &_qa = nullptr, int thread_id)
+// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists, int thread_id)
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
+           const std::shared_ptr<QA::QADB> &_qa = nullptr, int thread_id)
 {
         if (_mc)
         {
@@ -65,8 +65,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         // auto data = std::make_shared<Branches12>(_chain, true);
         auto data = std::make_shared<Branches12>(_chain, _mc);
 
-        //         // if (!_qa->Golden(data->getRun(), data->getEvent()))
-        //         //         continue;
+        if (!_qa->Golden(data->getRun(), data->getEvent()))
+                continue;
 
         // Total number of events "Processed"
         size_t total = 0;
@@ -107,87 +107,87 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 /////////// This part is only for mc events /////////////
                 /////////// This part is only for mc events /////////////
                 /////////// This part is only for mc events /////////////
-                // if (_mc)
-                // {
-                if (data->mc_npart() < 1 || data->mc_weight() <= 0)
-                        continue;
-
-                // Make a reaction class from the data given
-                auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-                // if (mc_event->weight() <= 0.0)
-                //         continue;
-                // {
-                // std::cout << "  mc  pid at : 3  " << data->mc_pid(3) << std::endl;
-
-                for (int part = 0; part < data->mc_npart(); part++)
-                // for (int part = 0; part < 2; part++)
-
+                if (_mc)
                 {
-                        // std::cout << part << "  mc_pip  pid  " << data->mc_pid(part) << std::endl;
+                        if (data->mc_npart() < 1 || data->mc_weight() <= 0)
+                                continue;
 
-                        // Check particle ID's and fill the reaction class
-                        if (data->mc_pid(part) == PIP)
-                        {
-                                mc_event->SetMCPip(part);
-                        }
-                        if (data->mc_pid(part) == PROTON)
-                        {
-                                mc_event->SetMCProton(part);
-                        }
-                        if (data->mc_pid(part) == PIM)
-                        {
-                                mc_event->SetMCPim(part);
-                                // } else {
-                                //   mc_event->SetMCOther(part);
-                        }
-                }
-                // if (data->mc_pid(3) != PIP)
-                // std::cout << "mc_pip  pid  " << data->mc_pid(1) << std::endl;
-                //         // if (mc_event->W_mc() < 2.15 && mc_event->W_mc() > 1.3 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.5 && mc_event->weight() > 0.0)
-                {
+                        // Make a reaction class from the data given
+                        auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+                        // if (mc_event->weight() <= 0.0)
+                        //         continue;
+                        // {
+                        // std::cout << "  mc  pid at : 3  " << data->mc_pid(3) << std::endl;
 
-                        // // Retrieve the number of protons and pions in the event
-                        size_t num_protons_mc = mc_event->GetMcProtons().size();
-                        size_t num_pips_mc = mc_event->GetMcPips().size();
-                        size_t num_pims_mc = mc_event->GetMcPims().size();
+                        for (int part = 0; part < data->mc_npart(); part++)
+                        // for (int part = 0; part < 2; part++)
 
-                        for (size_t i = 0; i < num_protons_mc; ++i)
                         {
-                                for (size_t j = 0; j < num_pips_mc; ++j)
+                                // std::cout << part << "  mc_pip  pid  " << data->mc_pid(part) << std::endl;
+
+                                // Check particle ID's and fill the reaction class
+                                if (data->mc_pid(part) == PIP)
                                 {
+                                        mc_event->SetMCPip(part);
+                                }
+                                if (data->mc_pid(part) == PROTON)
+                                {
+                                        mc_event->SetMCProton(part);
+                                }
+                                if (data->mc_pid(part) == PIM)
+                                {
+                                        mc_event->SetMCPim(part);
+                                        // } else {
+                                        //   mc_event->SetMCOther(part);
+                                }
+                        }
+                        // if (data->mc_pid(3) != PIP)
+                        // std::cout << "mc_pip  pid  " << data->mc_pid(1) << std::endl;
+                        //         // if (mc_event->W_mc() < 2.15 && mc_event->W_mc() > 1.3 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.5 && mc_event->weight() > 0.0)
+                        {
 
-                                        if (mc_event->GetProtonMcIndices()[i] == mc_event->GetPipMcIndices()[j])
-                                                no_prot_pip_mc++;
+                                // // Retrieve the number of protons and pions in the event
+                                size_t num_protons_mc = mc_event->GetMcProtons().size();
+                                size_t num_pips_mc = mc_event->GetMcPips().size();
+                                size_t num_pims_mc = mc_event->GetMcPims().size();
 
-                                        // Exclude the case where the same particle is assigned as both proton and pip
-                                        if (mc_event->GetProtonMcIndices()[i] != mc_event->GetPipMcIndices()[j])
+                                for (size_t i = 0; i < num_protons_mc; ++i)
+                                {
+                                        for (size_t j = 0; j < num_pips_mc; ++j)
                                         {
 
-                                                for (size_t k = 0; k < num_pims_mc; ++k)
+                                                if (mc_event->GetProtonMcIndices()[i] == mc_event->GetPipMcIndices()[j])
+                                                        no_prot_pip_mc++;
+
+                                                // Exclude the case where the same particle is assigned as both proton and pip
+                                                if (mc_event->GetProtonMcIndices()[i] != mc_event->GetPipMcIndices()[j])
                                                 {
 
-                                                        mc_event->boost_mc(*mc_event->GetMcProtons()[i], *mc_event->GetMcPips()[j], *mc_event->GetMcPims()[k]);
+                                                        for (size_t k = 0; k < num_pims_mc; ++k)
+                                                        {
 
-                                                        _hists->Fill_WvsQ2_twoPi_thrown(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_pim(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_prot(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_pip(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_pim_evt(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_prot_evt(mc_event);
-                                                        _hists->Fill_histSevenD_thrown_pip_evt(mc_event);
-                                                        //         // // // _hists->Fill_W_bin_check_th(mc_event);
+                                                                mc_event->boost_mc(*mc_event->GetMcProtons()[i], *mc_event->GetMcPips()[j], *mc_event->GetMcPims()[k]);
 
-                                                        // // // ///// bin centering corr
-                                                        // _hists->Fill_hist1D_thrown_w_q2(mc_event);
-                                                        // _hists->Fill_hist1D_thrown_inv_mass(mc_event);
-                                                        // _hists->Fill_hist1D_thrown_theta(mc_event);
-                                                        // _hists->Fill_hist1D_thrown_alpha(mc_event);
+                                                                _hists->Fill_WvsQ2_twoPi_thrown(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_pim(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_prot(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_pip(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_pim_evt(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_prot_evt(mc_event);
+                                                                _hists->Fill_histSevenD_thrown_pip_evt(mc_event);
+                                                                //         // // // _hists->Fill_W_bin_check_th(mc_event);
+
+                                                                // // // ///// bin centering corr
+                                                                // _hists->Fill_hist1D_thrown_w_q2(mc_event);
+                                                                // _hists->Fill_hist1D_thrown_inv_mass(mc_event);
+                                                                // _hists->Fill_hist1D_thrown_theta(mc_event);
+                                                                // _hists->Fill_hist1D_thrown_alpha(mc_event);
+                                                        }
                                                 }
                                         }
                                 }
                         }
                 }
-                // }
                 ///////// This part is only for Rec events both mc and exp/////////////
                 ///////// This part is only for Rec events both mc and exp/////////////
                 ///////// This part is only for Rec events both mc and exp/////////////
@@ -493,7 +493,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                 event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
                                                                 entries_in_this_event++;
 
-                                                                if (entries_in_this_event == 1)
+                                                                // if (entries_in_this_event == 1)
                                                                 {
                                                                         _hists->Fill_MMSQ_mPim(event);
 
@@ -559,24 +559,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                                                         if ((cuts->IsProton(part)) && (cuts->IsPip(part)))
                                                                                                         {
+                                                                                                                // if (_mc)
+                                                                                                                // {
 
-                                                                                                                dp_prot1 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
-                                                                                                                            pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                //         dp_prot1 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
+                                                                                                                //                     pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                     pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
 
-                                                                                                                dp_pip1 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                //         dp_pip1 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
 
-                                                                                                                // std::cout << "dp_prot1 :  " << dp_prot1 << "   dp_pip1  " << dp_pip1 << std::endl;
+                                                                                                                //         // std::cout << "dp_prot1 :  " << dp_prot1 << "   dp_pip1  " << dp_pip1 << std::endl;
 
-                                                                                                                _hists->Fill_deltaP_ambi_all_prot(event, dp_prot1);
-                                                                                                                _hists->Fill_deltaP_ambi_all_pip(event, dp_pip1);
+                                                                                                                //         _hists->Fill_deltaP_ambi_all_prot(event, dp_prot1);
+                                                                                                                //         _hists->Fill_deltaP_ambi_all_pip(event, dp_pip1);
+                                                                                                                // }
                                                                                                                 // if ((dp_prot1 < 0.1) || (dp_pip1 < 0.1))
                                                                                                                 {
                                                                                                                         // if (dp_prot1 < dp_pip1)
                                                                                                                         {
-                                                                                                                                _hists->Fill_deltaP_ambi_prot(event, dp_prot1);
+                                                                                                                                // _hists->Fill_deltaP_ambi_prot(event, dp_prot1);
 
                                                                                                                                 event->SetProton(part);
                                                                                                                                 prot_idx++;
@@ -589,7 +592,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                                         }
                                                                                                                         // else
                                                                                                                         {
-                                                                                                                                _hists->Fill_deltaP_ambi_pip(event, dp_pip1);
+                                                                                                                                // _hists->Fill_deltaP_ambi_pip(event, dp_pip1);
                                                                                                                                 event->SetPip(part);
                                                                                                                                 pip_idx++;
                                                                                                                                 statusPip = abs(data->status(part));
@@ -603,16 +606,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         else if (cuts->IsProton(part))
                                                                                                         {
                                                                                                                 prot_idx++;
-                                                                                                                dp_prot2 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
-                                                                                                                            pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
-                                                                                                                dp_pip2 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                // if (_mc)
+                                                                                                                // {
+                                                                                                                //         dp_prot2 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) +
+                                                                                                                //                     pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                     pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                //         dp_pip2 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
 
-                                                                                                                _hists->Fill_deltaP_prot(event, dp_prot2);
-                                                                                                                _hists->Fill_deltaP_pip_for_prot(event, dp_pip2);
-
+                                                                                                                //         _hists->Fill_deltaP_prot(event, dp_prot2);
+                                                                                                                //         _hists->Fill_deltaP_pip_for_prot(event, dp_pip2);
+                                                                                                                // }
                                                                                                                 _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
                                                                                                                 // _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
                                                                                                         }
@@ -620,14 +625,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         else if (cuts->IsPip(part))
                                                                                                         {
                                                                                                                 pip_idx++;
-
-                                                                                                                dp_prot3 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) + pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                            pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
-                                                                                                                dp_pip3 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
-                                                                                                                           pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
-                                                                                                                _hists->Fill_deltaP_prot_for_pip(event, dp_prot3);
-                                                                                                                _hists->Fill_deltaP_pip(event, dp_pip3);
+                                                                                                                // if (_mc)
+                                                                                                                // {
+                                                                                                                //         dp_prot3 = (pow((mc_event->prot_momX_mc_gen() - data->px(part)), 2) + pow((mc_event->prot_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                     pow((mc_event->prot_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                //         dp_pip3 = (pow((mc_event->pip_momX_mc_gen() - data->px(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momY_mc_gen() - data->py(part)), 2) +
+                                                                                                                //                    pow((mc_event->pip_momZ_mc_gen() - data->pz(part)), 2));
+                                                                                                                //         _hists->Fill_deltaP_prot_for_pip(event, dp_prot3);
+                                                                                                                //         _hists->Fill_deltaP_pip(event, dp_pip3);
+                                                                                                                // }
 
                                                                                                                 _hists->Fill_deltat_pip_after_cut(data, dt, part, event);
                                                                                                                 // _hists->FillHists_pip_pid_with_cuts(data, event, part, *event->GetPips()[pip_idx]);
