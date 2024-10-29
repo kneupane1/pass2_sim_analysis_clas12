@@ -244,13 +244,13 @@ protected:
 
         ///////////////// This one need to switch for exp and sim data analysis ////////////////
         // 1. change          bool _mc = false; it is on constant.hpp file, so we can use it in required classes
-        //2. change clas12_analysis.cpp for QADB
-        //3. change clas12_analysis.hpp for QADB (run function, golden cut), also chain true
+        // 2. change clas12_analysis.cpp for QADB
+        // 3. change clas12_analysis.hpp for QADB (run function, golden cut), also chain true
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
-        Reaction(){};
+        Reaction() {};
         Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
         ~Reaction();
 
@@ -510,7 +510,7 @@ public:
 
         inline bool Fixed_MM_cut()
         {
-                //exp
+                // exp
                 return (Reaction::MM2_mPim() < 0.08 && Reaction::MM2_mPim() > -0.06);
         }
 
@@ -631,7 +631,7 @@ public:
 
         inline bool MM_cut_mc()
         {
-                //sim
+                // sim
                 return (MCReaction::MM2_mPim_mc() < 0.08 && MCReaction::MM2_mPim_mc() > -0.06);
         }
         void CalcMissMass_mc();

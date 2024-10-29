@@ -206,26 +206,25 @@ bool Pass2_Cuts::IsPim(int i)
 bool Pass2_Cuts::ElectronCuts()
 {
         bool cut = true;
-        cut &= (_data->gpart() > 0);
         if (!cut)
                 return false;
-
+        cut &= (_data->gpart() > 0);
         cut &= (_data->gpart() < 20);
-        //
-        cut &= (_data->charge(0) == NEGATIVE);
+        // // //
         cut &= (_data->pid(0) == ELECTRON);
+        cut &= (_data->charge(0) == NEGATIVE);
+        cut &= DC_z_vertex_cut();
         cut &= (_data->p(0) > 1.50);
-        // cut &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16)); // 3 sigma cut
+        // // cut &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16)); // 3 sigma cut
         cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
-        // cut &= (abs(_data->chi2pid(0)) < 3); ////////////// check it....... along with simulations
-        // cut &= CC_nphe_cut();
+        // // cut &= (abs(_data->chi2pid(0)) < 3); ////////////// check it....... along with simulations
+        // // cut &= CC_nphe_cut();
+        cut &= DC_fiducial_cut_XY(0, 0);
+        cut &= EC_sampling_fraction_cut();
         cut &= PCAL_minimum_energy();
         cut &= PCAL_fiducial_cut_HX_HY();
-        cut &= EC_sampling_fraction_cut();
-        // cut &= EC_inner_vs_EC_outer();
+        // // //cut &= EC_inner_vs_EC_outer();
         cut &= EC_hit_position_fiducial_cut_homogeneous();
-        cut &= DC_fiducial_cut_XY(0, 0);
-        cut &= DC_z_vertex_cut();
         return cut;
 }
 // bool Pass2_Cuts::HadronsCuts(int i)

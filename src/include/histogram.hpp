@@ -409,6 +409,8 @@ protected:
     TH2D_ptr prot_theta_measured_vs_mom[EFF_CONDITIONS_NUM_ALL];
 
     TH1D_ptr weight_hist;
+    TH1D_ptr pid_at_zero;
+    TH1D_ptr mc_pid_at_zero;
     TH1D_ptr inv_mass_pPip;
     TH1D_ptr inv_mass_pPim;
     TH1D_ptr inv_mass_pipPim;
@@ -718,7 +720,7 @@ public:
     void Fill_WvsQ2_Npip(const std::shared_ptr<Reaction> &_e);
     void Fill_WvsQ2_twoPi(const std::shared_ptr<Reaction> &_e);
     // void Fill_WvsQ2_twoPi(const std::shared_ptr<MCReaction>& _e);
-    void Fill_WvsQ2_twoPi_thrown(const std::shared_ptr<MCReaction> &_e);
+    void Fill_WvsQ2_twoPi_thrown(const std::shared_ptr<Branches12> &_d, const std::shared_ptr<MCReaction> &_e);
     void Write_WvsQ2();
 
     void Fill_W_vs_Q2_all_sec();

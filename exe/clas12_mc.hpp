@@ -116,11 +116,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 if (!elec)
                         continue;
                 // if (data->charge(0) == -1)
-                _hists->FillHists_electron_cuts(data, event);
+                // _hists->FillHists_electron_cuts(data, event);
                 auto cuts = std::make_shared<Pass2_Cuts>(data);
                 if (!cuts->ElectronCuts())
                         continue;
-                _hists->FillHists_electron_with_cuts(data, event);
+                // _hists->FillHists_electron_with_cuts(data, event);
 
                 auto dt = std::make_shared<Delta_T>(data);
                 // For each particle in the event
