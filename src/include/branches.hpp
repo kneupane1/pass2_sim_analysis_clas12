@@ -72,6 +72,11 @@ private:
   v_float _mc_vz;
   v_float _mc_vt;
 
+  v_int _gentoRec_mc_pid;
+  v_int _gentoRec_rec_pid;
+  v_int _rectoGen_mc_pid;
+  v_int _rectoGen_rec_pid;
+
   v_int _pid;
   v_float _p;
   v_float _p2;
@@ -493,10 +498,10 @@ private:
   TBranch *b_ft_hodo_radius;       //!
 
 public:
-  Branches12(){};
+  Branches12() {};
   Branches12(const std::shared_ptr<TChain> &tree);
   Branches12(const std::shared_ptr<TChain> &tree, bool mc);
-  ~Branches12(){};
+  ~Branches12() {};
   int GetEntry(long evnt) { return _tree->GetEntry(evnt); };
   bool mc();
   void mc_branches();
@@ -652,6 +657,12 @@ public:
   float mc_vy(int i);
   float mc_vz(int i);
   float mc_vt(int i);
+
+  int gentoRec_mc_pid(int i);
+  int gentoRec_rec_pid(int i);
+  int rectoGen_mc_pid(int i);
+  int rectoGen_rec_pid(int i);
+
   float cvt_x(int i);
   float cvt_y(int i);
   float cvt_z(int i);

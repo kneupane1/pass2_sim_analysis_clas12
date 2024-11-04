@@ -385,6 +385,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 for (int part = 1; part < data->gpart(); part++)
                 {
+
                         if (data->charge(part) != 0)
                         {
                                 dt->dt_calc(part);
@@ -465,83 +466,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         }
                 }
 
-                // // Set the proton and pip with the minimum dp_sum for further processing
-                if (best_proton_index != -1 && best_pip_index != -1)
+                // // // Set the proton and pip with the minimum dp_sum for further processing
+                // if (best_proton_index != -1 && best_pip_index != -1)
+                // {
+                //         event->SetProton(best_proton_index);
+                //         event->SetPip(best_pip_index);
+                // }
+
+                // Overlapped Loop over all combinations of protons and pions
+                for (const auto &[prot_index, dp_prot] : proton_dps)
                 {
-                        event->SetProton(best_proton_index);
-                        event->SetPip(best_pip_index);
+                        event->SetProton(prot_index); // for overlapped proton index
+                }
+                for (const auto &[pip_index, dp_pip] : pip_dps)
+                {
+                        event->SetPip(pip_index); // for overlapped pip index
                 }
 
-                // // Overlapped Loop over all combinations of protons and pions
-                // for (const auto &[prot_index, dp_prot] : proton_dps)
-                // {
-                //         if (prot_index != best_proton_index)
-                //                 event->SetProton(prot_index); // for overlapped proton index
-                // }
-                // for (const auto &[pip_index, dp_pip] : pip_dps)
-                // {
-                //         if (pip_index != best_pip_index)
-                //                 event->SetPip(pip_index); // for overlapped pip index
-                // }
-
-                // for (int part = 1; part < data->gpart(); part++)
-                // {
-                //         if (cuts->IsProton(part))
-                //         {
-                //                 if (part != best_proton_index)
-                //                         event->SetProton(part);
-                //         }
-                //         if (cuts->IsPip(part))
-                //         {
-                //                 if (part != best_pip_index)
-                //                         event->SetPip(part);
-                //         }
-                // }
-                // // Overlapped Loop over all combinations of protons and pions
-                // for (const auto &[prot_index, dp_prot] : proton_dps)
-                // {
-                //         for (const auto &[pip_index, dp_pip] : pip_dps)
-                //         {
-                //                 if (prot_index != best_proton_index || pip_index != best_pip_index)
-                //                 {
-                //                         event->SetProton(prot_index);
-                //                         event->SetPip(pip_index);
-                //                 }
-                //         }
-                // }
-
-                // // // Now store all pairs except the minimum in non_minimum_pairs
-                // for (const auto &[prot_index, dp_prot] : proton_dps)
-                // {
-                //         for (const auto &[pip_index, dp_pip] : pip_dps)
-
-                //         {
-                //                 if (prot_index != best_proton_index && pip_index != best_pip_index) // Corrected condition
-                //                 // if (prot_index != best_proton_index || pip_index != best_pip_index)
-                //                 {
-                //                         non_minimum_pairs.emplace_back(prot_index, pip_index);
-                //                 }
-                //         }
-                // }
-
-                // // // Print or process the non-minimum pairs
-                // for (const auto &[prot_index, pip_index] : non_minimum_pairs)
-                // {
-                //         event->SetProton(prot_index); // Set each non-minimum proton index
-                //         event->SetPip(pip_index);     // Set each non-minimum pip index
-                // }
                 // // Clear the vectors after each event to avoid duplicate entries in the next event
                 proton_dps.clear();
                 pip_dps.clear();
                 // non_minimum_pairs.clear(); // Clear this as well to reset for the next event
-
-                // // Calculate and print the number of combinations
-                // int num_combinations = prot * pip;
-                // std::cout << "Event Summary:" << std::endl;
-                // std::cout << "Number of protons: " << prot << "  event->GetProtons().size() " << event->GetProtons().size() << std::endl;
-                // std::cout << "Number of pips: " << pip << "   event->GetPips().size()  " << event->GetPips().size() << std::endl;
-                // std::cout << "Total proton-pip combinations: " << num_combinations << std::endl;
-                // // Check the reaction class what kind of event it is and fill the appropriate histograms
 
                 if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95)
                 {
@@ -596,29 +541,21 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         ////////////  CONTROL OVER HAOW MANY Prot/Pip PER EVENT /////////
 
                                         // if (num_protons > 1 || num_pips > 1)
+                                        // {
+                                        for (size_t i = 0; i < num_protons; ++i)
                                         {
-                                                for (size_t i = 0; i < num_protons; ++i)
+                                                for (size_t j = 0; j < num_pips; ++j)
                                                 {
-                                                        for (size_t j = 0; j < num_pips; ++j)
+
+                                                        int num_protons = event->GetProtons().size();
+                                                        int num_pips = event->GetPips().size();
+
+                                                        // Exclude the case where the same particle is assigned as both proton and pip
+                                                        if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
                                                         {
-                                                                if (event->GetProtonIndices()[i] == event->GetPipIndices()[j])
-                                                                        no_prot_pip++;
-
-                                                                // // // Print//////////////////////////////////////
-                                                                // std::cout << "Event " << current_event << ": "
-                                                                //           << num_protons << " proton(s), "
-                                                                //           << num_pips << " pip(s), "
-                                                                //           << num_combinations << " combination(s)." << std::endl;
-
-                                                                // if (both_prot_pip >= 1)
-                                                                // Access the i-th proton and j-th pip
-
-                                                                int num_protons = event->GetProtons().size();
-                                                                int num_pips = event->GetPips().size();
-
-                                                                // Exclude the case where the same particle is assigned as both proton and pip
-                                                                if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
+                                                                if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                 {
+
                                                                         two_pion_mPim_events++;
                                                                         entries_in_this_event++;
 
