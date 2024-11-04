@@ -53,84 +53,84 @@ void Reaction::SetElec()
 {
         _numPart++;
         _hasE = true;
-        _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-        ////////_elec->SetPxPyPzE(_data->px(0), _data->py(0), _data->pz(0), sqrt(_data->px(0) * _data->px(0) + _data->py(0) * _data->py(0) + _data->pz(0) * _data->pz(0) + MASS_E * MASS_E));
+        // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+        // ////////_elec->SetPxPyPzE(_data->px(0), _data->py(0), _data->pz(0), sqrt(_data->px(0) * _data->px(0) + _data->py(0) * _data->py(0) + _data->pz(0) * _data->pz(0) + MASS_E * MASS_E));
 
-        *_gamma += *_beam - *_elec;
-        // // // // Can calculate W and Q2 here
-        _W = physics::W_calc(*_beam, *_elec);
-        _Q2 = physics::Q2_calc(*_beam, *_elec);
-        // _mom_corr_elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
-        // // // //
-        // // // // // //////////////////////////////////////////////////////////////
-        // // // //////////////////////////////////////////////////////////////
+        // *_gamma += *_beam - *_elec;
+        // // // // // Can calculate W and Q2 here
+        // _W = physics::W_calc(*_beam, *_elec);
+        // _Q2 = physics::Q2_calc(*_beam, *_elec);
+        // // _mom_corr_elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
+        // // // // //
+        // // // // // // //////////////////////////////////////////////////////////////
+        // // // // //////////////////////////////////////////////////////////////
         _sectorElec = _data->dc_sec(0);
         _elec_status = abs(_data->status(0));
 
-        /* if (_mc)
-         {
+        if (_mc)
+        {
 
-                 _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+                _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
 
-                 double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
+                double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
 
-                 pUnSmear = _elecUnSmear->P();
+                pUnSmear = _elecUnSmear->P();
 
-                 thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
+                thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
 
-                 if (_elecUnSmear->Phi() > 0)
-                         phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
-                 else if (_elecUnSmear->Phi() < 0)
-                         phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
+                if (_elecUnSmear->Phi() > 0)
+                        phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
+                else if (_elecUnSmear->Phi() < 0)
+                        phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
 
-                 ////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////
 
-                 // Generate new values
-                 Reaction::SmearingFunc(ELECTRON, _elec_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+                // Generate new values
+                Reaction::SmearingFunc(ELECTRON, _elec_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
-                 _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-                 _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-                 _pzPrimeSmear =
-                     _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+                _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                                sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+                _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                                sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+                _pzPrimeSmear =
+                    _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
 
-                 // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-                 _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E); // smeared
-                 // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // unsmeared
+                // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+                _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E); // smeared
+                // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // unsmeared
 
-                 *_gamma += *_beam - *_elec; // be careful you are commenting this only to include the momentum correction
+                *_gamma += *_beam - *_elec; // be careful you are commenting this only to include the momentum correction
 
-                 // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-                 _W = physics::W_calc(*_beam, *_elec);
-                 _Q2 = physics::Q2_calc(*_beam, *_elec);
+                // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+                _W = physics::W_calc(*_beam, *_elec);
+                _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-                 _elec_mom = _elec->P();
-                 _E_elec = _elec->E();
-                 _theta_e = _elec->Theta() * 180 / PI;
+                _elec_mom = _elec->P();
+                _E_elec = _elec->E();
+                _theta_e = _elec->Theta() * 180 / PI;
 
-                 // if (_elec->Phi() > 0)
-                 //         _phi_elec = _elec->Phi() * 180 / PI;
-                 // else if (_elec->Phi() < 0)
-                 //         _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
-         }
-         else
-         {
-                 fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-                 _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                                MASS_E); // this is new electron mom corrections aug 2022
-                 // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                 //                MASS_E); // elec and mom corr elec are SAME !!!!!
-                 // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
+                // if (_elec->Phi() > 0)
+                //         _phi_elec = _elec->Phi() * 180 / PI;
+                // else if (_elec->Phi() < 0)
+                //         _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
+        }
+        else
+        {
+                fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+                _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+                               MASS_E); // this is new electron mom corrections aug 2022
+                // _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+                //                MASS_E); // elec and mom corr elec are SAME !!!!!
+                // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E); // unsmeared
 
-                 *_gamma += *_beam - *_elec;
-                 _W = physics::W_calc(*_beam, *_elec);
-                 _Q2 = physics::Q2_calc(*_beam, *_elec);
+                *_gamma += *_beam - *_elec;
+                _W = physics::W_calc(*_beam, *_elec);
+                _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-                 _P_elec = _elec->P();
-                 _E_elec = _elec->E();
-                 _theta_e = _elec->Theta() * 180 / PI;
-         }*/
+                _P_elec = _elec->P();
+                _E_elec = _elec->E();
+                _theta_e = _elec->Theta() * 180 / PI;
+        }
 }
 // // // ///////////////////////////// MOM CORR /////////////////////////////////
 // // //////////////////////////////// MOM CORR //////////////////////////////
