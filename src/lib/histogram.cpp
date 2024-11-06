@@ -250,6 +250,11 @@ Histogram::Histogram(const std::string &output_file)
         entries_in_each_event = std::make_shared<TH1D>("Entries_per_event", "No of entries per event", 20, -1, 10);
         entries_prot = std::make_shared<TH1D>("protons_per_event", "No of prot per event", 20, -1, 10);
         entries_pip = std::make_shared<TH1D>("pips_per_event", "No of pip per event", 20, -1, 10);
+        MM2_mPim_all_comb = std::make_shared<TH1D>("MMSQ_all_Combination", "MMSQ all Combination", bins, -0.4, 0.4);
+        MM2_mPim_1_comb = std::make_shared<TH1D>("MMSQ_1_Combination", "MMSQ 1 Combination", bins, -0.4, 0.4);
+        MM2_mPim_2_comb = std::make_shared<TH1D>("MMSQ_2_Combination", "MMSQ 2 Combination", bins, -0.4, 0.4);
+        MM2_mPim_3_comb = std::make_shared<TH1D>("MMSQ_3_Combination", "MMSQ 3 Combination", bins, -0.4, 0.4);
+        MM2_mPim_4_or_more_comb = std::make_shared<TH1D>("MMSQ_4_or_more_Combination", "MMSQ 4 or more Combination", bins, -0.4, 0.4);
 
         // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
         // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
@@ -347,9 +352,9 @@ Histogram::Histogram(const std::string &output_file)
         MM_twoPi_excl = std::make_shared<TH1D>("MM_excl", "MM excl", bins,
                                                -0.25, 0.25);
         MM_twoPi_mPim = std::make_shared<TH1D>("MM_e#pi^{+}pX", "MM: expecting #pi^{-}", bins,
-                                               -0.4, 0.6);
+                                               -0.4, 0.4);
         MM2_twoPi_mPim = std::make_shared<TH1D>("MMSQ_e#pi^{+}pX", "MMSQ: expecting #pi^{-}", bins,
-                                                -0.4, 0.6);
+                                                -0.4, 0.4);
         MM2_twoPi_missingPip = std::make_shared<TH1D>(
             "e#pi^{-}pX", "MMSQ: expecting #pi^{+}", bins, -0.4, 0.6);
 
@@ -3119,6 +3124,29 @@ void Histogram::Fill_Entries_pip(int num_entries)
 {
         entries_pip->Fill(num_entries);
 }
+
+void Histogram::Fill_all_Combi(const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_all_comb->Fill(_e->MM2_mPim(), _e->weight());
+}
+void Histogram::Fill_1_Combi(const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_1_comb->Fill(_e->MM2_mPim(), _e->weight());
+}
+void Histogram::Fill_2_Combi(const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_2_comb->Fill(_e->MM2_mPim(), _e->weight());
+}
+void Histogram::Fill_3_Combi(const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_3_comb->Fill(_e->MM2_mPim(), _e->weight());
+}
+
+void Histogram::Fill_4_or_more_Combi(const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_4_or_more_comb->Fill(_e->MM2_mPim(), _e->weight());
+}
+
 void Histogram::Write_deltaP()
 {
         dp_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
@@ -3148,4 +3176,15 @@ void Histogram::Write_deltaP()
         entries_in_each_event->Write();
         entries_prot->Write();
         entries_pip->Write();
+
+        MM2_mPim_all_comb->SetXTitle("MMSQ (GeV^2)");
+        MM2_mPim_all_comb->Write();
+        MM2_mPim_1_comb->SetXTitle("MMSQ (GeV^2)");
+        MM2_mPim_1_comb->Write();
+        MM2_mPim_2_comb->SetXTitle("MMSQ (GeV^2)");
+        MM2_mPim_2_comb->Write();
+        MM2_mPim_3_comb->SetXTitle("MMSQ (GeV^2)");
+        MM2_mPim_3_comb->Write();
+        MM2_mPim_4_or_more_comb->SetXTitle("MMSQ (GeV^2)");
+        MM2_mPim_4_or_more_comb->Write();
 };

@@ -436,6 +436,11 @@ protected:
     TH1D_ptr entries_in_each_event;
     TH1D_ptr entries_prot;
     TH1D_ptr entries_pip;
+    TH1D_ptr MM2_mPim_all_comb;
+    TH1D_ptr MM2_mPim_1_comb;
+    TH1D_ptr MM2_mPim_2_comb;
+    TH1D_ptr MM2_mPim_3_comb;
+    TH1D_ptr MM2_mPim_4_or_more_comb;
 
     TH1D_ptr p_gen_prot_hist;
     TH1D_ptr p_gen_pip_hist;
@@ -789,6 +794,11 @@ public:
     void Fill_Entries(int num_entries);
     void Fill_Entries_prot(int num_entries);
     void Fill_Entries_pip(int num_entries);
+    void Fill_all_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_1_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_2_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_3_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_4_or_more_Combi(const std::shared_ptr<Reaction> &_e);
 
     ///////////////
 
