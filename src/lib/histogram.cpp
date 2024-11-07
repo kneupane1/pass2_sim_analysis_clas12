@@ -582,6 +582,26 @@ void Histogram::Write()
         MMSQ_mPim_folder->cd();
         writeMMSQ_mPim();
 
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
+        MMSQ_mPim_folder_1_combi->cd();
+        writeMMSQ_mPim_1_comb();
+
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
+        MMSQ_mPim_folder_2_combi->cd();
+        writeMMSQ_mPim_2_comb();
+
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
+        MMSQ_mPim_folder_3_combi->cd();
+        writeMMSQ_mPim_3_comb();
+
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
+        MMSQ_mPim_folder_4_or_more_combi->cd();
+        writeMMSQ_mPim_4_or_more_comb();
+
         std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
         TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
         Write_deltaP_folder->cd();
@@ -608,10 +628,22 @@ void Histogram::makeHistMMSQ_mPim()
 
                         auto name_mmsq = Form("MMSQ_mPim_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
                         auto name_mmsq_cut = Form("MMSQ_mPim_w_cut_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_mmsq1 = Form("MMSQ_mPim1_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_mmsq2 = Form("MMSQ_mPim2_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_mmsq3 = Form("MMSQ_mPim3_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_mmsq4 = Form("MMSQ_mPim4_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
 
                         MMSQ_mPim_hist[q2][w] = std::make_shared<TH1D>(name_mmsq, name_mmsq, 200, -0.3, 0.3);
                         // std::cout << "   bins  =  " << bins << std::endl;
                         // MMSQ_mPim_hist_with_cut[q2][w] = std::make_shared<TH1D>(name_mmsq_cut, name_mmsq_cut, bins, -0.2, 0.2);
+
+                        MMSQ_mPim_hist_1_comb[q2][w] = std::make_shared<TH1D>(name_mmsq1, name_mmsq1, 200, -0.3, 0.3);
+
+                        MMSQ_mPim_hist_2_comb[q2][w] = std::make_shared<TH1D>(name_mmsq2, name_mmsq2, 200, -0.3, 0.3);
+
+                        MMSQ_mPim_hist_3_comb[q2][w] = std::make_shared<TH1D>(name_mmsq3, name_mmsq3, 200, -0.3, 0.3);
+
+                        MMSQ_mPim_hist_4_or_more_comb[q2][w] = std::make_shared<TH1D>(name_mmsq4, name_mmsq4, 200, -0.3, 0.3);
                 }
         }
 }
@@ -643,6 +675,92 @@ void Histogram::writeMMSQ_mPim()
         }
 }
 
+void Histogram::Fill_MMSQ_mPim_1_comb(const std::shared_ptr<Reaction> &_e)
+{
+        if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+        {
+                MMSQ_mPim_hist_1_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+        }
+}
+
+void Histogram::writeMMSQ_mPim_1_comb()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = 0; w < 15; w++)
+                {
+                        MMSQ_mPim_hist_1_comb[q2][w]->SetXTitle("MMSQ(GeV2/c2)");
+                        if (MMSQ_mPim_hist_1_comb[q2][w]->GetEntries())
+                                MMSQ_mPim_hist_1_comb[q2][w]->Write();
+                }
+        }
+}
+
+void Histogram::Fill_MMSQ_mPim_2_comb(const std::shared_ptr<Reaction> &_e)
+{
+        if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+        {
+                MMSQ_mPim_hist_2_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+        }
+}
+
+void Histogram::writeMMSQ_mPim_2_comb()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+
+                for (size_t w = 0; w < 15; w++)
+                {
+                        MMSQ_mPim_hist_2_comb[q2][w]->SetXTitle("MMSQ(GeV2/c2)");
+                        if (MMSQ_mPim_hist_2_comb[q2][w]->GetEntries())
+                                MMSQ_mPim_hist_2_comb[q2][w]->Write();
+                }
+        }
+}
+
+void Histogram::Fill_MMSQ_mPim_3_comb(const std::shared_ptr<Reaction> &_e)
+{
+        if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+        {
+                MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+        }
+}
+
+void Histogram::writeMMSQ_mPim_3_comb()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+
+                for (size_t w = 0; w < 15; w++)
+                {
+                        MMSQ_mPim_hist_3_comb[q2][w]->SetXTitle("MMSQ(GeV2/c2)");
+                        if (MMSQ_mPim_hist_3_comb[q2][w]->GetEntries())
+                                MMSQ_mPim_hist_3_comb[q2][w]->Write();
+                }
+        }
+}
+
+void Histogram::Fill_MMSQ_mPim_4_or_more_comb(const std::shared_ptr<Reaction> &_e)
+{
+        if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+        {
+                MMSQ_mPim_hist_4_or_more_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+        }
+}
+
+void Histogram::writeMMSQ_mPim_4_or_more_comb()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+
+                for (size_t w = 0; w < 15; w++)
+                {
+                        MMSQ_mPim_hist_4_or_more_comb[q2][w]->SetXTitle("MMSQ(GeV2/c2)");
+                        if (MMSQ_mPim_hist_4_or_more_comb[q2][w]->GetEntries())
+                                MMSQ_mPim_hist_4_or_more_comb[q2][w]->Write();
+                }
+        }
+}
 ////// //////////////////////// This section is for THNSPARSE and related ////////////////////////////////
 ////// //////////////////////// This section is for THNSPARSE and related ////////////////////////////////
 ////// //////////////////////// This section is for THNSPARSE and related ////////////////////////////////

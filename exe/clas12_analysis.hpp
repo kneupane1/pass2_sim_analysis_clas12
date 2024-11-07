@@ -177,6 +177,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 }
                         }
                 }
+
                 // }
                 ///////// This part is only for Rec events both mc and exp/////////////
                 ///////// This part is only for Rec events both mc and exp/////////////
@@ -360,13 +361,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 //         }
                 // }
 
+                // // ///////////////////////////////////////  For  dp cut method ////////////////////
                 // ///////////////////////////////////////  For  dp cut method ////////////////////
+                ///////////////////////////////////////  For  dp cut method ////////////////////
+                ///////////////////////////////////////  For  dp cut method ////////////////////
                 // ///////////////////////////////////////  For  dp cut method ////////////////////
-                ///////////////////////////////////////  For  dp cut method ////////////////////
-                ///////////////////////////////////////  For  dp cut method ////////////////////
-                ///////////////////////////////////////  For  dp cut method ////////////////////
 
-                // Define vectors to store dp values and indices for protons and pions
+                // // Define vectors to store dp values and indices for protons and pions
                 std::vector<std::pair<int, double>> proton_dps; // Pair of (index, dp_prot)
                 std::vector<std::pair<int, double>> pip_dps;    // Pair of (index, dp_pip)
 
@@ -453,27 +454,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         }
                 }
 
-                // // // Set the proton and pip with the minimum dp_sum for further processing
-                if (best_proton_index != -1 && best_pip_index != -1)
+                // // // // Set the proton and pip with the minimum dp_sum for further processing
+                // if (best_proton_index != -1 && best_pip_index != -1)
+                // {
+                //         event->SetProton(best_proton_index);
+                //         event->SetPip(best_pip_index);
+                // }
+
+                // Overlapped Loop over all combinations of protons and pions
+                for (const auto &[prot_index, dp_prot] : proton_dps)
                 {
-                        event->SetProton(best_proton_index);
-                        event->SetPip(best_pip_index);
+                        event->SetProton(prot_index); // for overlapped proton index
+                }
+                for (const auto &[pip_index, dp_pip] : pip_dps)
+                {
+                        event->SetPip(pip_index); // for overlapped pip index
                 }
 
-                // // Overlapped Loop over all combinations of protons and pions
-                // for (const auto &[prot_index, dp_prot] : proton_dps)
-                // {
-                //         event->SetProton(prot_index); // for overlapped proton index
-                // }
-                // for (const auto &[pip_index, dp_pip] : pip_dps)
-                // {
-                //         event->SetPip(pip_index); // for overlapped pip index
-                // }
-
-                // // // Clear the vectors after each event to avoid duplicate entries in the next event
-                // proton_dps.clear();
-                // pip_dps.clear();
-                // // non_minimum_pairs.clear(); // Clear this as well to reset for the next event
+                // // Clear the vectors after each event to avoid duplicate entries in the next event
+                proton_dps.clear();
+                pip_dps.clear();
+                // non_minimum_pairs.clear(); // Clear this as well to reset for the next event
 
                 if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95)
                 {
@@ -563,26 +564,29 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         // if (entries_in_this_event >1)
                                                                         {
                                                                                 _hists->Fill_all_Combi(event);
+                                                                                _hists->Fill_MMSQ_mPim(event);
 
                                                                                 // Fill the appropriate histogram based on num_combinations
                                                                                 if (num_combinations == 1)
                                                                                 {
                                                                                         _hists->Fill_1_Combi(event);
+                                                                                        _hists->Fill_MMSQ_mPim_1_comb(event);
                                                                                 }
                                                                                 if (num_combinations == 2)
                                                                                 {
                                                                                         _hists->Fill_2_Combi(event);
+                                                                                        _hists->Fill_MMSQ_mPim_2_comb(event);
                                                                                 }
                                                                                 if (num_combinations == 3)
                                                                                 {
                                                                                         _hists->Fill_3_Combi(event);
+                                                                                        _hists->Fill_MMSQ_mPim_3_comb(event);
                                                                                 }
                                                                                 if (num_combinations >= 4)
                                                                                 {
                                                                                         _hists->Fill_4_or_more_Combi(event);
+                                                                                        _hists->Fill_MMSQ_mPim_4_or_more_comb(event);
                                                                                 }
-
-                                                                                _hists->Fill_MMSQ_mPim(event);
 
                                                                                 // if (event->Fixed_MM_cut())
                                                                                 // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
