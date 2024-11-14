@@ -86,7 +86,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         int events_with_non_zero_wt = 0, events_with_zero_wt = 0, events_passes_w_q2_cuts = 0;
 
         for (size_t current_event = 0; current_event < num_of_events; current_event++)
-        // for (size_t current_event = 13; current_event < 14; current_event++)
+        // for (size_t current_event = 1; current_event < 1000; current_event++)
         {
                 prot = 0;
                 pip = 0;
@@ -454,14 +454,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         }
                 }
 
-                // // // // Set the proton and pip with the minimum dp_sum for further processing
+                // // // // // Set the proton and pip with the minimum dp_sum for further processing
                 // if (best_proton_index != -1 && best_pip_index != -1)
                 // {
                 //         event->SetProton(best_proton_index);
                 //         event->SetPip(best_pip_index);
                 // }
 
-                // Overlapped Loop over all combinations of protons and pions
+                // // Overlapped Loop over all combinations of protons and pions
                 for (const auto &[prot_index, dp_prot] : proton_dps)
                 {
                         event->SetProton(prot_index); // for overlapped proton index
@@ -469,6 +469,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 for (const auto &[pip_index, dp_pip] : pip_dps)
                 {
                         event->SetPip(pip_index); // for overlapped pip index
+                        // std::cout << "   initial  pip_index  " << pip_index << std::endl;
                 }
 
                 // // Clear the vectors after each event to avoid duplicate entries in the next event
@@ -562,6 +563,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                         ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                         // if (entries_in_this_event >1)
+                                                                        // if (event->MM2_mPim() < -0.1)
+                                                                        // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                         {
                                                                                 _hists->Fill_all_Combi(event);
                                                                                 _hists->Fill_MMSQ_mPim(event);
@@ -631,6 +634,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         // }
 
                                                                                         int pip_part_idx = event->GetPipIndices()[j];
+                                                                                        // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
                                                                                         dt_pip->dt_calc(pip_part_idx);
                                                                                         _hists->Fill_MomVsBeta(data, pip_part_idx, event);
                                                                                         _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);

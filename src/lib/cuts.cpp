@@ -84,12 +84,17 @@ bool Pass2_Cuts::IsPip(int i)
         bool _pip = true;
         _pip &= (_data->charge(i) == POSITIVE);
         // _pip &= (_data->pid(i) == PIP);
-        // _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
+        _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
         _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
-        // // min/max mom cuts
+        // // // // // min/max mom cuts
         if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000)
+        // {
+        // if (!(_dt->isCtof()))
         {
+                // if (!std::isnan(_dt->dt_Pi(i)))
+                // std::cout << "  particle status at cut level :  " << _data->status(i) << "   dt pi at ftof  " << _dt->dt_Pi(i) << std::endl;
+
                 _pip &= (_data->p(i) > 0.5);
                 // _pip &= (_data->p(i) < 4.6);
                 _pip &= (_dt->dt_Pi(i) < (dt_cut_fd_up[is_mc][1][0] * pow(_data->p(i), 5) + dt_cut_fd_up[is_mc][1][1] * pow(_data->p(i), 4) +
@@ -101,8 +106,12 @@ bool Pass2_Cuts::IsPip(int i)
 
                 _pip &= DC_fiducial_cut_XY(i, 2);
         }
+        // }
         else if (abs(_data->status(i)) >= 4000)
+        // else if ((_dt->isCtof()))
         {
+                // std::cout << "   dt pi at ctof  " << _dt->dt_Pi(i) << std::endl;
+
                 _pip &= (_data->p(i) > 0.2);
                 // _pip &= (_data->p(i) < 1.7);
                 _pip &= (_dt->dt_Pi(i) < (dt_cut_cd_up[is_mc][1][0] * pow(_data->p(i), 2) + dt_cut_cd_up[is_mc][1][1] * _data->p(i) + dt_cut_cd_up[is_mc][1][2]));
@@ -126,12 +135,16 @@ bool Pass2_Cuts::IsProton(int i)
         bool _proton = true;
         _proton &= (_data->charge(i) == POSITIVE);
         // _proton &= (_data->pid(i) == PROTON);
-        // // _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
+        // _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
         // // // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
         _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-        // // // min/max mom cuts
+        // // // // // min/max mom cuts
         if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000)
+        // {
+        // if (!(_dt->isCtof()))
         {
+                // std::cout << "  particle status at cut level :  " << _data->status(i) << "   dt prot at ftof  " << _dt->dt_P(i) << std::endl;
+
                 _proton &= (_data->p(i) > 0.4);
                 // _proton &= (_data->p(i) < 4.5);
                 _proton &= (_dt->dt_P(i) < (dt_cut_fd_up[is_mc][0][0] * pow(_data->p(i), 5) + dt_cut_fd_up[is_mc][0][1] * pow(_data->p(i), 4) +
@@ -144,8 +157,12 @@ bool Pass2_Cuts::IsProton(int i)
 
                 _proton &= DC_fiducial_cut_XY(i, 1);
         }
+        // }
         else if (abs(_data->status(i)) >= 4000)
+        // else if ((_dt->isCtof()))
         {
+                // std::cout << "   dt prot at ctof  " << _dt->dt_P(i) << std::endl;
+
                 _proton &= (_data->p(i) > 0.2); /// this 0.4 look harse when we do missing Pim channel
                 // _proton &= (_data->p(i) < 2.0);
                 _proton &= (_dt->dt_P(i) < (dt_cut_cd_up[is_mc][0][0] * pow(_data->p(i), 2) + dt_cut_cd_up[is_mc][0][1] * _data->p(i) + dt_cut_cd_up[is_mc][0][2]));
@@ -189,6 +206,7 @@ bool Pass2_Cuts::IsPim(int i)
         }
         else if (abs(_data->status(i)) >= 4000)
         {
+
                 _pim &= (_data->p(i) > 0.2);
                 // _pim &= (_data->p(i) < 1.9);
                 _pim &= (_dt->dt_Pi(i) < (dt_cut_cd_up[is_mc][2][0] * pow(_data->p(i), 2) + dt_cut_cd_up[is_mc][2][1] * _data->p(i) + dt_cut_cd_up[is_mc][2][2]));

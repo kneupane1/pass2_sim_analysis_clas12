@@ -5,8 +5,9 @@
 #include <iostream>
 #include "branches.hpp"
 
-class Delta_T {
- private:
+class Delta_T
+{
+private:
   std::shared_ptr<Branches12> _data;
   float _sc_t_v = NAN;
   float _sc_r_v = NAN;
@@ -31,12 +32,13 @@ class Delta_T {
   float _deltat(int num);
   float _ctof_deltat(int pid);
 
- public:
+public:
   Delta_T(std::shared_ptr<Branches12> data);
   ~Delta_T();
 
   void dt_calc(int i);
   void dt_calc_ctof(int i);
+  bool isCtof() const { return _ctof; } // test if it is ctof
 
   float dt_E(int i);
   float dt_P(int i);
@@ -59,7 +61,6 @@ class Delta_T {
   float dt_ctof(int pid);
 
   float momentum();
-  bool ctof();
   bool ctof_particle(int i);
 };
 

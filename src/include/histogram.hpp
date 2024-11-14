@@ -39,8 +39,10 @@ protected:
     double p_max = 6.0;
     double Dt_max = 10.0;
     double Dt_min = -Dt_max;
-    double q2_max = 12.0;
-    double w_max = 2.5;
+    double q2_min = -1.0;
+    double q2_max = 15.0;
+
+    double w_max = 5.5;
     double w_min = 1.0;
 
     double zero = 0.0;
@@ -196,34 +198,6 @@ protected:
           {0.026609, -0.131058, 0.076402}}}
 
     };
-    bool MM_cut(float w, float q2, float mm2)
-    {
-        int is_mc = 0;
-        if (_mc)
-        {
-            is_mc = 1;
-        }
-        for (int i = 1; i < q2_bins.size(); ++i)
-        {
-            if (q2 < q2_bins[i])
-            {
-                q2_bin_val = i;
-                break;
-            }
-        }
-
-        if ((mm2 < (mmsq_cuts[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][0][2])) &&
-            (mm2 > (mmsq_cuts[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][1][2])))
-
-        {
-            // std::cout << "   w  = " << w << "  q2 = " << q2 << "  mm2 = " << mm2 << "  up lim mm2 is =  "
-            //           << (mmsq_cuts[q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[q2_bin_val - 1][0][2] * pow(w, 1) + mmsq_cuts[q2_bin_val - 1][0][2])
-            //           << "  q2_bin_val = " << q2_bin_val << "   params  " << mmsq_cuts[q2_bin_val - 1][0][0] << " , " << mmsq_cuts[q2_bin_val - 1][0][1] << std::endl;
-            return true;
-        }
-        else
-            return false;
-    }
 
     //////////////////////////////////////////////////
     int inv_mass_binning(float inv_mass, float inv_pPip_llim, float bin_size_inv)
@@ -660,6 +634,35 @@ protected:
 public:
     Histogram(const std::string &output_file);
     ~Histogram();
+
+    bool MM_cut(float w, float q2, float mm2)
+    {
+        int is_mc = 0;
+        if (_mc)
+        {
+            is_mc = 1;
+        }
+        for (int i = 1; i < q2_bins.size(); ++i)
+        {
+            if (q2 < q2_bins[i])
+            {
+                q2_bin_val = i;
+                break;
+            }
+        }
+
+        if ((mm2 < (mmsq_cuts[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][0][2])) &&
+            (mm2 > (mmsq_cuts[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][1][2])))
+
+        {
+            // std::cout << "   w  = " << w << "  q2 = " << q2 << "  mm2 = " << mm2 << "  up lim mm2 is =  "
+            //           << (mmsq_cuts[q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[q2_bin_val - 1][0][2] * pow(w, 1) + mmsq_cuts[q2_bin_val - 1][0][2])
+            //           << "  q2_bin_val = " << q2_bin_val << "   params  " << mmsq_cuts[q2_bin_val - 1][0][0] << " , " << mmsq_cuts[q2_bin_val - 1][0][1] << std::endl;
+            return true;
+        }
+        else
+            return false;
+    }
 
     void populate_eff_check_mPim(const std::shared_ptr<Reaction> &_e, double min_w, double max_w, double min_theta, double max_theta, double min_phi, double max_phi, short index_w, short index_theta, short index_phi);
     // void populate_eff_check_exclusive(const std::shared_ptr<Reaction> &_e, double min, double max, short index_w);

@@ -270,24 +270,24 @@ Histogram::Histogram(const std::string &output_file)
         // p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
         // p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
 
-        W_hist = std::make_shared<TH1D>("W", "W", bins, 0, 5);
+        W_hist = std::make_shared<TH1D>("W", "W", bins, 0, w_max);
 
         // Theta_vs_mom_x_mu = std::make_shared<TH2D>("theta_vs_mom_x_mu_all_sec",
         // "theta_vs_mom_x_mu_all_sec", bins, zero,
         //                                            p_max, bins, zero, 120);
 
-        W_P2pi_hist = std::make_shared<TH1D>("W_P2pi", "W_P2pi", bins, zero, 5);
+        W_P2pi_hist = std::make_shared<TH1D>("W_P2pi", "W_P2pi", bins, zero, w_max);
 
         Q2_hist = std::make_shared<TH1D>("Q2", "Q2", bins, zero, q2_max);
-        W_vs_q2 = std::make_shared<TH2D>("W_vs_q2", "W_vs_q2", bins, w_min, 5,
-                                         bins, zero, q2_max);
+        W_vs_q2 = std::make_shared<TH2D>("W_vs_q2", "W_vs_q2", bins, w_min, w_max,
+                                         bins, q2_min, q2_max);
 
         W_thrown = std::make_shared<TH1D>("W_thrown", "W_thrown", bins, w_min, w_max);
-        Q2_thrown = std::make_shared<TH1D>("Q2_thrown", "Q2_thrown", bins, zero, q2_max);
+        Q2_thrown = std::make_shared<TH1D>("Q2_thrown", "Q2_thrown", bins, q2_min, q2_max);
 
         W_vs_Q2_thrown =
             std::make_shared<TH2D>("W_vs_q2_thrown", "W_vs_q2_thrown", bins, w_min,
-                                   w_max, bins, zero, q2_max);
+                                   w_max, bins, q2_min, q2_max);
         W_vs_MM =
             std::make_shared<TH2D>("W_vs_MM", "W vs MM mPim", bins, w_min,
                                    w_max, bins, -1, 2.5);
@@ -365,9 +365,9 @@ Histogram::Histogram(const std::string &output_file)
         Q2_hist_twoPi =
             std::make_shared<TH1D>("Q2_twoPi", "Q2_twoPi", bins, zero, q2_max);
         W_vs_q2_twoPi = std::make_shared<TH2D>("W_vs_q2_twoPi", "W_vs_q2_twoPi", bins,
-                                               w_min, w_max, bins, zero, 12.0);
+                                               w_min, w_max, bins, q2_min, q2_max);
         W_vs_q2_twoPi_thrown = std::make_shared<TH2D>("W_vs_q2_twoPi_thrown", "W_vs_q2_twoPi_thrown", bins,
-                                                      w_min, w_max, bins, zero, 12.0);
+                                                      w_min, w_max, bins, q2_min, q2_max);
         Theta_prot_cm_vs_mom_prot = std::make_shared<TH2D>(
             "Theta_prot_cm_vs_mom_prot", "Theta_prot_cm_vs_mom_prot", bins, zero, 8.5,
             bins, zero, 180);
@@ -1584,9 +1584,9 @@ void Histogram::Write_WvsQ2()
                 W_thrown->Write();
 
         Q2_thrown->SetXTitle("Q2_thrown (GeV)");
-        if (Q2_thrown->GetEntries())
+        Q2_thrown->Write();
 
-                W_vs_q2_twoPi_thrown->SetXTitle("W_thrown (GeV)");
+        W_vs_q2_twoPi_thrown->SetXTitle("W_thrown (GeV)");
         W_vs_q2_twoPi_thrown->SetYTitle("Q^{2} (GeV^{2})");
         W_vs_q2_twoPi_thrown->SetOption("COLZ1");
         if (W_vs_q2_twoPi_thrown->GetEntries())
@@ -1927,7 +1927,7 @@ void Histogram::makeHists_electron_cuts()
                                                                  Form("fd_prot_dvz_position%s", type), bins, -40, 40);
 
                 prot_Chi2pid_cut_fd[c] = std::make_shared<TH1D>(Form("fd_prot_chi2pid%s", type),
-                                                                Form("fd_prot_chi2pid%s", type), bins, -20, 20);
+                                                                Form("fd_prot_chi2pid%s", type), bins, -2000, 6000);
 
                 prot_Delta_vz_cut_cd[c] = std::make_shared<TH1D>(Form("cd_prot_dvz_position%s", type),
                                                                  Form("cd_prot_dvz_position%s", type), bins, -40, 40);
@@ -2168,7 +2168,9 @@ void Histogram::FillHists_prot_pid_cuts(const std::shared_ptr<Branches12> &_d, c
                 if (abs(_d->status(i)) < 4000)
                 {
                         prot_Delta_vz_cut_fd[before_any_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
-                        prot_Chi2pid_cut_fd[before_any_cuts]->Fill(_d->chi2pid(i), _e->weight());
+                        // prot_Chi2pid_cut_fd[before_any_cuts]->Fill(_d->chi2pid(i), _e->weight());
+                        prot_Chi2pid_cut_fd[before_any_cuts]->Fill(abs(_d->status(i)), _e->weight());
+
                         // theta_prot_fd[before_any_cuts]->Fill(_e->prot_theta_lab(), _e->weight());
                         // phi_vs_mom_prot_fd[before_any_cuts]->Fill(_e->prot_Phi_lab(), _e->prot_momentum(), _e->weight());
                         // Theta_prot_lab_vs_mom_prot_fd[before_any_cuts]->Fill(_e->prot_momentum(), _e->prot_theta_lab(), _e->weight());
@@ -2203,7 +2205,7 @@ void Histogram::FillHists_prot_pid_cuts(const std::shared_ptr<Branches12> &_d, c
                 else if (abs(_d->status(i)) >= 4000)
                 {
                         prot_Delta_vz_cut_cd[before_any_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
-                        prot_Chi2pid_cut_cd[before_any_cuts]->Fill(_d->chi2pid(i), _e->weight());
+                        prot_Chi2pid_cut_cd[before_any_cuts]->Fill(abs(_d->status(i)), _e->weight());
                         // phi_vs_momT_prot_cd[before_any_cuts]->Fill(_e->prot_Phi_lab(), _e->prot_momT(), _e->weight());
                         // theta_prot_cd[before_any_cuts]->Fill(_e->prot_theta_lab(), _e->weight());
                         // Theta_prot_lab_vs_mom_prot_cd[before_any_cuts]->Fill(_e->prot_momentum(), _e->prot_theta_lab(), _e->weight());
@@ -2233,19 +2235,25 @@ void Histogram::FillHists_prot_pid_with_cuts(const std::shared_ptr<Branches12> &
         if (_e->W() > 1.35 && _e->W() <= 2.15 && _e->Q2() > 1.95 && _e->Q2() <= 9.0) // && _cuts->HadronsCuts(i))
         {
 
+                auto dt = std::make_shared<Delta_T>(_d);
                 if (abs(_d->status(i)) < 4000)
+                // if (dt->isCtof() == false)
                 {
                         dcr1_sec_prot[after_all_cuts]->Fill(_d->dc_r1_x(i), _d->dc_r1_y(i), _e->weight());
                         dcr2_sec_prot[after_all_cuts]->Fill(_d->dc_r2_x(i), _d->dc_r2_y(i), _e->weight());
                         dcr3_sec_prot[after_all_cuts]->Fill(_d->dc_r3_x(i), _d->dc_r3_y(i), _e->weight());
                         prot_Delta_vz_cut_fd[after_all_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         phi_vs_mom_prot_fd[after_all_cuts]->Fill(_e->prot_Phi_lab(prot), _e->prot_momentum(prot), _e->weight());
-                        prot_Chi2pid_cut_fd[after_all_cuts]->Fill(_d->chi2pid(i), _e->weight());
+                        prot_Chi2pid_cut_fd[after_all_cuts]->Fill(abs(_d->status(i)), _e->weight());
                         theta_prot_fd[after_all_cuts]->Fill(_e->prot_theta_lab(prot), _e->weight());
                         Theta_prot_lab_vs_mom_prot_fd[after_all_cuts]->Fill(_e->prot_momentum(prot), _e->prot_theta_lab(prot), _e->weight());
+                        // std::cout << "  status of ftof particle :  " << _d->status(i) << "  prot lab angle theta " << _e->prot_theta_lab(prot) << std::endl;
                 }
                 else if (abs(_d->status(i)) > 4000)
+                // else if (dt->isCtof() == true)
                 {
+                        // std::cout << "  status of ctof particle :  " << _d->status(i) << "  prot lab angle theta " << _e->prot_theta_lab(prot) << std::endl;
+
                         prot_Delta_vz_cut_cd[after_all_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         prot_Chi2pid_cut_cd[after_all_cuts]->Fill(_d->chi2pid(i), _e->weight());
                         phi_vs_momT_prot_cd[after_all_cuts]->Fill(_e->prot_Phi_lab(prot), _e->prot_momT(prot), _e->weight());
@@ -2329,8 +2337,10 @@ void Histogram::FillHists_pip_pid_with_cuts(const std::shared_ptr<Branches12> &_
 
         if (_e->W() > 1.35 && _e->W() <= 2.15 && _e->Q2() > 1.95 && _e->Q2() <= 9.0) // && _cuts->HadronsCuts(i))
         {
+                auto dt = std::make_shared<Delta_T>(_d);
 
                 if (abs(_d->status(i)) < 4000)
+                // if (dt->isCtof() == false)
                 {
                         pip_Delta_vz_cut_fd[after_all_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         pip_Chi2pid_cut_fd[after_all_cuts]->Fill(_d->chi2pid(i), _e->weight());
@@ -2342,6 +2352,7 @@ void Histogram::FillHists_pip_pid_with_cuts(const std::shared_ptr<Branches12> &_
                         dcr3_sec_pip[after_all_cuts]->Fill(_d->dc_r3_x(i), _d->dc_r3_y(i), _e->weight());
                 }
                 else if (abs(_d->status(i)) > 4000)
+                // else if (dt->isCtof() == true)
                 {
                         pip_Delta_vz_cut_cd[after_all_cuts]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         pip_Chi2pid_cut_cd[after_all_cuts]->Fill(_d->chi2pid(i), _e->weight());
