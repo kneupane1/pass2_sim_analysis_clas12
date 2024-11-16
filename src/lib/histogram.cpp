@@ -602,6 +602,11 @@ void Histogram::Write()
         MMSQ_mPim_folder_4_or_more_combi->cd();
         writeMMSQ_mPim_4_or_more_comb();
 
+        std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
+        TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
+        Inv_Mass_and_Alpha_cm->cd();
+        write_Inv_Mass_hist();
+
         std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
         TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
         Write_deltaP_folder->cd();
@@ -632,6 +637,12 @@ void Histogram::makeHistMMSQ_mPim()
                         auto name_mmsq2 = Form("MMSQ_mPim2_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
                         auto name_mmsq3 = Form("MMSQ_mPim3_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
                         auto name_mmsq4 = Form("MMSQ_mPim4_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_inv_pPip = Form("inv_pPip_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_inv_pPim = Form("inv_pPim_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_inv_pipPim = Form("inv_pipPim_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_alpha_Prot = Form("alpha_Prot_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_alpha_Pip = Form("alpha_Pip_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
+                        auto name_alpha_Pim = Form("alpha_Pim_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV", (q2_lower_lim), (q2_upper_lim), (1.4 + 0.05 * w), (1.4 + 0.05 * w + 0.05));
 
                         MMSQ_mPim_hist[q2][w] = std::make_shared<TH1D>(name_mmsq, name_mmsq, 200, -0.3, 0.3);
                         // std::cout << "   bins  =  " << bins << std::endl;
@@ -644,6 +655,13 @@ void Histogram::makeHistMMSQ_mPim()
                         MMSQ_mPim_hist_3_comb[q2][w] = std::make_shared<TH1D>(name_mmsq3, name_mmsq3, 200, -0.3, 0.3);
 
                         MMSQ_mPim_hist_4_or_more_comb[q2][w] = std::make_shared<TH1D>(name_mmsq4, name_mmsq4, 200, -0.3, 0.3);
+
+                        Inv_mass_pPip[q2][w] = std::make_shared<TH1D>(name_inv_pPip, name_inv_pPip, 200, 1.0, 2.25);
+                        Inv_mass_pPim[q2][w] = std::make_shared<TH1D>(name_inv_pPim, name_inv_pPim, 200, 0.5, 2.25);
+                        Inv_mass_pipPim[q2][w] = std::make_shared<TH1D>(name_inv_pipPim, name_inv_pipPim, 200, 0.0, 1.5);
+                        Alpha_Prot_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Prot, name_alpha_Prot, 200, 0.0, 300);
+                        Alpha_Pip_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pip, name_alpha_Pip, 200, 0.0, 300);
+                        Alpha_Pim_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pim, name_alpha_Pim, 200, 0.0, 300);
                 }
         }
 }
@@ -654,6 +672,13 @@ void Histogram::Fill_MMSQ_mPim(const std::shared_ptr<Reaction> &_e)
                 MMSQ_mPim_hist[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
                 // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 //         MMSQ_mPim_hist_with_cut[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+
+                Inv_mass_pPip[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppip(), _e->weight());
+                Inv_mass_pPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppim(), _e->weight());
+                Inv_mass_pipPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_pip_pim(), _e->weight());
+                Alpha_Prot_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_pippim_pipf(), _e->weight());
+                Alpha_Pip_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppim_pipip(), _e->weight());
+                Alpha_Pim_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppip_pipim(), _e->weight());
         }
 }
 
@@ -674,7 +699,22 @@ void Histogram::writeMMSQ_mPim()
                 }
         }
 }
+void Histogram::write_Inv_Mass_hist()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = 0; w < 15; w++)
+                {
+                        Inv_mass_pPip[q2][w]->Write();
+                        Inv_mass_pPim[q2][w]->Write();
+                        Inv_mass_pipPim[q2][w]->Write();
 
+                        Alpha_Prot_cm[q2][w]->Write();
+                        Alpha_Pip_cm[q2][w]->Write();
+                        Alpha_Pim_cm[q2][w]->Write();
+                }
+        }
+}
 void Histogram::Fill_MMSQ_mPim_1_comb(const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)

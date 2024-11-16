@@ -606,6 +606,13 @@ protected:
     TH1D_ptr MMSQ_mPim_hist_3_comb[q2_bin][15];
     TH1D_ptr MMSQ_mPim_hist_4_or_more_comb[q2_bin][15];
 
+    TH1D_ptr Inv_mass_pPip[q2_bin][15];
+    TH1D_ptr Inv_mass_pPim[q2_bin][15];
+    TH1D_ptr Inv_mass_pipPim[q2_bin][15];
+    TH1D_ptr Alpha_Prot_cm[q2_bin][15];
+    TH1D_ptr Alpha_Pip_cm[q2_bin][15];
+    TH1D_ptr Alpha_Pim_cm[q2_bin][15];
+
     static const short FDmomArraySize = 24;
     static const short CDmomArraySize = 15;
 
@@ -755,6 +762,8 @@ public:
 
     void Fill_MMSQ_mPim_4_or_more_comb(const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim_4_or_more_comb();
+
+    void write_Inv_Mass_hist();
 
     // P and E
     // ecectron cuts

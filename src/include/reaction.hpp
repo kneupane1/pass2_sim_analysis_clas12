@@ -329,9 +329,9 @@ public:
                 // Generate new values
                 if (part_id == ELECTRON)
                 {
-                        phiNew = phi + 0.8 * phiR * gRandom->Gaus(0, 1); /// 0.4 was the origonal from pass1
-                        thetaNew = theta + 0.8 * thetaR * gRandom->Gaus(0, 1);
-                        pNew = p + 0.8 * pR * gRandom->Gaus(0, 1) * p;
+                        phiNew = phi + 0.75 * phiR * gRandom->Gaus(0, 1); /// 0.4 was the origonal from pass1
+                        thetaNew = theta + 0.75 * thetaR * gRandom->Gaus(0, 1);
+                        pNew = p + 0.75 * pR * gRandom->Gaus(0, 1) * p;
                 }
                 else if (part_id == PROTON)
                 {
