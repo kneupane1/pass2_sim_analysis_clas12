@@ -421,92 +421,92 @@ Histogram::~Histogram()
 void Histogram::Write()
 {
         std::cout << GREEN << "Writting" << DEF << std::endl;
-        // // THnSparse
-        // std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
-        // //
-        // TDirectory *THnSparse_7D_prot_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_prot");
-        // THnSparse_7D_prot_folder->cd();
-        // writeHists7D_prot();
+        // THnSparse
+        std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
+        //
+        TDirectory *THnSparse_7D_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot");
+        THnSparse_7D_prot_folder->cd();
+        writeHists7D_prot();
 
-        // TDirectory *THnSparse_7D_thrown_prot_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
-        // THnSparse_7D_thrown_prot_folder->cd();
-        // writeHists7D_thrown_prot();
+        TDirectory *THnSparse_7D_thrown_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
+        THnSparse_7D_thrown_prot_folder->cd();
+        writeHists7D_thrown_prot();
 
-        // TDirectory *THnSparse_7D_prot_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_prot_evt");
-        // THnSparse_7D_prot_evt_folder->cd();
-        // writeHists7D_prot_evt();
+        TDirectory *THnSparse_7D_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot_evt");
+        THnSparse_7D_prot_evt_folder->cd();
+        writeHists7D_prot_evt();
 
-        // TDirectory *THnSparse_7D_thrown_prot_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
-        // THnSparse_7D_thrown_prot_evt_folder->cd();
-        // writeHists7D_thrown_prot_evt();
+        TDirectory *THnSparse_7D_thrown_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
+        THnSparse_7D_thrown_prot_evt_folder->cd();
+        writeHists7D_thrown_prot_evt();
 
-        // TDirectory *THnSparse_7D_pim_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_pim");
-        // THnSparse_7D_pim_folder->cd();
-        // writeHists7D_pim();
-        // TDirectory *THnSparse_7D_thrown_pim_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
-        // THnSparse_7D_thrown_pim_folder->cd();
-        // writeHists7D_thrown_pim();
+        TDirectory *THnSparse_7D_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim");
+        THnSparse_7D_pim_folder->cd();
+        writeHists7D_pim();
+        TDirectory *THnSparse_7D_thrown_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
+        THnSparse_7D_thrown_pim_folder->cd();
+        writeHists7D_thrown_pim();
 
-        // TDirectory *THnSparse_7D_pim_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_pim_evt");
-        // THnSparse_7D_pim_evt_folder->cd();
-        // writeHists7D_pim_evt();
+        TDirectory *THnSparse_7D_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim_evt");
+        THnSparse_7D_pim_evt_folder->cd();
+        writeHists7D_pim_evt();
 
-        // TDirectory *THnSparse_7D_thrown_pim_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
-        // THnSparse_7D_thrown_pim_evt_folder->cd();
-        // writeHists7D_thrown_pim_evt();
+        TDirectory *THnSparse_7D_thrown_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
+        THnSparse_7D_thrown_pim_evt_folder->cd();
+        writeHists7D_thrown_pim_evt();
 
-        // TDirectory *THnSparse_7D_pip_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_pip");
-        // THnSparse_7D_pip_folder->cd();
-        // writeHists7D_pip();
-        // TDirectory *THnSparse_7D_thrown_pip_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
-        // THnSparse_7D_thrown_pip_folder->cd();
-        // writeHists7D_thrown_pip();
+        TDirectory *THnSparse_7D_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip");
+        THnSparse_7D_pip_folder->cd();
+        writeHists7D_pip();
+        TDirectory *THnSparse_7D_thrown_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
+        THnSparse_7D_thrown_pip_folder->cd();
+        writeHists7D_thrown_pip();
 
-        // TDirectory *THnSparse_7D_pip_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_pip_evt");
-        // THnSparse_7D_pip_evt_folder->cd();
-        // writeHists7D_pip_evt();
+        TDirectory *THnSparse_7D_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip_evt");
+        THnSparse_7D_pip_evt_folder->cd();
+        writeHists7D_pip_evt();
 
-        // TDirectory *THnSparse_7D_thrown_pip_evt_folder =
-        //     RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
-        // THnSparse_7D_thrown_pip_evt_folder->cd();
-        // writeHists7D_thrown_pip_evt();
+        TDirectory *THnSparse_7D_thrown_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
+        THnSparse_7D_thrown_pip_evt_folder->cd();
+        writeHists7D_thrown_pip_evt();
 
-        // // // // ////////// bin centering corr
-        // // TDirectory *TH1D_thrown_w_gen_folder =
-        // //     RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
-        // // TH1D_thrown_w_gen_folder->cd();
-        // // writeHists1D_thrown_w_gen();
+        // // // ////////// bin centering corr
+        // TDirectory *TH1D_thrown_w_gen_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
+        // TH1D_thrown_w_gen_folder->cd();
+        // writeHists1D_thrown_w_gen();
 
-        // // TDirectory *TH1D_thrown_q2_gen_folder =
-        // //     RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
-        // // TH1D_thrown_q2_gen_folder->cd();
-        // // writeHists1D_thrown_q2_gen();
+        // TDirectory *TH1D_thrown_q2_gen_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
+        // TH1D_thrown_q2_gen_folder->cd();
+        // writeHists1D_thrown_q2_gen();
 
-        // // TDirectory *TH1D_thrown_protPip_folder =
-        // //     RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
-        // // TH1D_thrown_protPip_folder->cd();
-        // // writeHists1D_thrown_protPip();
+        // TDirectory *TH1D_thrown_protPip_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
+        // TH1D_thrown_protPip_folder->cd();
+        // writeHists1D_thrown_protPip();
 
-        // // TDirectory *TH1D_thrown_protPim_folder =
-        // //     RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
-        // // TH1D_thrown_protPim_folder->cd();
-        // // writeHists1D_thrown_protPim();
+        // TDirectory *TH1D_thrown_protPim_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
+        // TH1D_thrown_protPim_folder->cd();
+        // writeHists1D_thrown_protPim();
 
-        // // TDirectory *TH1D_thrown_pipPim_folder =
-        // //     RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
-        // // TH1D_thrown_pipPim_folder->cd();
-        // // writeHists1D_thrown_pipPim();
+        // TDirectory *TH1D_thrown_pipPim_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
+        // TH1D_thrown_pipPim_folder->cd();
+        // writeHists1D_thrown_pipPim();
 
         // /// theta
 
@@ -542,10 +542,10 @@ void Histogram::Write()
         // TH1D_thrown_alpha_pim_folder->cd();
         // writeHists1D_thrown_alpha_pim();
 
-        // // std::cerr << BOLDBLUE << "WBinCheck()" << DEF << std::endl;
-        // // TDirectory *WBinCheck_folder = RootOutputFile->mkdir("WBinCheck");
-        // // WBinCheck_folder->cd();
-        // // Write_WBinCheck();
+        // std::cerr << BOLDBLUE << "WBinCheck()" << DEF << std::endl;
+        // TDirectory *WBinCheck_folder = RootOutputFile->mkdir("WBinCheck");
+        // WBinCheck_folder->cd();
+        // Write_WBinCheck();
 
         std::cerr << BOLDBLUE << "WvsQ2()" << DEF << std::endl;
         TDirectory *WvsQ2_folder = RootOutputFile->mkdir("W vs Q2");
@@ -557,65 +557,65 @@ void Histogram::Write()
         // // hists_x_mu->cd();
         // // write_hist_x_mu();
 
-        std::cerr << BOLDBLUE << "Write_MomVsBeta()" << DEF << std::endl;
-        TDirectory *Write_MomVsBeta_folder = RootOutputFile->mkdir("Mom Vs Beta");
-        Write_MomVsBeta_folder->cd();
-        Write_MomVsBeta();
+        // std::cerr << BOLDBLUE << "Write_MomVsBeta()" << DEF << std::endl;
+        // TDirectory *Write_MomVsBeta_folder = RootOutputFile->mkdir("Mom Vs Beta");
+        // Write_MomVsBeta_folder->cd();
+        // Write_MomVsBeta();
 
-        std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
-        TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
-        Electron_Cuts->cd();
-        Write_Electron_cuts();
+        // std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
+        // TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
+        // Electron_Cuts->cd();
+        // Write_Electron_cuts();
 
-        std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
-        TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
-        Hadrons_Cuts->cd();
-        Write_Hadrons_cuts();
+        // std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
+        // TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
+        // Hadrons_Cuts->cd();
+        // Write_Hadrons_cuts();
 
-        std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
-        TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
-        Write_deltat_folder->cd();
-        Write_deltat();
+        // std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
+        // TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
+        // Write_deltat_folder->cd();
+        // Write_deltat();
 
-        std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
-        TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
-        MMSQ_mPim_folder->cd();
-        writeMMSQ_mPim();
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
+        // MMSQ_mPim_folder->cd();
+        // writeMMSQ_mPim();
 
-        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
-        TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
-        MMSQ_mPim_folder_1_combi->cd();
-        writeMMSQ_mPim_1_comb();
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
+        // MMSQ_mPim_folder_1_combi->cd();
+        // writeMMSQ_mPim_1_comb();
 
-        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
-        TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
-        MMSQ_mPim_folder_2_combi->cd();
-        writeMMSQ_mPim_2_comb();
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
+        // MMSQ_mPim_folder_2_combi->cd();
+        // writeMMSQ_mPim_2_comb();
 
-        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
-        TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
-        MMSQ_mPim_folder_3_combi->cd();
-        writeMMSQ_mPim_3_comb();
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
+        // MMSQ_mPim_folder_3_combi->cd();
+        // writeMMSQ_mPim_3_comb();
 
-        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
-        TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
-        MMSQ_mPim_folder_4_or_more_combi->cd();
-        writeMMSQ_mPim_4_or_more_comb();
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
+        // MMSQ_mPim_folder_4_or_more_combi->cd();
+        // writeMMSQ_mPim_4_or_more_comb();
 
-        std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
-        TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
-        Inv_Mass_and_Alpha_cm->cd();
-        write_Inv_Mass_hist();
+        // std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
+        // TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
+        // Inv_Mass_and_Alpha_cm->cd();
+        // write_Inv_Mass_hist();
 
-        std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
-        TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
-        Write_deltaP_folder->cd();
-        Write_deltaP();
-        // // //
-        // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
-        // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
-        // // // theta_pim_measured->cd();
-        // // // write_hist_theta_pim_measured();
+        // std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
+        // TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
+        // Write_deltaP_folder->cd();
+        // Write_deltaP();
+        // // // //
+        // // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
+        // // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
+        // // // // theta_pim_measured->cd();
+        // // // // write_hist_theta_pim_measured();
 
         std::cerr << BOLDBLUE << "Done Writing!!!" << DEF << std::endl;
 }
@@ -1626,58 +1626,58 @@ void Histogram::Write_WvsQ2()
         Q2_thrown->SetXTitle("Q2_thrown (GeV)");
         Q2_thrown->Write();
 
-        W_vs_q2_twoPi_thrown->SetXTitle("W_thrown (GeV)");
-        W_vs_q2_twoPi_thrown->SetYTitle("Q^{2} (GeV^{2})");
-        W_vs_q2_twoPi_thrown->SetOption("COLZ1");
-        if (W_vs_q2_twoPi_thrown->GetEntries())
-                W_vs_q2_twoPi_thrown->Write();
+        // W_vs_q2_twoPi_thrown->SetXTitle("W_thrown (GeV)");
+        // W_vs_q2_twoPi_thrown->SetYTitle("Q^{2} (GeV^{2})");
+        // W_vs_q2_twoPi_thrown->SetOption("COLZ1");
+        // if (W_vs_q2_twoPi_thrown->GetEntries())
+        //         W_vs_q2_twoPi_thrown->Write();
 
-        W_vs_Q2_thrown->SetXTitle("W (GeV)");
-        W_vs_Q2_thrown->SetYTitle("Q^{2} (GeV^{2})");
-        W_vs_Q2_thrown->SetOption("COLZ1");
-        if (W_vs_Q2_thrown->GetEntries())
-                W_vs_Q2_thrown->Write();
+        // W_vs_Q2_thrown->SetXTitle("W (GeV)");
+        // W_vs_Q2_thrown->SetYTitle("Q^{2} (GeV^{2})");
+        // W_vs_Q2_thrown->SetOption("COLZ1");
+        // if (W_vs_Q2_thrown->GetEntries())
+        //         W_vs_Q2_thrown->Write();
 
-        weight_hist->SetXTitle("weight");
-        weight_hist->Write();
-        mc_pid_at_zero->SetXTitle("mc pid at zero");
-        mc_pid_at_zero->Write();
+        // weight_hist->SetXTitle("weight");
+        // weight_hist->Write();
+        // mc_pid_at_zero->SetXTitle("mc pid at zero");
+        // mc_pid_at_zero->Write();
 
-        pid_at_zero->SetXTitle("pid at zero");
-        pid_at_zero->Write();
+        // pid_at_zero->SetXTitle("pid at zero");
+        // pid_at_zero->Write();
 
-        inv_mass_pPip->SetXTitle("Mass (GeV)");
-        inv_mass_pPip->Write();
-        inv_mass_pPim->SetXTitle("Mass (GeV)");
-        inv_mass_pPim->Write();
-        inv_mass_pipPim->SetXTitle("Mass (GeV)");
-        inv_mass_pipPim->Write();
+        // inv_mass_pPip->SetXTitle("Mass (GeV)");
+        // inv_mass_pPip->Write();
+        // inv_mass_pPim->SetXTitle("Mass (GeV)");
+        // inv_mass_pPim->Write();
+        // inv_mass_pipPim->SetXTitle("Mass (GeV)");
+        // inv_mass_pipPim->Write();
 
-        theta_Prot_cm->SetXTitle("Theta (deg)");
-        theta_Prot_cm->Write();
-        theta_Pip_cm->SetXTitle("Theta (deg)");
-        theta_Pip_cm->Write();
-        theta_Pim_cm->SetXTitle("Theta (deg)");
-        theta_Pim_cm->Write();
+        // theta_Prot_cm->SetXTitle("Theta (deg)");
+        // theta_Prot_cm->Write();
+        // theta_Pip_cm->SetXTitle("Theta (deg)");
+        // theta_Pip_cm->Write();
+        // theta_Pim_cm->SetXTitle("Theta (deg)");
+        // theta_Pim_cm->Write();
 
-        phi_Prot_cm->SetXTitle("phi (deg)");
-        phi_Prot_cm->Write();
-        phi_Pip_cm->SetXTitle("phi (deg)");
-        phi_Pip_cm->Write();
-        phi_Pim_cm->SetXTitle("phi (deg)");
-        phi_Pim_cm->Write();
+        // phi_Prot_cm->SetXTitle("phi (deg)");
+        // phi_Prot_cm->Write();
+        // phi_Pip_cm->SetXTitle("phi (deg)");
+        // phi_Pip_cm->Write();
+        // phi_Pim_cm->SetXTitle("phi (deg)");
+        // phi_Pim_cm->Write();
 
-        alpha_Prot_cm->SetXTitle("alpha (deg)");
-        alpha_Prot_cm->Write();
-        alpha_Pip_cm->SetXTitle("alpha (deg)");
-        alpha_Pip_cm->Write();
-        alpha_Pim_cm->SetXTitle("alpha (deg)");
-        alpha_Pim_cm->Write();
+        // alpha_Prot_cm->SetXTitle("alpha (deg)");
+        // alpha_Prot_cm->Write();
+        // alpha_Pip_cm->SetXTitle("alpha (deg)");
+        // alpha_Pip_cm->Write();
+        // alpha_Pim_cm->SetXTitle("alpha (deg)");
+        // alpha_Pim_cm->Write();
 
-        W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
-        W_vs_q2->SetXTitle("W (GeV)");
-        W_vs_q2->SetOption("COLZ");
-        W_vs_q2->Write();
+        // W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
+        // W_vs_q2->SetXTitle("W (GeV)");
+        // W_vs_q2->SetOption("COLZ");
+        // W_vs_q2->Write();
         for (short i = 0; i < 3; i++)
         {
                 WQ2_det[i]->SetXTitle("W (GeV)");
@@ -1690,247 +1690,222 @@ void Histogram::Write_WvsQ2()
                         W_det[i]->Write();
         }
 
-        // auto WvsQ2_can =
-        //     std::make_unique<TCanvas>("WvsQ2_can", "W vs Q2 sectors", 1920, 1080);
-        // WvsQ2_can->Divide(3, 2);
-        // for (short i = 0; i < num_sectors; i++)
-        // {
-        //         W_vs_q2_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-        //         W_vs_q2_sec[i]->SetXTitle("W (GeV)");
-        //         W_vs_q2_sec[i]->SetOption("COLZ1");
-        //         WvsQ2_can->cd(i + 1);
-        //         W_vs_q2_sec[i]->Draw("same");
-        // }
-        // WvsQ2_can->Write();
+        // W_vs_MM->SetXTitle("W (GeV)");
+        // W_vs_MM->SetYTitle("MM (GeV)");
+        // W_vs_MM->SetOption("COLZ1");
+        // if (W_vs_MM->GetEntries())
+        //         W_vs_MM->Write();
+        // W_vs_MM2->SetXTitle("W (GeV)");
+        // W_vs_MM2->SetYTitle("MMSQ (GeV^{2})");
+        // W_vs_MM2->SetOption("COLZ1");
+        // if (W_vs_MM2->GetEntries())
+        //         W_vs_MM2->Write();
 
-        // auto W_can = std::make_unique<TCanvas>("W_can", "W sectors", 1920, 1080);
-        // W_can->Divide(3, 2);
-        // for (short i = 0; i < num_sectors; i++)
-        // {
-        //         W_sec[i]->SetXTitle("W (GeV)");
-        //         W_can->cd(i + 1);
-
-        //         //  W_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.85, 1.05);
-        //         // gStyle->SetOptFit(01);
-        //         W_sec[i]->Draw("same");
-        // }
-        // W_can->Write();
-
-        W_vs_MM->SetXTitle("W (GeV)");
-        W_vs_MM->SetYTitle("MM (GeV)");
-        W_vs_MM->SetOption("COLZ1");
-        if (W_vs_MM->GetEntries())
-                W_vs_MM->Write();
-        W_vs_MM2->SetXTitle("W (GeV)");
-        W_vs_MM2->SetYTitle("MMSQ (GeV^{2})");
-        W_vs_MM2->SetOption("COLZ1");
-        if (W_vs_MM2->GetEntries())
-                W_vs_MM2->Write();
-
-        W_vs_q2->SetXTitle("W (GeV)");
-        W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
-        W_vs_q2->SetOption("COLZ1");
-        if (W_vs_q2->GetEntries())
-                W_vs_q2->Write();
+        // W_vs_q2->SetXTitle("W (GeV)");
+        // W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
+        // W_vs_q2->SetOption("COLZ1");
+        // if (W_vs_q2->GetEntries())
+        //         W_vs_q2->Write();
 
         W_hist->SetXTitle("W (GeV)");
         if (W_hist->GetEntries())
                 W_hist->Write();
 
-        W_P2pi_hist->SetXTitle("W_P2pi (GeV)");
-        if (W_P2pi_hist->GetEntries())
-                W_P2pi_hist->Write();
+        // W_P2pi_hist->SetXTitle("W_P2pi (GeV)");
+        // if (W_P2pi_hist->GetEntries())
+        //         W_P2pi_hist->Write();
 
         Q2_hist->SetXTitle("Q^{2} (GeV^{2})");
         if (Q2_hist->GetEntries())
                 Q2_hist->Write();
 
-        W_vs_q2_twoPi->SetXTitle("W (GeV)");
-        W_vs_q2_twoPi->SetYTitle("Q^{2} (GeV^{2})");
-        W_vs_q2_twoPi->SetOption("COLZ1");
-        if (W_vs_q2_twoPi->GetEntries())
-                W_vs_q2_twoPi->Write();
+        // W_vs_q2_twoPi->SetXTitle("W (GeV)");
+        // W_vs_q2_twoPi->SetYTitle("Q^{2} (GeV^{2})");
+        // W_vs_q2_twoPi->SetOption("COLZ1");
+        // if (W_vs_q2_twoPi->GetEntries())
+        //         W_vs_q2_twoPi->Write();
 
-        W_hist_twoPi->SetXTitle("W (GeV)");
-        if (W_hist_twoPi->GetEntries())
-                W_hist_twoPi->Write();
+        // W_hist_twoPi->SetXTitle("W (GeV)");
+        // if (W_hist_twoPi->GetEntries())
+        //         W_hist_twoPi->Write();
 
         Q2_hist_twoPi->SetXTitle("Q^{2} (GeV^{2})");
         if (Q2_hist_twoPi->GetEntries())
                 Q2_hist_twoPi->Write();
+        /*
+                auto mmsq_4_topology = RootOutputFile->mkdir("mmsq_4_topology");
+                mmsq_4_topology->cd();
 
-        auto mmsq_4_topology = RootOutputFile->mkdir("mmsq_4_topology");
-        mmsq_4_topology->cd();
+                // MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
+                // if (MM2_twoPi_excl->GetEntries())
+                //         MM2_twoPi_excl->Write();
 
-        MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
-        if (MM2_twoPi_excl->GetEntries())
-                MM2_twoPi_excl->Write();
+                // MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
+                // if (MM_twoPi_excl->GetEntries())
+                //         MM_twoPi_excl->Write();
 
-        MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
-        if (MM_twoPi_excl->GetEntries())
-                MM_twoPi_excl->Write();
+                MM2_twoPi_mPim->SetXTitle("MMSQ mPim (GeV^{2})");
+                if (MM2_twoPi_mPim->GetEntries())
+                        MM2_twoPi_mPim->Write();
 
-        MM2_twoPi_mPim->SetXTitle("MMSQ mPim (GeV^{2})");
-        if (MM2_twoPi_mPim->GetEntries())
-                MM2_twoPi_mPim->Write();
+                // MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
+                // if (MM2_twoPi_missingPip->GetEntries())
+                //         MM2_twoPi_missingPip->Write();
 
-        MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
-        if (MM2_twoPi_missingPip->GetEntries())
-                MM2_twoPi_missingPip->Write();
+                // MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
+                // if (MM2_twoPi_missingProt->GetEntries())
+                //         MM2_twoPi_missingProt->Write();
 
-        MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
-        if (MM2_twoPi_missingProt->GetEntries())
-                MM2_twoPi_missingProt->Write();
+                // missing_Energy_hist->SetXTitle("me (GeV)");
+                // if (missing_Energy_hist->GetEntries())
+                //         missing_Energy_hist->Write();
 
-        missing_Energy_hist->SetXTitle("me (GeV)");
-        if (missing_Energy_hist->GetEntries())
-                missing_Energy_hist->Write();
+                // MM_twoPi_mPim->SetXTitle("MM mPim (GeV^{2})");
+                // if (MM_twoPi_mPim->GetEntries())
+                //         MM_twoPi_mPim->Write();
 
-        MM_twoPi_mPim->SetXTitle("MM mPim (GeV^{2})");
-        if (MM_twoPi_mPim->GetEntries())
-                MM_twoPi_mPim->Write();
-
-        auto wvsq2_sec = RootOutputFile->mkdir("wvsq2_sec");
-        wvsq2_sec->cd();
-        for (short i = 0; i < num_sectors; i++)
-        {
-                W_vs_q2_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-                W_vs_q2_sec[i]->SetXTitle("W (GeV)");
-                W_vs_q2_sec[i]->SetOption("COLZ1");
-                W_vs_q2_sec[i]->Write();
-        }
-        auto w_sec = RootOutputFile->mkdir("w_sec");
-        w_sec->cd();
-        for (short i = 0; i < num_sectors; i++)
-        {
-                W_sec[i]->SetXTitle("W (GeV)");
-
-                //  W_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.85, 1.05);
-                // gStyle->SetOptFit(01);
-                W_sec[i]->Write();
-        }
-
-        ///////////////////////// numner of photoelectrons in HTCC //////////////////////////
-        auto nphe_htcc_sec = RootOutputFile->mkdir("nphe_htcc_sec");
-        nphe_htcc_sec->cd();
-
-        for (auto &&cut : before_after_cut)
-        {
-                int c = cut.first;
-
+                // auto wvsq2_sec = RootOutputFile->mkdir("wvsq2_sec");
+                // wvsq2_sec->cd();
                 // for (short i = 0; i < num_sectors; i++)
                 // {
-                //         htcc_nphe_sec[c][i]->SetXTitle("Nphe");
-                //         htcc_nphe_sec[c][i]->SetYTitle("Count");
-
-                //         // if (htcc_nphe_sec[c][i]->GetEntries())
-                //         htcc_nphe_sec[c][i]->Write();
+                //         W_vs_q2_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+                //         W_vs_q2_sec[i]->SetXTitle("W (GeV)");
+                //         W_vs_q2_sec[i]->SetOption("COLZ1");
+                //         W_vs_q2_sec[i]->Write();
                 // }
-        }
-        ///////////////////////// //////////////////////////
-        auto Vz_sec = RootOutputFile->mkdir("Vz_sec");
-        Vz_sec->cd();
-        for (auto &&cut : before_after_cut)
-        {
-                int c = cut.first;
+                // auto w_sec = RootOutputFile->mkdir("w_sec");
+                // w_sec->cd();
+                // for (short i = 0; i < num_sectors; i++)
+                // {
+                //         W_sec[i]->SetXTitle("W (GeV)");
 
-                for (short i = 0; i < num_sectors; i++)
-                {
-                        vz_sec[c][i]->SetXTitle("Vz (cm)");
-                        if (vz_sec[c][i]->GetEntries())
-                                vz_sec[c][i]->Write();
-                }
-        }
-        ///////////////////////// //////////////////////////
-        auto ECAL_VS_PCAL_sec = RootOutputFile->mkdir("ECAL_VS_PCAL_sec");
-        ECAL_VS_PCAL_sec->cd();
-        for (auto &&cut : before_after_cut)
-        {
-                int c = cut.first;
+                //         //  W_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.85, 1.05);
+                //         // gStyle->SetOptFit(01);
+                //         W_sec[i]->Write();
+                // }
 
-                for (short i = 0; i < num_sectors; i++)
-                {
-                        for (short j = 0; j < 9; j++) // mom bins
+                        ///////////////////////// numner of photoelectrons in HTCC //////////////////////////
+                        auto nphe_htcc_sec = RootOutputFile->mkdir("nphe_htcc_sec");
+                        nphe_htcc_sec->cd();
+
+                        for (auto &&cut : before_after_cut)
                         {
-                                ECAL_VS_PCAL[c][i][j]->SetOption("COLZ1");
-                                ECAL_VS_PCAL[c][i][j]->SetYTitle("SF PCAL ");
-                                ECAL_VS_PCAL[c][i][j]->SetXTitle("SF ECIN");
-                                // if (ECAL_VS_PCAL[i][j]->GetEntries())
-                                ECAL_VS_PCAL[c][i][j]->Write();
+                                int c = cut.first;
+
+                                // for (short i = 0; i < num_sectors; i++)
+                                // {
+                                //         htcc_nphe_sec[c][i]->SetXTitle("Nphe");
+                                //         htcc_nphe_sec[c][i]->SetYTitle("Count");
+
+                                //         // if (htcc_nphe_sec[c][i]->GetEntries())
+                                //         htcc_nphe_sec[c][i]->Write();
+                                // }
                         }
-                }
-        }
+                        ///////////////////////// //////////////////////////
+                        auto Vz_sec = RootOutputFile->mkdir("Vz_sec");
+                        Vz_sec->cd();
+                        for (auto &&cut : before_after_cut)
+                        {
+                                int c = cut.first;
 
-        /////////////////////////  //////////////////////////
-        auto SF_VS_MOM_sec = RootOutputFile->mkdir("SF_VS_MOM_sec");
-        SF_VS_MOM_sec->cd();
-        for (auto &&cut : before_after_cut)
-        {
-                int c = cut.first;
+                                for (short i = 0; i < num_sectors; i++)
+                                {
+                                        vz_sec[c][i]->SetXTitle("Vz (cm)");
+                                        if (vz_sec[c][i]->GetEntries())
+                                                vz_sec[c][i]->Write();
+                                }
+                        }
+                        ///////////////////////// //////////////////////////
+                        auto ECAL_VS_PCAL_sec = RootOutputFile->mkdir("ECAL_VS_PCAL_sec");
+                        ECAL_VS_PCAL_sec->cd();
+                        for (auto &&cut : before_after_cut)
+                        {
+                                int c = cut.first;
 
-                for (short i = 0; i < num_sectors; i++)
-                {
-                        SF_VS_MOM[c][i]->SetOption("COLZ1");
-                        SF_VS_MOM[c][i]->SetYTitle("SF ");
-                        SF_VS_MOM[c][i]->SetXTitle("MOM (GeV)");
-                        // if (SF_VS_MOM[i]->GetEntries())
-                        SF_VS_MOM[c][i]->Write();
-                }
-        }
-        /////////////////////////  //////////////////////////
-        auto chi2pid_elec_sec = RootOutputFile->mkdir("chi2pid_elec_sec");
-        chi2pid_elec_sec->cd();
-        for (auto &&cut : before_after_cut)
-        {
-                int c = cut.first;
+                                for (short i = 0; i < num_sectors; i++)
+                                {
+                                        for (short j = 0; j < 9; j++) // mom bins
+                                        {
+                                                ECAL_VS_PCAL[c][i][j]->SetOption("COLZ1");
+                                                ECAL_VS_PCAL[c][i][j]->SetYTitle("SF PCAL ");
+                                                ECAL_VS_PCAL[c][i][j]->SetXTitle("SF ECIN");
+                                                // if (ECAL_VS_PCAL[i][j]->GetEntries())
+                                                ECAL_VS_PCAL[c][i][j]->Write();
+                                        }
+                                }
+                        }
 
-                for (short i = 0; i < num_sectors; i++)
-                {
-                        elec_Chi2pid_sec[c][i]->SetXTitle("Chi2pid");
-                        elec_Chi2pid_sec[c][i]->SetYTitle("Count");
+                        /////////////////////////  //////////////////////////
+                        auto SF_VS_MOM_sec = RootOutputFile->mkdir("SF_VS_MOM_sec");
+                        SF_VS_MOM_sec->cd();
+                        for (auto &&cut : before_after_cut)
+                        {
+                                int c = cut.first;
 
-                        if (elec_Chi2pid_sec[c][i]->GetEntries())
-                                elec_Chi2pid_sec[c][i]->Write();
-                }
-        }
-        // auto twoPi_sec = RootOutputFile->mkdir("twoPi_sec");
-        // twoPi_sec->cd();
-        // for (short i = 0; i < num_sectors; i++)
-        // {
-        //         W_vs_q2_twoPi_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-        //         W_vs_q2_twoPi_sec[i]->SetXTitle("W (GeV)");
-        //         W_vs_q2_twoPi_sec[i]->SetOption("COLZ1");
-        //         if (W_vs_q2_twoPi_sec[i]->GetEntries())
-        //                 W_vs_q2_twoPi_sec[i]->Write();
-        // }
+                                for (short i = 0; i < num_sectors; i++)
+                                {
+                                        SF_VS_MOM[c][i]->SetOption("COLZ1");
+                                        SF_VS_MOM[c][i]->SetYTitle("SF ");
+                                        SF_VS_MOM[c][i]->SetXTitle("MOM (GeV)");
+                                        // if (SF_VS_MOM[i]->GetEntries())
+                                        SF_VS_MOM[c][i]->Write();
+                                }
+                        }
+                        /////////////////////////  //////////////////////////
+                        auto chi2pid_elec_sec = RootOutputFile->mkdir("chi2pid_elec_sec");
+                        chi2pid_elec_sec->cd();
+                        for (auto &&cut : before_after_cut)
+                        {
+                                int c = cut.first;
 
-        // // for (short i = 0; i < num_sectors; i++)
-        // // {
-        // //         //  if (MM_mPim_twoPi_sec[i]->GetEntries()) MM_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
-        // //         //  "QMR+", -0.1, 0.1);
-        // //         MM_mPim_twoPi_sec[i]->SetXTitle("MisingMass (GeV)");
-        // //         MM_mPim_twoPi_sec[i]->Write();
-        // // }
+                                for (short i = 0; i < num_sectors; i++)
+                                {
+                                        elec_Chi2pid_sec[c][i]->SetXTitle("Chi2pid");
+                                        elec_Chi2pid_sec[c][i]->SetYTitle("Count");
 
-        // // for (short i = 0; i < num_sectors; i++)
-        // // {
-        // //         // if (MM2_mPim_twoPi_sec[i]->GetEntries()) MM2_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
-        // //         // "QMR+", -0.1, 0.1);
-        // //         MM2_mPim_twoPi_sec[i]->SetXTitle("MM2 (GeV2)");
-        // //         MM2_mPim_twoPi_sec[i]->Write();
-        // // }
+                                        if (elec_Chi2pid_sec[c][i]->GetEntries())
+                                                elec_Chi2pid_sec[c][i]->Write();
+                                }
+                        }
+                        // auto twoPi_sec = RootOutputFile->mkdir("twoPi_sec");
+                        // twoPi_sec->cd();
+                        // for (short i = 0; i < num_sectors; i++)
+                        // {
+                        //         W_vs_q2_twoPi_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+                        //         W_vs_q2_twoPi_sec[i]->SetXTitle("W (GeV)");
+                        //         W_vs_q2_twoPi_sec[i]->SetOption("COLZ1");
+                        //         if (W_vs_q2_twoPi_sec[i]->GetEntries())
+                        //                 W_vs_q2_twoPi_sec[i]->Write();
+                        // }
 
-        // // for (short i = 0; i < num_sectors; i++)
-        // // {
-        // //         MM2_twoPi_missingPip_sec[i]->SetXTitle("MM2 (GeV2)");
-        // //         MM2_twoPi_missingPip_sec[i]->Write();
-        // // }
+                        // // for (short i = 0; i < num_sectors; i++)
+                        // // {
+                        // //         //  if (MM_mPim_twoPi_sec[i]->GetEntries()) MM_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
+                        // //         //  "QMR+", -0.1, 0.1);
+                        // //         MM_mPim_twoPi_sec[i]->SetXTitle("MisingMass (GeV)");
+                        // //         MM_mPim_twoPi_sec[i]->Write();
+                        // // }
 
-        // // for (short i = 0; i < num_sectors; i++)
-        // // {
-        // //         MM2_twoPi_missingProt_sec[i]->SetXTitle("MM2 (GeV2)");
-        // //         MM2_twoPi_missingProt_sec[i]->Write();
-        // // }
+                        // // for (short i = 0; i < num_sectors; i++)
+                        // // {
+                        // //         // if (MM2_mPim_twoPi_sec[i]->GetEntries()) MM2_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
+                        // //         // "QMR+", -0.1, 0.1);
+                        // //         MM2_mPim_twoPi_sec[i]->SetXTitle("MM2 (GeV2)");
+                        // //         MM2_mPim_twoPi_sec[i]->Write();
+                        // // }
+
+                        // // for (short i = 0; i < num_sectors; i++)
+                        // // {
+                        // //         MM2_twoPi_missingPip_sec[i]->SetXTitle("MM2 (GeV2)");
+                        // //         MM2_twoPi_missingPip_sec[i]->Write();
+                        // // }
+
+                        // // for (short i = 0; i < num_sectors; i++)
+                        // // {
+                        // //         MM2_twoPi_missingProt_sec[i]->SetXTitle("MM2 (GeV2)");
+                        // //         MM2_twoPi_missingProt_sec[i]->Write();
+                        // // }
+                        */
 }
 
 void Histogram::makeHists_electron_cuts()
