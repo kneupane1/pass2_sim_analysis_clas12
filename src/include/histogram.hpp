@@ -158,51 +158,49 @@ protected:
 
     // /// MMSQ cuts
     int q2_bin_val = -1;
-    /////////////////////////// exp, sim data mmsq cuts [Q2][up/down][a,b,c]   /////////////////  last 3 are addeded from 7th one.
+    /////////////////////////// exp, sim data mmsq cuts [Q2][up/down][a,b,c]   /////////////////  updated nov 2024 with 0.65 sm * w dependent sm
     double mmsq_cuts[2][9][2][3] = {
-        {{{-0.117642, 0.483378, -0.366948},
-          {0.028140, -0.160426, 0.126216}},
-         {{-0.113171, 0.464843, -0.347829},
-          {0.044174, -0.215458, 0.169796}},
-         {{-0.130070, 0.533820, -0.415172},
-          {0.078774, -0.343779, 0.282804}},
-         {{-0.096048, 0.408955, -0.305326},
-          {0.059718, -0.271266, 0.213717}},
-         {{-0.052874, 0.260291, -0.182428},
-          {0.025419, -0.152250, 0.110455}},
-         {{-0.071505, 0.342167, -0.270677},
-          {0.076174, -0.336325, 0.277216}},
-         {{-0.046165, 0.235418, -0.161482},
-          {0.066230, -0.283206, 0.217041}},
-         {{0.007983, 0.050145, 0.002209},
-          {-0.059019, 0.179818, -0.209833}},
-         {{-0.229277, 0.858979, -0.683467},
-          {0.240382, -0.837448, 0.654252}}},
-        {{{-0.138274, 0.581755, -0.471875},
-          {0.063405, -0.284219, 0.236314}},
-         {{-0.125422, 0.535266, -0.430883},
-          {0.056790, -0.258900, 0.210977}},
-         {{-0.119719, 0.515540, -0.413987},
-          {0.053641, -0.246824, 0.198772}},
-         {{-0.109752, 0.481100, -0.385191},
-          {0.050986, -0.235750, 0.187422}},
-         {{-0.095437, 0.428876, -0.338786},
-          {0.041304, -0.197092, 0.149711}},
-         {{-0.075791, 0.356069, -0.274128},
-          {0.026216, -0.137999, 0.093233}},
-         {{-0.067472, 0.324845, -0.246419},
-          {0.026573, -0.132679, 0.082258}},
-         {{-0.056221, 0.288691, -0.218293},
-          {0.021118, -0.109154, 0.057579}},
-         {{-0.054432, 0.287874, -0.222383},
-          {0.026609, -0.131058, 0.076402}}}
-
-    };
+        {{{-0.1330, 0.5196, -0.4026},
+          {0.0719, -0.3014, 0.2581}},
+         {{-0.1176, 0.4645, -0.3538},
+          {0.0410, -0.1844, 0.1470}},
+         {{-0.1461, 0.5680, -0.4461},
+          {0.0863, -0.3422, 0.2793}},
+         {{-0.1028, 0.4131, -0.3115},
+          {0.0642, -0.2602, 0.2022}},
+         {{-0.0591, 0.2539, -0.1706},
+          {0.0615, -0.2450, 0.1804}},
+         {{-0.0358, 0.1777, -0.1085},
+          {0.0511, -0.2008, 0.1339}},
+         {{-0.0256, 0.1207, -0.0358},
+          {0.0627, -0.2115, 0.1135}},
+         {{-0.0500, 0.2273, -0.1382},
+          {-0.0289, 0.1211, -0.1872}},
+         {{-0.0822, 0.3223, -0.2004},
+          {0.1153, -0.3838, 0.2522}}},
+        {{{-0.1648, 0.6717, -0.5615},
+          {0.0845, -0.3438, 0.2921}},
+         {{-0.1332, 0.5590, -0.4635},
+          {0.0880, -0.3502, 0.2887}},
+         {{-0.1135, 0.4879, -0.3995},
+          {0.0647, -0.2682, 0.2166}},
+         {{-0.1316, 0.5516, -0.4541},
+          {0.0614, -0.2510, 0.1951}},
+         {{-0.1120, 0.4788, -0.3874},
+          {0.0496, -0.1989, 0.1396}},
+         {{-0.0901, 0.3937, -0.3071},
+          {0.0307, -0.1256, 0.0684}},
+         {{-0.0512, 0.2545, -0.1847},
+          {0.0150, -0.0601, 0.0004}},
+         {{-0.0414, 0.2194, -0.1526},
+          {0.0160, -0.0525, -0.0182}},
+         {{-0.0117, 0.1203, -0.0703},
+          {-0.0040, 0.0208, -0.0896}}}};
 
     //////////////////////////////////////////////////
     int inv_mass_binning(float inv_mass, float inv_pPip_llim, float bin_size_inv)
     {
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 11; ++i)
         {
             float lower_limit = inv_pPip_llim + i * bin_size_inv;
             float upper_limit = inv_pPip_llim + (i + 1) * bin_size_inv;
@@ -225,10 +223,14 @@ protected:
         float w_mid = 1.4 + (w_bin_index + 0.5) * 0.05;
         float inv_ulim;
         float inv_llim;
+        // Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 2 * Bin_size_pPip), (0.13957 + 0.13957) - 2 * Bin_size_pipPim, 0., 0., 0.};
+        // Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 2 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 2 * Bin_size_pipPim), 180, 360, 360};
+
         if (hp)
         {
             inv_ulim = w_mid - MASS_PIM;
             inv_llim = MASS_P + MASS_PIP;
+            // std::cout << " w  " << w << "  w_bin_index  " << w_bin_index << "   w mid  " << w_mid << " inv_llim  " << inv_llim << "   inv_ulim  " << inv_ulim << std::endl;
         }
         else
         {
@@ -310,14 +312,37 @@ protected:
     TH1D_ptr w_gen_hist[q2_bin][w_bin];
     TH1D_ptr q2_gen_hist[q2_bin][w_bin];
 
+    TH1D_ptr w_gen_hist_inv_pPip[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_inv_pPip[q2_bin][w_bin][11];
+
+    TH1D_ptr w_gen_hist_inv_pPim[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_inv_pPim[q2_bin][w_bin][11];
+
+    TH1D_ptr w_gen_hist_inv_pipPim[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_inv_pipPim[q2_bin][w_bin][11];
+
     TH1D_ptr inv_pPip_hist[q2_bin][w_bin][11];
     TH1D_ptr inv_pPim_hist[q2_bin][w_bin][11];
     TH1D_ptr inv_pipPim_hist[q2_bin][w_bin][11];
     // TH1D *histogram = new TH1D("histogram", "Title", 100, 0, 100);
 
+    TH1D_ptr w_gen_hist_th_prot[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_th_prot[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_th_pip[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_th_pip[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_th_pim[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_th_pim[q2_bin][w_bin][11];
+
     TH1D_ptr prot_theta_hist[q2_bin][w_bin][11];
     TH1D_ptr pip_theta_hist[q2_bin][w_bin][11];
     TH1D_ptr pim_theta_hist[q2_bin][w_bin][11];
+
+    TH1D_ptr w_gen_hist_al_prot[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_al_prot[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_al_pip[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_al_pip[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_al_pim[q2_bin][w_bin][11];
+    TH1D_ptr q2_gen_hist_al_pim[q2_bin][w_bin][11];
 
     TH1D_ptr prot_alpha_hist[q2_bin][w_bin][11];
     TH1D_ptr pip_alpha_hist[q2_bin][w_bin][11];
@@ -721,6 +746,34 @@ public:
 
     void writeHists1D_thrown_w_gen();
     void writeHists1D_thrown_q2_gen();
+
+    void writeHists1D_thrown_w_gen_inv_pPip();
+    void writeHists1D_thrown_q2_gen_inv_pPip();
+
+    void writeHists1D_thrown_w_gen_inv_pPim();
+    void writeHists1D_thrown_q2_gen_inv_pPim();
+
+    void writeHists1D_thrown_w_gen_inv_pipPim();
+    void writeHists1D_thrown_q2_gen_inv_pipPim();
+
+    void writeHists1D_thrown_w_gen_th_prot();
+    void writeHists1D_thrown_q2_gen_th_prot();
+
+    void writeHists1D_thrown_w_gen_th_pip();
+    void writeHists1D_thrown_q2_gen_th_pip();
+
+    void writeHists1D_thrown_w_gen_th_pim();
+    void writeHists1D_thrown_q2_gen_th_pim();
+
+    void writeHists1D_thrown_w_gen_al_prot();
+    void writeHists1D_thrown_q2_gen_al_prot();
+
+    void writeHists1D_thrown_w_gen_al_pip();
+    void writeHists1D_thrown_q2_gen_al_pip();
+
+    void writeHists1D_thrown_w_gen_al_pim();
+    void writeHists1D_thrown_q2_gen_al_pim();
+
     void writeHists1D_thrown_protPip();
     void writeHists1D_thrown_protPim();
     void writeHists1D_thrown_pipPim();

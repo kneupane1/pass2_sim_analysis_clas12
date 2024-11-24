@@ -314,7 +314,7 @@ public:
         }
 
         /// smearing fx's function
-        void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
+        void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double w_val, double &pNew, double &thetaNew,
                           double &phiNew)
         {
                 // Constants
@@ -329,9 +329,9 @@ public:
                 // Generate new values
                 if (part_id == ELECTRON)
                 {
-                        phiNew = phi + 0.75 * phiR * gRandom->Gaus(0, 1); /// 0.4 was the origonal from pass1
-                        thetaNew = theta + 0.75 * thetaR * gRandom->Gaus(0, 1);
-                        pNew = p + 0.75 * pR * gRandom->Gaus(0, 1) * p;
+                        phiNew = phi + phiR * gRandom->Gaus(0, 1) * 0.6 * ((-0.4632) * w_val + (2.0038) * w_val + (-0.9035) * w_val); /// 0.4 was the origonal from pass1
+                        thetaNew = theta + thetaR * gRandom->Gaus(0, 1) * 0.6 * ((-0.4632) * w_val + (2.0038) * w_val + (-0.9035) * w_val);
+                        pNew = p + pR * gRandom->Gaus(0, 1) * p * 0.6 * ((-0.4632) * w_val + (2.0038) * w_val + (-0.9035) * w_val);
                 }
                 else if (part_id == PROTON)
                 {

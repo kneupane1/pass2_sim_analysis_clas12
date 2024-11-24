@@ -25,34 +25,37 @@ Histogram::Histogram(const std::string &output_file)
         ////// //////////////////////// This section is for THNSPARSE and related ////////////////////////////////
         ////// //////////////////////// This section is for THNSPARSE and related ////////////////////////////////
 
-        const Int_t ndims_5D = 5;
-        Int_t bins_5D[ndims_5D] = {11, 11, 10, 6, 10};
-        // in our expected range
-        // Int_t bins_5D_original[ndims_5D] = {7, 7, 10, 6, 10};
-        // Int_t bins_5D[ndims_5D] = {7, 7, 10, 6, 10};
-
-        // Mlower = mh1 + mh2
-        //  Double_t xmin_5D_original[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
-
         // for (short q2 = 3; q2 < 4; q2++)
         for (short q2 = 1; q2 < q2_bin_size; q2++)
         {
+                const Int_t ndims_5D = 5;
+
+                Int_t bins_5D[ndims_5D] = {15, 15, 10, 6, 10};
+                // in our expected range
+                // Int_t bins_5D_original[ndims_5D] = {7, 7, 10, 6, 10};
+                // Int_t bins_5D[ndims_5D] = {7, 7, 10, 6, 10};
+
+                // Mlower = mh1 + mh2
+                //  Double_t xmin_5D_original[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
+
                 float q2_lower_lim = q2_low_values[q2];
                 float q2_upper_lim = q2_up_values[q2];
 
                 // for (short w = w_lower_bin; w < w_higher_bin; w++)
                 for (short w = w_lower_bin; w < w_higher_bin; w++)
-
                 {
                         // Mupper(W) = W − mh3
                         // //50 MeV w bin
 
-                        // //adding extra bins in each end of invariant mass hist
-                        Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
-                        Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
+                        // // //adding extra bins in each end of invariant mass hist
+                        Double_t Bin_size_pPip0 = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
+                        Double_t Bin_size_pipPim0 = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
 
-                        Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 2 * Bin_size_pPip), (0.13957 + 0.13957) - 2 * Bin_size_pipPim, 0., 0., 0.};
-                        Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 2 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 2 * Bin_size_pipPim), 180, 360, 360};
+                        // Double_t xmin_5D[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
+                        // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
+
+                        Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip0), (0.13957 + 0.13957) - 4 * Bin_size_pipPim0, 0., 0., 0.};
+                        Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip0), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim0), 180, 360, 360};
 
                         // Double_t xmin_5D[ndims_5D] = {(0.938272 + 0.13957) - 3 * Bin_size_pPip, (0.13957 + 0.13957) - 3 * Bin_size_pipPim, 0., 0., 0.};
                         // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w - MASS_PIM) + 4 * Bin_size_pPip, (1.0 + 0.05 * w - MASS_P) + 4 * Bin_size_pipPim, 180, 360, 360};
@@ -115,101 +118,224 @@ Histogram::Histogram(const std::string &output_file)
                                                                       ndims_5D, bins_5D, xmin_5D, xmax_5D);
                         h_5dim_thrown_pim_evt[q2][w] = new THnSparseD(name_evt, name_evt,
                                                                       ndims_5D, bins_5D, xmin_5D, xmax_5D);
+                }
+        }
+        // ///////////////////////////////////// BIN Centering part ///////////////////////////////
+        // ///////////////////////////////////// BIN Centering part ///////////////////////////////
+        // ///////////////////////////////////// BIN Centering part ///////////////////////////////
+        // ///////////////////////////////////// BIN Centering part ///////////////////////////////
+        // for (short q2 = 3; q2 < 4; q2++)
+        for (short q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                float q2_lower_lim = q2_low_values[q2];
+                float q2_upper_lim = q2_up_values[q2];
 
-                        // ///////////////////////////////////// BIN Centering part ///////////////////////////////
-                        // auto name_w = Form("h_w_gen_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
-                        // auto name_q2 = Form("h_q2_gen_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                // for (short w = w_lower_bin; w < w_higher_bin; w++)
+                for (short w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        // Mupper(W) = W − mh3
+                        // //50 MeV w bin
 
-                        // w_gen_hist[q2][w] = std::make_shared<TH1D>(name_w, name_w, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
-                        // w_gen_hist[q2][w]->Sumw2();
+                        // //adding extra bins in each end of invariant mass hist
+                        Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
+                        Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
 
-                        // q2_gen_hist[q2][w] = std::make_shared<TH1D>(name_q2, name_q2, 11, q2_lower_lim, q2_upper_lim);
-                        // q2_gen_hist[q2][w]->Sumw2();
+                        Double_t xmin_5D_BC[5] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
+                        Double_t xmax_5D_BC[5] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
 
-                        // for (size_t xi = 0; xi < 7; xi++)
-                        // {
-                        //         float xmin_pPip = xmin_5D[0] + Bin_size_pPip * xi;
-                        //         float xmax_pPip = xmin_5D[0] + Bin_size_pPip * (xi + 1);
+                        auto name_w = Form("h_w_gen_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                        auto name_q2 = Form("h_q2_gen_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV", (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
 
-                        //         float xmin_pipPim = xmin_5D[1] + Bin_size_pipPim * xi;
-                        //         float xmax_pipPim = xmin_5D[1] + Bin_size_pipPim * (xi + 1);
+                        w_gen_hist[q2][w] = std::make_shared<TH1D>(name_w, name_w, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                        w_gen_hist[q2][w]->Sumw2();
 
-                        //         auto name_pPip = Form("h_pPip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
-                        //                               (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+                        q2_gen_hist[q2][w] = std::make_shared<TH1D>(name_q2, name_q2, 11, q2_lower_lim, q2_upper_lim);
+                        q2_gen_hist[q2][w]->Sumw2();
 
-                        //         auto name_pPim = Form("h_pPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPim<=%.3f GeV",
-                        //                               (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                float xmin_pPip = xmin_5D_BC[0] + Bin_size_pPip * xi;
+                                float xmax_pPip = xmin_5D_BC[0] + Bin_size_pPip * (xi + 1);
 
-                        //         auto name_pipPim = Form("h_pipPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pipPim<=%.3f GeV",
-                        //                                 (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pipPim, xmax_pipPim);
+                                float xmin_pipPim = xmin_5D_BC[1] + Bin_size_pipPim * xi;
+                                float xmax_pipPim = xmin_5D_BC[1] + Bin_size_pipPim * (xi + 1);
 
-                        //         inv_pPip_hist[q2][w][xi] = std::make_shared<TH1D>(name_pPip, name_pPip, 11, xmin_pPip, xmax_pPip);
-                        //         inv_pPip_hist[q2][w][xi]->Sumw2();
+                                auto name_pPip = Form("h_pPip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                      (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
 
-                        //         inv_pPim_hist[q2][w][xi] = std::make_shared<TH1D>(name_pPim, name_pPim, 11, xmin_pPip, xmax_pPip);
-                        //         inv_pPim_hist[q2][w][xi]->Sumw2();
+                                auto name_pPim = Form("h_pPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPim<=%.3f GeV",
+                                                      (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
 
-                        //         inv_pipPim_hist[q2][w][xi] = std::make_shared<TH1D>(name_pipPim, name_pipPim, 11, xmin_pipPim, xmax_pipPim);
-                        //         inv_pipPim_hist[q2][w][xi]->Sumw2();
+                                auto name_pipPim = Form("h_pipPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pipPim<=%.3f GeV",
+                                                        (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pipPim, xmax_pipPim);
 
-                        //         // std::cout << " 1..... w is : " << w << "  q2 is  :  " << q2 << "  bin size is : " << Bin_size_pPip
-                        //         //           << "  xi is : " << xi
-                        //         //           << "  name is : " << name_pPip << std::endl;
-                        // }
+                                auto name_w_inv_pPip = Form("h_w_gen_inv_pPip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                            (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+                                auto name_q2_inv_pPip = Form("h_q2_gen_inv_pPip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                             (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
 
-                        // for (int ti = 0; ti < 10; ti++)
-                        // {
+                                auto name_w_inv_pPim = Form("h_w_gen_inv_pPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                            (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+                                auto name_q2_inv_pPim = Form("h_q2_gen_inv_pPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                             (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
 
-                        //         float xmin_th = 18.0 * ti;
-                        //         float xmax_th = 18.0 * (ti + 1);
+                                auto name_w_inv_pipPim = Form("h_w_gen_inv_pipPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                              (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pipPim, xmax_pipPim);
+                                auto name_q2_inv_pipPim = Form("h_q2_gen_inv_pipPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                               (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pipPim, xmax_pipPim);
 
-                        //         auto name_th_prot = Form("h_th_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_prot<=%.1f deg",
-                        //                                  (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+                                inv_pPip_hist[q2][w][xi] = std::make_shared<TH1D>(name_pPip, name_pPip, 11, xmin_pPip, xmax_pPip);
+                                inv_pPip_hist[q2][w][xi]->Sumw2();
+                                // std::cout << "  xmin_pPip  " << xmin_pPip << "  xmax_pPip  " << xmax_pPip << std::endl;
+                                inv_pPim_hist[q2][w][xi] = std::make_shared<TH1D>(name_pPim, name_pPim, 11, xmin_pPip, xmax_pPip);
+                                inv_pPim_hist[q2][w][xi]->Sumw2();
 
-                        //         auto name_th_pip = Form("h_th_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pip<=%.1f deg",
-                        //                                 (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+                                inv_pipPim_hist[q2][w][xi] = std::make_shared<TH1D>(name_pipPim, name_pipPim, 11, xmin_pipPim, xmax_pipPim);
+                                inv_pipPim_hist[q2][w][xi]->Sumw2();
 
-                        //         auto name_th_pim = Form("h_th_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pim<=%.1f deg",
-                        //                                 (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+                                w_gen_hist_inv_pPip[q2][w][xi] = std::make_shared<TH1D>(name_w_inv_pPip, name_w_inv_pPip, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_inv_pPip[q2][w][xi]->Sumw2();
 
-                        //         // std::cout << " [q2][w][ai] for theta is " << q2 << " " << w << " " << ti << std::endl;
+                                q2_gen_hist_inv_pPip[q2][w][xi] = std::make_shared<TH1D>(name_q2_inv_pPip, name_q2_inv_pPip, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_inv_pPip[q2][w][xi]->Sumw2();
 
-                        //         prot_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_prot, name_th_prot, 11, xmin_th, xmax_th);
-                        //         prot_theta_hist[q2][w][ti]->Sumw2();
+                                w_gen_hist_inv_pPim[q2][w][xi] = std::make_shared<TH1D>(name_w_inv_pPim, name_w_inv_pPim, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_inv_pPim[q2][w][xi]->Sumw2();
 
-                        //         pip_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_pip, name_th_pip, 11, xmin_th, xmax_th);
-                        //         pip_theta_hist[q2][w][ti]->Sumw2();
+                                q2_gen_hist_inv_pPim[q2][w][xi] = std::make_shared<TH1D>(name_q2_inv_pPim, name_q2_inv_pPim, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_inv_pPim[q2][w][xi]->Sumw2();
 
-                        //         pim_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_pim, name_th_pim, 11, xmin_th, xmax_th);
-                        //         pim_theta_hist[q2][w][ti]->Sumw2();
-                        // }
-                        // for (int ai = 0; ai < 10; ai++)
-                        // {
+                                w_gen_hist_inv_pipPim[q2][w][xi] = std::make_shared<TH1D>(name_w_inv_pipPim, name_w_inv_pipPim, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_inv_pipPim[q2][w][xi]->Sumw2();
 
-                        //         /////////////////// alpha angle
+                                q2_gen_hist_inv_pipPim[q2][w][xi] = std::make_shared<TH1D>(name_q2_inv_pipPim, name_q2_inv_pipPim, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_inv_pipPim[q2][w][xi]->Sumw2();
+                                // std::cout << " 1..... w is : " << w << "  q2 is  :  " << q2 << "  bin size is : " << Bin_size_pPip
+                                //           << "  xi is : " << xi
+                                //           << "  name is : " << name_pPip << std::endl;
+                        }
 
-                        //         float xmin_alpha;
-                        //         xmin_alpha = 36.0 * ai;
-                        //         float xmax_alpha;
-                        //         xmax_alpha = 36.0 * (ai + 1);
+                        for (int ti = 0; ti < 10; ti++)
+                        {
 
-                        //         auto name_al_prot = Form("h_al_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_prot<=%.1f deg",
-                        //                                  (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
-                        //         auto name_al_pip = Form("h_al_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pip<=%.1f deg",
-                        //                                 (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
-                        //         auto name_al_pim = Form("h_al_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pim<=%.1f deg",
-                        //                                 (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+                                float xmin_th = 18.0 * ti;
+                                float xmax_th = 18.0 * (ti + 1);
 
-                        //         // std::cout << " [q2][w][ai] for alpha is " << q2 << " " << w << " " << ai << std::endl;
-                        //         prot_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_prot, name_al_prot, 11, xmin_alpha, xmax_alpha);
-                        //         prot_alpha_hist[q2][w][ai]->Sumw2();
+                                auto name_th_prot = Form("h_th_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_prot<=%.1f deg",
+                                                         (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
 
-                        //         pip_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_pip, name_al_pip, 11, xmin_alpha, xmax_alpha);
-                        //         pip_alpha_hist[q2][w][ai]->Sumw2();
+                                auto name_th_pip = Form("h_th_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pip<=%.1f deg",
+                                                        (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
 
-                        //         pim_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_pim, name_al_pim, 11, xmin_alpha, xmax_alpha);
-                        //         pim_alpha_hist[q2][w][ai]->Sumw2();
-                        // }
+                                auto name_th_pim = Form("h_th_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pim<=%.1f deg",
+                                                        (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+
+                                auto name_w_th_prot = Form("h_w_gen_th_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_prot<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+                                auto name_q2_th_prot = Form("h_q2_gen_th_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2fGeV_%.1f<=th_prot<=%.1f deg",
+                                                            (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+
+                                auto name_w_th_pip = Form("h_w_gen_th_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pip<=%.1f deg",
+                                                          (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+
+                                auto name_q2_th_pip = Form("h_q2_gen_th_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pip<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+
+                                auto name_w_th_pim = Form("h_w_gen_th_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pim<=%.1f deg",
+                                                          (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+                                auto name_q2_th_pim = Form("h_q2_gen_th_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=th_pim<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_th, xmax_th);
+
+                                // std::cout << " [q2][w][ai] for theta is " << q2 << " " << w << " " << ti << std::endl;
+
+                                prot_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_prot, name_th_prot, 11, xmin_th, xmax_th);
+                                prot_theta_hist[q2][w][ti]->Sumw2();
+
+                                pip_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_pip, name_th_pip, 11, xmin_th, xmax_th);
+                                pip_theta_hist[q2][w][ti]->Sumw2();
+
+                                pim_theta_hist[q2][w][ti] = std::make_shared<TH1D>(name_th_pim, name_th_pim, 11, xmin_th, xmax_th);
+                                pim_theta_hist[q2][w][ti]->Sumw2();
+
+                                w_gen_hist_th_prot[q2][w][ti] = std::make_shared<TH1D>(name_w_th_prot, name_w_th_prot, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_th_prot[q2][w][ti]->Sumw2();
+
+                                q2_gen_hist_th_prot[q2][w][ti] = std::make_shared<TH1D>(name_q2_th_prot, name_q2_th_prot, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_th_prot[q2][w][ti]->Sumw2();
+
+                                w_gen_hist_th_pip[q2][w][ti] = std::make_shared<TH1D>(name_w_th_pip, name_w_th_pip, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_th_pip[q2][w][ti]->Sumw2();
+
+                                q2_gen_hist_th_pip[q2][w][ti] = std::make_shared<TH1D>(name_q2_th_pip, name_q2_th_pip, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_th_pip[q2][w][ti]->Sumw2();
+
+                                w_gen_hist_th_pim[q2][w][ti] = std::make_shared<TH1D>(name_w_th_pim, name_w_th_pim, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_th_pim[q2][w][ti]->Sumw2();
+
+                                q2_gen_hist_th_pim[q2][w][ti] = std::make_shared<TH1D>(name_q2_th_pim, name_q2_th_pim, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_th_pim[q2][w][ti]->Sumw2();
+                        }
+                        for (int ai = 0; ai < 10; ai++)
+                        {
+
+                                ///////////////// alpha angle
+
+                                float xmin_alpha;
+                                xmin_alpha = 36.0 * ai;
+                                float xmax_alpha;
+                                xmax_alpha = 36.0 * (ai + 1);
+
+                                auto name_al_prot = Form("h_al_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_prot<=%.1f deg",
+                                                         (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+                                auto name_al_pip = Form("h_al_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pip<=%.1f deg",
+                                                        (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+                                auto name_al_pim = Form("h_al_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pim<=%.1f deg",
+                                                        (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+
+                                auto name_w_al_prot = Form("h_w_gen_al_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_prot<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+                                auto name_q2_al_prot = Form("h_q2_gen_al_prot_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2fGeV_%.1f<=al_prot<=%.1f deg",
+                                                            (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+
+                                auto name_w_al_pip = Form("h_w_gen_al_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pip<=%.1f deg",
+                                                          (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+
+                                auto name_q2_al_pip = Form("h_q2_gen_al_pip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pip<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+
+                                auto name_w_al_pim = Form("h_w_gen_al_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pim<=%.1f deg",
+                                                          (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+                                auto name_q2_al_pim = Form("h_q2_gen_al_pim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.1f<=al_pim<=%.1f deg",
+                                                           (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_alpha, xmax_alpha);
+
+                                // std::cout << " [q2][w][ai] for alpha is " << q2 << " " << w << " " << ai << std::endl;
+                                prot_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_prot, name_al_prot, 11, xmin_alpha, xmax_alpha);
+                                prot_alpha_hist[q2][w][ai]->Sumw2();
+
+                                pip_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_pip, name_al_pip, 11, xmin_alpha, xmax_alpha);
+                                pip_alpha_hist[q2][w][ai]->Sumw2();
+
+                                pim_alpha_hist[q2][w][ai] = std::make_shared<TH1D>(name_al_pim, name_al_pim, 11, xmin_alpha, xmax_alpha);
+                                pim_alpha_hist[q2][w][ai]->Sumw2();
+
+                                w_gen_hist_al_prot[q2][w][ai] = std::make_shared<TH1D>(name_w_al_prot, name_w_al_prot, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_al_prot[q2][w][ai]->Sumw2();
+
+                                q2_gen_hist_al_prot[q2][w][ai] = std::make_shared<TH1D>(name_q2_al_prot, name_q2_al_prot, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_al_prot[q2][w][ai]->Sumw2();
+
+                                w_gen_hist_al_pip[q2][w][ai] = std::make_shared<TH1D>(name_w_al_pip, name_w_al_pip, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_al_pip[q2][w][ai]->Sumw2();
+
+                                q2_gen_hist_al_pip[q2][w][ai] = std::make_shared<TH1D>(name_q2_al_pip, name_q2_al_pip, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_al_pip[q2][w][ai]->Sumw2();
+
+                                w_gen_hist_al_pim[q2][w][ai] = std::make_shared<TH1D>(name_w_al_pim, name_w_al_pim, 11, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05));
+                                w_gen_hist_al_pim[q2][w][ai]->Sumw2();
+
+                                q2_gen_hist_al_pim[q2][w][ai] = std::make_shared<TH1D>(name_q2_al_pim, name_q2_al_pim, 11, q2_lower_lim, q2_upper_lim);
+                                q2_gen_hist_al_pim[q2][w][ai]->Sumw2();
+                        }
                 }
         }
 
@@ -270,7 +396,7 @@ Histogram::Histogram(const std::string &output_file)
         // p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
         // p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
 
-        W_hist = std::make_shared<TH1D>("W", "W", bins, 0, w_max);
+        W_hist = std::make_shared<TH1D>("W", "W", bins, w_min, w_max);
 
         // Theta_vs_mom_x_mu = std::make_shared<TH2D>("theta_vs_mom_x_mu_all_sec",
         // "theta_vs_mom_x_mu_all_sec", bins, zero,
@@ -421,9 +547,12 @@ Histogram::~Histogram()
 void Histogram::Write()
 {
         std::cout << GREEN << "Writting" << DEF << std::endl;
-        // THnSparse
+        // THnSparse   7D HIST ///////
+        // THnSparse   7D HIST ///////
+        // THnSparse   7D HIST ///////
+        // THnSparse   7D HIST ///////
+
         std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
-        //
         TDirectory *THnSparse_7D_prot_folder =
             RootOutputFile->mkdir("THnSparse_7D_prot");
         THnSparse_7D_prot_folder->cd();
@@ -482,65 +611,159 @@ void Histogram::Write()
         THnSparse_7D_thrown_pip_evt_folder->cd();
         writeHists7D_thrown_pip_evt();
 
-        // // // ////////// bin centering corr
-        // TDirectory *TH1D_thrown_w_gen_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
-        // TH1D_thrown_w_gen_folder->cd();
-        // writeHists1D_thrown_w_gen();
+        // // ////////// bin centering corr
+        // // ////////// bin centering corr
+        // // ////////// bin centering corr
+        // // ////////// bin centering corr
 
-        // TDirectory *TH1D_thrown_q2_gen_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
-        // TH1D_thrown_q2_gen_folder->cd();
-        // writeHists1D_thrown_q2_gen();
+        TDirectory *TH1D_thrown_w_gen_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
+        TH1D_thrown_w_gen_folder->cd();
+        writeHists1D_thrown_w_gen();
 
-        // TDirectory *TH1D_thrown_protPip_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
-        // TH1D_thrown_protPip_folder->cd();
-        // writeHists1D_thrown_protPip();
+        TDirectory *TH1D_thrown_q2_gen_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
+        TH1D_thrown_q2_gen_folder->cd();
+        writeHists1D_thrown_q2_gen();
 
-        // TDirectory *TH1D_thrown_protPim_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
-        // TH1D_thrown_protPim_folder->cd();
-        // writeHists1D_thrown_protPim();
+        TDirectory *TH1D_thrown_w_gen_inv_pPip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPip_folder");
+        TH1D_thrown_w_gen_inv_pPip_folder->cd();
+        writeHists1D_thrown_w_gen_inv_pPip();
 
-        // TDirectory *TH1D_thrown_pipPim_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
-        // TH1D_thrown_pipPim_folder->cd();
-        // writeHists1D_thrown_pipPim();
+        TDirectory *TH1D_thrown_q2_gen_inv_pPip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPip_folder");
+        TH1D_thrown_q2_gen_inv_pPip_folder->cd();
+        writeHists1D_thrown_q2_gen_inv_pPip();
 
-        // /// theta
+        TDirectory *TH1D_thrown_w_gen_inv_pPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPim_folder");
+        TH1D_thrown_w_gen_inv_pPim_folder->cd();
+        writeHists1D_thrown_w_gen_inv_pPim();
 
-        // TDirectory *TH1D_thrown_th_prot_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_th_prot_folder");
-        // TH1D_thrown_th_prot_folder->cd();
-        // writeHists1D_thrown_th_prot();
+        TDirectory *TH1D_thrown_q2_gen_inv_pPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPim_folder");
+        TH1D_thrown_q2_gen_inv_pPim_folder->cd();
+        writeHists1D_thrown_q2_gen_inv_pPim();
 
-        // TDirectory *TH1D_thrown_th_pip_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_th_pip_folder");
-        // TH1D_thrown_th_pip_folder->cd();
-        // writeHists1D_thrown_th_pip();
+        TDirectory *TH1D_thrown_w_gen_inv_pipPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pipPim_folder");
+        TH1D_thrown_w_gen_inv_pipPim_folder->cd();
+        writeHists1D_thrown_w_gen_inv_pipPim();
 
-        // TDirectory *TH1D_thrown_th_pim_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_th_pim_folder");
-        // TH1D_thrown_th_pim_folder->cd();
-        // writeHists1D_thrown_th_pim();
+        TDirectory *TH1D_thrown_q2_gen_inv_pipPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pipPim_folder");
+        TH1D_thrown_q2_gen_inv_pipPim_folder->cd();
+        writeHists1D_thrown_q2_gen_inv_pipPim();
+
+        TDirectory *TH1D_thrown_protPip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
+        TH1D_thrown_protPip_folder->cd();
+        writeHists1D_thrown_protPip();
+
+        TDirectory *TH1D_thrown_protPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
+        TH1D_thrown_protPim_folder->cd();
+        writeHists1D_thrown_protPim();
+
+        TDirectory *TH1D_thrown_pipPim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
+        TH1D_thrown_pipPim_folder->cd();
+        writeHists1D_thrown_pipPim();
+
+        /// theta
+
+        TDirectory *TH1D_thrown_w_gen_th_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_prot_folder");
+        TH1D_thrown_w_gen_th_prot_folder->cd();
+        writeHists1D_thrown_w_gen_th_prot();
+
+        TDirectory *TH1D_thrown_q2_gen_th_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_prot_folder");
+        TH1D_thrown_q2_gen_th_prot_folder->cd();
+        writeHists1D_thrown_q2_gen_th_prot();
+
+        TDirectory *TH1D_thrown_w_gen_th_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pip_folder");
+        TH1D_thrown_w_gen_th_pip_folder->cd();
+        writeHists1D_thrown_w_gen_th_pip();
+
+        TDirectory *TH1D_thrown_q2_gen_th_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pip_folder");
+        TH1D_thrown_q2_gen_th_pip_folder->cd();
+        writeHists1D_thrown_q2_gen_th_pip();
+
+        TDirectory *TH1D_thrown_w_gen_th_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pim_folder");
+        TH1D_thrown_w_gen_th_pim_folder->cd();
+        writeHists1D_thrown_w_gen_th_pim();
+
+        TDirectory *TH1D_thrown_q2_gen_th_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pim_folder");
+        TH1D_thrown_q2_gen_th_pim_folder->cd();
+        writeHists1D_thrown_q2_gen_th_pim();
+
+        TDirectory *TH1D_thrown_th_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_th_prot_folder");
+        TH1D_thrown_th_prot_folder->cd();
+        writeHists1D_thrown_th_prot();
+
+        TDirectory *TH1D_thrown_th_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_th_pip_folder");
+        TH1D_thrown_th_pip_folder->cd();
+        writeHists1D_thrown_th_pip();
+
+        TDirectory *TH1D_thrown_th_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_th_pim_folder");
+        TH1D_thrown_th_pim_folder->cd();
+        writeHists1D_thrown_th_pim();
 
         // // ///// alpha
 
-        // TDirectory *TH1D_thrown_alpha_prot_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_alpha_prot_folder");
-        // TH1D_thrown_alpha_prot_folder->cd();
-        // writeHists1D_thrown_alpha_prot();
+        TDirectory *TH1D_thrown_w_gen_al_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_prot_folder");
+        TH1D_thrown_w_gen_al_prot_folder->cd();
+        writeHists1D_thrown_w_gen_al_prot();
 
-        // TDirectory *TH1D_thrown_alpha_pip_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_alpha_pip_folder");
-        // TH1D_thrown_alpha_pip_folder->cd();
-        // writeHists1D_thrown_alpha_pip();
+        TDirectory *TH1D_thrown_q2_gen_al_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_prot_folder");
+        TH1D_thrown_q2_gen_al_prot_folder->cd();
+        writeHists1D_thrown_q2_gen_al_prot();
 
-        // TDirectory *TH1D_thrown_alpha_pim_folder =
-        //     RootOutputFile->mkdir("TH1D_thrown_alpha_pim_folder");
-        // TH1D_thrown_alpha_pim_folder->cd();
-        // writeHists1D_thrown_alpha_pim();
+        TDirectory *TH1D_thrown_w_gen_al_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pip_folder");
+        TH1D_thrown_w_gen_al_pip_folder->cd();
+        writeHists1D_thrown_w_gen_al_pip();
+
+        TDirectory *TH1D_thrown_q2_gen_al_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pip_folder");
+        TH1D_thrown_q2_gen_al_pip_folder->cd();
+        writeHists1D_thrown_q2_gen_al_pip();
+
+        TDirectory *TH1D_thrown_w_gen_al_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pim_folder");
+        TH1D_thrown_w_gen_al_pim_folder->cd();
+        writeHists1D_thrown_w_gen_al_pim();
+
+        TDirectory *TH1D_thrown_q2_gen_al_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pim_folder");
+        TH1D_thrown_q2_gen_al_pim_folder->cd();
+        writeHists1D_thrown_q2_gen_al_pim();
+
+        TDirectory *TH1D_thrown_alpha_prot_folder =
+            RootOutputFile->mkdir("TH1D_thrown_alpha_prot_folder");
+        TH1D_thrown_alpha_prot_folder->cd();
+        writeHists1D_thrown_alpha_prot();
+
+        TDirectory *TH1D_thrown_alpha_pip_folder =
+            RootOutputFile->mkdir("TH1D_thrown_alpha_pip_folder");
+        TH1D_thrown_alpha_pip_folder->cd();
+        writeHists1D_thrown_alpha_pip();
+
+        TDirectory *TH1D_thrown_alpha_pim_folder =
+            RootOutputFile->mkdir("TH1D_thrown_alpha_pim_folder");
+        TH1D_thrown_alpha_pim_folder->cd();
+        writeHists1D_thrown_alpha_pim();
 
         // std::cerr << BOLDBLUE << "WBinCheck()" << DEF << std::endl;
         // TDirectory *WBinCheck_folder = RootOutputFile->mkdir("WBinCheck");
@@ -552,10 +775,10 @@ void Histogram::Write()
         WvsQ2_folder->cd();
         Write_WvsQ2();
 
-        // // std::cerr << BOLDBLUE << "write_hist_x_mu()" << DEF << std::endl;
-        // // TDirectory *hists_x_mu = RootOutputFile->mkdir("hists_x_mu");
-        // // hists_x_mu->cd();
-        // // write_hist_x_mu();
+        // std::cerr << BOLDBLUE << "write_hist_x_mu()" << DEF << std::endl;
+        // TDirectory *hists_x_mu = RootOutputFile->mkdir("hists_x_mu");
+        // hists_x_mu->cd();
+        // write_hist_x_mu();
 
         // std::cerr << BOLDBLUE << "Write_MomVsBeta()" << DEF << std::endl;
         // TDirectory *Write_MomVsBeta_folder = RootOutputFile->mkdir("Mom Vs Beta");
@@ -1269,236 +1492,526 @@ void Histogram::writeHists7D_thrown_pim_evt()
 /////////////////////////////////////////////  Bin Centering Corrction part //////////////////////////////////////////////////
 /////////////////////////////////////////////  Bin Centering Corrction part //////////////////////////////////////////////////
 
-// void Histogram::Fill_hist1D_thrown_w_q2(const std::shared_ptr<MCReaction> &_e)
-// {
+void Histogram::Fill_hist1D_thrown_w_q2(const std::shared_ptr<MCReaction> &_e)
+{
 
-//         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
-//         {
+        if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
+        {
 
-//                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
-//                 {
-//                         // w mc
-//                         w_gen_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(_e->W_mc(), _e->weight());
-//                         // q2 mc
-//                         q2_gen_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(_e->Q2_mc(), _e->weight());
-//                 }
-//         }
-// }
-// void Histogram::Fill_hist1D_thrown_inv_mass(const std::shared_ptr<MCReaction> &_e)
-// {
+                if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
+                {
+                        // w mc
+                        w_gen_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc
+                        q2_gen_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)]->Fill(_e->Q2_mc(), _e->weight());
+                }
+        }
+}
+void Histogram::Fill_hist1D_thrown_inv_mass(const std::shared_ptr<MCReaction> &_e)
+{
+        // inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
 
-//         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
-//         {
+        if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
+        {
 
-//                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
-//                 {
+                if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
+                {
+                        // inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
 
-//                         int inv_pPip_bin_val = inv_binning(_e->W_mc(), _e->MCinv_Ppip(), 1);
-//                         if (inv_pPip_bin_val != -1)
-//                         {
-//                                 inv_pPip_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->MCinv_Ppip(), _e->weight());
-//                         }
+                        int inv_pPip_bin_val = inv_binning(_e->W_mc(), _e->MCinv_Ppip(), 1);
+                        if (inv_pPip_bin_val != -1)
+                        {
+                                inv_mass_pPip->Fill(_e->MCinv_Ppip(), _e->weight());
+                                inv_pPip_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->MCinv_Ppip(), _e->weight());
+                                // w mc
+                                w_gen_hist_inv_pPip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->W_mc(), _e->weight());
+                                // q2 mc
+                                q2_gen_hist_inv_pPip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->Q2_mc(), _e->weight());
 
-//                         int inv_pPim_bin_val = inv_binning(_e->W_mc(), _e->MCinv_Ppim(), 1);
-//                         if (inv_pPim_bin_val != -1)
-//                         {
-//                                 inv_pPim_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPim_bin_val]->Fill(_e->MCinv_Ppim(), _e->weight());
-//                         }
-//                         int inv_pipPim_bin_val = inv_binning(_e->W_mc(), _e->MCinv_pip_pim(), 0);
-//                         if (inv_pipPim_bin_val != -1)
-//                         {
-//                                 inv_pipPim_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pipPim_bin_val]->Fill(_e->MCinv_pip_pim(), _e->weight());
-//                         }
-//                 }
-//         }
-// }
+                                // std::cout << "  w  " << _e->W_mc() << "  Q2  " << _e->Q2_mc() << "  bin  " << inv_pPip_bin_val << "  MCinv_Ppip  " << _e->MCinv_Ppip() << std::endl;
+                        }
 
-// void Histogram::Fill_hist1D_thrown_theta(const std::shared_ptr<MCReaction> &_e)
-// {
+                        int inv_pPim_bin_val = inv_binning(_e->W_mc(), _e->MCinv_Ppim(), 1);
+                        if (inv_pPim_bin_val != -1)
+                        {
+                                inv_pPim_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPim_bin_val]->Fill(_e->MCinv_Ppim(), _e->weight());
+                                // w mc
+                                w_gen_hist_inv_pPim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPim_bin_val]->Fill(_e->W_mc(), _e->weight());
+                                // q2 mc
+                                q2_gen_hist_inv_pPim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPim_bin_val]->Fill(_e->Q2_mc(), _e->weight());
+                        }
+                        int inv_pipPim_bin_val = inv_binning(_e->W_mc(), _e->MCinv_pip_pim(), 0);
+                        if (inv_pipPim_bin_val != -1)
+                        {
+                                inv_pipPim_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pipPim_bin_val]->Fill(_e->MCinv_pip_pim(), _e->weight());
+                                // w mc
+                                w_gen_hist_inv_pipPim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pipPim_bin_val]->Fill(_e->W_mc(), _e->weight());
+                                // q2 mc
+                                q2_gen_hist_inv_pipPim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pipPim_bin_val]->Fill(_e->Q2_mc(), _e->weight());
+                        }
+                }
+        }
+}
 
-//         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
-//         {
+void Histogram::Fill_hist1D_thrown_theta(const std::shared_ptr<MCReaction> &_e)
+{
 
-//                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
-//                 {
-//                         // std::cout << " prot th  " << _e->MCprot_theta_thrown() << "  dcos(theta) " << dCosTh(_e->MCprot_theta_thrown()) << std::endl;
-//                         // theta proton
-//                         prot_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCprot_theta_thrown() / 18.0)]->Fill(_e->MCprot_theta_thrown(), _e->weight());
-//                         // theta pip
-//                         pip_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpip_theta_thrown() / 18.0)]->Fill(_e->MCpip_theta_thrown(), _e->weight());
-//                         // theta pim
-//                         pim_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpim_theta_thrown() / 18.0)]->Fill(_e->MCpim_theta_thrown(), _e->weight());
-//                 }
-//         }
-// }
-// void Histogram::Fill_hist1D_thrown_alpha(const std::shared_ptr<MCReaction> &_e)
-// {
+        if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
+        {
 
-//         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
-//         {
+                if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
+                {
+                        // std::cout << " prot th  " << _e->MCprot_theta_thrown() << "  dcos(theta) " << dCosTh(_e->MCprot_theta_thrown()) << std::endl;
+                        // theta proton
+                        prot_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCprot_theta_thrown() / 18.0)]->Fill(_e->MCprot_theta_thrown(), _e->weight());
+                        // theta pip
+                        pip_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpip_theta_thrown() / 18.0)]->Fill(_e->MCpip_theta_thrown(), _e->weight());
+                        // theta pim
+                        pim_theta_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpim_theta_thrown() / 18.0)]->Fill(_e->MCpim_theta_thrown(), _e->weight());
 
-//                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
-//                 {
-//                         // TThread::Lock();
+                        // w mc theta prot
+                        w_gen_hist_th_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCprot_theta_thrown() / 18.0)]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc theta prot
+                        q2_gen_hist_th_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCprot_theta_thrown() / 18.0)]->Fill(_e->Q2_mc(), _e->weight());
 
-//                         // // alpha proton
-//                         prot_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_pippim_pipf_thrown())]->Fill(_e->MCalpha_pippim_pipf_thrown(), _e->weight());
-//                         // // // alpha pip
-//                         pip_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppim_pipip_thrown())]->Fill(_e->MCalpha_ppim_pipip_thrown(), _e->weight());
-//                         // // // alpha pim
-//                         pim_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppip_pipim_thrown())]->Fill(_e->MCalpha_ppip_pipim_thrown(), _e->weight());
+                        // w mc theta pip
+                        w_gen_hist_th_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpip_theta_thrown() / 18.0)]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc theta pip
+                        q2_gen_hist_th_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpip_theta_thrown() / 18.0)]->Fill(_e->Q2_mc(), _e->weight());
 
-//                         // TThread::UnLock();
-//                 }
-//         }
-// }
+                        // w mc theta pim
+                        w_gen_hist_th_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpim_theta_thrown() / 18.0)]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc theta pim
+                        q2_gen_hist_th_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][int(_e->MCpim_theta_thrown() / 18.0)]->Fill(_e->Q2_mc(), _e->weight());
+                }
+        }
+}
+void Histogram::Fill_hist1D_thrown_alpha(const std::shared_ptr<MCReaction> &_e)
+{
 
-// void Histogram::writeHists1D_thrown_w_gen()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         w_gen_hist[q2][w]->Write();
-//                 }
-//         }
-// }
-// void Histogram::writeHists1D_thrown_q2_gen()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         q2_gen_hist[q2][w]->Write();
-//                 }
-//         }
-// }
-// void Histogram::writeHists1D_thrown_protPip()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 7; xi++)
-//                         {
-//                                 inv_pPip_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
+        if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
+        {
 
-// void Histogram::writeHists1D_thrown_protPim()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 7; xi++)
-//                         {
-//                                 inv_pPim_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
-// void Histogram::writeHists1D_thrown_pipPim()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 7; xi++)
-//                         {
-//                                 inv_pipPim_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
+                if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
+                {
+                        // TThread::Lock();
 
-// void Histogram::writeHists1D_thrown_th_prot()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 prot_theta_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
-// void Histogram::writeHists1D_thrown_th_pip()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 pip_theta_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
+                        // // alpha proton
+                        prot_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_pippim_pipf_thrown())]->Fill(_e->MCalpha_pippim_pipf_thrown(), _e->weight());
+                        // // // alpha pip
+                        pip_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppim_pipip_thrown())]->Fill(_e->MCalpha_ppim_pipip_thrown(), _e->weight());
+                        // // // alpha pim
+                        pim_alpha_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppip_pipim_thrown())]->Fill(_e->MCalpha_ppip_pipim_thrown(), _e->weight());
 
-// void Histogram::writeHists1D_thrown_th_pim()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 pim_theta_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
+                        // TThread::UnLock();
 
-// void Histogram::writeHists1D_thrown_alpha_prot()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 prot_alpha_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
-// void Histogram::writeHists1D_thrown_alpha_pip()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 pip_alpha_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
+                        // w mc alpha prot
+                        w_gen_hist_al_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_pippim_pipf_thrown())]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc alpha prot
+                        q2_gen_hist_al_prot[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_pippim_pipf_thrown())]->Fill(_e->Q2_mc(), _e->weight());
 
-// void Histogram::writeHists1D_thrown_alpha_pim()
-// {
-//         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
-//         {
-//                 for (size_t w = w_lower_bin; w < w_higher_bin; w++)
-//                 {
-//                         for (size_t xi = 0; xi < 10; xi++)
-//                         {
-//                                 pim_alpha_hist[q2][w][xi]->Write();
-//                         }
-//                 }
-//         }
-// }
-/////////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
-/////////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
-/////////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
-/////////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
+                        // w mc alpha pip
+                        w_gen_hist_al_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppim_pipip_thrown())]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc alpha pip
+                        q2_gen_hist_al_pip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppim_pipip_thrown())]->Fill(_e->Q2_mc(), _e->weight());
+
+                        // w mc alpha pim
+                        w_gen_hist_al_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppip_pipim_thrown())]->Fill(_e->W_mc(), _e->weight());
+                        // q2 mc alpha pim
+                        q2_gen_hist_al_pim[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][alpha_bining(_e->MCalpha_ppip_pipim_thrown())]->Fill(_e->Q2_mc(), _e->weight());
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        w_gen_hist[q2][w]->Write();
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        q2_gen_hist[q2][w]->Write();
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_inv_pPip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                w_gen_hist_inv_pPip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_inv_pPip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                q2_gen_hist_inv_pPip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_protPip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                inv_pPip_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_inv_pPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                w_gen_hist_inv_pPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_inv_pPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                q2_gen_hist_inv_pPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_protPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                inv_pPim_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_inv_pipPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                w_gen_hist_inv_pipPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_inv_pipPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                q2_gen_hist_inv_pipPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_pipPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 7; xi++)
+                        {
+                                inv_pipPim_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_th_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_th_prot[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_th_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_th_prot[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_th_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                prot_theta_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_th_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_th_pip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_th_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_th_pip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_th_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                pip_theta_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_th_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_th_pim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_th_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_th_pim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_th_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                pim_theta_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_al_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_al_prot[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_al_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_al_prot[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_alpha_prot()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                prot_alpha_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_al_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_al_pip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_al_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_al_pip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_alpha_pip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                pip_alpha_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_thrown_w_gen_al_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                w_gen_hist_al_pim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_q2_gen_al_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                q2_gen_hist_al_pim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_thrown_alpha_pim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 10; xi++)
+                        {
+                                pim_alpha_hist[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
+///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
+///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
+///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
 
 void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
 {
@@ -1511,9 +2024,9 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 Q2_hist->Fill(_e->Q2(), _e->weight());
                 weight_hist->Fill(_e->weight());
 
-                inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
-                inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
-                inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
+                // inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
+                // inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
+                // inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
 
                 theta_Prot_cm->Fill(_e->prot_theta(), _e->weight());
                 theta_Pip_cm->Fill(_e->pip_theta(), _e->weight());
@@ -1678,234 +2191,233 @@ void Histogram::Write_WvsQ2()
         // W_vs_q2->SetXTitle("W (GeV)");
         // W_vs_q2->SetOption("COLZ");
         // W_vs_q2->Write();
-        for (short i = 0; i < 3; i++)
-        {
-                WQ2_det[i]->SetXTitle("W (GeV)");
-                WQ2_det[i]->SetYTitle("Q^{2} (GeV^2)");
-                WQ2_det[i]->SetOption("COLZ");
-                if (WQ2_det[i]->GetEntries())
-                        WQ2_det[i]->Write();
-                W_det[i]->SetXTitle("W (GeV)");
-                if (W_det[i]->GetEntries())
-                        W_det[i]->Write();
-        }
+        // for (short i = 0; i < 3; i++)
+        // {
+        //         WQ2_det[i]->SetXTitle("W (GeV)");
+        //         WQ2_det[i]->SetYTitle("Q^{2} (GeV^2)");
+        //         WQ2_det[i]->SetOption("COLZ");
+        //         if (WQ2_det[i]->GetEntries())
+        //                 WQ2_det[i]->Write();
+        //         W_det[i]->SetXTitle("W (GeV)");
+        //         if (W_det[i]->GetEntries())
+        //                 W_det[i]->Write();
+        // }
 
-        // W_vs_MM->SetXTitle("W (GeV)");
-        // W_vs_MM->SetYTitle("MM (GeV)");
-        // W_vs_MM->SetOption("COLZ1");
-        // if (W_vs_MM->GetEntries())
-        //         W_vs_MM->Write();
-        // W_vs_MM2->SetXTitle("W (GeV)");
-        // W_vs_MM2->SetYTitle("MMSQ (GeV^{2})");
-        // W_vs_MM2->SetOption("COLZ1");
-        // if (W_vs_MM2->GetEntries())
-        //         W_vs_MM2->Write();
+        // // W_vs_MM->SetXTitle("W (GeV)");
+        // // W_vs_MM->SetYTitle("MM (GeV)");
+        // // W_vs_MM->SetOption("COLZ1");
+        // // if (W_vs_MM->GetEntries())
+        // //         W_vs_MM->Write();
+        // // W_vs_MM2->SetXTitle("W (GeV)");
+        // // W_vs_MM2->SetYTitle("MMSQ (GeV^{2})");
+        // // W_vs_MM2->SetOption("COLZ1");
+        // // if (W_vs_MM2->GetEntries())
+        // //         W_vs_MM2->Write();
 
-        // W_vs_q2->SetXTitle("W (GeV)");
-        // W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
-        // W_vs_q2->SetOption("COLZ1");
-        // if (W_vs_q2->GetEntries())
-        //         W_vs_q2->Write();
+        // // W_vs_q2->SetXTitle("W (GeV)");
+        // // W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
+        // // W_vs_q2->SetOption("COLZ1");
+        // // if (W_vs_q2->GetEntries())
+        // //         W_vs_q2->Write();
 
-        W_hist->SetXTitle("W (GeV)");
-        if (W_hist->GetEntries())
-                W_hist->Write();
+        // W_hist->SetXTitle("W (GeV)");
+        // if (W_hist->GetEntries())
+        //         W_hist->Write();
 
-        // W_P2pi_hist->SetXTitle("W_P2pi (GeV)");
-        // if (W_P2pi_hist->GetEntries())
-        //         W_P2pi_hist->Write();
+        // // W_P2pi_hist->SetXTitle("W_P2pi (GeV)");
+        // // if (W_P2pi_hist->GetEntries())
+        // //         W_P2pi_hist->Write();
 
-        Q2_hist->SetXTitle("Q^{2} (GeV^{2})");
-        if (Q2_hist->GetEntries())
-                Q2_hist->Write();
+        // Q2_hist->SetXTitle("Q^{2} (GeV^{2})");
+        // if (Q2_hist->GetEntries())
+        //         Q2_hist->Write();
 
-        // W_vs_q2_twoPi->SetXTitle("W (GeV)");
-        // W_vs_q2_twoPi->SetYTitle("Q^{2} (GeV^{2})");
-        // W_vs_q2_twoPi->SetOption("COLZ1");
-        // if (W_vs_q2_twoPi->GetEntries())
-        //         W_vs_q2_twoPi->Write();
+        // // W_vs_q2_twoPi->SetXTitle("W (GeV)");
+        // // W_vs_q2_twoPi->SetYTitle("Q^{2} (GeV^{2})");
+        // // W_vs_q2_twoPi->SetOption("COLZ1");
+        // // if (W_vs_q2_twoPi->GetEntries())
+        // //         W_vs_q2_twoPi->Write();
 
-        // W_hist_twoPi->SetXTitle("W (GeV)");
-        // if (W_hist_twoPi->GetEntries())
-        //         W_hist_twoPi->Write();
+        // // W_hist_twoPi->SetXTitle("W (GeV)");
+        // // if (W_hist_twoPi->GetEntries())
+        // //         W_hist_twoPi->Write();
 
-        Q2_hist_twoPi->SetXTitle("Q^{2} (GeV^{2})");
-        if (Q2_hist_twoPi->GetEntries())
-                Q2_hist_twoPi->Write();
-        /*
-                auto mmsq_4_topology = RootOutputFile->mkdir("mmsq_4_topology");
-                mmsq_4_topology->cd();
+        // Q2_hist_twoPi->SetXTitle("Q^{2} (GeV^{2})");
+        // if (Q2_hist_twoPi->GetEntries())
+        //         Q2_hist_twoPi->Write();
 
-                // MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
-                // if (MM2_twoPi_excl->GetEntries())
-                //         MM2_twoPi_excl->Write();
+        // auto mmsq_4_topology = RootOutputFile->mkdir("mmsq_4_topology");
+        // mmsq_4_topology->cd();
 
-                // MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
-                // if (MM_twoPi_excl->GetEntries())
-                //         MM_twoPi_excl->Write();
+        // // MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
+        // // if (MM2_twoPi_excl->GetEntries())
+        // //         MM2_twoPi_excl->Write();
 
-                MM2_twoPi_mPim->SetXTitle("MMSQ mPim (GeV^{2})");
-                if (MM2_twoPi_mPim->GetEntries())
-                        MM2_twoPi_mPim->Write();
+        // // MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
+        // // if (MM_twoPi_excl->GetEntries())
+        // //         MM_twoPi_excl->Write();
 
-                // MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
-                // if (MM2_twoPi_missingPip->GetEntries())
-                //         MM2_twoPi_missingPip->Write();
+        // MM2_twoPi_mPim->SetXTitle("MMSQ mPim (GeV^{2})");
+        // if (MM2_twoPi_mPim->GetEntries())
+        //         MM2_twoPi_mPim->Write();
 
-                // MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
-                // if (MM2_twoPi_missingProt->GetEntries())
-                //         MM2_twoPi_missingProt->Write();
+        // // MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
+        // // if (MM2_twoPi_missingPip->GetEntries())
+        // //         MM2_twoPi_missingPip->Write();
 
-                // missing_Energy_hist->SetXTitle("me (GeV)");
-                // if (missing_Energy_hist->GetEntries())
-                //         missing_Energy_hist->Write();
+        // // MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
+        // // if (MM2_twoPi_missingProt->GetEntries())
+        // //         MM2_twoPi_missingProt->Write();
 
-                // MM_twoPi_mPim->SetXTitle("MM mPim (GeV^{2})");
-                // if (MM_twoPi_mPim->GetEntries())
-                //         MM_twoPi_mPim->Write();
+        // // missing_Energy_hist->SetXTitle("me (GeV)");
+        // // if (missing_Energy_hist->GetEntries())
+        // //         missing_Energy_hist->Write();
 
-                // auto wvsq2_sec = RootOutputFile->mkdir("wvsq2_sec");
-                // wvsq2_sec->cd();
-                // for (short i = 0; i < num_sectors; i++)
-                // {
-                //         W_vs_q2_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-                //         W_vs_q2_sec[i]->SetXTitle("W (GeV)");
-                //         W_vs_q2_sec[i]->SetOption("COLZ1");
-                //         W_vs_q2_sec[i]->Write();
-                // }
-                // auto w_sec = RootOutputFile->mkdir("w_sec");
-                // w_sec->cd();
-                // for (short i = 0; i < num_sectors; i++)
-                // {
-                //         W_sec[i]->SetXTitle("W (GeV)");
+        // // MM_twoPi_mPim->SetXTitle("MM mPim (GeV^{2})");
+        // // if (MM_twoPi_mPim->GetEntries())
+        // //         MM_twoPi_mPim->Write();
 
-                //         //  W_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.85, 1.05);
-                //         // gStyle->SetOptFit(01);
-                //         W_sec[i]->Write();
-                // }
+        // // auto wvsq2_sec = RootOutputFile->mkdir("wvsq2_sec");
+        // // wvsq2_sec->cd();
+        // // for (short i = 0; i < num_sectors; i++)
+        // // {
+        // //         W_vs_q2_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+        // //         W_vs_q2_sec[i]->SetXTitle("W (GeV)");
+        // //         W_vs_q2_sec[i]->SetOption("COLZ1");
+        // //         W_vs_q2_sec[i]->Write();
+        // // }
+        // // auto w_sec = RootOutputFile->mkdir("w_sec");
+        // // w_sec->cd();
+        // // for (short i = 0; i < num_sectors; i++)
+        // // {
+        // //         W_sec[i]->SetXTitle("W (GeV)");
 
-                        ///////////////////////// numner of photoelectrons in HTCC //////////////////////////
-                        auto nphe_htcc_sec = RootOutputFile->mkdir("nphe_htcc_sec");
-                        nphe_htcc_sec->cd();
+        // //         //  W_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.85, 1.05);
+        // //         // gStyle->SetOptFit(01);
+        // //         W_sec[i]->Write();
+        // // }
 
-                        for (auto &&cut : before_after_cut)
-                        {
-                                int c = cut.first;
+        // ///////////////////////// numner of photoelectrons in HTCC //////////////////////////
+        // auto nphe_htcc_sec = RootOutputFile->mkdir("nphe_htcc_sec");
+        // nphe_htcc_sec->cd();
 
-                                // for (short i = 0; i < num_sectors; i++)
-                                // {
-                                //         htcc_nphe_sec[c][i]->SetXTitle("Nphe");
-                                //         htcc_nphe_sec[c][i]->SetYTitle("Count");
+        // for (auto &&cut : before_after_cut)
+        // {
+        //         int c = cut.first;
 
-                                //         // if (htcc_nphe_sec[c][i]->GetEntries())
-                                //         htcc_nphe_sec[c][i]->Write();
-                                // }
-                        }
-                        ///////////////////////// //////////////////////////
-                        auto Vz_sec = RootOutputFile->mkdir("Vz_sec");
-                        Vz_sec->cd();
-                        for (auto &&cut : before_after_cut)
-                        {
-                                int c = cut.first;
+        //         // for (short i = 0; i < num_sectors; i++)
+        //         // {
+        //         //         htcc_nphe_sec[c][i]->SetXTitle("Nphe");
+        //         //         htcc_nphe_sec[c][i]->SetYTitle("Count");
 
-                                for (short i = 0; i < num_sectors; i++)
-                                {
-                                        vz_sec[c][i]->SetXTitle("Vz (cm)");
-                                        if (vz_sec[c][i]->GetEntries())
-                                                vz_sec[c][i]->Write();
-                                }
-                        }
-                        ///////////////////////// //////////////////////////
-                        auto ECAL_VS_PCAL_sec = RootOutputFile->mkdir("ECAL_VS_PCAL_sec");
-                        ECAL_VS_PCAL_sec->cd();
-                        for (auto &&cut : before_after_cut)
-                        {
-                                int c = cut.first;
+        //         //         // if (htcc_nphe_sec[c][i]->GetEntries())
+        //         //         htcc_nphe_sec[c][i]->Write();
+        //         // }
+        // }
+        // ///////////////////////// //////////////////////////
+        // auto Vz_sec = RootOutputFile->mkdir("Vz_sec");
+        // Vz_sec->cd();
+        // for (auto &&cut : before_after_cut)
+        // {
+        //         int c = cut.first;
 
-                                for (short i = 0; i < num_sectors; i++)
-                                {
-                                        for (short j = 0; j < 9; j++) // mom bins
-                                        {
-                                                ECAL_VS_PCAL[c][i][j]->SetOption("COLZ1");
-                                                ECAL_VS_PCAL[c][i][j]->SetYTitle("SF PCAL ");
-                                                ECAL_VS_PCAL[c][i][j]->SetXTitle("SF ECIN");
-                                                // if (ECAL_VS_PCAL[i][j]->GetEntries())
-                                                ECAL_VS_PCAL[c][i][j]->Write();
-                                        }
-                                }
-                        }
+        //         for (short i = 0; i < num_sectors; i++)
+        //         {
+        //                 vz_sec[c][i]->SetXTitle("Vz (cm)");
+        //                 if (vz_sec[c][i]->GetEntries())
+        //                         vz_sec[c][i]->Write();
+        //         }
+        // }
+        // ///////////////////////// //////////////////////////
+        // auto ECAL_VS_PCAL_sec = RootOutputFile->mkdir("ECAL_VS_PCAL_sec");
+        // ECAL_VS_PCAL_sec->cd();
+        // for (auto &&cut : before_after_cut)
+        // {
+        //         int c = cut.first;
 
-                        /////////////////////////  //////////////////////////
-                        auto SF_VS_MOM_sec = RootOutputFile->mkdir("SF_VS_MOM_sec");
-                        SF_VS_MOM_sec->cd();
-                        for (auto &&cut : before_after_cut)
-                        {
-                                int c = cut.first;
+        //         for (short i = 0; i < num_sectors; i++)
+        //         {
+        //                 for (short j = 0; j < 9; j++) // mom bins
+        //                 {
+        //                         ECAL_VS_PCAL[c][i][j]->SetOption("COLZ1");
+        //                         ECAL_VS_PCAL[c][i][j]->SetYTitle("SF PCAL ");
+        //                         ECAL_VS_PCAL[c][i][j]->SetXTitle("SF ECIN");
+        //                         // if (ECAL_VS_PCAL[i][j]->GetEntries())
+        //                         ECAL_VS_PCAL[c][i][j]->Write();
+        //                 }
+        //         }
+        // }
 
-                                for (short i = 0; i < num_sectors; i++)
-                                {
-                                        SF_VS_MOM[c][i]->SetOption("COLZ1");
-                                        SF_VS_MOM[c][i]->SetYTitle("SF ");
-                                        SF_VS_MOM[c][i]->SetXTitle("MOM (GeV)");
-                                        // if (SF_VS_MOM[i]->GetEntries())
-                                        SF_VS_MOM[c][i]->Write();
-                                }
-                        }
-                        /////////////////////////  //////////////////////////
-                        auto chi2pid_elec_sec = RootOutputFile->mkdir("chi2pid_elec_sec");
-                        chi2pid_elec_sec->cd();
-                        for (auto &&cut : before_after_cut)
-                        {
-                                int c = cut.first;
+        // /////////////////////////  //////////////////////////
+        // auto SF_VS_MOM_sec = RootOutputFile->mkdir("SF_VS_MOM_sec");
+        // SF_VS_MOM_sec->cd();
+        // for (auto &&cut : before_after_cut)
+        // {
+        //         int c = cut.first;
 
-                                for (short i = 0; i < num_sectors; i++)
-                                {
-                                        elec_Chi2pid_sec[c][i]->SetXTitle("Chi2pid");
-                                        elec_Chi2pid_sec[c][i]->SetYTitle("Count");
+        //         for (short i = 0; i < num_sectors; i++)
+        //         {
+        //                 SF_VS_MOM[c][i]->SetOption("COLZ1");
+        //                 SF_VS_MOM[c][i]->SetYTitle("SF ");
+        //                 SF_VS_MOM[c][i]->SetXTitle("MOM (GeV)");
+        //                 // if (SF_VS_MOM[i]->GetEntries())
+        //                 SF_VS_MOM[c][i]->Write();
+        //         }
+        // }
+        // /////////////////////////  //////////////////////////
+        // auto chi2pid_elec_sec = RootOutputFile->mkdir("chi2pid_elec_sec");
+        // chi2pid_elec_sec->cd();
+        // for (auto &&cut : before_after_cut)
+        // {
+        //         int c = cut.first;
 
-                                        if (elec_Chi2pid_sec[c][i]->GetEntries())
-                                                elec_Chi2pid_sec[c][i]->Write();
-                                }
-                        }
-                        // auto twoPi_sec = RootOutputFile->mkdir("twoPi_sec");
-                        // twoPi_sec->cd();
-                        // for (short i = 0; i < num_sectors; i++)
-                        // {
-                        //         W_vs_q2_twoPi_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-                        //         W_vs_q2_twoPi_sec[i]->SetXTitle("W (GeV)");
-                        //         W_vs_q2_twoPi_sec[i]->SetOption("COLZ1");
-                        //         if (W_vs_q2_twoPi_sec[i]->GetEntries())
-                        //                 W_vs_q2_twoPi_sec[i]->Write();
-                        // }
+        //         for (short i = 0; i < num_sectors; i++)
+        //         {
+        //                 elec_Chi2pid_sec[c][i]->SetXTitle("Chi2pid");
+        //                 elec_Chi2pid_sec[c][i]->SetYTitle("Count");
 
-                        // // for (short i = 0; i < num_sectors; i++)
-                        // // {
-                        // //         //  if (MM_mPim_twoPi_sec[i]->GetEntries()) MM_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
-                        // //         //  "QMR+", -0.1, 0.1);
-                        // //         MM_mPim_twoPi_sec[i]->SetXTitle("MisingMass (GeV)");
-                        // //         MM_mPim_twoPi_sec[i]->Write();
-                        // // }
+        //                 if (elec_Chi2pid_sec[c][i]->GetEntries())
+        //                         elec_Chi2pid_sec[c][i]->Write();
+        //         }
+        // }
+        // // auto twoPi_sec = RootOutputFile->mkdir("twoPi_sec");
+        // // twoPi_sec->cd();
+        // // for (short i = 0; i < num_sectors; i++)
+        // // {
+        // //         W_vs_q2_twoPi_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+        // //         W_vs_q2_twoPi_sec[i]->SetXTitle("W (GeV)");
+        // //         W_vs_q2_twoPi_sec[i]->SetOption("COLZ1");
+        // //         if (W_vs_q2_twoPi_sec[i]->GetEntries())
+        // //                 W_vs_q2_twoPi_sec[i]->Write();
+        // // }
 
-                        // // for (short i = 0; i < num_sectors; i++)
-                        // // {
-                        // //         // if (MM2_mPim_twoPi_sec[i]->GetEntries()) MM2_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
-                        // //         // "QMR+", -0.1, 0.1);
-                        // //         MM2_mPim_twoPi_sec[i]->SetXTitle("MM2 (GeV2)");
-                        // //         MM2_mPim_twoPi_sec[i]->Write();
-                        // // }
+        // // // for (short i = 0; i < num_sectors; i++)
+        // // // {
+        // // //         //  if (MM_mPim_twoPi_sec[i]->GetEntries()) MM_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
+        // // //         //  "QMR+", -0.1, 0.1);
+        // // //         MM_mPim_twoPi_sec[i]->SetXTitle("MisingMass (GeV)");
+        // // //         MM_mPim_twoPi_sec[i]->Write();
+        // // // }
 
-                        // // for (short i = 0; i < num_sectors; i++)
-                        // // {
-                        // //         MM2_twoPi_missingPip_sec[i]->SetXTitle("MM2 (GeV2)");
-                        // //         MM2_twoPi_missingPip_sec[i]->Write();
-                        // // }
+        // // // for (short i = 0; i < num_sectors; i++)
+        // // // {
+        // // //         // if (MM2_mPim_twoPi_sec[i]->GetEntries()) MM2_mPim_twoPi_sec[i]->Fit("gaus", "QMR+",
+        // // //         // "QMR+", -0.1, 0.1);
+        // // //         MM2_mPim_twoPi_sec[i]->SetXTitle("MM2 (GeV2)");
+        // // //         MM2_mPim_twoPi_sec[i]->Write();
+        // // // }
 
-                        // // for (short i = 0; i < num_sectors; i++)
-                        // // {
-                        // //         MM2_twoPi_missingProt_sec[i]->SetXTitle("MM2 (GeV2)");
-                        // //         MM2_twoPi_missingProt_sec[i]->Write();
-                        // // }
-                        */
+        // // // for (short i = 0; i < num_sectors; i++)
+        // // // {
+        // // //         MM2_twoPi_missingPip_sec[i]->SetXTitle("MM2 (GeV2)");
+        // // //         MM2_twoPi_missingPip_sec[i]->Write();
+        // // // }
+
+        // // // for (short i = 0; i < num_sectors; i++)
+        // // // {
+        // // //         MM2_twoPi_missingProt_sec[i]->SetXTitle("MM2 (GeV2)");
+        // // //         MM2_twoPi_missingProt_sec[i]->Write();
+        // // // }
 }
 
 void Histogram::makeHists_electron_cuts()
