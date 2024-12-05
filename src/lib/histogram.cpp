@@ -800,40 +800,40 @@ void Histogram::Write()
         Write_deltat_folder->cd();
         Write_deltat();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
-        // MMSQ_mPim_folder->cd();
-        // writeMMSQ_mPim();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
+        MMSQ_mPim_folder->cd();
+        writeMMSQ_mPim();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
-        // MMSQ_mPim_folder_1_combi->cd();
-        // writeMMSQ_mPim_1_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
+        MMSQ_mPim_folder_1_combi->cd();
+        writeMMSQ_mPim_1_comb();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
-        // MMSQ_mPim_folder_2_combi->cd();
-        // writeMMSQ_mPim_2_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
+        MMSQ_mPim_folder_2_combi->cd();
+        writeMMSQ_mPim_2_comb();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
-        // MMSQ_mPim_folder_3_combi->cd();
-        // writeMMSQ_mPim_3_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
+        MMSQ_mPim_folder_3_combi->cd();
+        writeMMSQ_mPim_3_comb();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
-        // MMSQ_mPim_folder_4_or_more_combi->cd();
-        // writeMMSQ_mPim_4_or_more_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
+        MMSQ_mPim_folder_4_or_more_combi->cd();
+        writeMMSQ_mPim_4_or_more_comb();
 
-        // std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
-        // TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
-        // Inv_Mass_and_Alpha_cm->cd();
-        // write_Inv_Mass_hist();
+        std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
+        TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
+        Inv_Mass_and_Alpha_cm->cd();
+        write_Inv_Mass_hist();
 
-        // std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
-        // TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
-        // Write_deltaP_folder->cd();
-        // Write_deltaP();
+        std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
+        TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
+        Write_deltaP_folder->cd();
+        Write_deltaP();
         // // // //
         // // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
         // // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
