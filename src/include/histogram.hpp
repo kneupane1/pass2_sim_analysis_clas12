@@ -42,7 +42,7 @@ protected:
     double q2_min = 0.0;
     double q2_max = 10.0;
 
-    double w_max = 2.5;
+    double w_max = 3.5;
     double w_min = 1.0;
 
     double zero = 0.0;
@@ -106,10 +106,6 @@ protected:
     // Kinematics
 
     static const short q2_bin = 11;
-
-    // float q2_low_values[11] = {1.0, 2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.2, 7.4, 8.6, 9.8};
-    // float q2_up_values[11] = {2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.2, 7.4, 8.6, 9.8, 12.0};
-
     float q2_low_values[10] = {1.0, 2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.0, 7.0, 8.0};
     float q2_up_values[10] = {2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.0, 7.0, 8.0, 9.0};
     int q2_bin_size = 10;

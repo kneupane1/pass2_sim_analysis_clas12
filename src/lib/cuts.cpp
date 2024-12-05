@@ -83,7 +83,7 @@ bool Pass2_Cuts::IsPip(int i)
                 return false;
         bool _pip = true;
         _pip &= (_data->charge(i) == POSITIVE);
-        _pip &= (_data->pid(i) == PIP);
+        // _pip &= (_data->pid(i) == PIP);
         // _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
         _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
@@ -134,11 +134,11 @@ bool Pass2_Cuts::IsProton(int i)
                 return false;
         bool _proton = true;
         _proton &= (_data->charge(i) == POSITIVE);
-        _proton &= (_data->pid(i) == PROTON);
+        // _proton &= (_data->pid(i) == PROTON);
         // _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
         // // // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
         _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-        // // // // // min/max mom cuts
+        // // // // min/max mom cuts
         if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000)
         // {
         // if (!(_dt->isCtof()))
@@ -171,7 +171,7 @@ bool Pass2_Cuts::IsProton(int i)
         }
 
         // _proton &= (_data->p(i) > 0.2);
-        // _proton &= (abs(_data->chi2pid(i)) < 0.5);
+        // _proton &= (abs(_data->chi2d(i)) < 0.5);
         _proton &= Hadron_Delta_vz_cut(i);
         _proton &= Hadron_Chi2pid_cut(i);
         return _proton;
@@ -188,7 +188,7 @@ bool Pass2_Cuts::IsPim(int i)
                 return false;
         bool _pim = true;
         _pim &= (_data->charge(i) == NEGATIVE);
-        _pim &= (_data->pid(i) == PIM);
+        // _pim &= (_data->pid(i) == PIM);
 
         _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
         // min / max mom cuts
