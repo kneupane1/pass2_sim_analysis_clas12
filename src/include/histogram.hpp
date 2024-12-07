@@ -419,6 +419,19 @@ protected:
     TH1D_ptr alpha_Pip_cm;
     TH1D_ptr alpha_Pim_cm;
 
+    TH1D_ptr inv_mass_pPip_swapped;
+    TH1D_ptr inv_mass_pPim_swapped;
+    TH1D_ptr inv_mass_pipPim_swapped;
+    TH1D_ptr theta_Prot_cm_swapped;
+    TH1D_ptr theta_Pip_cm_swapped;
+    TH1D_ptr theta_Pim_cm_swapped;
+    TH1D_ptr phi_Prot_cm_swapped;
+    TH1D_ptr phi_Pip_cm_swapped;
+    TH1D_ptr phi_Pim_cm_swapped;
+    TH1D_ptr alpha_Prot_cm_swapped;
+    TH1D_ptr alpha_Pip_cm_swapped;
+    TH1D_ptr alpha_Pim_cm_swapped;
+
     TH1D_ptr dp_prot_hist;
     TH1D_ptr dp_pip_hist;
     TH1D_ptr dp_ambi_prot_all_hist;
@@ -809,7 +822,7 @@ public:
     void Fill_MMSQ_mPim_3_comb(const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim_3_comb();
 
-    void Fill_MMSQ_mPim_4_or_more_comb(const std::shared_ptr<Reaction> &_e);
+    void Fill_MMSQ_mPim_4_or_more_comb(float dv2, const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim_4_or_more_comb();
 
     void write_Inv_Mass_hist();
@@ -876,7 +889,7 @@ public:
     void Fill_1_Combi(const std::shared_ptr<Reaction> &_e);
     void Fill_2_Combi(const std::shared_ptr<Reaction> &_e);
     void Fill_3_Combi(const std::shared_ptr<Reaction> &_e);
-    void Fill_4_or_more_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_4_or_more_Combi(float dv2, const std::shared_ptr<Reaction> &_e);
 
     ///////////////
 

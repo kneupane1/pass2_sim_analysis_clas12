@@ -46,6 +46,11 @@ protected:
         std::unique_ptr<TLorentzVector> _other;
         std::unique_ptr<TLorentzVector> _neutron;
 
+        std::unique_ptr<TLorentzVector> _boosted_gamma_swapped;
+        std::unique_ptr<TLorentzVector> _boosted_prot_swapped;
+        std::unique_ptr<TLorentzVector> _boosted_pip_swapped;
+        std::unique_ptr<TLorentzVector> _boosted_pim_swapped;
+
         std::unique_ptr<TLorentzVector> _elecUnSmear;
         std::unique_ptr<TLorentzVector> _protUnSmear;
         std::unique_ptr<TLorentzVector> _pipUnSmear;
@@ -63,6 +68,9 @@ protected:
         std::vector<int> _pip_indices;
         std::vector<int> _pim_indices;
 
+        std::unique_ptr<TLorentzVector> _swapped_prot;
+        std::unique_ptr<TLorentzVector> _swapped_pip;
+
         // TVector3 _prot_Vect3;
         // TVector3 _pip_Vect3;
         // TVector3 _pim_Vect3;
@@ -75,6 +83,8 @@ protected:
         bool _is_eff_corrected = false;
 
         bool _is_boosted = false;
+
+        bool _is_boosted_swapped = false;
 
         bool _hasE = false;
         bool _hasP = false;
@@ -115,11 +125,16 @@ protected:
         float _MM_exclusive = NAN;
         float _W = NAN;
         float _Q2 = NAN;
+        float _MM2_mPim_swapped = NAN;
 
         float _inv_Ppip = NAN;
         float _inv_Ppim = NAN;
         float _inv_pip_pim = NAN;
         float _W_P2pi = NAN;
+
+        float _inv_Ppip_swapped = NAN;
+        float _inv_Ppim_swapped = NAN;
+        float _inv_pip_pim_swapped = NAN;
 
         float _phi_gamma = NAN;
         float _phi_prot = NAN;
@@ -129,6 +144,10 @@ protected:
         float _alpha_ppip_pipim = NAN;
         float _alpha_pippim_pipf = NAN;
         float _alpha_ppim_pipip = NAN;
+
+        float _alpha_ppip_pipim_swapped = NAN;
+        float _alpha_pippim_pipf_swapped = NAN;
+        float _alpha_ppim_pipip_swapped = NAN;
 
         float _beam_theta = NAN;
         float _elec_theta = NAN;
@@ -264,10 +283,15 @@ public:
         void SetPim(int i);
         void SetOther(int i);
         void SetNeutron(int i);
+        void SetSwappedProton(int i);
+        void SetSwappedPip(int i);
 
         const std::vector<std::unique_ptr<TLorentzVector>> &GetProtons() const { return _prot; }
         const std::vector<std::unique_ptr<TLorentzVector>> &GetPips() const { return _pip; }
         const std::vector<std::unique_ptr<TLorentzVector>> &GetPims() const { return _pim; }
+
+        std::unique_ptr<TLorentzVector> &GetProtonsSwapped() { return _swapped_prot; }
+        std::unique_ptr<TLorentzVector> &GetPipsSwapped() { return _swapped_pip; }
 
         const std::vector<int> &GetProtonIndices() const { return _prot_indices; }
         const std::vector<int> &GetPipIndices() const { return _pip_indices; }
@@ -296,9 +320,13 @@ public:
 
         // void CalcMissMass();
         void CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip);
+        void CalcMissMassPimSwapped();
+
         void CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector &pip, const TLorentzVector &pim);
         float MM_mPim();
         float MM2_mPim();
+        float MM2_mPim_swapped();
+
         float MM2_mpip();
         float MM2_mprot();
         float MM2_exclusive();
@@ -425,6 +453,7 @@ public:
 
         ///////////// related to cm system after boost ////////////
         void boost(const TLorentzVector &prot, const TLorentzVector &pip);
+        void boost_swapped();
 
         float prot_theta();
         float pip_theta();
@@ -446,6 +475,21 @@ public:
         float alpha_ppip_pipim();
         float alpha_pippim_pipf();
         float alpha_ppim_pipip();
+
+        void invMassPpip_swapped();
+        void invMassPpim_swapped();
+        void invMasspippim_swapped();
+        float inv_Ppip_swapped();
+        float inv_Ppim_swapped();
+        float inv_pip_pim_swapped();
+        float alpha_ppip_pipim_swapped();
+        float alpha_pippim_pipf_swapped();
+        float alpha_ppim_pipip_swapped();
+
+        float prot_theta_swapped();
+        float pip_theta_swapped();
+        float pim_theta_swapped();
+
         ///////////// related to lab system before boost ////////////
         float prot_momentum(const TLorentzVector &prot);
         float prot_theta_lab(const TLorentzVector &prot);

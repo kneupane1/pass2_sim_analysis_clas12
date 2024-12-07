@@ -362,6 +362,22 @@ Histogram::Histogram(const std::string &output_file)
         alpha_Pip_cm = std::make_shared<TH1D>("alpha_pip_cm", "alpha pip cm", 500, 0.0, 360.0);
         alpha_Pim_cm = std::make_shared<TH1D>("alpha_pim_cm", "alpha pim cm", 500, 0.0, 360.0);
 
+        inv_mass_pPip_swapped = std::make_shared<TH1D>("pPip_mass_swapped", "Prot-Pip mass swapped", 500, 1.0, 2.25);
+        inv_mass_pPim_swapped = std::make_shared<TH1D>("pPim_mass_swapped", "Prot-Pim mass swapped", 500, 0.0, 1.5);
+        inv_mass_pipPim_swapped = std::make_shared<TH1D>("pipPim_mass_swapped", "Pip-Pim mass swapped", 500, 0.75, 2.25);
+
+        theta_Prot_cm_swapped = std::make_shared<TH1D>("theta_prot_cm_swapped", "theta prot cm swapped", 500, 0.0, 180.0);
+        theta_Pip_cm_swapped = std::make_shared<TH1D>("theta_pip_cm_swapped", "theta pip cm swapped", 500, 0.0, 180.0);
+        theta_Pim_cm_swapped = std::make_shared<TH1D>("theta_pim_cm_swapped", "theta pim cm swapped", 500, 0.0, 180.0);
+
+        phi_Prot_cm_swapped = std::make_shared<TH1D>("phi_prot_cm_swapped", "phi prot cm swapped", 500, 0.0, 360.0);
+        phi_Pip_cm_swapped = std::make_shared<TH1D>("phi_pip_cm_swapped", "phi pip cm swapped", 500, 0.0, 360.0);
+        phi_Pim_cm_swapped = std::make_shared<TH1D>("phi_pim_cm_swapped", "phi pim cm swapped", 500, 0.0, 360.0);
+
+        alpha_Prot_cm_swapped = std::make_shared<TH1D>("alpha_prot_cm_swapped", "alpha prot cm swapped", 500, 0.0, 360.0);
+        alpha_Pip_cm_swapped = std::make_shared<TH1D>("alpha_pip_cm_swapped", "alpha pip cm swapped", 500, 0.0, 360.0);
+        alpha_Pim_cm_swapped = std::make_shared<TH1D>("alpha_pim_cm_swapped", "alpha pim cm swapped", 500, 0.0, 360.0);
+
         dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom", 500, 0, 0.1);
         dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom", 500, 0, 0.1);
 
@@ -378,9 +394,9 @@ Histogram::Histogram(const std::string &output_file)
         entries_pip = std::make_shared<TH1D>("pips_per_event", "No of pip per event", 20, -1, 10);
         MM2_mPim_all_comb = std::make_shared<TH1D>("MMSQ_all_Combination", "MMSQ all Combination", bins, -0.4, 0.4);
         MM2_mPim_1_comb = std::make_shared<TH1D>("MMSQ_1_Combination", "MMSQ 1 Combination", bins, -0.4, 0.4);
-        MM2_mPim_2_comb = std::make_shared<TH1D>("MMSQ_2_Combination", "MMSQ 2 Combination", bins, -0.4, 0.4);
-        MM2_mPim_3_comb = std::make_shared<TH1D>("MMSQ_3_Combination", "MMSQ 3 Combination", bins, -0.4, 0.4);
-        MM2_mPim_4_or_more_comb = std::make_shared<TH1D>("MMSQ_4_or_more_Combination", "MMSQ 4 or more Combination", bins, -0.4, 0.4);
+        MM2_mPim_2_comb = std::make_shared<TH1D>("MMSQ_mPim_Swapped_P_pip", "MMSQ mPim Swapped Proton Pip", bins, -0.4, 0.4);
+        MM2_mPim_3_comb = std::make_shared<TH1D>("MMSQ_diff_swapped_unswapped", "Diff MMSQ mPim Unswapped - Swapped", bins, -0.4, 0.4);
+        MM2_mPim_4_or_more_comb = std::make_shared<TH1D>("dv2_original-swapped", "dv2 original - swapped Proton", bins, -0.4, 2.4);
 
         // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
         // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
@@ -877,7 +893,7 @@ void Histogram::makeHistMMSQ_mPim()
 
                         MMSQ_mPim_hist_3_comb[q2][w] = std::make_shared<TH1D>(name_mmsq3, name_mmsq3, 200, -0.3, 0.3);
 
-                        MMSQ_mPim_hist_4_or_more_comb[q2][w] = std::make_shared<TH1D>(name_mmsq4, name_mmsq4, 200, -0.3, 0.3);
+                        MMSQ_mPim_hist_4_or_more_comb[q2][w] = std::make_shared<TH1D>(name_mmsq4, name_mmsq4, 200, -0.3, 1.3);
 
                         Inv_mass_pPip[q2][w] = std::make_shared<TH1D>(name_inv_pPip, name_inv_pPip, 200, 1.0, 2.25);
                         Inv_mass_pPim[q2][w] = std::make_shared<TH1D>(name_inv_pPim, name_inv_pPim, 200, 0.5, 2.25);
@@ -963,7 +979,8 @@ void Histogram::Fill_MMSQ_mPim_2_comb(const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                MMSQ_mPim_hist_2_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                // MMSQ_mPim_hist_2_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                MMSQ_mPim_hist_2_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim_swapped(), _e->weight());
         }
 }
 
@@ -985,7 +1002,7 @@ void Histogram::Fill_MMSQ_mPim_3_comb(const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
         }
 }
 
@@ -1003,11 +1020,12 @@ void Histogram::writeMMSQ_mPim_3_comb()
         }
 }
 
-void Histogram::Fill_MMSQ_mPim_4_or_more_comb(const std::shared_ptr<Reaction> &_e)
+void Histogram::Fill_MMSQ_mPim_4_or_more_comb(float dv2, const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                MMSQ_mPim_hist_4_or_more_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                // MMSQ_mPim_hist_4_or_more_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                MMSQ_mPim_hist_4_or_more_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(dv2, _e->weight());
         }
 }
 
@@ -1521,7 +1539,7 @@ void Histogram::Fill_hist1D_thrown_inv_mass(const std::shared_ptr<MCReaction> &_
                         int inv_pPip_bin_val = inv_binning(_e->W_mc(), _e->MCinv_Ppip(), 1);
                         if (inv_pPip_bin_val != -1)
                         {
-                                inv_mass_pPip->Fill(_e->MCinv_Ppip(), _e->weight());
+                                // inv_mass_pPip->Fill(_e->MCinv_Ppip(), _e->weight());
                                 inv_pPip_hist[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->MCinv_Ppip(), _e->weight());
                                 // w mc
                                 w_gen_hist_inv_pPip[q2_bining(_e->Q2_mc())][int((_e->W_mc() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->W_mc(), _e->weight());
@@ -2024,9 +2042,9 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 Q2_hist->Fill(_e->Q2(), _e->weight());
                 weight_hist->Fill(_e->weight());
 
-                // inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
-                // inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
-                // inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
+                inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
+                inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
+                inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
 
                 theta_Prot_cm->Fill(_e->prot_theta(), _e->weight());
                 theta_Pip_cm->Fill(_e->pip_theta(), _e->weight());
@@ -2039,6 +2057,22 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 alpha_Prot_cm->Fill(_e->alpha_pippim_pipf(), _e->weight());
                 alpha_Pip_cm->Fill(_e->alpha_ppim_pipip(), _e->weight());
                 alpha_Pim_cm->Fill(_e->alpha_ppip_pipim(), _e->weight());
+
+                inv_mass_pPip_swapped->Fill(_e->inv_Ppip_swapped(), _e->weight());
+                inv_mass_pPim_swapped->Fill(_e->inv_Ppim_swapped(), _e->weight());
+                inv_mass_pipPim_swapped->Fill(_e->inv_pip_pim_swapped(), _e->weight());
+
+                theta_Prot_cm_swapped->Fill(_e->prot_theta_swapped(), _e->weight());
+                theta_Pip_cm_swapped->Fill(_e->pip_theta_swapped(), _e->weight());
+                theta_Pim_cm_swapped->Fill(_e->pim_theta_swapped(), _e->weight());
+
+                // phi_Prot_cm_swapped->Fill(_e->prot_Phi_swapped(), _e->weight());
+                // phi_Pip_cm_swapped->Fill(_e->pip_Phi_swapped(), _e->weight());
+                // phi_Pim_cm_swapped->Fill(_e->pim_Phi_swapped(), _e->weight());
+
+                alpha_Prot_cm_swapped->Fill(_e->alpha_pippim_pipf_swapped(), _e->weight());
+                alpha_Pip_cm_swapped->Fill(_e->alpha_ppim_pipip_swapped(), _e->weight());
+                alpha_Pim_cm_swapped->Fill(_e->alpha_ppip_pipim_swapped(), _e->weight());
 
                 // if (_e->TwoPion_missingPim())
                 // {
@@ -2186,6 +2220,34 @@ void Histogram::Write_WvsQ2()
         alpha_Pip_cm->Write();
         alpha_Pim_cm->SetXTitle("alpha (deg)");
         alpha_Pim_cm->Write();
+
+        inv_mass_pPip_swapped->SetXTitle("Mass (GeV)");
+        inv_mass_pPip_swapped->Write();
+        inv_mass_pPim_swapped->SetXTitle("Mass (GeV)");
+        inv_mass_pPim_swapped->Write();
+        inv_mass_pipPim_swapped->SetXTitle("Mass (GeV)");
+        inv_mass_pipPim_swapped->Write();
+
+        theta_Prot_cm_swapped->SetXTitle("Theta (deg)");
+        theta_Prot_cm_swapped->Write();
+        theta_Pip_cm_swapped->SetXTitle("Theta (deg)");
+        theta_Pip_cm_swapped->Write();
+        theta_Pim_cm_swapped->SetXTitle("Theta (deg)");
+        theta_Pim_cm_swapped->Write();
+
+        // phi_Prot_cm_swapped->SetXTitle("phi (deg)");
+        // phi_Prot_cm_swapped->Write();
+        // phi_Pip_cm_swapped->SetXTitle("phi (deg)");
+        // phi_Pip_cm_swapped->Write();
+        // phi_Pim_cm_swapped->SetXTitle("phi (deg)");
+        // phi_Pim_cm_swapped->Write();
+
+        alpha_Prot_cm_swapped->SetXTitle("alpha (deg)");
+        alpha_Prot_cm_swapped->Write();
+        alpha_Pip_cm_swapped->SetXTitle("alpha (deg)");
+        alpha_Pip_cm_swapped->Write();
+        alpha_Pim_cm_swapped->SetXTitle("alpha (deg)");
+        alpha_Pim_cm_swapped->Write();
 
         W_vs_q2->SetYTitle("Q^{2} (GeV^{2})");
         W_vs_q2->SetXTitle("W (GeV)");
@@ -3791,16 +3853,18 @@ void Histogram::Fill_1_Combi(const std::shared_ptr<Reaction> &_e)
 }
 void Histogram::Fill_2_Combi(const std::shared_ptr<Reaction> &_e)
 {
-        MM2_mPim_2_comb->Fill(_e->MM2_mPim(), _e->weight());
+        // MM2_mPim_2_comb->Fill(_e->MM2_mPim(), _e->weight());
+        MM2_mPim_2_comb->Fill(_e->MM2_mPim_swapped(), _e->weight());
 }
 void Histogram::Fill_3_Combi(const std::shared_ptr<Reaction> &_e)
 {
-        MM2_mPim_3_comb->Fill(_e->MM2_mPim(), _e->weight());
+        MM2_mPim_3_comb->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
 }
 
-void Histogram::Fill_4_or_more_Combi(const std::shared_ptr<Reaction> &_e)
+void Histogram::Fill_4_or_more_Combi(float dv2, const std::shared_ptr<Reaction> &_e)
 {
-        MM2_mPim_4_or_more_comb->Fill(_e->MM2_mPim(), _e->weight());
+        // MM2_mPim_4_or_more_comb->Fill(_e->MM2_mPim(), _e->weight());
+        MM2_mPim_4_or_more_comb->Fill(dv2, _e->weight());
 }
 
 void Histogram::Write_deltaP()
