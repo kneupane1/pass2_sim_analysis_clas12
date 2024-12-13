@@ -429,27 +429,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         }
                 }
 
-                // Set the proton and pip with the minimum dp_sum for further processing
-                if (best_proton_index != -1 && best_pip_index != -1)
+                // // Set the proton and pip with the minimum dp_sum for further processing
+                // if (best_proton_index != -1 && best_pip_index != -1)
+                // {
+                //         event->SetProton(best_proton_index);
+                //         event->SetPip(best_pip_index);
+                // }
+
+                // Overlapped loop over all combinations of protons and pions
+                for (size_t i = 0; i < proton_dps.size(); i++)
                 {
-                        event->SetProton(best_proton_index);
-                        event->SetPip(best_pip_index);
+                        int prot_index = proton_dps[i].first;
+                        event->SetProton(prot_index);
+                        // event->SetPip(prot_index); // for swap
                 }
 
-                // // Overlapped loop over all combinations of protons and pions
-                // for (size_t i = 0; i < proton_dps.size(); i++)
-                // {
-                //         int prot_index = proton_dps[i].first;
-                //         event->SetProton(prot_index);
-                //         // event->SetPip(prot_index); // for swap
-                // }
-
-                // for (size_t j = 0; j < pip_dps.size(); j++)
-                // {
-                //         int pip_index = pip_dps[j].first;
-                //         event->SetPip(pip_index);
-                //         // event->SetProton(pip_index); // for swap
-                // }
+                for (size_t j = 0; j < pip_dps.size(); j++)
+                {
+                        int pip_index = pip_dps[j].first;
+                        event->SetPip(pip_index);
+                        // event->SetProton(pip_index); // for swap
+                }
 
                 ///////////////////////////////////  Now start cutting on our kinamatics and selecting twoPion events for analysis //////////////
                 // if (event->W() > 1. && event->W() <= 3.0 && event->Q2() <= 12.0 && event->Q2() >= 1.)
@@ -526,7 +526,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                 int proton_part_idx = event->GetProtonIndices()[i];
                                                                 int pip_part_idx = event->GetPipIndices()[j];
 
-                                                                //    if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
+                                                                if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                 {
 
                                                                         two_pion_mPim_events++;
@@ -572,9 +572,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         // if (event->MM2_mPim() < -0.1)
                                                                         // if (dv2_Prot >= 0.0005 && dv2_Prot < 0.001)
                                                                         // if (event->MM2_mPim() > -0.1 && event->MM2_mPim() < 0.1)
-                                                                        // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                        if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                         {
-                                                                                // if (dv2_Prot > 0.0001 && dv2_Prot < 0.005)
+                                                                                if (dv2_Prot > 0.01)
                                                                                 {
                                                                                         // if (num_combinations == 1)
                                                                                         // {
