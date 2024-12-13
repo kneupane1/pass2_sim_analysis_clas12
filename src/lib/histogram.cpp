@@ -344,50 +344,51 @@ Histogram::Histogram(const std::string &output_file)
         //////////////////////// DONE THNSPARSE and related ////////////////////////////////
         mc_pid_at_zero = std::make_shared<TH1D>("mc_pid_at_zero", "mc pid at zero", 1000, -2500, 2500);
         pid_at_zero = std::make_shared<TH1D>("pid_at_zero", "pid at zero", 1000, -2500, 2500);
-        weight_hist = std::make_shared<TH1D>("weight", "weight", 500, -0.0001, 0.01);
+        weight_hist = std::make_shared<TH1D>("weight", "weight", bins, -0.0001, 0.01);
 
-        inv_mass_pPip = std::make_shared<TH1D>("pPip_mass", "Prot-Pip mass", 500, 1.0, 2.25);
-        inv_mass_pPim = std::make_shared<TH1D>("pPim_mass", "Prot-Pim mass", 500, 0.75, 2.25);
-        inv_mass_pipPim = std::make_shared<TH1D>("pipPim_mass", "Pip-Pim mass", 500, 0.0, 1.5);
+        inv_mass_pPip = std::make_shared<TH1D>("pPip_mass", "Prot-Pip mass", bins, 1.0, 2.25);
+        inv_mass_pPim = std::make_shared<TH1D>("pPim_mass", "Prot-Pim mass", bins, 0.75, 2.25);
+        inv_mass_pipPim = std::make_shared<TH1D>("pipPim_mass", "Pip-Pim mass", bins, 0.0, 1.5);
 
-        theta_Prot_cm = std::make_shared<TH1D>("theta_prot_cm", "theta prot cm", 500, 0.0, 180.0);
-        theta_Pip_cm = std::make_shared<TH1D>("theta_pip_cm", "theta pip cm", 500, 0.0, 180.0);
-        theta_Pim_cm = std::make_shared<TH1D>("theta_pim_cm", "theta pim cm", 500, 0.0, 180.0);
+        theta_Prot_cm = std::make_shared<TH1D>("theta_prot_cm", "theta prot cm", bins, 0.0, 180.0);
+        theta_Pip_cm = std::make_shared<TH1D>("theta_pip_cm", "theta pip cm", bins, 0.0, 180.0);
+        theta_Pim_cm = std::make_shared<TH1D>("theta_pim_cm", "theta pim cm", bins, 0.0, 180.0);
 
-        phi_Prot_cm = std::make_shared<TH1D>("phi_prot_cm", "phi prot cm", 500, 0.0, 360.0);
-        phi_Pip_cm = std::make_shared<TH1D>("phi_pip_cm", "phi pip cm", 500, 0.0, 360.0);
-        phi_Pim_cm = std::make_shared<TH1D>("phi_pim_cm", "phi pim cm", 500, 0.0, 360.0);
+        phi_Prot_cm = std::make_shared<TH1D>("phi_prot_cm", "phi prot cm", bins, 0.0, 360.0);
+        phi_Pip_cm = std::make_shared<TH1D>("phi_pip_cm", "phi pip cm", bins, 0.0, 360.0);
+        phi_Pim_cm = std::make_shared<TH1D>("phi_pim_cm", "phi pim cm", bins, 0.0, 360.0);
 
-        alpha_Prot_cm = std::make_shared<TH1D>("alpha_prot_cm", "alpha prot cm", 500, 0.0, 360.0);
-        alpha_Pip_cm = std::make_shared<TH1D>("alpha_pip_cm", "alpha pip cm", 500, 0.0, 360.0);
-        alpha_Pim_cm = std::make_shared<TH1D>("alpha_pim_cm", "alpha pim cm", 500, 0.0, 360.0);
+        alpha_Prot_cm = std::make_shared<TH1D>("alpha_prot_cm", "alpha prot cm", bins, 0.0, 360.0);
+        alpha_Pip_cm = std::make_shared<TH1D>("alpha_pip_cm", "alpha pip cm", bins, 0.0, 360.0);
+        alpha_Pim_cm = std::make_shared<TH1D>("alpha_pim_cm", "alpha pim cm", bins, 0.0, 360.0);
 
-        inv_mass_pPip_swapped = std::make_shared<TH1D>("pPip_mass_swapped", "Prot-Pip mass swapped", 500, 1.0, 2.25);
-        inv_mass_pPim_swapped = std::make_shared<TH1D>("pPim_mass_swapped", "Prot-Pim mass swapped", 500, 0.0, 1.5);
-        inv_mass_pipPim_swapped = std::make_shared<TH1D>("pipPim_mass_swapped", "Pip-Pim mass swapped", 500, 0.75, 2.25);
+        inv_mass_pPip_swapped = std::make_shared<TH1D>("pPip_mass_swapped", "Prot-Pip mass swapped", bins, 1.0, 2.25);
+        inv_mass_pPim_swapped = std::make_shared<TH1D>("pPim_mass_swapped", "Prot-Pim mass swapped", bins, 0.0, 1.5);
+        inv_mass_pipPim_swapped = std::make_shared<TH1D>("pipPim_mass_swapped", "Pip-Pim mass swapped", bins, 0.75, 2.25);
 
-        theta_Prot_cm_swapped = std::make_shared<TH1D>("theta_prot_cm_swapped", "theta prot cm swapped", 500, 0.0, 180.0);
-        theta_Pip_cm_swapped = std::make_shared<TH1D>("theta_pip_cm_swapped", "theta pip cm swapped", 500, 0.0, 180.0);
-        theta_Pim_cm_swapped = std::make_shared<TH1D>("theta_pim_cm_swapped", "theta pim cm swapped", 500, 0.0, 180.0);
+        theta_Prot_cm_swapped = std::make_shared<TH1D>("theta_prot_cm_swapped", "theta prot cm swapped", bins, 0.0, 180.0);
+        theta_Pip_cm_swapped = std::make_shared<TH1D>("theta_pip_cm_swapped", "theta pip cm swapped", bins, 0.0, 180.0);
+        theta_Pim_cm_swapped = std::make_shared<TH1D>("theta_pim_cm_swapped", "theta pim cm swapped", bins, 0.0, 180.0);
 
-        phi_Prot_cm_swapped = std::make_shared<TH1D>("phi_prot_cm_swapped", "phi prot cm swapped", 500, 0.0, 360.0);
-        phi_Pip_cm_swapped = std::make_shared<TH1D>("phi_pip_cm_swapped", "phi pip cm swapped", 500, 0.0, 360.0);
-        phi_Pim_cm_swapped = std::make_shared<TH1D>("phi_pim_cm_swapped", "phi pim cm swapped", 500, 0.0, 360.0);
+        phi_Prot_cm_swapped = std::make_shared<TH1D>("phi_prot_cm_swapped", "phi prot cm swapped", bins, 0.0, 360.0);
+        phi_Pip_cm_swapped = std::make_shared<TH1D>("phi_pip_cm_swapped", "phi pip cm swapped", bins, 0.0, 360.0);
+        phi_Pim_cm_swapped = std::make_shared<TH1D>("phi_pim_cm_swapped", "phi pim cm swapped", bins, 0.0, 360.0);
 
-        alpha_Prot_cm_swapped = std::make_shared<TH1D>("alpha_prot_cm_swapped", "alpha prot cm swapped", 500, 0.0, 360.0);
-        alpha_Pip_cm_swapped = std::make_shared<TH1D>("alpha_pip_cm_swapped", "alpha pip cm swapped", 500, 0.0, 360.0);
-        alpha_Pim_cm_swapped = std::make_shared<TH1D>("alpha_pim_cm_swapped", "alpha pim cm swapped", 500, 0.0, 360.0);
+        alpha_Prot_cm_swapped = std::make_shared<TH1D>("alpha_prot_cm_swapped", "alpha prot cm swapped", bins, 0.0, 360.0);
+        alpha_Pip_cm_swapped = std::make_shared<TH1D>("alpha_pip_cm_swapped", "alpha pip cm swapped", bins, 0.0, 360.0);
+        alpha_Pim_cm_swapped = std::make_shared<TH1D>("alpha_pim_cm_swapped", "alpha pim cm swapped", bins, 0.0, 360.0);
 
-        dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom", 500, 0, 0.1);
-        dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom", 500, 0, 0.1);
+        dp_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot", "Prot (Gen - Rec) Mom mPim events", 200, -0.005, 0.01);
+        dp_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip", "Pip (Gen - Rec) Mom mPim events", 200, -0.005, 0.01);
 
-        dp_prot_for_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot_for_pip", "Prot (Gen - Rec) Mom (for pip)", 500, 0, 5);
-        dp_pip_for_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip_for_Proton", "Pip (Gen - Rec) Mom (for Prot)", 500, 0, 5);
+        dp_prot_for_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_Prot_for_pip", "Prot (Gen - Rec) Mom (for pip)", 200, -0.005, .01);
+        dp_pip_for_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_Pip_for_Proton", "Pip (Gen - Rec) Mom (for Prot)", 200, -0.005, .01);
 
-        dp_ambi_prot_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot_all", "Ambi Prot (Gen - Rec) Mom all", 500, 0, 5.);
-        dp_ambi_pip_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip_all", "Ambi Pip (Gen - Rec) Mom all", 500, 0, 5.);
-        dp_ambi_prot_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", "Ambi Prot (Gen - Rec) Mom", 500, 0, 0.1);
-        dp_ambi_pip_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", "Ambi Pip (Gen - Rec) Mom", 500, 0, 0.1);
+        dp_ambi_prot_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Prot", " without event selection Prot (Gen - Rec) Mom", 200, -0.005, .01);
+        dp_ambi_pip_all_hist = std::make_shared<TH1D>("P_gen-P_rec_ambi_Pip", " without event selection Pip (Gen - Rec) Mom", 200, -0.005, .01);
+
+        dp_sum_hist = std::make_shared<TH1D>("P_gen-P_rec_sum", "sum (Gen - Rec) Mom", 100, -0.005, 0.01);
+        dp_sum_hist_twoPi = std::make_shared<TH1D>("P_gen-P_rec_sum_twoPi", "sum (Gen - Rec) Mom Selected Events", 100, -0.005, 0.01);
 
         entries_in_each_event = std::make_shared<TH1D>("Entries_per_event", "No of entries per event", 20, -1, 10);
         entries_prot = std::make_shared<TH1D>("protons_per_event", "No of prot per event", 20, -1, 10);
@@ -395,22 +396,23 @@ Histogram::Histogram(const std::string &output_file)
         MM2_mPim_all_comb = std::make_shared<TH1D>("MMSQ_all_Combination", "MMSQ all Combination", bins, -0.4, 0.4);
         MM2_mPim_1_comb = std::make_shared<TH1D>("MMSQ_1_Combination", "MMSQ 1 Combination", bins, -0.4, 0.4);
         MM2_mPim_2_comb = std::make_shared<TH1D>("MMSQ_mPim_Swapped_P_pip", "MMSQ mPim Swapped Proton Pip", bins, -0.4, 0.4);
-        MM2_mPim_3_comb = std::make_shared<TH1D>("MMSQ_diff_swapped_unswapped", "Diff MMSQ mPim Unswapped - Swapped", bins, -0.4, 0.4);
-        MM2_mPim_4_or_more_comb = std::make_shared<TH1D>("dv2_original-swapped", "dv2 original - swapped Proton", bins, -0.4, 2.4);
+        // MM2_mPim_3_comb = std::make_shared<TH1D>("MMSQ_diff_swapped_unswapped", "Diff MMSQ mPim Unswapped - Swapped", bins, -0.4, 0.4);
+        MM2_mPim_3_comb = std::make_shared<TH1D>("dv2_original-swapped_pip", "dv2 original - swapped Pip", bins, -0.4, 2.4);
+        MM2_mPim_4_or_more_comb = std::make_shared<TH1D>("dv2_original-swapped_prot", "dv2 original - swapped Proton", bins, -0.4, 2.4);
 
-        // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", 500, 0, 5);
-        // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", 500, 0, 5);
-        // p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", 500, 0, 5);
-        // p_gen_pip_for_prot_hist = std::make_shared<TH1D>("P_gen_Pip_for_Proton", "Pip (Gen ) Mom (for Prot)", 500, 0, 5);
-        // p_gen_ambi_prot_hist = std::make_shared<TH1D>("P_gen_ambi_Prot", "Ambi Prot (Gen) Mom", 500, 0, 5);
-        // p_gen_ambi_pip_hist = std::make_shared<TH1D>("P_gen_ambi_Pip", "Ambi Pip (Gen) Mom", 500, 0, 5);
+        // p_gen_prot_hist = std::make_shared<TH1D>("P_gen_Prot", "Prot (Gen) Mom", bins, 0, 5);
+        // p_gen_pip_hist = std::make_shared<TH1D>("P_gen_Pip", "Pip (Gen) Mom", bins, 0, 5);
+        // p_gen_prot_for_pip_hist = std::make_shared<TH1D>("P_gen_Prot_for_pip", "Prot (Gen ) Mom (for pip)", bins, 0, 5);
+        // p_gen_pip_for_prot_hist = std::make_shared<TH1D>("P_gen_Pip_for_Proton", "Pip (Gen ) Mom (for Prot)", bins, 0, 5);
+        // p_gen_ambi_prot_hist = std::make_shared<TH1D>("P_gen_ambi_Prot", "Ambi Prot (Gen) Mom", bins, 0, 5);
+        // p_gen_ambi_pip_hist = std::make_shared<TH1D>("P_gen_ambi_Pip", "Ambi Pip (Gen) Mom", bins, 0, 5);
 
-        // p_rec_prot_hist = std::make_shared<TH1D>("P_rec_Prot", "Prot (rec) Mom", 500, 0, 5);
-        // p_rec_pip_hist = std::make_shared<TH1D>("P_rec_Pip", "Pip (rec) Mom", 500, 0, 5);
-        // p_rec_prot_for_pip_hist = std::make_shared<TH1D>("P_rec_Prot_for_pip", "Prot (rec ) Mom (for pip)", 500, 0, 5);
-        // p_rec_pip_for_prot_hist = std::make_shared<TH1D>("P_rec_Pip_for_Proton", "Pip (rec ) Mom (for Prot)", 500, 0, 5);
-        // p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", 500, 0, 5);
-        // p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", 500, 0, 5);
+        // p_rec_prot_hist = std::make_shared<TH1D>("P_rec_Prot", "Prot (rec) Mom", bins, 0, 5);
+        // p_rec_pip_hist = std::make_shared<TH1D>("P_rec_Pip", "Pip (rec) Mom", bins, 0, 5);
+        // p_rec_prot_for_pip_hist = std::make_shared<TH1D>("P_rec_Prot_for_pip", "Prot (rec ) Mom (for pip)", bins, 0, 5);
+        // p_rec_pip_for_prot_hist = std::make_shared<TH1D>("P_rec_Pip_for_Proton", "Pip (rec ) Mom (for Prot)", bins, 0, 5);
+        // p_rec_ambi_prot_hist = std::make_shared<TH1D>("P_rec_ambi_Prot", "Ambi Prot (rec) Mom", bins, 0, 5);
+        // p_rec_ambi_pip_hist = std::make_shared<TH1D>("P_rec_ambi_Pip", "Ambi Pip (rec) Mom", bins, 0, 5);
 
         W_hist = std::make_shared<TH1D>("W", "W", bins, w_min, w_max);
 
@@ -816,6 +818,11 @@ void Histogram::Write()
         Write_deltat_folder->cd();
         Write_deltat();
 
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3D()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_3D = RootOutputFile->mkdir("MMSQ_mPim_3D");
+        // MMSQ_mPim_folder_3D->cd();
+        // writeMMSQ_mPim_3D();
+
         std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
         TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
         MMSQ_mPim_folder->cd();
@@ -859,6 +866,66 @@ void Histogram::Write()
         std::cerr << BOLDBLUE << "Done Writing!!!" << DEF << std::endl;
 }
 
+//////////////////////////////////////////////////////////
+// void Histogram::makeHistMMSQ_mPim_3D()
+// {
+//         for (short th = 0; th < th_bin_size; th++)
+//         {
+//                 float th_lower_lim = th_low_values[th];
+//                 float th_upper_lim = th_up_values[th];
+
+//                 for (short mom = 0; mom < mom_bin_size; mom++)
+//                 {
+//                         float mom_lower_lim = mom_low_values[th][mom];
+//                         float mom_upper_lim = mom_up_values[th][mom];
+
+//                         for (short phi = 0; phi < phi_bin_size; phi++)
+//                         {
+//                                 float phi_lower_lim = phi_low_values[phi];
+//                                 float phi_upper_lim = phi_up_values[phi];
+
+//                                 auto name_mmsq = Form(
+//                                     "MMSQ_mPim_%.0f<=th<=%.0f_deg_%.1f<=mom<=%.1f_GeV_%.0f<=phi<=%.0f_deg",
+//                                     th_lower_lim, th_upper_lim, mom_lower_lim, mom_upper_lim, phi_lower_lim, phi_upper_lim);
+
+//                                 auto name_mmsq_cut = Form(
+//                                     "MMSQ_mPim_th_cut_%.0f<=th<=%.0f_deg_%.1f<=mom<=%.1f_GeV_%.0f<=phi<=%.0f_deg",
+//                                     th_lower_lim, th_upper_lim, mom_lower_lim, mom_upper_lim, phi_lower_lim, phi_upper_lim);
+
+//                                 MMSQ_mPim_hist_3D[mom][th][phi] = std::make_shared<TH1D>(name_mmsq, name_mmsq, 200, -0.3, 0.3);
+//                                 MMSQ_mPim_hist_with_cut_3D[mom][th][phi] = std::make_shared<TH1D>(name_mmsq_cut, name_mmsq_cut, 200, -0.3, 0.3);
+//                         }
+//                 }
+//         }
+// }
+
+// void Histogram::Fill_MMSQ_mPim_1_comb(const std::shared_ptr<Reaction> &_e)
+// {
+//         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+//         {
+//                 MMSQ_mPim_hist_1_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+//         }
+// }
+
+// void Histogram::makeHistMMSQ_mPim_3D()
+// {
+//         for (short th = 0; th < th_bin_size; th++)
+//         {
+
+//                 for (size_t mom = 1; mom < mom_bin_size; mom++)
+//                 {
+
+//                         for (short phi = 0; phi < phi_bin_size; phi++)
+//                         {
+//                                 MMSQ_mPim_hist[mom][th][phi]->SetXTitle("MMSQ(GeV2/c2)");
+//                                 if (MMSQ_mPim_hist[mom][th][phi]->GetEntries())
+//                                         MMSQ_mPim_hist[mom][th][phi]->Write();
+//                         }
+//                 }
+//         }
+// }
+
+/// MMSQ Mpim //////////////////////////////
 void Histogram::makeHistMMSQ_mPim()
 {
         for (size_t q2 = 1; q2 < q2_bin_size; q2++)
@@ -898,9 +965,9 @@ void Histogram::makeHistMMSQ_mPim()
                         Inv_mass_pPip[q2][w] = std::make_shared<TH1D>(name_inv_pPip, name_inv_pPip, 200, 1.0, 2.25);
                         Inv_mass_pPim[q2][w] = std::make_shared<TH1D>(name_inv_pPim, name_inv_pPim, 200, 0.5, 2.25);
                         Inv_mass_pipPim[q2][w] = std::make_shared<TH1D>(name_inv_pipPim, name_inv_pipPim, 200, 0.0, 1.5);
-                        Alpha_Prot_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Prot, name_alpha_Prot, 200, 0.0, 300);
-                        Alpha_Pip_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pip, name_alpha_Pip, 200, 0.0, 300);
-                        Alpha_Pim_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pim, name_alpha_Pim, 200, 0.0, 300);
+                        Alpha_Prot_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Prot, name_alpha_Prot, 200, 0.0, 360);
+                        Alpha_Pip_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pip, name_alpha_Pip, 200, 0.0, 360);
+                        Alpha_Pim_cm[q2][w] = std::make_shared<TH1D>(name_alpha_Pim, name_alpha_Pim, 200, 0.0, 360);
                 }
         }
 }
@@ -998,11 +1065,12 @@ void Histogram::writeMMSQ_mPim_2_comb()
         }
 }
 
-void Histogram::Fill_MMSQ_mPim_3_comb(const std::shared_ptr<Reaction> &_e)
+void Histogram::Fill_MMSQ_mPim_3_comb(float dv2, const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
+                // MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
+                MMSQ_mPim_hist_3_comb[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(dv2, _e->weight());
         }
 }
 
@@ -3812,20 +3880,20 @@ void Histogram::Fill_deltaP_prot_for_pip(const std::shared_ptr<Reaction> &_e, do
         dp_prot_for_pip_hist->Fill(dp, _e->weight());
 }
 
-void Histogram::Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp)
+void Histogram::Fill_deltaP_sum(const std::shared_ptr<Reaction> &_e, double dp)
 {
-        dp_ambi_prot_hist->Fill(dp, _e->weight());
+        dp_sum_hist->Fill(dp, _e->weight());
 }
-void Histogram::Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp)
+void Histogram::Fill_deltaP_sum_twoPi(const std::shared_ptr<Reaction> &_e, double dp)
 {
-        dp_ambi_pip_hist->Fill(dp, _e->weight());
+        dp_sum_hist_twoPi->Fill(dp, _e->weight());
 }
 
-void Histogram::Fill_deltaP_ambi_all_prot(const std::shared_ptr<Reaction> &_e, double dp)
+void Histogram::Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp)
 {
         dp_ambi_prot_all_hist->Fill(dp, _e->weight());
 }
-void Histogram::Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, double dp)
+void Histogram::Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp)
 {
         dp_ambi_pip_all_hist->Fill(dp, _e->weight());
 }
@@ -3856,11 +3924,15 @@ void Histogram::Fill_2_Combi(const std::shared_ptr<Reaction> &_e)
         // MM2_mPim_2_comb->Fill(_e->MM2_mPim(), _e->weight());
         MM2_mPim_2_comb->Fill(_e->MM2_mPim_swapped(), _e->weight());
 }
-void Histogram::Fill_3_Combi(const std::shared_ptr<Reaction> &_e)
-{
-        MM2_mPim_3_comb->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
-}
+// void Histogram::Fill_3_Combi(const std::shared_ptr<Reaction> &_e)
+// {
+//         MM2_mPim_3_comb->Fill(_e->MM2_mPim() - _e->MM2_mPim_swapped(), _e->weight());
+// }
 
+void Histogram::Fill_3_Combi(float dv2, const std::shared_ptr<Reaction> &_e)
+{
+        MM2_mPim_3_comb->Fill(dv2, _e->weight());
+}
 void Histogram::Fill_4_or_more_Combi(float dv2, const std::shared_ptr<Reaction> &_e)
 {
         // MM2_mPim_4_or_more_comb->Fill(_e->MM2_mPim(), _e->weight());
@@ -3881,11 +3953,11 @@ void Histogram::Write_deltaP()
         dp_pip_for_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
         dp_pip_for_prot_hist->Write();
 
-        dp_ambi_prot_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
-        dp_ambi_prot_hist->Write();
+        dp_sum_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_sum_hist->Write();
 
-        dp_ambi_pip_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
-        dp_ambi_pip_hist->Write();
+        dp_sum_hist_twoPi->SetXTitle(" (Gen - Rec ) Mom (GeV)");
+        dp_sum_hist_twoPi->Write();
 
         dp_ambi_prot_all_hist->SetXTitle(" (Gen - Rec ) Mom (GeV)");
         dp_ambi_prot_all_hist->Write();

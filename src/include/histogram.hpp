@@ -105,6 +105,23 @@ protected:
         /*"twoPi_event" ,*/ "missingPim events"};
     // Kinematics
 
+    static const short th_bin_size = 3;
+    float th_low_values[3] = {5, 25, 37};
+    float th_up_values[3] = {25, 37, 60};
+
+    static const short mom_bin_size = 9;
+    float mom_low_values[3][9] = {{0, 0.4, 0.8, 1.1, 1.4, 1.7, 2.0, 2.5, 3.0}, {0, 0.4, 0.8, 1.1, 1.3, 1.5, 1.75, 2.0, 2.4}, {0, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 2.2, 2.5}};
+    float mom_up_values[3][9] = {{0.4, 0.8, 1.1, 1.4, 1.7, 2.0, 2.5, 3.0, 4.0}, {0.4, 0.8, 1.1, 1.3, 1.5, 1.75, 2.0, 2.4, 4.0}, {0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 2.2, 2.5, 3.0}};
+
+    static const short phi_bin_size = 3;
+    float phi_low_values[3] = {0, 12, 240};
+    float phi_up_values[3] = {120, 240, 360};
+
+    // //////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////
+
     static const short q2_bin = 11;
     float q2_low_values[10] = {1.0, 2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.0, 7.0, 8.0};
     float q2_up_values[10] = {2.0, 2.40, 3.0, 3.5, 4.2, 5.0, 6.0, 7.0, 8.0, 9.0};
@@ -436,8 +453,8 @@ protected:
     TH1D_ptr dp_pip_hist;
     TH1D_ptr dp_ambi_prot_all_hist;
     TH1D_ptr dp_ambi_pip_all_hist;
-    TH1D_ptr dp_ambi_prot_hist;
-    TH1D_ptr dp_ambi_pip_hist;
+    TH1D_ptr dp_sum_hist;
+    TH1D_ptr dp_sum_hist_twoPi;
     TH1D_ptr dp_prot_for_pip_hist;
     TH1D_ptr dp_pip_for_prot_hist;
 
@@ -635,6 +652,9 @@ protected:
     TH1D_ptr MMSQ_mPim_hist[q2_bin][15];
     TH1D_ptr MMSQ_mPim_hist_with_cut[q2_bin][15];
 
+    TH1D_ptr MMSQ_mPim_hist_3D[3][9][3];
+    TH1D_ptr MMSQ_mPim_hist_with_cut_3D[3][9][3];
+
     TH1D_ptr MMSQ_mPim_hist_1_comb[q2_bin][15];
     TH1D_ptr MMSQ_mPim_hist_2_comb[q2_bin][15];
     TH1D_ptr MMSQ_mPim_hist_3_comb[q2_bin][15];
@@ -692,8 +712,8 @@ public:
             }
         }
 
-        if ((mm2 < (mmsq_cuts[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][0][2])) &&
-            (mm2 > (mmsq_cuts[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][1][2])))
+        if ( //(mm2 < (mmsq_cuts[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][0][2])) &&
+            (mm2 < (mmsq_cuts[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][1][2])))
 
         {
             // std::cout << "   w  = " << w << "  q2 = " << q2 << "  mm2 = " << mm2 << "  up lim mm2 is =  "
@@ -809,6 +829,10 @@ public:
     void Fill_W_vs_Q2_thrown();
     void Fill_inv_mass_hist();
 
+    // void makeHistMMSQ_mPim_3D();
+    // void Fill_MMSQ_mPim_3D(const std::shared_ptr<Reaction> &_e);
+    // void writeMMSQ_mPim_3D();
+
     void makeHistMMSQ_mPim();
     void Fill_MMSQ_mPim(const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim();
@@ -819,7 +843,7 @@ public:
     void Fill_MMSQ_mPim_2_comb(const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim_2_comb();
 
-    void Fill_MMSQ_mPim_3_comb(const std::shared_ptr<Reaction> &_e);
+    void Fill_MMSQ_mPim_3_comb(float dv2, const std::shared_ptr<Reaction> &_e);
     void writeMMSQ_mPim_3_comb();
 
     void Fill_MMSQ_mPim_4_or_more_comb(float dv2, const std::shared_ptr<Reaction> &_e);
@@ -878,8 +902,8 @@ public:
     void Fill_deltaP_ambi_prot(const std::shared_ptr<Reaction> &_e, double dp);
     void Fill_deltaP_ambi_pip(const std::shared_ptr<Reaction> &_e, double dp);
 
-    void Fill_deltaP_ambi_all_prot(const std::shared_ptr<Reaction> &_e, double dp);
-    void Fill_deltaP_ambi_all_pip(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_sum_twoPi(const std::shared_ptr<Reaction> &_e, double dp);
+    void Fill_deltaP_sum(const std::shared_ptr<Reaction> &_e, double dp);
     void Write_deltaP();
 
     void Fill_Entries(int num_entries);
@@ -888,7 +912,7 @@ public:
     void Fill_all_Combi(const std::shared_ptr<Reaction> &_e);
     void Fill_1_Combi(const std::shared_ptr<Reaction> &_e);
     void Fill_2_Combi(const std::shared_ptr<Reaction> &_e);
-    void Fill_3_Combi(const std::shared_ptr<Reaction> &_e);
+    void Fill_3_Combi(float dv2, const std::shared_ptr<Reaction> &_e);
     void Fill_4_or_more_Combi(float dv2, const std::shared_ptr<Reaction> &_e);
 
     ///////////////
