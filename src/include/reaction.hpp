@@ -314,9 +314,10 @@ public:
 
         // double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
         // double Corr_elec_mom();
-        double elec_mom();
+        inline double elec_mom() { return _P_elec; }
+        inline double elec_th() { return _theta_e; }
 
-        // float EffCorrFactor();
+        void EffCorrFactor(const TLorentzVector &prot, const TLorentzVector &pip);
 
         // void CalcMissMass();
         void CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip);
@@ -331,18 +332,29 @@ public:
         float MM2_mprot();
         float MM2_exclusive();
         float MM_exclusive();
+
+        inline float W()
+        {
+                return _W;
+        }
+        inline float Q2()
+        {
+                return _Q2;
+        }
         // float weight();
         inline float weight()
         {
+                float ff_scale = (1 / (pow((1 + (_Q2 / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+
                 if (_mc)
-                        return _data->mc_weight();
+                        return (ff_scale * _data->mc_weight());
 
                 else
                         return 1.0;
         }
 
         /// smearing fx's function
-        void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double w_val, double &pNew, double &thetaNew,
+        void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
                           double &phiNew)
         {
                 // Constants
@@ -521,14 +533,6 @@ public:
 
         float AlphaCalc();
 
-        inline float W()
-        {
-                return _W;
-        }
-        inline float Q2()
-        {
-                return _Q2;
-        }
         //
         // float theta_x_mu();
         // float E_x_mu();
@@ -661,7 +665,9 @@ public:
         void SetMCElec();
         inline float weight()
         {
-                return _data->mc_weight();
+                float ff_scale1 = (1 / (pow((1 + (_Q2_mc / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                return (ff_scale1 * _data->mc_weight());
+
                 // return 1.0;
         }
         inline float W_mc()
