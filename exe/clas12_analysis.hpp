@@ -86,7 +86,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         int events_with_non_zero_wt = 0, events_with_zero_wt = 0, events_passes_w_q2_cuts = 0;
 
         for (size_t current_event = 0; current_event < num_of_events; current_event++)
-        // for (size_t current_event = 0; current_event < 55000; current_event++)
+        // for (size_t current_event = 0; current_event < 10; current_event++)
         {
                 prot = 0;
                 pip = 0;
@@ -170,7 +170,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                 //         // // // _hists->Fill_W_bin_check_th(mc_event);
 
                                                                 // // // ///// bin centering corr
-                                                                _hists->Fill_hist1D_thrown_w_q2(mc_event);
+                                                                //    _hists->Fill_hist1D_thrown_w_q2(mc_event);
                                                                 // _hists->Fill_hist1D_thrown_inv_mass(mc_event);
                                                                 // _hists->Fill_hist1D_thrown_theta(mc_event);
                                                                 // _hists->Fill_hist1D_thrown_alpha(mc_event);
@@ -712,41 +712,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 //     (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
                                                                                 //     (event->MM2_mprot() < -0.79 || event->MM2_mprot() > 0.1025))
 
-                                                                                if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                 {
                                                                                         // if (dv2_Prot > 0.01)
                                                                                         {
-                                                                                                _hists->FillHists_electron_with_cuts(data, event);
+                                                                                                // _hists->FillHists_electron_with_cuts(data, event);
 
-                                                                                                // event->EffCorrFactor(*event->GetProtons()[i], *event->GetPips()[j]);
-                                                                                                // event->weight();
+                                                                                                // /// // event->EffCorrFactor(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                                                                // //// // event->weight();
 
-                                                                                                // if (num_combinations == 1)
-                                                                                                // {
-                                                                                                _hists->Fill_all_Combi(event);
-                                                                                                _hists->Fill_MMSQ_mPim(event);
-
-                                                                                                // // Fill the appropriate histogram based on num_combinations
-                                                                                                // if (num_combinations == 1)
-                                                                                                // {
-                                                                                                //         _hists->Fill_1_Combi(event);
-                                                                                                //         _hists->Fill_MMSQ_mPim_1_comb(event);
-                                                                                                // }
-                                                                                                // if (num_combinations == 2)
-                                                                                                // {
-                                                                                                //         _hists->Fill_2_Combi(event);
-                                                                                                //         _hists->Fill_MMSQ_mPim_2_comb(event);
-                                                                                                // }
-                                                                                                // if (num_combinations == 3)
-                                                                                                // {
-                                                                                                //         _hists->Fill_3_Combi(event);
-                                                                                                //         _hists->Fill_MMSQ_mPim_3_comb(event);
-                                                                                                // }
-                                                                                                // if (num_combinations >= 4)
-                                                                                                // {
-                                                                                                //         _hists->Fill_4_or_more_Combi(event);
-                                                                                                //         _hists->Fill_MMSQ_mPim_4_or_more_comb(event);
-                                                                                                // }
+                                                                                                // // if (num_combinations == 1)
+                                                                                                // // {
+                                                                                                // _hists->Fill_all_Combi(event);
+                                                                                                // _hists->Fill_MMSQ_mPim(event);
 
                                                                                                 //         // if (event->Fixed_MM_cut())
                                                                                                 //         // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
@@ -764,13 +742,39 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                 // _hists->Fill_WvsQ2(event);
 
                                                                                                 // std::cout << event->weight() << std::endl;
-                                                                                                _hists->Fill_histSevenD_prot(event);
-                                                                                                _hists->Fill_histSevenD_pip(event);
-                                                                                                _hists->Fill_histSevenD_pim(event);
+                                                                                                if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_MMSQ_mPim(event);
 
-                                                                                                _hists->Fill_histSevenD_prot_evt(event);
-                                                                                                _hists->Fill_histSevenD_pip_evt(event);
-                                                                                                _hists->Fill_histSevenD_pim_evt(event);
+                                                                                                        _hists->Fill_histSevenD_prot(event);
+                                                                                                        _hists->Fill_histSevenD_pip(event);
+                                                                                                        _hists->Fill_histSevenD_pim(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt(event);
+                                                                                                }
+                                                                                                if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_MMSQ_mPim_1_comb(event);
+
+                                                                                                        _hists->Fill_histSevenD_prot_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pip_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pim_tight(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt_tight(event);
+                                                                                                }
+                                                                                                if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_MMSQ_mPim_2_comb(event);
+
+                                                                                                        _hists->Fill_histSevenD_prot_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pip_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pim_loose(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt_loose(event);
+                                                                                                }
 
                                                                                                 // //         }
                                                                                                 // // }
@@ -783,27 +787,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                 // // // //         twopi++;
                                                                                                 // // // First, check if the index is for proton or pip, then use it as needed
 
-                                                                                                dt_proton->dt_calc(proton_part_idx);
+                                                                                                // dt_proton->dt_calc(proton_part_idx);
 
-                                                                                                // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
-                                                                                                _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
-                                                                                                _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
-                                                                                                // }
+                                                                                                // // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
+                                                                                                // _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
+                                                                                                // _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
+                                                                                                // // }
 
-                                                                                                // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
-                                                                                                dt_pip->dt_calc(pip_part_idx);
-                                                                                                // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
-                                                                                                _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
-                                                                                                _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
+                                                                                                // // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
+                                                                                                // dt_pip->dt_calc(pip_part_idx);
+                                                                                                // // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
+                                                                                                // _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
+                                                                                                // _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
 
-                                                                                                // // _hists->Fill_2_Combi(event);
-                                                                                                // // _hists->Fill_MMSQ_mPim_2_comb(event);
+                                                                                                // // // _hists->Fill_2_Combi(event);
+                                                                                                // // // _hists->Fill_MMSQ_mPim_2_comb(event);
 
-                                                                                                // // _hists->Fill_3_Combi(dv2_Pip, event);
-                                                                                                // // _hists->Fill_MMSQ_mPim_3_comb(dv2_Pip, event);
+                                                                                                // // // _hists->Fill_3_Combi(dv2_Pip, event);
+                                                                                                // // // _hists->Fill_MMSQ_mPim_3_comb(dv2_Pip, event);
 
-                                                                                                // ///////////
-                                                                                                _hists->Fill_WvsQ2(event);
+                                                                                                // // ///////////
+                                                                                                // _hists->Fill_WvsQ2(event);
                                                                                                 // // // std::cout << " proton velocity : " << event->GetProtons()[i]->Px() << std::endl;
 
                                                                                                 // // _hists->Fill_4_or_more_Combi(dv2_Prot, event);
