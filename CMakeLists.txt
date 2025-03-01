@@ -7,10 +7,10 @@ list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 find_package(ROOT REQUIRED COMPONENTS RIO Net) #RooFit RooFitCore RooStats RootAuth
 include(${ROOT_USE_FILE})
 
-include_directories(src/include)
-# Use the QADB environment variable for absolute paths
-include_directories($ENV{QADB}/srcC/include)
-include_directories($ENV{QADB}/srcC/rapidjson/include)
+# include_directories(src/include)
+# # Use the QADB environment variable for absolute paths
+# include_directories($ENV{QADB}/srcC/include)
+# include_directories($ENV{QADB}/srcC/rapidjson/include)
 
 # Print include directories for debugging
 message(STATUS "Include directories: ${CMAKE_INCLUDE_PATH}")
