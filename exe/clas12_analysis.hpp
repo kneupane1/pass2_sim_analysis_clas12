@@ -188,9 +188,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 auto event = std::make_shared<Reaction>(data, beam_energy);
                 no_of_events++;
-                // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
-                if (data->charge(0) == -1)
-                        _hists->FillHists_electron_cuts(data, event);
+                // // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
+                // if (data->charge(0) == -1)
+                //         _hists->FillHists_electron_cuts(data, event);
 
                 ///// auto cuts = std::make_unique<rga_Cuts>(data);
                 auto cuts = std::make_unique<Pass2_Cuts>(data);

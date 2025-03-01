@@ -750,18 +750,18 @@ void Histogram::Write()
 
         // // // ////////// bin centering corr
         // // // ////////// bin centering corr
-        // // // ////////// bin centering corr
-        // // // ////////// bin centering corr
+        // // // // ////////// bin centering corr
+        // // // // ////////// bin centering corr
 
-        TDirectory *TH1D_thrown_w_gen_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
-        TH1D_thrown_w_gen_folder->cd();
-        writeHists1D_thrown_w_gen();
+        // TDirectory *TH1D_thrown_w_gen_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
+        // TH1D_thrown_w_gen_folder->cd();
+        // writeHists1D_thrown_w_gen();
 
-        TDirectory *TH1D_thrown_q2_gen_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
-        TH1D_thrown_q2_gen_folder->cd();
-        writeHists1D_thrown_q2_gen();
+        // TDirectory *TH1D_thrown_q2_gen_folder =
+        //     RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
+        // TH1D_thrown_q2_gen_folder->cd();
+        // writeHists1D_thrown_q2_gen();
 
         // TDirectory *TH1D_thrown_w_gen_inv_pPip_folder =
         //     RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPip_folder");
@@ -928,20 +928,20 @@ void Histogram::Write()
         // Write_MomVsBeta_folder->cd();
         // Write_MomVsBeta();
 
-        std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
-        TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
-        Electron_Cuts->cd();
-        Write_Electron_cuts();
+        // std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
+        // TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
+        // Electron_Cuts->cd();
+        // Write_Electron_cuts();
 
-        std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
-        TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
-        Hadrons_Cuts->cd();
-        Write_Hadrons_cuts();
+        // std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
+        // TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
+        // Hadrons_Cuts->cd();
+        // Write_Hadrons_cuts();
 
-        std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
-        TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
-        Write_deltat_folder->cd();
-        Write_deltat();
+        // std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
+        // TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
+        // Write_deltat_folder->cd();
+        // Write_deltat();
 
         // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3D()" << DEF << std::endl;
         // TDirectory *MMSQ_mPim_folder_3D = RootOutputFile->mkdir("MMSQ_mPim_3D");
@@ -953,15 +953,15 @@ void Histogram::Write()
         MMSQ_mPim_folder->cd();
         writeMMSQ_mPim();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
-        // MMSQ_mPim_folder_1_combi->cd();
-        // writeMMSQ_mPim_1_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
+        MMSQ_mPim_folder_1_combi->cd();
+        writeMMSQ_mPim_1_comb();
 
-        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
-        // TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
-        // MMSQ_mPim_folder_2_combi->cd();
-        // writeMMSQ_mPim_2_comb();
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
+        MMSQ_mPim_folder_2_combi->cd();
+        writeMMSQ_mPim_2_comb();
 
         // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
         // TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
@@ -973,15 +973,15 @@ void Histogram::Write()
         // MMSQ_mPim_folder_4_or_more_combi->cd();
         // writeMMSQ_mPim_4_or_more_comb();
 
-        std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
-        TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
-        Inv_Mass_and_Alpha_cm->cd();
-        write_Inv_Mass_hist();
+        // std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
+        // TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
+        // Inv_Mass_and_Alpha_cm->cd();
+        // write_Inv_Mass_hist();
 
-        std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
-        TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
-        Write_deltaP_folder->cd();
-        Write_deltaP();
+        // std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
+        // TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
+        // Write_deltaP_folder->cd();
+        // Write_deltaP();
         // // // //
         // // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
         // // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
@@ -1101,15 +1101,15 @@ void Histogram::Fill_MMSQ_mPim(const std::shared_ptr<Reaction> &_e)
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 MMSQ_mPim_hist[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
-                //         MMSQ_mPim_hist_with_cut[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                // // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                // //         MMSQ_mPim_hist_with_cut[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
 
-                Inv_mass_pPip[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppip(), _e->weight());
-                Inv_mass_pPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppim(), _e->weight());
-                Inv_mass_pipPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_pip_pim(), _e->weight());
-                Alpha_Prot_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_pippim_pipf(), _e->weight());
-                Alpha_Pip_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppim_pipip(), _e->weight());
-                Alpha_Pim_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppip_pipim(), _e->weight());
+                // Inv_mass_pPip[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppip(), _e->weight());
+                // Inv_mass_pPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_Ppim(), _e->weight());
+                // Inv_mass_pipPim[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->inv_pip_pim(), _e->weight());
+                // Alpha_Prot_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_pippim_pipf(), _e->weight());
+                // Alpha_Pip_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppim_pipip(), _e->weight());
+                // Alpha_Pim_cm[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->alpha_ppip_pipim(), _e->weight());
         }
 }
 
