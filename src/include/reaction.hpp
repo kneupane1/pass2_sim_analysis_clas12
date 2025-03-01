@@ -344,8 +344,9 @@ public:
         // float weight();
         inline float weight()
         {
-                _data->mc_weight()
-                // float ff_scale = (1 / (pow((1 + (_Q2 / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                return _data->mc_weight();
+                ///// float ff_scale = (1 / (pow((1 + (_Q2 / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                // //float ff_scale = (1 / (pow((1 + (q2_mid_value / 0.7)), (0.47189)))) / 0.35599; // form factor scale pass2
 
                 // if (_mc)
                 //         return (ff_scale * _data->mc_weight());
@@ -666,7 +667,9 @@ public:
         void SetMCElec();
         inline float weight()
         {
-                // float ff_scale1 = (1 / (pow((1 + (_Q2_mc / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                ///// float ff_scale1 = (1 / (pow((1 + (_Q2_mc / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale pass1??
+                // //float ff_scale = (1 / (pow((1 + (q2_mid_value / 0.7)), (0.47189)))) / 0.35599; // form factor scale pass2
+
                 // return (ff_scale1 * _data->mc_weight());
                 return _data->mc_weight();
                 // return 1.0;

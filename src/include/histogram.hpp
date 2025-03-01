@@ -388,7 +388,7 @@ protected:
     /////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////
 
-    static const short w_bin = 64;
+    static const short w_bin = 16;
     THnSparse *threeDHist[q2_bin][w_bin];
     THnSparse *sevenDHist_pim[q2_bin][w_bin];
     THnSparse *sevenD_Hist_thrown_pim[q2_bin][w_bin];
@@ -404,6 +404,20 @@ protected:
     THnSparse *h_5dim_thrown_prot_evt[q2_bin][w_bin];
     THnSparse *h_5dim_thrown_pip_evt[q2_bin][w_bin];
     THnSparse *h_5dim_thrown_pim_evt[q2_bin][w_bin];
+
+    THnSparse *sevenDHist_pim_tight[q2_bin][w_bin];
+    THnSparse *sevenDHist_pip_tight[q2_bin][w_bin];
+    THnSparse *sevenDHist_prot_tight[q2_bin][w_bin];
+    THnSparse *h_5dim_prot_evt_tight[q2_bin][w_bin];
+    THnSparse *h_5dim_pip_evt_tight[q2_bin][w_bin];
+    THnSparse *h_5dim_pim_evt_tight[q2_bin][w_bin];
+
+    THnSparse *sevenDHist_pim_loose[q2_bin][w_bin];
+    THnSparse *sevenDHist_pip_loose[q2_bin][w_bin];
+    THnSparse *sevenDHist_prot_loose[q2_bin][w_bin];
+    THnSparse *h_5dim_prot_evt_loose[q2_bin][w_bin];
+    THnSparse *h_5dim_pip_evt_loose[q2_bin][w_bin];
+    THnSparse *h_5dim_pim_evt_loose[q2_bin][w_bin];
 
     TH1D_ptr w_gen_hist[q2_bin][w_bin];
     TH1D_ptr q2_gen_hist[q2_bin][w_bin];
@@ -806,9 +820,58 @@ public:
             (mm2 > (mmsq_cuts[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts[is_mc][q2_bin_val - 1][1][2])))
 
         {
-            // std::cout << "   w  = " << w << "  q2 = " << q2 << "  mm2 = " << mm2 << "  up lim mm2 is =  "
-            //           << (mmsq_cuts[q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts[q2_bin_val - 1][0][2] * pow(w, 1) + mmsq_cuts[q2_bin_val - 1][0][2])
-            //           << "  q2_bin_val = " << q2_bin_val << "   params  " << mmsq_cuts[q2_bin_val - 1][0][0] << " , " << mmsq_cuts[q2_bin_val - 1][0][1] << std::endl;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool MM_cut_tight(float w, float q2, float mm2)
+    {
+        int is_mc = 0;
+        if (_mc)
+        {
+            is_mc = 1;
+        }
+        for (int i = 1; i < q2_bins.size(); ++i)
+        {
+            if (q2 < q2_bins[i])
+            {
+                q2_bin_val = i;
+                break;
+            }
+        }
+
+        if ((mm2 < (mmsq_cuts_tight[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts_tight[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts_tight[is_mc][q2_bin_val - 1][0][2])) &&
+            (mm2 > (mmsq_cuts_tight[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts_tight[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts_tight[is_mc][q2_bin_val - 1][1][2])))
+
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool MM_cut_loose(float w, float q2, float mm2)
+    {
+        int is_mc = 0;
+        if (_mc)
+        {
+            is_mc = 1;
+        }
+        for (int i = 1; i < q2_bins.size(); ++i)
+        {
+            if (q2 < q2_bins[i])
+            {
+                q2_bin_val = i;
+                break;
+            }
+        }
+
+        if ((mm2 < (mmsq_cuts_loose[is_mc][q2_bin_val - 1][0][0] * pow(w, 2) + mmsq_cuts_loose[is_mc][q2_bin_val - 1][0][1] * pow(w, 1) + mmsq_cuts_loose[is_mc][q2_bin_val - 1][0][2])) &&
+            (mm2 > (mmsq_cuts_loose[is_mc][q2_bin_val - 1][1][0] * pow(w, 2) + mmsq_cuts_loose[is_mc][q2_bin_val - 1][1][1] * pow(w, 1) + mmsq_cuts_loose[is_mc][q2_bin_val - 1][1][2])))
+
+        {
             return true;
         }
         else
@@ -844,6 +907,20 @@ public:
     void Fill_histSevenD_pip_evt(const std::shared_ptr<Reaction> &_e);
     void Fill_histSevenD_thrown_pip_evt(const std::shared_ptr<MCReaction> &_e);
 
+    void Fill_histSevenD_prot_tight(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pim_tight(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pip_tight(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_prot_evt_tight(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pim_evt_tight(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pip_evt_tight(const std::shared_ptr<Reaction> &_e);
+
+    void Fill_histSevenD_prot_loose(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pim_loose(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pip_loose(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_prot_evt_loose(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pim_evt_loose(const std::shared_ptr<Reaction> &_e);
+    void Fill_histSevenD_pip_evt_loose(const std::shared_ptr<Reaction> &_e);
+
     void writeHists7D_prot();
     void writeHists7D_thrown_prot();
     void writeHists7D_pim();
@@ -856,6 +933,20 @@ public:
     void writeHists7D_thrown_pip_evt();
     void writeHists7D_pim_evt();
     void writeHists7D_thrown_pim_evt();
+
+    void writeHists7D_prot_tight();
+    void writeHists7D_pim_tight();
+    void writeHists7D_pip_tight();
+    void writeHists7D_prot_evt_tight();
+    void writeHists7D_pip_evt_tight();
+    void writeHists7D_pim_evt_tight();
+
+    void writeHists7D_prot_loose();
+    void writeHists7D_pim_loose();
+    void writeHists7D_pip_loose();
+    void writeHists7D_prot_evt_loose();
+    void writeHists7D_pip_evt_loose();
+    void writeHists7D_pim_evt_loose();
 
     //// bin centering corrections
     void Fill_hist1D_thrown_w_q2(const std::shared_ptr<MCReaction> &_e);

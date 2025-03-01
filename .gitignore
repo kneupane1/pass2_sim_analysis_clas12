@@ -15,5 +15,6 @@ exe/error.log
 exe/mPim_cs_all_Q2_bins.cxx
 exe/nine_diff_with_hole_filling.cpp
 exe/raw_yields.cpp
+exe/pid_cuts_using_root.cpp
 final_root_plots.cpp
 plots/
