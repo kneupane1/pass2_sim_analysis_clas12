@@ -344,13 +344,14 @@ public:
         // float weight();
         inline float weight()
         {
-                float ff_scale = (1 / (pow((1 + (_Q2 / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                _data->mc_weight()
+                // float ff_scale = (1 / (pow((1 + (_Q2 / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
 
-                if (_mc)
-                        return (ff_scale * _data->mc_weight());
+                // if (_mc)
+                //         return (ff_scale * _data->mc_weight());
 
-                else
-                        return 1.0;
+                // else
+                //         return 1.0;
         }
 
         /// smearing fx's function
@@ -665,9 +666,9 @@ public:
         void SetMCElec();
         inline float weight()
         {
-                float ff_scale1 = (1 / (pow((1 + (_Q2_mc / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
-                return (ff_scale1 * _data->mc_weight());
-
+                // float ff_scale1 = (1 / (pow((1 + (_Q2_mc / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
+                // return (ff_scale1 * _data->mc_weight());
+                return _data->mc_weight();
                 // return 1.0;
         }
         inline float W_mc()
