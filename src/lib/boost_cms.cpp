@@ -13,7 +13,7 @@ namespace boost_cms
         _beam_elec->SetPxPyPzE(0.0, 0.0, sqrt(_beam_en * _beam_en - MASS_E * MASS_E), _beam_en);
 
         // Determine the unit vectors for rotation
-        TVector3 uz = gamma.Vect().Unit(); // uit vector along virtual photon
+        TVector3 uz = gamma.Vect().Unit(); // unit vector along virtual photon
         // TVector3 ux = (gamma.Vect().Cross(e_prime.Vect())).Unit();         // unit vector along e cross e'
         TVector3 ux = ((_beam_elec->Vect()).Cross(e_prime.Vect())).Unit(); // unit vector along e cross e'
 
@@ -21,7 +21,7 @@ namespace boost_cms
 
         // Apply rotation
         TRotation rot;
-        rot.SetZAxis(uz, ux).Invert(); // setting TRotation rot
+        rot.SetZAxis(uz, ux).Invert(); // setting TRotation rot invert does inverse, i.e. row to col and column to row
 
         boosted_gamma.Transform(rot);
 
