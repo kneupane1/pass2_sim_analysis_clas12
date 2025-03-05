@@ -717,9 +717,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                                         // /////////////sim
 
-                                                                                        // if ((event->MM2_exclusive() < -0.004 || event->MM2_exclusive() > 0.002) &&
-                                                                                        //     (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
-                                                                                        //     (event->MM2_mprot() < 0.79 || event->MM2_mprot() > 0.1025))
+                                                                                        if ((event->MM2_exclusive() < -0.004 || event->MM2_exclusive() > 0.002) &&
+                                                                                            (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
+                                                                                            (event->MM2_mprot() < 0.79 || event->MM2_mprot() > 1.025))
 
                                                                                         // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                         {
@@ -733,7 +733,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         // // if (num_combinations == 1)
                                                                                                         // // {
                                                                                                         // _hists->Fill_all_Combi(event);
-                                                                                                        // _hists->Fill_MMSQ_mPim(event);
+                                                                                                        _hists->Fill_MMSQ_mPim(event);
 
                                                                                                         //         // if (event->Fixed_MM_cut())
                                                                                                         //         // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
