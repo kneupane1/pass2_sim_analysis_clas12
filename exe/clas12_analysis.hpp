@@ -701,7 +701,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         // std::cout << "  event->GetProtonIndices()[i]  : " << event->GetProtonIndices()[i] << "  Pip index  : " << event->GetPipIndices()[j] << std::endl;
 
                                                                                         // event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
-                                                                                        // event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                                                        event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
                                                                                         // event->CalcMissMassPimSwapped();
                                                                                         // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                                         // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
