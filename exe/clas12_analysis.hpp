@@ -716,6 +716,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         //     (event->MM2_mprot() < -0.763 || event->MM2_mprot() > 0.1003))
 
                                                                                         // /////////////sim
+                                                                                        _hists->Fill_MMSQ_mPim_1_comb(event);
 
                                                                                         if ((event->MM2_exclusive() < -0.004 || event->MM2_exclusive() > 0.002) &&
                                                                                             (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
@@ -733,14 +734,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         // // if (num_combinations == 1)
                                                                                                         // // {
                                                                                                         // _hists->Fill_all_Combi(event);
-                                                                                                        _hists->Fill_MMSQ_mPim(event);
+                                                                                                        ///// _hists->Fill_MMSQ_mPim(event);
 
                                                                                                         //         // if (event->Fixed_MM_cut())
                                                                                                         //         // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                                         //         // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
 
                                                                                                         //         {
-                                                                                                        // _hists->Fill_WvsQ2(event);
+                                                                                                        _hists->Fill_WvsQ2(event);
 
                                                                                                         // _hists->FillHists_electron_with_cuts(data, event);
 
