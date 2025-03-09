@@ -195,7 +195,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 ///// auto cuts = std::make_unique<rga_Cuts>(data);
                 auto cuts = std::make_unique<Pass2_Cuts>(data);
 
-                if (!cuts->ElectronCuts("tight"))
+                if (!cuts->ElectronCuts("loose"))
                         continue;
                 // event->SetMomCorrElec();
 
@@ -349,7 +349,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 _hists->FillHists_pip_pid_cuts(data, event, part);
 
                                                 // Check if the particle satisfies proton and/or pion conditions
-                                                if (cuts->IsProton(part, "tight"))
+                                                if (cuts->IsProton(part, "loose"))
                                                 {
 
                                                         double dp_prot = pow(mc_event->prot_momX_mc_gen() - data->px(part), 2) +
@@ -362,7 +362,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                         // _hists->Fill_deltaP_ambi_prot(event, dp_prot);
                                                 }
 
-                                                if (cuts->IsPip(part, "tight"))
+                                                if (cuts->IsPip(part, "loose"))
                                                 {
                                                         pip++;
                                                         pip_idx++;
@@ -541,7 +541,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 dt->dt_calc(part1);
 
                                                 // Proton Block
-                                                if (cuts->IsProton(part1, "tight"))
+                                                if (cuts->IsProton(part1, "loose"))
                                                 {
                                                         bool isFD1 = ((data->status(part1) > 2000) && (data->status(part1) < 4000));
                                                         bool isCD1 = (data->status(part1) > 4000);
@@ -560,7 +560,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                 for (int part2 = part1 + 1; part2 < data->gpart(); part2++)
                                                                 {
-                                                                        if (cuts->IsProton(part2, "tight"))
+                                                                        if (cuts->IsProton(part2, "loose"))
                                                                         {
                                                                                 bool isFD2 = ((data->status(part2) > 2000) && (data->status(part2) < 4000));
                                                                                 bool isCD2 = (data->status(part2) > 4000);
@@ -603,7 +603,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                 ///////////////////////////
                                                 // Pip Block
-                                                if (cuts->IsPip(part1, "tight"))
+                                                if (cuts->IsPip(part1, "loose"))
                                                 {
                                                         bool isFD1 = ((data->status(part1) > 2000) && (data->status(part1) < 4000));
                                                         bool isCD1 = (data->status(part1) > 4000);
@@ -615,7 +615,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                 for (int part2 = part1 + 1; part2 < data->gpart(); part2++)
                                                                 {
-                                                                        if (cuts->IsPip(part2, "tight"))
+                                                                        if (cuts->IsPip(part2, "loose"))
                                                                         {
                                                                                 bool isFD2 = ((data->status(part2) > 2000) && (data->status(part2) < 4000));
                                                                                 bool isCD2 = (data->status(part2) > 4000);
@@ -671,7 +671,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 event->SetSwappedProton(pip_part_idx);
                                                                                 event->SetSwappedPip(proton_part_idx);
 
-                                                                                                                                                // Extract velocity components with energy normalization
+                                                                                // Extract velocity components with energy normalization
                                                                                 double v_original_x_Prot = event->GetProtons()[i]->Px() / event->GetProtons()[i]->E();
                                                                                 double v_original_y_Prot = event->GetProtons()[i]->Py() / event->GetProtons()[i]->E();
                                                                                 double v_original_z_Prot = event->GetProtons()[i]->Pz() / event->GetProtons()[i]->E();

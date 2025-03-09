@@ -34,7 +34,7 @@ protected:
     std::shared_ptr<TFile> RootOutputFile;
     std::shared_ptr<TCanvas> def;
 
-    std::string condition_of_cut = "mid";
+    std::string condition_of_cut = "loose";
 
     int bins = 500;
     double p_min = 0.0;
