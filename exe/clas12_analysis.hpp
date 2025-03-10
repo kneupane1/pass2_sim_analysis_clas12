@@ -340,7 +340,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 {
                                         dt->dt_calc(part);
                                         // _hists->Fill_MomVsBeta(data, part, event);
-                                        // _hists->Fill_deltat_before_cut(data, dt, part, event);
+                                        _hists->Fill_deltat_before_cut(data, dt, part, event);
 
                                         if (data->charge(part) > 0)
                                         {
