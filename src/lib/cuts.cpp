@@ -1075,37 +1075,20 @@ bool Pass2_Cuts::DC_fiducial_cut_XY_PROT(int i, int pid, std::string condition)
 
 bool Pass2_Cuts::DC_z_vertex_cut(std::string condition)
 {
-        int pcal_sector = _data->ec_pcal_sec(0);
         float partvz = _data->vz(0);
-
-        double vz_min_sect_inb[] = {-10, -10, -10, -10, -10, -10};
-        double vz_max_sect_inb[] = {5, 5, 5, 5, 5, 5};
-
-        float vz_min_sect[6];
-        float vz_max_sect[6];
-
-        for (int i = 0; i < 6; i++)
-        {
-                vz_min_sect[i] = vz_min_sect_inb[i];
-                vz_max_sect[i] = vz_max_sect_inb[i];
-        }
-
-        int isec = pcal_sector - 1;
-        float vz_min = vz_min_sect[isec];
-        float vz_max = vz_max_sect[isec];
 
         if (condition == "tight")
         {
-                return partvz > -9 && partvz < 4;
+                return partvz > -10 && partvz < 5;
         }
 
         else if (condition == "loose")
         {
-                return partvz > -11 && partvz < 6;
+                return partvz > -12 && partvz < 7;
         }
         else
         {
-                return partvz > vz_min && partvz < vz_max;
+                return partvz > -11 && partvz < 6;
         }
 }
 
