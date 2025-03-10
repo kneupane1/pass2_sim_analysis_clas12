@@ -3602,12 +3602,12 @@ void Histogram::FillHists_prot_pid_cuts(const std::shared_ptr<Branches12> &_d, c
                         dcr1_sec_prot[before_any_cuts]->Fill(_d->dc_r1_x(i), _d->dc_r1_y(i), _e->weight());
                         dcr2_sec_prot[before_any_cuts]->Fill(_d->dc_r2_x(i), _d->dc_r2_y(i), _e->weight());
                         dcr3_sec_prot[before_any_cuts]->Fill(_d->dc_r3_x(i), _d->dc_r3_y(i), _e->weight());
-                        if (_cuts->Hadron_Delta_vz_cut(i))
+                        if (_cuts->Hadron_Delta_vz_cut(i, condition_of_cut))
                                 prot_Delta_vz_cut_fd[with_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         else
                                 prot_Delta_vz_cut_fd[outside_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
 
-                        if (_cuts->Hadron_Chi2pid_cut(i))
+                        if (_cuts->Hadron_Chi2pid_cut(i, condition_of_cut))
                                 prot_Chi2pid_cut_fd[with_one_cut]->Fill(_d->chi2pid(i), _e->weight());
                         else
                                 prot_Chi2pid_cut_fd[outside_one_cut]->Fill(_d->chi2pid(i), _e->weight());
@@ -3634,12 +3634,12 @@ void Histogram::FillHists_prot_pid_cuts(const std::shared_ptr<Branches12> &_d, c
                         // theta_prot_cd[before_any_cuts]->Fill(_e->prot_theta_lab(), _e->weight());
                         // Theta_prot_lab_vs_mom_prot_cd[before_any_cuts]->Fill(_e->prot_momentum(), _e->prot_theta_lab(), _e->weight());
 
-                        if (_cuts->Hadron_Delta_vz_cut(i))
+                        if (_cuts->Hadron_Delta_vz_cut(i, condition_of_cut))
                                 prot_Delta_vz_cut_cd[with_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         else
                                 prot_Delta_vz_cut_cd[outside_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
 
-                        if (_cuts->Hadron_Chi2pid_cut(i))
+                        if (_cuts->Hadron_Chi2pid_cut(i, condition_of_cut))
                                 prot_Chi2pid_cut_cd[with_one_cut]->Fill(_d->chi2pid(i), _e->weight());
                         else
                                 prot_Chi2pid_cut_cd[outside_one_cut]->Fill(_d->chi2pid(i), _e->weight());
@@ -3711,12 +3711,12 @@ void Histogram::FillHists_pip_pid_cuts(const std::shared_ptr<Branches12> &_d, co
                         dcr2_sec_pip[before_any_cuts]->Fill(_d->dc_r2_x(i), _d->dc_r2_y(i), _e->weight());
                         dcr3_sec_pip[before_any_cuts]->Fill(_d->dc_r3_x(i), _d->dc_r3_y(i), _e->weight());
 
-                        if (_cuts->Hadron_Delta_vz_cut(i))
+                        if (_cuts->Hadron_Delta_vz_cut(i, condition_of_cut))
                                 pip_Delta_vz_cut_fd[with_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         else
                                 pip_Delta_vz_cut_fd[outside_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
 
-                        if (_cuts->Hadron_Chi2pid_cut(i))
+                        if (_cuts->Hadron_Chi2pid_cut(i, condition_of_cut))
                                 pip_Chi2pid_cut_fd[with_one_cut]->Fill(_d->chi2pid(i), _e->weight());
                         else
                                 pip_Chi2pid_cut_fd[outside_one_cut]->Fill(_d->chi2pid(i), _e->weight());
@@ -3734,12 +3734,12 @@ void Histogram::FillHists_pip_pid_cuts(const std::shared_ptr<Branches12> &_d, co
                         // else
                         //         phi_vs_momT_pip_cd[outside_one_cut]->Fill(_e->pip_Phi_lab(), _e->pip_momT(), _e->weight());
 
-                        if (_cuts->Hadron_Delta_vz_cut(i))
+                        if (_cuts->Hadron_Delta_vz_cut(i, condition_of_cut))
                                 pip_Delta_vz_cut_cd[with_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
                         else
                                 pip_Delta_vz_cut_cd[outside_one_cut]->Fill((_d->vz(i) - _d->vz(0)), _e->weight());
 
-                        if (_cuts->Hadron_Chi2pid_cut(i))
+                        if (_cuts->Hadron_Chi2pid_cut(i, condition_of_cut))
                                 pip_Chi2pid_cut_cd[with_one_cut]->Fill(_d->chi2pid(i), _e->weight());
                         else
                                 pip_Chi2pid_cut_cd[outside_one_cut]->Fill(_d->chi2pid(i), _e->weight());
