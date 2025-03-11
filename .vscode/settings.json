@@ -84,6 +84,7 @@
     "stack": "cpp",
     "format": "cpp",
     "text_encoding": "cpp",
-    "det_ineff_plots.C": "cpp"
+    "det_ineff_plots.C": "cpp",
+    "systematic_error_plot.C": "cpp"
   }
 }

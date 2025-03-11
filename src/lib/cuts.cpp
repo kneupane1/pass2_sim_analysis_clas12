@@ -74,7 +74,7 @@ double dt_cut_cd_down[2][3][3] = {{{-0.04974, 0.286, -0.73},
 
 bool Pass2_Cuts::IsPip(int i, std::string condition)
 {
-        float dt_shift = -0.06;
+        float dt_shift = 0.00;
         int is_mc = 0;
         if (_mc)
         {
@@ -129,7 +129,7 @@ bool Pass2_Cuts::IsPip(int i, std::string condition)
 }
 bool Pass2_Cuts::IsProton(int i, std::string condition)
 {
-        float dt_shift = -0.06;
+        float dt_shift = 0.0;
 
         int is_mc = 0;
         if (_mc)
