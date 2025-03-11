@@ -359,7 +359,7 @@ public:
         void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
                           double &phiNew)
         {
-                float syst_multi_fact = 1.1;
+                float syst_multi_fact = 1.0;
 
                 // Constants
                 const double pS1 = 0.0184291 - 0.0110083 * theta + 0.00227667 * pow(theta, 2) - 0.000140152 * pow(theta, 3) +

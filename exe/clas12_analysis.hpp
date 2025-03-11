@@ -586,8 +586,15 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         _hists->Fill_cdfd_prot(dp_Prot, dtheta_Prot, dphi_Prot, event);
 
                                                                                         // Apply proton cuts
-                                                                                        // if (dp_Prot > -0.6 && dp_Prot < 0.2 && dtheta_Prot > -7 && dphi_Prot > -20 && dphi_Prot < 5)
-                                                                                        if (dp_Prot > -0.3 && dp_Prot < 0.0 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -5 && dphi_Prot < 2)
+                                                                                        /// first try // if (dp_Prot > -0.6 && dp_Prot < 0.2 && dtheta_Prot > -7 && dphi_Prot > -20 && dphi_Prot < 5)
+                                                                                        ////// mostly used  if (dp_Prot > -0.3 && dp_Prot < 0.0 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -5 && dphi_Prot < 2)
+
+                                                                                        /////////new //
+                                                                                        // if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
+                                                                                        /////ltight
+                                                                                        if (dp_Prot > -0.3 && dp_Prot < 0.07 && dtheta_Prot > -4 && dtheta_Prot < 4 && dphi_Prot > -12.5 && dphi_Prot < 7.5)
+                                                                                        ////// loose
+                                                                                        //         if (dp_Prot > -0.2 && dp_Prot < -0.02 && dtheta_Prot > -2 && dtheta_Prot < 2 && dphi_Prot > -7.5 && dphi_Prot < 2.5)
                                                                                         {
                                                                                                 proton_cdfd_cut = true;
                                                                                                 //  // } else {  // Fill histograms
@@ -634,9 +641,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         _hists->Fill_cdfd_pip(dp_Pip, dtheta_Pip, dphi_Pip, event);
 
                                                                                         // Apply pip cuts
-                                                                                        // if (dp_Pip > -0.4 && dp_Pip < 0.2 && dtheta_Pip > -10 && dtheta_Pip < 10 && dphi_Pip > -20 &&
+                                                                                        /// initially used // if (dp_Pip > -0.4 && dp_Pip < 0.2 && dtheta_Pip > -10 && dtheta_Pip < 10 && dphi_Pip > -20 &&
                                                                                         //     dphi_Pip < 5)
-                                                                                        if (dp_Pip > -0.25 && dp_Pip < 0.0 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -5 && dphi_Pip < 2)
+                                                                                        ////// mostly used until march 11
+                                                                                        // if (dp_Pip > -0.25 && dp_Pip < 0.0 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -5 && dphi_Pip < 2)
+                                                                                        /////// NEW MID
+                                                                                        // if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
+
+                                                                                        ///// NEW TIGHT
+                                                                                        if (dp_Pip > -0.2 && dp_Pip < 0.1 && dtheta_Pip > -4 && dtheta_Pip < 4 && dphi_Pip > -12.5 && dphi_Pip < 7.5)
+                                                                                        /////// NEW LOOSE
+                                                                                        // if (dp_Pip > -0.1 && dp_Pip < 0.0 && dtheta_Pip > -2 && dtheta_Pip < 2 && dphi_Pip > -7.5 && dphi_Pip < 2.5)
+
                                                                                         {
                                                                                                 pip_cdfd_cut = true;
                                                                                                 // // } else {  // Fill histograms
