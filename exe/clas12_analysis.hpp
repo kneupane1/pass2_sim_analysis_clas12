@@ -590,7 +590,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used  if (dp_Prot > -0.3 && dp_Prot < 0.0 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -5 && dphi_Prot < 2)
 
                                                                                         /////////new mid//
-                                                                                        if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
+                                                                                        // if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
                                                                                         /////ltight
                                                                                         // if (dp_Prot > -0.3 && dp_Prot < 0.07 && dtheta_Prot > -4 && dtheta_Prot < 4 && dphi_Prot > -12.5 && dphi_Prot < 7.5)
                                                                                         ////// loose
@@ -646,7 +646,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used until march 11
                                                                                         // if (dp_Pip > -0.25 && dp_Pip < 0.0 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -5 && dphi_Pip < 2)
                                                                                         /////// NEW MID
-                                                                                        if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
+                                                                                        // if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
 
                                                                                         ///// NEW TIGHT
                                                                                         // if (dp_Pip > -0.2 && dp_Pip < 0.1 && dtheta_Pip > -4 && dtheta_Pip < 4 && dphi_Pip > -12.5 && dphi_Pip < 7.5)
