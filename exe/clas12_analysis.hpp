@@ -384,20 +384,23 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                         else
                                         {
-                                                _hists->FillHists_pim_pid_cuts(data, event, part);
-
-                                                if (cuts->IsPim(part))
-
+                                                if (data->pid(part) != 11)
                                                 {
-                                                        event->SetPim(part);
+                                                        _hists->FillHists_pim_pid_cuts(data, event, part);
 
-                                                        pim++;
+                                                        if (cuts->IsPim(part, "mid"))
 
-                                                        statusPim = abs(data->status(part));
-                                                        sectorPim = data->dc_sec(part);
+                                                        {
+                                                                event->SetPim(part);
 
-                                                        _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
-                                                        _hists->FillHists_pim_pid_with_cuts(data, event, part);
+                                                                pim++;
+
+                                                                statusPim = abs(data->status(part));
+                                                                sectorPim = data->dc_sec(part);
+
+                                                                _hists->Fill_deltat_pim_after_cut(data, dt, part, event);
+                                                                _hists->FillHists_pim_pid_with_cuts(data, event, part);
+                                                        }
                                                 }
                                         }
                                 }
