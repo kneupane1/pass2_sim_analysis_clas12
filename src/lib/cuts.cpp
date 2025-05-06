@@ -1136,7 +1136,7 @@ bool Pass2_Cuts::DC_fiducial_cut_XY_PIM(int i, std::string condition)
             {{0.57214, -8.68988}, {0.55586, -10.5307}, {0.52877, -14.48363}},
             {{0.572, -8.11667}, {0.54344, -8.21228}, {0.52442, -12.92956}}};
 
-        ///// new loose cuts supergaus 0.4 max height
+        ///// midcuts supergaus 0.4 max height
 
         double minparams_in_pim_m[6][3][2] = {
             {{-0.57357, 8.98202}, {-0.53516, 8.31579}, {-0.51571, 12.85}},

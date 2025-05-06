@@ -631,132 +631,132 @@ void Histogram::Write()
         // THnSparse   7D HIST ///////
         // THnSparse   7D HIST ///////
         // THnSparse   7D HIST ///////
+
+        std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
+        TDirectory *THnSparse_7D_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot");
+        THnSparse_7D_prot_folder->cd();
+        writeHists7D_prot();
+
+        TDirectory *THnSparse_7D_thrown_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
+        THnSparse_7D_thrown_prot_folder->cd();
+        writeHists7D_thrown_prot();
+
+        TDirectory *THnSparse_7D_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot_evt");
+        THnSparse_7D_prot_evt_folder->cd();
+        writeHists7D_prot_evt();
+
+        TDirectory *THnSparse_7D_thrown_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
+        THnSparse_7D_thrown_prot_evt_folder->cd();
+        writeHists7D_thrown_prot_evt();
+
+        TDirectory *THnSparse_7D_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim");
+        THnSparse_7D_pim_folder->cd();
+        writeHists7D_pim();
+        TDirectory *THnSparse_7D_thrown_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
+        THnSparse_7D_thrown_pim_folder->cd();
+        writeHists7D_thrown_pim();
+
+        TDirectory *THnSparse_7D_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim_evt");
+        THnSparse_7D_pim_evt_folder->cd();
+        writeHists7D_pim_evt();
+
+        TDirectory *THnSparse_7D_thrown_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
+        THnSparse_7D_thrown_pim_evt_folder->cd();
+        writeHists7D_thrown_pim_evt();
+
+        TDirectory *THnSparse_7D_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip");
+        THnSparse_7D_pip_folder->cd();
+        writeHists7D_pip();
+        TDirectory *THnSparse_7D_thrown_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
+        THnSparse_7D_thrown_pip_folder->cd();
+        writeHists7D_thrown_pip();
+
+        TDirectory *THnSparse_7D_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip_evt");
+        THnSparse_7D_pip_evt_folder->cd();
+        writeHists7D_pip_evt();
+
+        TDirectory *THnSparse_7D_thrown_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
+        THnSparse_7D_thrown_pip_evt_folder->cd();
+        writeHists7D_thrown_pip_evt();
         /*
-                std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
-                TDirectory *THnSparse_7D_prot_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_prot");
-                THnSparse_7D_prot_folder->cd();
-                writeHists7D_prot();
+                        ///////////////////  tight cuts /////////////////
 
-                TDirectory *THnSparse_7D_thrown_prot_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
-                THnSparse_7D_thrown_prot_folder->cd();
-                writeHists7D_thrown_prot();
+                        std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
+                        TDirectory *THnSparse_7D_prot_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_prot_tight");
+                        THnSparse_7D_prot_folder_tight->cd();
+                        writeHists7D_prot_tight();
 
-                TDirectory *THnSparse_7D_prot_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_prot_evt");
-                THnSparse_7D_prot_evt_folder->cd();
-                writeHists7D_prot_evt();
+                        TDirectory *THnSparse_7D_prot_evt_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
+                        THnSparse_7D_prot_evt_folder_tight->cd();
+                        writeHists7D_prot_evt_tight();
 
-                TDirectory *THnSparse_7D_thrown_prot_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
-                THnSparse_7D_thrown_prot_evt_folder->cd();
-                writeHists7D_thrown_prot_evt();
+                        TDirectory *THnSparse_7D_pim_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_pim_tight");
+                        THnSparse_7D_pim_folder_tight->cd();
+                        writeHists7D_pim_tight();
 
-                TDirectory *THnSparse_7D_pim_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_pim");
-                THnSparse_7D_pim_folder->cd();
-                writeHists7D_pim();
-                TDirectory *THnSparse_7D_thrown_pim_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
-                THnSparse_7D_thrown_pim_folder->cd();
-                writeHists7D_thrown_pim();
+                        TDirectory *THnSparse_7D_pim_evt_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
+                        THnSparse_7D_pim_evt_folder_tight->cd();
+                        writeHists7D_pim_evt_tight();
 
-                TDirectory *THnSparse_7D_pim_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_pim_evt");
-                THnSparse_7D_pim_evt_folder->cd();
-                writeHists7D_pim_evt();
+                        TDirectory *THnSparse_7D_pip_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_pip_tight");
+                        THnSparse_7D_pip_folder_tight->cd();
+                        writeHists7D_pip_tight();
 
-                TDirectory *THnSparse_7D_thrown_pim_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
-                THnSparse_7D_thrown_pim_evt_folder->cd();
-                writeHists7D_thrown_pim_evt();
+                        TDirectory *THnSparse_7D_pip_evt_folder_tight =
+                            RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
+                        THnSparse_7D_pip_evt_folder_tight->cd();
+                        writeHists7D_pip_evt_tight();
 
-                TDirectory *THnSparse_7D_pip_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_pip");
-                THnSparse_7D_pip_folder->cd();
-                writeHists7D_pip();
-                TDirectory *THnSparse_7D_thrown_pip_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
-                THnSparse_7D_thrown_pip_folder->cd();
-                writeHists7D_thrown_pip();
+                        ///////////////////  loose cuts /////////////////
 
-                TDirectory *THnSparse_7D_pip_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_pip_evt");
-                THnSparse_7D_pip_evt_folder->cd();
-                writeHists7D_pip_evt();
+                        std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
+                        TDirectory *THnSparse_7D_prot_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_prot_loose");
+                        THnSparse_7D_prot_folder_loose->cd();
+                        writeHists7D_prot_loose();
 
-                TDirectory *THnSparse_7D_thrown_pip_evt_folder =
-                    RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
-                THnSparse_7D_thrown_pip_evt_folder->cd();
-                writeHists7D_thrown_pip_evt();
+                        TDirectory *THnSparse_7D_prot_evt_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
+                        THnSparse_7D_prot_evt_folder_loose->cd();
+                        writeHists7D_prot_evt_loose();
 
-                ///////////////////  tight cuts /////////////////
+                        TDirectory *THnSparse_7D_pim_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_pim_loose");
+                        THnSparse_7D_pim_folder_loose->cd();
+                        writeHists7D_pim_loose();
 
-                std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
-                TDirectory *THnSparse_7D_prot_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_prot_tight");
-                THnSparse_7D_prot_folder_tight->cd();
-                writeHists7D_prot_tight();
+                        TDirectory *THnSparse_7D_pim_evt_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
+                        THnSparse_7D_pim_evt_folder_loose->cd();
+                        writeHists7D_pim_evt_loose();
 
-                TDirectory *THnSparse_7D_prot_evt_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
-                THnSparse_7D_prot_evt_folder_tight->cd();
-                writeHists7D_prot_evt_tight();
+                        TDirectory *THnSparse_7D_pip_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_pip_loose");
+                        THnSparse_7D_pip_folder_loose->cd();
+                        writeHists7D_pip_loose();
 
-                TDirectory *THnSparse_7D_pim_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_pim_tight");
-                THnSparse_7D_pim_folder_tight->cd();
-                writeHists7D_pim_tight();
-
-                TDirectory *THnSparse_7D_pim_evt_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
-                THnSparse_7D_pim_evt_folder_tight->cd();
-                writeHists7D_pim_evt_tight();
-
-                TDirectory *THnSparse_7D_pip_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_pip_tight");
-                THnSparse_7D_pip_folder_tight->cd();
-                writeHists7D_pip_tight();
-
-                TDirectory *THnSparse_7D_pip_evt_folder_tight =
-                    RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
-                THnSparse_7D_pip_evt_folder_tight->cd();
-                writeHists7D_pip_evt_tight();
-
-                ///////////////////  loose cuts /////////////////
-
-                std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
-                TDirectory *THnSparse_7D_prot_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_prot_loose");
-                THnSparse_7D_prot_folder_loose->cd();
-                writeHists7D_prot_loose();
-
-                TDirectory *THnSparse_7D_prot_evt_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
-                THnSparse_7D_prot_evt_folder_loose->cd();
-                writeHists7D_prot_evt_loose();
-
-                TDirectory *THnSparse_7D_pim_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_pim_loose");
-                THnSparse_7D_pim_folder_loose->cd();
-                writeHists7D_pim_loose();
-
-                TDirectory *THnSparse_7D_pim_evt_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
-                THnSparse_7D_pim_evt_folder_loose->cd();
-                writeHists7D_pim_evt_loose();
-
-                TDirectory *THnSparse_7D_pip_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_pip_loose");
-                THnSparse_7D_pip_folder_loose->cd();
-                writeHists7D_pip_loose();
-
-                TDirectory *THnSparse_7D_pip_evt_folder_loose =
-                    RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
-                THnSparse_7D_pip_evt_folder_loose->cd();
-                writeHists7D_pip_evt_loose();
-        */
+                        TDirectory *THnSparse_7D_pip_evt_folder_loose =
+                            RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
+                        THnSparse_7D_pip_evt_folder_loose->cd();
+                        writeHists7D_pip_evt_loose();
+                */
         // // // ////////// bin centering corr
         // // // ////////// bin centering corr
         // // // // ////////// bin centering corr
@@ -1269,9 +1269,9 @@ void Histogram::Fill_histSevenD_prot(const std::shared_ptr<Reaction> &_e)
                         /////// if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
+                                sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // if (_mc)
-                                sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         sevenDHist_prot[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
@@ -1318,9 +1318,9 @@ void Histogram::Fill_histSevenD_prot_evt(const std::shared_ptr<Reaction> &_e)
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
+                                h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // if (_mc)
-                                h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
@@ -1435,9 +1435,9 @@ void Histogram::Fill_histSevenD_pip(const std::shared_ptr<Reaction> &_e)
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
+                                sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // if (_mc)
-                                sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         sevenDHist_pip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
@@ -1477,10 +1477,10 @@ void Histogram::Fill_histSevenD_pip_evt(const std::shared_ptr<Reaction> &_e)
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
+                                h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // // h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * pow(background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1], 2));
                                 // if (_mc)
-                                h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         h_5dim_pip_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
@@ -1593,11 +1593,11 @@ void Histogram::Fill_histSevenD_pim(const std::shared_ptr<Reaction> &_e)
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
+                                sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight());
                                 // sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
                                 // if (_mc)
-                                sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         sevenDHist_pim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
@@ -1638,10 +1638,10 @@ void Histogram::Fill_histSevenD_pim_evt(const std::shared_ptr<Reaction> &_e)
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
                                 TThread::Lock();
-                                // h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
+                                h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
                                 // h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * background_fact[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // if (_mc)
-                                h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
+                                // h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                                 // else
                                 //         h_5dim_pim_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
