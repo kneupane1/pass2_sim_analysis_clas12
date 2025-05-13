@@ -28,9 +28,10 @@ Histogram::Histogram(const std::string &output_file)
         // for (short q2 = 3; q2 < 4; q2++)
         for (short q2 = 1; q2 < q2_bin_size; q2++)
         {
-                const Int_t ndims_5D = 5;
-
-                Int_t bins_5D[ndims_5D] = {15, 15, 10, 6, 10};
+                const Int_t ndims_5D = 4;
+                Int_t bins_5D[ndims_5D] = {22, 22, 10, 10};
+                // const Int_t ndims_5D = 5;
+                // Int_t bins_5D[ndims_5D] = {15, 15, 10, 6, 10};
                 // in our expected range
                 // Int_t bins_5D_original[ndims_5D] = {7, 7, 10, 6, 10};
                 // Int_t bins_5D[ndims_5D] = {7, 7, 10, 6, 10};
@@ -48,14 +49,14 @@ Histogram::Histogram(const std::string &output_file)
                         // //50 MeV w bin
 
                         // // //adding extra bins in each end of invariant mass hist
-                        Double_t Bin_size_pPip0 = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
-                        Double_t Bin_size_pipPim0 = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
+                        Double_t Bin_size_pPip0 = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 14.0;
+                        Double_t Bin_size_pipPim0 = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 14.0;
 
                         // Double_t xmin_5D[ndims_5D] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
                         // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
 
-                        Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip0), (0.13957 + 0.13957) - 4 * Bin_size_pipPim0, 0., 0., 0.};
-                        Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip0), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim0), 180, 360, 360};
+                        Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip0), (0.13957 + 0.13957) - 4 * Bin_size_pipPim0, 0., 0.};
+                        Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip0), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim0), 180, 360};
 
                         // Double_t xmin_5D[ndims_5D] = {(0.938272 + 0.13957) - 3 * Bin_size_pPip, (0.13957 + 0.13957) - 3 * Bin_size_pipPim, 0., 0., 0.};
                         // Double_t xmax_5D[ndims_5D] = {(1.0 + 0.05 * w - MASS_PIM) + 4 * Bin_size_pPip, (1.0 + 0.05 * w - MASS_P) + 4 * Bin_size_pipPim, 180, 360, 360};
@@ -190,8 +191,8 @@ Histogram::Histogram(const std::string &output_file)
                         // //50 MeV w bin
 
                         // //adding extra bins in each end of invariant mass hist
-                        Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
-                        Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
+                        Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 14.0;
+                        Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 14.0;
 
                         Double_t xmin_5D_BC[5] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
                         Double_t xmax_5D_BC[5] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
@@ -1258,8 +1259,8 @@ void Histogram::Fill_histSevenD_prot(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         // std::cout << "q2 value = " << _e->Q2() << "  q2 bin = " << q2_bining(_e->Q2()) << " inv pPip is outside ...   = " << _e->inv_Ppip() << std::endl;
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
@@ -1307,8 +1308,8 @@ void Histogram::Fill_histSevenD_prot_evt(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1351,8 +1352,8 @@ void Histogram::Fill_histSevenD_thrown_prot(const std::shared_ptr<MCReaction> &_
         x_thrown[0] = _e->MCinv_Ppip();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCprot_theta_thrown();
-        x_thrown[3] = _e->MCprot_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_pippim_pipf_thrown();
+        // x_thrown[3] = _e->MCprot_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_pippim_pipf_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1392,8 +1393,8 @@ void Histogram::Fill_histSevenD_thrown_prot_evt(const std::shared_ptr<MCReaction
         x_thrown[0] = _e->MCinv_Ppip();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCprot_theta_thrown();
-        x_thrown[3] = _e->MCprot_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_pippim_pipf_thrown();
+        // x_thrown[3] = _e->MCprot_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_pippim_pipf_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1426,8 +1427,8 @@ void Histogram::Fill_histSevenD_pip(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1469,8 +1470,8 @@ void Histogram::Fill_histSevenD_pip_evt(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1510,8 +1511,8 @@ void Histogram::Fill_histSevenD_thrown_pip(const std::shared_ptr<MCReaction> &_e
         x_thrown[0] = _e->MCinv_Ppim();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCpip_theta_thrown();
-        x_thrown[3] = _e->MCpip_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_ppim_pipip_thrown();
+        // x_thrown[3] = _e->MCpip_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_ppim_pipip_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1582,8 +1583,8 @@ void Histogram::Fill_histSevenD_pim(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
@@ -1624,8 +1625,8 @@ void Histogram::Fill_histSevenD_pim_evt(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1665,8 +1666,8 @@ void Histogram::Fill_histSevenD_thrown_pim(const std::shared_ptr<MCReaction> &_e
         x_thrown[0] = _e->MCinv_Ppip();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCpim_theta_thrown();
-        x_thrown[3] = _e->MCpim_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_ppip_pipim_thrown();
+        // x_thrown[3] = _e->MCpim_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_ppip_pipim_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1701,8 +1702,8 @@ void Histogram::Fill_histSevenD_thrown_pim_evt(const std::shared_ptr<MCReaction>
         x_thrown[0] = _e->MCinv_Ppip();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCpim_theta_thrown();
-        x_thrown[3] = _e->MCpim_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_ppip_pipim_thrown();
+        // x_thrown[3] = _e->MCpim_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_ppip_pipim_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1741,8 +1742,8 @@ void Histogram::Fill_histSevenD_prot_tight(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         // std::cout << "q2 value = " << _e->Q2() << "  q2 bin = " << q2_bining(_e->Q2()) << " inv pPip is outside ...   = " << _e->inv_Ppip() << std::endl;
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
@@ -1794,8 +1795,8 @@ void Histogram::Fill_histSevenD_prot_evt_tight(const std::shared_ptr<Reaction> &
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1838,8 +1839,8 @@ void Histogram::Fill_histSevenD_pip_tight(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1880,8 +1881,8 @@ void Histogram::Fill_histSevenD_pip_evt_tight(const std::shared_ptr<Reaction> &_
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -1924,8 +1925,8 @@ void Histogram::Fill_histSevenD_pim_tight(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
@@ -1970,8 +1971,8 @@ void Histogram::Fill_histSevenD_pim_evt_tight(const std::shared_ptr<Reaction> &_
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -2019,8 +2020,8 @@ void Histogram::Fill_histSevenD_prot_loose(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         // std::cout << "q2 value = " << _e->Q2() << "  q2 bin = " << q2_bining(_e->Q2()) << " inv pPip is outside ...   = " << _e->inv_Ppip() << std::endl;
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
@@ -2069,8 +2070,8 @@ void Histogram::Fill_histSevenD_prot_evt_loose(const std::shared_ptr<Reaction> &
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->prot_theta();
-        x[3] = _e->prot_Phi();
-        x[4] = _e->alpha_pippim_pipf();
+        // x[3] = _e->prot_Phi();
+        x[3] = _e->alpha_pippim_pipf();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -2113,8 +2114,8 @@ void Histogram::Fill_histSevenD_pip_loose(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -2155,8 +2156,8 @@ void Histogram::Fill_histSevenD_pip_evt_loose(const std::shared_ptr<Reaction> &_
         x[0] = _e->inv_Ppim();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pip_theta();
-        x[3] = _e->pip_Phi();
-        x[4] = _e->alpha_ppim_pipip();
+        // x[3] = _e->pip_Phi();
+        x[3] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
@@ -2199,8 +2200,8 @@ void Histogram::Fill_histSevenD_pim_loose(const std::shared_ptr<Reaction> &_e)
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
@@ -2245,8 +2246,8 @@ void Histogram::Fill_histSevenD_pim_evt_loose(const std::shared_ptr<Reaction> &_
         x[0] = _e->inv_Ppip();
         x[1] = _e->inv_pip_pim();
         x[2] = _e->pim_theta();
-        x[3] = _e->pim_Phi();
-        x[4] = _e->alpha_ppip_pipim();
+        // x[3] = _e->pim_Phi();
+        x[3] = _e->alpha_ppip_pipim();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
                 if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
