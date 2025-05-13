@@ -1252,7 +1252,7 @@ void Histogram::writeMMSQ_mPim_4_or_more_comb()
 void Histogram::Fill_histSevenD_prot(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1301,7 +1301,7 @@ void Histogram::writeHists7D_prot()
 void Histogram::Fill_histSevenD_prot_evt(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1345,7 +1345,7 @@ void Histogram::writeHists7D_prot_evt()
 void Histogram::Fill_histSevenD_thrown_prot(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
@@ -1386,7 +1386,7 @@ void Histogram::writeHists7D_thrown_prot()
 void Histogram::Fill_histSevenD_thrown_prot_evt(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
@@ -1420,7 +1420,7 @@ void Histogram::writeHists7D_thrown_prot_evt()
 void Histogram::Fill_histSevenD_pip(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1463,7 +1463,7 @@ void Histogram::writeHists7D_pip()
 void Histogram::Fill_histSevenD_pip_evt(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1504,7 +1504,7 @@ void Histogram::writeHists7D_pip_evt()
 void Histogram::Fill_histSevenD_thrown_pip(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
@@ -1540,15 +1540,15 @@ void Histogram::writeHists7D_thrown_pip()
 void Histogram::Fill_histSevenD_thrown_pip_evt(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
         x_thrown[0] = _e->MCinv_Ppim();
         x_thrown[1] = _e->MCinv_pip_pim();
         x_thrown[2] = _e->MCpip_theta_thrown();
-        x_thrown[3] = _e->MCpip_Phi_thrown();
-        x_thrown[4] = _e->MCalpha_ppim_pipip_thrown();
+        // x_thrown[3] = _e->MCpip_Phi_thrown();
+        x_thrown[3] = _e->MCalpha_ppim_pipip_thrown();
         if (_e->W_mc() <= 2.2 && _e->W_mc() >= 1.4)
         {
                 if (_e->Q2_mc() >= 2.0 && _e->Q2_mc() <= 9.0)
@@ -1576,7 +1576,7 @@ void Histogram::writeHists7D_thrown_pip_evt()
 void Histogram::Fill_histSevenD_pim(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1618,7 +1618,7 @@ void Histogram::writeHists7D_pim()
 void Histogram::Fill_histSevenD_pim_evt(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1659,7 +1659,7 @@ void Histogram::writeHists7D_pim_evt()
 void Histogram::Fill_histSevenD_thrown_pim(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
@@ -1695,7 +1695,7 @@ void Histogram::writeHists7D_thrown_pim()
 void Histogram::Fill_histSevenD_thrown_pim_evt(const std::shared_ptr<MCReaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x_thrown[ndims];
         //         x_thrown[0] = _e->W_mc();
         // x_thrown[1] = _e->Q2_mc();
@@ -1735,7 +1735,7 @@ void Histogram::writeHists7D_thrown_pim_evt()
 void Histogram::Fill_histSevenD_prot_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1788,7 +1788,7 @@ void Histogram::writeHists7D_prot_tight()
 void Histogram::Fill_histSevenD_prot_evt_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1832,7 +1832,7 @@ void Histogram::writeHists7D_prot_evt_tight()
 void Histogram::Fill_histSevenD_pip_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1874,7 +1874,7 @@ void Histogram::writeHists7D_pip_tight()
 void Histogram::Fill_histSevenD_pip_evt_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1918,7 +1918,7 @@ void Histogram::writeHists7D_pip_evt_tight()
 void Histogram::Fill_histSevenD_pim_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -1964,7 +1964,7 @@ void Histogram::writeHists7D_pim_tight()
 void Histogram::Fill_histSevenD_pim_evt_tight(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2013,7 +2013,7 @@ void Histogram::writeHists7D_pim_evt_tight()
 void Histogram::Fill_histSevenD_prot_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2063,7 +2063,7 @@ void Histogram::writeHists7D_prot_loose()
 void Histogram::Fill_histSevenD_prot_evt_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2107,7 +2107,7 @@ void Histogram::writeHists7D_prot_evt_loose()
 void Histogram::Fill_histSevenD_pip_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2149,7 +2149,7 @@ void Histogram::writeHists7D_pip_loose()
 void Histogram::Fill_histSevenD_pip_evt_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2193,7 +2193,7 @@ void Histogram::writeHists7D_pip_evt_loose()
 void Histogram::Fill_histSevenD_pim_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
@@ -2239,7 +2239,7 @@ void Histogram::writeHists7D_pim_loose()
 void Histogram::Fill_histSevenD_pim_evt_loose(const std::shared_ptr<Reaction> &_e)
 {
         // fill it
-        const Int_t ndims = 5;
+        const Int_t ndims = 4;
         Double_t x[ndims];
         // x[0] = _e->W();
         //  x[1] = _e->Q2();
