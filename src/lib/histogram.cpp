@@ -632,132 +632,132 @@ void Histogram::Write()
         // THnSparse   7D HIST ///////
         // THnSparse   7D HIST ///////
         // THnSparse   7D HIST ///////
-
-        std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
-        TDirectory *THnSparse_7D_prot_folder =
-            RootOutputFile->mkdir("THnSparse_7D_prot");
-        THnSparse_7D_prot_folder->cd();
-        writeHists7D_prot();
-
-        TDirectory *THnSparse_7D_thrown_prot_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
-        THnSparse_7D_thrown_prot_folder->cd();
-        writeHists7D_thrown_prot();
-
-        TDirectory *THnSparse_7D_prot_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_prot_evt");
-        THnSparse_7D_prot_evt_folder->cd();
-        writeHists7D_prot_evt();
-
-        TDirectory *THnSparse_7D_thrown_prot_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
-        THnSparse_7D_thrown_prot_evt_folder->cd();
-        writeHists7D_thrown_prot_evt();
-
-        TDirectory *THnSparse_7D_pim_folder =
-            RootOutputFile->mkdir("THnSparse_7D_pim");
-        THnSparse_7D_pim_folder->cd();
-        writeHists7D_pim();
-        TDirectory *THnSparse_7D_thrown_pim_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
-        THnSparse_7D_thrown_pim_folder->cd();
-        writeHists7D_thrown_pim();
-
-        TDirectory *THnSparse_7D_pim_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_pim_evt");
-        THnSparse_7D_pim_evt_folder->cd();
-        writeHists7D_pim_evt();
-
-        TDirectory *THnSparse_7D_thrown_pim_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
-        THnSparse_7D_thrown_pim_evt_folder->cd();
-        writeHists7D_thrown_pim_evt();
-
-        TDirectory *THnSparse_7D_pip_folder =
-            RootOutputFile->mkdir("THnSparse_7D_pip");
-        THnSparse_7D_pip_folder->cd();
-        writeHists7D_pip();
-        TDirectory *THnSparse_7D_thrown_pip_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
-        THnSparse_7D_thrown_pip_folder->cd();
-        writeHists7D_thrown_pip();
-
-        TDirectory *THnSparse_7D_pip_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_pip_evt");
-        THnSparse_7D_pip_evt_folder->cd();
-        writeHists7D_pip_evt();
-
-        TDirectory *THnSparse_7D_thrown_pip_evt_folder =
-            RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
-        THnSparse_7D_thrown_pip_evt_folder->cd();
-        writeHists7D_thrown_pip_evt();
         /*
-                        ///////////////////  tight cuts /////////////////
+                std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
+                TDirectory *THnSparse_7D_prot_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_prot");
+                THnSparse_7D_prot_folder->cd();
+                writeHists7D_prot();
 
-                        std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
-                        TDirectory *THnSparse_7D_prot_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_prot_tight");
-                        THnSparse_7D_prot_folder_tight->cd();
-                        writeHists7D_prot_tight();
+                TDirectory *THnSparse_7D_thrown_prot_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
+                THnSparse_7D_thrown_prot_folder->cd();
+                writeHists7D_thrown_prot();
 
-                        TDirectory *THnSparse_7D_prot_evt_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
-                        THnSparse_7D_prot_evt_folder_tight->cd();
-                        writeHists7D_prot_evt_tight();
+                TDirectory *THnSparse_7D_prot_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_prot_evt");
+                THnSparse_7D_prot_evt_folder->cd();
+                writeHists7D_prot_evt();
 
-                        TDirectory *THnSparse_7D_pim_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_pim_tight");
-                        THnSparse_7D_pim_folder_tight->cd();
-                        writeHists7D_pim_tight();
+                TDirectory *THnSparse_7D_thrown_prot_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
+                THnSparse_7D_thrown_prot_evt_folder->cd();
+                writeHists7D_thrown_prot_evt();
 
-                        TDirectory *THnSparse_7D_pim_evt_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
-                        THnSparse_7D_pim_evt_folder_tight->cd();
-                        writeHists7D_pim_evt_tight();
+                TDirectory *THnSparse_7D_pim_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_pim");
+                THnSparse_7D_pim_folder->cd();
+                writeHists7D_pim();
+                TDirectory *THnSparse_7D_thrown_pim_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
+                THnSparse_7D_thrown_pim_folder->cd();
+                writeHists7D_thrown_pim();
 
-                        TDirectory *THnSparse_7D_pip_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_pip_tight");
-                        THnSparse_7D_pip_folder_tight->cd();
-                        writeHists7D_pip_tight();
+                TDirectory *THnSparse_7D_pim_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_pim_evt");
+                THnSparse_7D_pim_evt_folder->cd();
+                writeHists7D_pim_evt();
 
-                        TDirectory *THnSparse_7D_pip_evt_folder_tight =
-                            RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
-                        THnSparse_7D_pip_evt_folder_tight->cd();
-                        writeHists7D_pip_evt_tight();
+                TDirectory *THnSparse_7D_thrown_pim_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
+                THnSparse_7D_thrown_pim_evt_folder->cd();
+                writeHists7D_thrown_pim_evt();
 
-                        ///////////////////  loose cuts /////////////////
+                TDirectory *THnSparse_7D_pip_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_pip");
+                THnSparse_7D_pip_folder->cd();
+                writeHists7D_pip();
+                TDirectory *THnSparse_7D_thrown_pip_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
+                THnSparse_7D_thrown_pip_folder->cd();
+                writeHists7D_thrown_pip();
 
-                        std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
-                        TDirectory *THnSparse_7D_prot_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_prot_loose");
-                        THnSparse_7D_prot_folder_loose->cd();
-                        writeHists7D_prot_loose();
+                TDirectory *THnSparse_7D_pip_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_pip_evt");
+                THnSparse_7D_pip_evt_folder->cd();
+                writeHists7D_pip_evt();
 
-                        TDirectory *THnSparse_7D_prot_evt_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
-                        THnSparse_7D_prot_evt_folder_loose->cd();
-                        writeHists7D_prot_evt_loose();
+                TDirectory *THnSparse_7D_thrown_pip_evt_folder =
+                    RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
+                THnSparse_7D_thrown_pip_evt_folder->cd();
+                writeHists7D_thrown_pip_evt();
 
-                        TDirectory *THnSparse_7D_pim_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_pim_loose");
-                        THnSparse_7D_pim_folder_loose->cd();
-                        writeHists7D_pim_loose();
+                                ///////////////////  tight cuts /////////////////
 
-                        TDirectory *THnSparse_7D_pim_evt_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
-                        THnSparse_7D_pim_evt_folder_loose->cd();
-                        writeHists7D_pim_evt_loose();
+                                std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
+                                TDirectory *THnSparse_7D_prot_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_prot_tight");
+                                THnSparse_7D_prot_folder_tight->cd();
+                                writeHists7D_prot_tight();
 
-                        TDirectory *THnSparse_7D_pip_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_pip_loose");
-                        THnSparse_7D_pip_folder_loose->cd();
-                        writeHists7D_pip_loose();
+                                TDirectory *THnSparse_7D_prot_evt_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
+                                THnSparse_7D_prot_evt_folder_tight->cd();
+                                writeHists7D_prot_evt_tight();
 
-                        TDirectory *THnSparse_7D_pip_evt_folder_loose =
-                            RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
-                        THnSparse_7D_pip_evt_folder_loose->cd();
-                        writeHists7D_pip_evt_loose();
-                */
+                                TDirectory *THnSparse_7D_pim_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_pim_tight");
+                                THnSparse_7D_pim_folder_tight->cd();
+                                writeHists7D_pim_tight();
+
+                                TDirectory *THnSparse_7D_pim_evt_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
+                                THnSparse_7D_pim_evt_folder_tight->cd();
+                                writeHists7D_pim_evt_tight();
+
+                                TDirectory *THnSparse_7D_pip_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_pip_tight");
+                                THnSparse_7D_pip_folder_tight->cd();
+                                writeHists7D_pip_tight();
+
+                                TDirectory *THnSparse_7D_pip_evt_folder_tight =
+                                    RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
+                                THnSparse_7D_pip_evt_folder_tight->cd();
+                                writeHists7D_pip_evt_tight();
+
+                                ///////////////////  loose cuts /////////////////
+
+                                std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
+                                TDirectory *THnSparse_7D_prot_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_prot_loose");
+                                THnSparse_7D_prot_folder_loose->cd();
+                                writeHists7D_prot_loose();
+
+                                TDirectory *THnSparse_7D_prot_evt_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
+                                THnSparse_7D_prot_evt_folder_loose->cd();
+                                writeHists7D_prot_evt_loose();
+
+                                TDirectory *THnSparse_7D_pim_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_pim_loose");
+                                THnSparse_7D_pim_folder_loose->cd();
+                                writeHists7D_pim_loose();
+
+                                TDirectory *THnSparse_7D_pim_evt_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
+                                THnSparse_7D_pim_evt_folder_loose->cd();
+                                writeHists7D_pim_evt_loose();
+
+                                TDirectory *THnSparse_7D_pip_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_pip_loose");
+                                THnSparse_7D_pip_folder_loose->cd();
+                                writeHists7D_pip_loose();
+
+                                TDirectory *THnSparse_7D_pip_evt_folder_loose =
+                                    RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
+                                THnSparse_7D_pip_evt_folder_loose->cd();
+                                writeHists7D_pip_evt_loose();
+                        */
         // // // ////////// bin centering corr
         // // // ////////// bin centering corr
         // // // // ////////// bin centering corr
@@ -3196,6 +3196,50 @@ void Histogram::Write_WvsQ2()
                                 vz_sec[c][i]->Write();
                 }
         }
+
+        ///////////////////////// //////////////////////////
+        auto Pcal_lu_sec = RootOutputFile->mkdir("pcal_lu_sec");
+        Pcal_lu_sec->cd();
+        for (auto &&cut : before_after_cut)
+        {
+                int c = cut.first;
+
+                for (short i = 0; i < num_sectors; i++)
+                {
+                        pcal_lu_sec[c][i]->SetXTitle("Pcal lu (cm)");
+                        if (pcal_lu_sec[c][i]->GetEntries())
+                                pcal_lu_sec[c][i]->Write();
+                }
+        }
+        ///////////////////////// //////////////////////////
+        auto Pcal_lv_sec = RootOutputFile->mkdir("pcal_lv_sec");
+        Pcal_lv_sec->cd();
+        for (auto &&cut : before_after_cut)
+        {
+                int c = cut.first;
+
+                for (short i = 0; i < num_sectors; i++)
+                {
+                        pcal_lv_sec[c][i]->SetXTitle("Pcal lv (cm)");
+                        if (pcal_lv_sec[c][i]->GetEntries())
+                                pcal_lv_sec[c][i]->Write();
+                }
+        }
+        ///////////////////////// //////////////////////////
+        auto Pcal_lw_sec = RootOutputFile->mkdir("pcal_lw_sec");
+        Pcal_lw_sec->cd();
+        for (auto &&cut : before_after_cut)
+        {
+                int c = cut.first;
+
+                for (short i = 0; i < num_sectors; i++)
+                {
+                        pcal_lw_sec[c][i]->SetXTitle("Pcal lw (cm)");
+                        if (pcal_lw_sec[c][i]->GetEntries())
+                                pcal_lw_sec[c][i]->Write();
+                }
+        }
+
         // ///////////////////////// //////////////////////////
         // auto ECAL_VS_PCAL_sec = RootOutputFile->mkdir("ECAL_VS_PCAL_sec");
         // ECAL_VS_PCAL_sec->cd();
@@ -3527,6 +3571,24 @@ void Histogram::FillHists_electron_cuts(const std::shared_ptr<Branches12> &_d, c
                                 vz_sec[with_one_cut][sec - 1]->Fill(_d->vz(0), _e->weight());
                         else
                                 vz_sec[outside_one_cut][sec - 1]->Fill(_d->vz(0), _e->weight());
+
+                        pcal_lu_sec[before_any_cuts][sec - 1]->Fill(_d->ec_pcal_lu(0), _e->weight());
+                        pcal_lv_sec[before_any_cuts][sec - 1]->Fill(_d->ec_pcal_lv(0), _e->weight());
+                        pcal_lw_sec[before_any_cuts][sec - 1]->Fill(_d->ec_pcal_lw(0), _e->weight());
+
+                        if (_d->ec_pcal_lu(0) > 14.5)
+                                pcal_lu_sec[with_one_cut][sec - 1]->Fill(_d->ec_pcal_lu(0), _e->weight());
+                        else
+                                pcal_lu_sec[outside_one_cut][sec - 1]->Fill(_d->ec_pcal_lu(0), _e->weight());
+                        if (_d->ec_pcal_lv(0) > 14.5)
+                                pcal_lv_sec[with_one_cut][sec - 1]->Fill(_d->ec_pcal_lv(0), _e->weight());
+                        else
+                                pcal_lv_sec[outside_one_cut][sec - 1]->Fill(_d->ec_pcal_lv(0), _e->weight());
+                        if (_d->ec_pcal_lw(0) > 14.5)
+                                pcal_lw_sec[with_one_cut][sec - 1]->Fill(_d->ec_pcal_lw(0), _e->weight());
+                        else
+                                pcal_lw_sec[outside_one_cut][sec - 1]->Fill(_d->ec_pcal_lw(0), _e->weight());
+
                         // // ecal vs pcal
                         // int momRangeIdx = getMomRange(_d->p(0));
                         // ECAL_VS_PCAL[before_any_cuts][sec - 1][momRangeIdx]->Fill((_d->ec_ecin_energy(0) / _d->p(0)), (_d->ec_pcal_energy(0) / _d->p(0)), _e->weight());
@@ -3575,6 +3637,10 @@ void Histogram::FillHists_electron_with_cuts(const std::shared_ptr<Branches12> &
                         SF_VS_MOM[after_all_cuts][sec - 1]->Fill(_d->p(0), _d->ec_tot_energy(0) / _d->p(0), _e->weight());
 
                         Theta_fd_elec_lab_vs_mom_elec[sec - 1]->Fill(_e->elec_mom(), _e->elec_th(), _e->weight());
+
+                        pcal_lu_sec[after_all_cuts][sec - 1]->Fill(_d->ec_pcal_lu(0), _e->weight());
+                        pcal_lv_sec[after_all_cuts][sec - 1]->Fill(_d->ec_pcal_lv(0), _e->weight());
+                        pcal_lw_sec[after_all_cuts][sec - 1]->Fill(_d->ec_pcal_lw(0), _e->weight());
                 }
         }
 }
@@ -4159,6 +4225,18 @@ void Histogram::makeHists_sector()
                         vz_sec[c][i] = std::make_shared<TH1D>(Form("vz_sec%d%s", i + 1, type),
                                                               Form("vz sec: %d%s", i + 1, type),
                                                               200, -20, 20);
+
+                        pcal_lu_sec[c][i] = std::make_shared<TH1D>(Form("pcal_lu_sec%d%s", i + 1, type),
+                                                                   Form("pcal_lu_sec sec: %d%s", i + 1, type),
+                                                                   200, 0, 250);
+
+                        pcal_lv_sec[c][i] = std::make_shared<TH1D>(Form("pcal_lv_sec%d%s", i + 1, type),
+                                                                   Form("pcal_lv_sec sec: %d%s", i + 1, type),
+                                                                   200, 0, 250);
+
+                        pcal_lw_sec[c][i] = std::make_shared<TH1D>(Form("pcal_lw_sec%d%s", i + 1, type),
+                                                                   Form("pcal_lw_sec sec: %d%s", i + 1, type),
+                                                                   200, 0, 250);
 
                         // for (short j = 0; j < 9; j++) // mom bins
                         // {
