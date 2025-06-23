@@ -124,6 +124,17 @@ float rad_corr_factor[9][15] =
 //                                       {0.948711, 0.950965, 0.951408, 0.952030, 0.951910, 0.954474, 0.955512, 0.955267, 0.955928, 0.957258, 0.957915, 0.957669, 0.958665, 0.958890, 0.959190, 0.960317},
 //                                       {0.849843, 0.849452, 0.850676, 0.851694, 0.850893, 0.856553, 0.860586, 0.860401, 0.861822, 0.865837, 0.868462, 0.869297, 0.869627, 0.869802, 0.870937, 0.871561}};
 
+float bin_centering_corr_w_q2[9][14] = {
+    {0.955791, 0.959127, 0.972504, 0.966528, 0.966590, 0.963523, 0.986115, 0.970434, 0.975323, 0.978652, 0.974793, 0.977613, 0.978410, 0.978543},
+    {0.936145, 0.942425, 0.958513, 0.949148, 0.946442, 0.949634, 0.969737, 0.953968, 0.959641, 0.962593, 0.963392, 0.962670, 0.965322, 0.963984},
+    {0.959041, 0.961146, 0.976683, 0.971213, 0.965115, 0.967004, 0.991067, 0.972839, 0.979530, 0.981830, 0.980333, 0.981745, 0.979033, 0.980701},
+    {0.944204, 0.951302, 0.967160, 0.958739, 0.955580, 0.957176, 0.981369, 0.961843, 0.969645, 0.970513, 0.970309, 0.968312, 0.970068, 0.969791},
+    {0.945185, 0.953111, 0.967380, 0.960374, 0.955171, 0.957646, 0.982821, 0.964211, 0.968488, 0.970756, 0.971455, 0.970484, 0.968577, 0.970982},
+    {0.939916, 0.948176, 0.961456, 0.956141, 0.947035, 0.952913, 0.977511, 0.957091, 0.965023, 0.966879, 0.966590, 0.965800, 0.965436, 0.965995},
+    {0.949401, 0.956215, 0.971763, 0.965341, 0.955451, 0.960869, 0.985948, 0.965916, 0.972318, 0.974069, 0.975018, 0.975643, 0.973878, 0.973831},
+    {0.964546, 0.964848, 0.977819, 0.971859, 0.962066, 0.966825, 0.991673, 0.972240, 0.978159, 0.977992, 0.981503, 0.980372, 0.979354, 0.979487},
+    {0.955836, 0.974055, 0.984388, 0.976997, 0.963949, 0.971298, 0.996613, 0.976218, 0.980805, 0.982791, 0.985535, 0.984104, 0.983445, 0.984681}};
+
 //// For M_pPip hist bin centering correction the Q2 bins used are as follow (same as background estimation):     q2_bin_ranges = [2.2, 2.7, 3.25, 3.85, 4.6, 5.6, 7.6]
 ///// [7][16][7] --> inner [7] is for invariant mass, middle w and outer [7] is q2 ie; [q2][w][m_pPip]
 float bin_centering_corr_m_pPip[9][14][7] = {{{0.786556, 0.871238, 0.973235, 0.998692, 1.010390, 0.972802, 0.760736},
@@ -1331,18 +1342,11 @@ THnSparseD *h_rec_pim_sig2[W_bins_no];
 THnSparseD *h_th_pim_evt[W_bins_no]; // same as the h_rec_pim_sig2 just weight is 1 here
 THnSparseD *h_rec_pim_evt[W_bins_no];
 
-// Int_t pipP_max = 6;
-// Int_t pimP_max = 6;
-// Int_t pip_pim_max = 6;
-// Int_t theta_max = 10;
-// Int_t phi_max = 6;
-// Int_t alpha_max = 8;
-
-Int_t pipP_max = 15;
-Int_t pimP_max = 15;
-Int_t pip_pim_max = 15;
+Int_t pipP_max = 22;
+Int_t pimP_max = 22;
+Int_t pip_pim_max = 22;
 Int_t theta_max = 10;
-Int_t phi_max = 6;
+// Int_t phi_max = 6;
 Int_t alpha_max = 10;
 
 float bin_content_sum_acc_corrected_simu[3];
@@ -1465,11 +1469,12 @@ float filled_bins_in_exp[9][15];
 float holes_fraction_sim[9][15];
 float total_bins_in_sim[9][15];
 
-////////// float Threshold_cuts[9] = {0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85};
+//////// float Threshold_cuts[9] = {0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85};
 // float Threshold_cuts[9] = {0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55};
 // float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7};
-// float Threshold_cuts[9] = {0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45};
-float Threshold_cuts[9] = {0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
+// float Threshold_cuts[9] = {0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4};
+float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
+// float Threshold_cuts[9] = {20.7, 20.7, 20.7, 20.3, 20.3, 20.3, 20.3, 20.3, 20.3};
 
 int n = 10;
 TCanvas *can1 =
@@ -1535,14 +1540,14 @@ CrossSectionData readCrossSections(const std::string &file_path)
 
     if (!file.is_open())
     {
-        // std::cerr << "Error opening file: " << file_path << std::endl;
+        std::cerr << "Error opening file: " << file_path << std::endl;
         return data;
     }
 
     std::string line;
     // Skip the first line if it contains headers
-    std::getline(file, line); // assuming the first line has headers
-    std::cout << "Header line: " << line << std::endl;
+    // std::getline(file, line); // assuming the first line has headers
+    // std::cout << "Header line: " << line << std::endl;
 
     while (std::getline(file, line))
     {
@@ -1581,161 +1586,47 @@ int main(int argc, char **argv)
 {
     suppressWarnings();
 
-    // //////////  VERSION BEFORE FINAL TUINING IN MMSQ AND BACKGROUNDS  March 01 2025////////////////////////////////////////////
-    // std::string em_inFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/resIncl_EXP_pass2_3_empty_target_runs_for_cs_15_INV_mass_bins.root";
-    // // std::string inFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/resIncl_EXP_pass2_126_golden_runs_for_cs_15_INV_mass_bins.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_pass2_126_runs_with_eff_corr_try2_facts_with_cdfd_with_EB_ID_with_QADB_cuts.root";
-    // // // // // // // // /// Alll 741 files from pass2, 15 inv mass bins
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_741_files_good_wt_for_cs_Nov_24_2024.root";
-    // // std::string mcWt1FileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_741_files_with_wt_1_for_cs.root";
-    // // // ///////// for eff check
-    // // // // std::string mcFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_741_files_with_wt_1_for_cs.root";
-    // // // // // // // // // // /// Alll 741 files from pass2, 15 inv mass bins without BKG SUBTRACTED  MC  //////
-    // // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/pass2_741_files_with_det_ineff_cuts_with_cdfd_cuts_after_twoPi_event_after_mmsq.root";
-    // // std::string mcWt1FileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_741_files_with_wt_1.root";
-    // // // // ///////////////   BKG SUBTRACTED  MC ////////////
-    // // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_background_subtraction/bkg_files/new/background_subtracted_741_files_rec_mc_thnsparse_hists_new1.root";
-    // // std::string mcWt1FileName = "/Users/krishnaneupane/Downloads/2025/For_background_subtraction/bkg_files/new/background_subtracted_741_files_rec_mc_thnsparse_hists_new1_wt1.root";
-    // ////////////////Exp background /////////////////
-    // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_pass2_all_126_bck_sub_file_with_EB_ID_with_QADB_cuts.root";
-    // // //////////////////////////// Syatematics Studies ///////////////////////
-    // // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_pass2_all_126_runs_FINAL_for_cs_cross_check_for_Systmatics.root";
-    // // tf electron momentum corr 0.9
-    // // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_pass2_all_126_runs_FINAL_for_cs_cross_check_for_Systmatics_elec_tf_mom_corr_0_9.root";
-    // ////////////  Not applying our momentum corrections ////////////
-    // // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_pass2_all_126_runs_FINAL_for_cs_cross_check_for_Systmatics_after_elsoo_and_tf_corr_before_our_mom_corr.root";
-
-    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/For_background_subtraction/bkg_files/new/pass2_final_all_741_files_for_background_subtraction.root";
-
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_background_subtraction/bkg_files/new/pass2_final_all_741_files_for_background_subtraction.root";
-
-    // // OLd gemc 5.4 pass2 sim, smaller w-q2 range
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_bg_45nA_good_wt_pass2_gemc_5_4_q2_3_5_to_8_5_GeV2_170_files.root";
-    // std::string mcWt1FileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/out_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_bg_45nA_wt_1_pass2_gemc_5_4_q2_3_5_to_8_5_GeV_170_files.root";
-
-    /////////// COMBINED ///////////
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/Combined_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_911_files_good_wt_for_cs_Nov_24_2024.root";
-    // std::string mcWt1FileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/combined_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_all_911_files_with_wt_1_for_cs.root";
-
-    ///// VERSION WITH New MMSQ new program //////////
-    ///// VERSION WITH New MMSQ new program //////////
-    ///// VERSION WITH New MMSQ new program //////////
-    ///// VERSION WITH New MMSQ new program //////////
-
-    // // // std::string em_inFileName = "/Users/krishnaneupane/Downloads/2024/Dec_2024/resIncl_EXP_pass2_3_empty_target_runs_for_cs_15_INV_mass_bins.root";
-    // std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_3_empty_target_runs_with_efficiency_corrected_FINAL_version_march_06_2025.root";
-
-    // // /////////////////////// Systamatics /////////////////////////
-    // // //// 1) eff err cuts done using
-    // // // 2) MMSQ cuts doine using
-    // // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/resIncl_EXP_all_126_runs_with_golden_cut_final_with_new_mmsq_for_sys_test_again.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/pass2_gemc_gemc_741_files_for_FINAL_CS_for_MMSQ_syst.root";
-    // // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_all_126_runs_with_golden_cut_final_BACKGROUND_THNSPARSE_files_march_05_2025.root"; /// bad for pim loose background thnsparse, filled twice
-    // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Background_variation/resIncl_EXP_126_runs_with_efficiency_corrected_BACKGROUND_FINAL_version_march_07_2025_cross_check.root"; /// good for pim loose
-    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/pass2_741_files_Final_Thnsparse_mmsq_for_background_and_its_syst_03_06_2025.root";
-
-    ///////////////Systamatics Mom Corr ////////////////
-    ///////////////Systamatics Mom Corr ////////////////
-    ///////////////Systamatics Mom Corr ////////////////
-
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_126_runs_for_tf_mom_corr_as_it_is_syst_version_march_08_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_126_runs_for_tf_mom_corr_09_both_elec_pip_syst_version_march_08_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_126_runs_for_tf_mom_corr_1_1_both_elec_pip_syst_version_march_08_2025.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/pass2_gemc_gemc_741_files_for_FINAL_CS_for_MMSQ_syst.root";
-
-    /// our mom corr
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_126_runs_for_our_mom_corr_1_1_syst_version_march_08_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/mom_corr/resIncl_EXP_126_runs_for_our_mom_corr_0_9_syst_version_march_08_2025.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/pass2_gemc_gemc_741_files_for_FINAL_CS_for_MMSQ_syst.root";
-
-    ///////////// PARTICLE EFFICIENCY CORR FACTOR
-
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Efficiency_corr_fact/resIncl_EXP_126_runs_for_Efficiency_syst_tight_cut_march_08_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Efficiency_corr_fact/resIncl_EXP_126_runs_for_Efficiency_syst_loose_cut_march_08_2025.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/pass2_gemc_gemc_741_files_for_FINAL_CS_for_MMSQ_syst.root";
-
-    ///////////// All Fiducial cuts
-    ////////////// OLD TIght fiducial cuts, too tight, not used now...
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/pass2_741_files_with_tight_fiducial_cuts_syst_03_09_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/resIncl_EXP_126_runs_with_tight_fiducial_cuts_march_09_2025.root";
-
-    // //// old mid cut but new tight cuts ///////
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/resIncl_EXP_all_126_runs_with_golden_cut_final_with_new_mmsq_for_sys_test_again.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/MMSQ_Study/MMSQ_CUTS/pass2_gemc_gemc_741_files_for_FINAL_CS_for_MMSQ_syst.root";
-
-    // // // //////////// old/ new loose cuts
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/pass2_741_files_with_loose_fiducial_cuts_syst_03_09_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/resIncl_EXP_126_runs_with_loose_fiducial_cuts_march_09_2025.root";
-    // // // ///////////////////// new modified mid fiducial cuts //////////////
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/pass2_741_files_with_new_modified_mid_fiducial_cuts_syst_03_10_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/resIncl_EXP_126_runs_with_new_redefined_mid_fiducial_cuts_march_09_2025.root";
-
-    // // // ///////////////////// new deltat cuts syst with modified fiducial cuts //////////////
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Deltat_cuts/pass2_741_files_with_dt_cuts_loose_syst_03_10_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Deltat_cuts/resIncl_EXP_126_runs_loose_dt_cuts_redefined_mid_fids_march_09_2025.root";
-
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Deltat_cuts/pass2_741_files_with_dt_tight_cuts_syst_03_10_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Deltat_cuts/resIncl_EXP_126_runs_tight_dt_cuts_redefined_mid_fids_march_09_2025.root";
-
-    /// Smearing systematic /////////
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Smearing/pass2_741_files_for_Smearing_fact_syst_1_1_syst_03_11_2025.root";
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Smearing/pass2_741_files_for_Smearing_fact_syst_09_syst_03_11_2025.root";
-
-    // // ////////////// FOR CDFD cuts
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/pass2_741_files_for_cdfd_tight_cuts_syst_03_11_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/resIncl_EXP_126_runs_tight_cdfd_cuts_redefined_mid_fid_march_11_2025.root";
-
-    /////// mid /////////
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/pass2_741_files_for_cdfd_mid_cut_BEST_FOR_FINAL_CS_syst_03_11_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/resIncl_EXP_126_runs_mid_cdfd_cuts_march_11_2025.root";
-    // // //////// loose
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/pass2_741_files_for_cdfd_loose_cuts_syst_03_11_2025.root";
-    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/CDFD_cuts/resIncl_EXP_126_runs_loose_cdfd_cuts_march_11_2025.root";
-
     //////////////  FINAL VERSION FOR CROSS-SECTION PLOTS ////////////////
-    std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_3_empty_target_runs_with_efficiency_corrected_FINAL_version_march_06_2025.root";
-    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/pass2_741_files_with_new_modified_mid_fiducial_cuts_syst_03_10_2025.root";
-    std::string inFileName = "/Users/krishnaneupane/Downloads/2025/For_systematics/Fiducial_cuts/resIncl_EXP_126_runs_with_new_redefined_mid_fiducial_cuts_march_09_2025.root";
-    std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/resIncl_EXP_all_126_runs_with_golden_cut_final_BACKGROUND_THNSPARSE_files_march_05_2025.root"; /// bad for pim loose background thnsparse, filled twice
-    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/pass2_741_files_Final_Thnsparse_mmsq_for_background_and_its_syst_03_06_2025.root";
+    std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_3_empty_target_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
+    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_mPim_topo_for_cs_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
+    std::string inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
+    std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_bkg_file.root";
+    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_bkg_files_for_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
 
-    // //////////////////// merged files in simulations //////////////// this is befor final modification on th fiducial cuts /// this did not worked at all
-    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/MERGED_FILES_SIM/pass2_merged_917files_good_wt_for_final_cs.root";
-    // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/MERGED_FILES_SIM/pass2_merged_917files_for_background_good_wt_for_final_cs.root";
+    // // //////////////////// merged files in simulations //////////////// this is befor final modification on th fiducial cuts /// this did not worked at all
+    // // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/MERGED_FILES_SIM/pass2_merged_917files_good_wt_for_final_cs.root";
+    // // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/MERGED_FILES_SIM/pass2_merged_917files_for_background_good_wt_for_final_cs.root";
+
+    //////////// 50, 55 nA beam current MC files   //////////////
+    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_40_files_50nA_mid_fiducial_cuts_05_06_2025.root";
+    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_130_files_55nA_mid_fiducial_cuts_05_06_2025.root";
+    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_all_3_beam_currents_910_files.root";
+
+    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_all_beam_current_910_files_bkg_merged.root";
+
+    //////////////
+
+    // // After submission  aayo new background!!!!!!!!!!
+
+    // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/After_Submission/resIncl_pass2_all_126_runs_NEW_background_THNSparse_with_new_mid_fiducial_cuts.root";
+    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/After_Submission/pass2_741_files_NEW_BKG_with_new_mid_fiducial_cuts_03_19_2025.root";
 
     /////////// Arjuns cross-sections ////////////
     /////////// Arjuns cross-sections ////////////
     /////////// Arjuns cross-sections ////////////
     /////////// Arjuns cross-sections ////////////
-    // std::string inputDirectory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/Final_cross_sections/FINAL_Grand_total/1d_sys/";
-
-    std::string inputDirectory = "/Users/krishnaneupane/Documents/GitHub/arjuns_cross_sections/merged_rows_modified_1d_arjuns_cs";
+    std::string inputDirectory_clas6 = "/Users/krishnaneupane/Documents/GitHub/arjuns_cross_sections/Merged_W_bin";
     // Define the Q² directories to process
-    std::vector<std::string> q2_dirs = {"q2_20_24", "q2_24_30", "q2_30_35", "q2_35_42", "q2_42_50"};
+    std::vector<std::string> q2_dirs_clas6 = {"q2_20_24", "q2_24_30", "q2_30_35", "q2_35_42", "q2_42_50"};
     // Define the W directories to process
-    std::vector<std::string> w_dirs = {
-        "w_1400_1450", "w_1450_1500", "w_1500_1550", "w_1550_1600",
-        "w_1600_1650", "w_1650_1700", "w_1700_1750", "w_1750_1800",
-        "w_1800_1850", "w_1850_1900", "w_1900_1950", "w_1950_2000",
-        "w_2000_2050", "w_2050_2100"};
+    std::vector<std::string> w_dirs_clas6 = {
+        "w_1400_1425", "w_1425_1450", "w_1450_1475", "w_1475_1500", "w_1500_1525", "w_1525_1550", "w_1550_1575", "w_1575_1600", "w_1600_1625", "w_1625_1650",
+        "w_1650_1675", "w_1675_1700", "w_1700_1725", "w_1725_1750", "w_1750_1775", "w_1775_1800", "w_1800_1825", "w_1825_1850", "w_1850_1875", "w_1875_1900",
+        "w_1900-1925", "w_1925_1950", "w_1950_1975", "w_1975_2000", "w_2000_2025", "w_2025_2050", "w_2050_2075", "w_2075_2100"};
 
     // Cross-section file names to process
-    std::vector<std::string> cs_files = {"xsec1d_mpippr.dat", "xsec1d_mpimpr.dat", "xsec1d_mpippim.dat", "xsec1d_theta_pim.dat", "xsec1d_theta_pip.dat", "xsec1d_theta_pr.dat",
-                                         "xsec1d_psi_pim.dat", "xsec1d_psi_pip.dat", "xsec1d_psi_pr.dat"};
-
-    // // std::string inputDirectory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/Final_cross_sections/FINAL_Grand_total/1d_cs";
-    // // Define the Q² directories to process
-    // std::vector<std::string> q2_dirs = {"q2_20_24", "q2_24_30", "q2_30_35", "q2_35_42", "q2_42_50", "q2_50_60", "q2_60_70", "q2_70_80"};
-    // // Define the W directories to process
-    // std::vector<std::string> w_dirs = {
-    //     "w_140_145", "w_145_150", "w_150_155", "w_155_160",
-    //     "w_160_165", "w_165_170", "w_170_175", "w_175_180",
-    //     "w_180_185", "w_185_190", "w_190_195", "w_195_200",
-    //     "w_200_205", "w_205_210"};
-
-    // // Cross-section file names to process
-    // std::vector<std::string> cs_files = {"xsec1d_mpippr.dat", "xsec1d_mpimpr.dat", "xsec1d_mpippim.dat", "xsec1d_theta_pim.dat", "xsec1d_theta_pip.dat", "xsec1d_theta_pr.dat",
-    //                                      "xsec1d_psi_pim.dat", "xsec1d_psi_pip.dat", "xsec1d_psi_pr.dat"};
+    std::vector<std::string> cs_files_clas6 = {"xsec1d_mpippr.dat", "xsec1d_mpimpr.dat", "xsec1d_mpippim.dat", "xsec1d_theta_pim.dat", "xsec1d_theta_pip.dat", "xsec1d_theta_pr.dat",
+                                               "xsec1d_psi_pim.dat", "xsec1d_psi_pip.dat", "xsec1d_psi_pr.dat"};
 
     gStyle->SetHistMinimumZero();
     TFile *root_data = new TFile(inFileName.c_str());
@@ -1828,18 +1719,53 @@ int main(int argc, char **argv)
     // std::ofstream file_1d_bin(filename_1d_bin.str()); // Open file
     // file_1d_bin << "W_bin,Q2_mid,Histogram,BinNumber,BinContent\n";
 
-    for (short q2 = 5; q2 < 6; q2++)
+    // for (short q2 = 4; q2 < 5; q2++)
+    // {
+    if (argc != 2)
     {
-        // if (argc != 2)
-        // {
-        //     std::cerr << "Usage: ./cs_measure <q2_value>" << std::endl;
-        //     return 1;
-        // }
-        // short q2 = std::stoi(argv[1]); // Convert command-line argument to short
-        // {
-        if (q2 <= 0)
-            CLAS6 = true;
+        std::cerr << "Usage: ./cs_measure <q2_value>" << std::endl;
+        return 1;
+    }
+    short q2 = std::stoi(argv[1]); // Convert command-line argument to short
+    {
+
+        std::string inputDirectory;
+
+        if (q2 >= 1 && q2 <= 3)
+        {
+            //// loding CLAS12 cross-sectopns
+            inputDirectory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/Final_cross_sections/FINAL_Grand_total/1d_sys_eff_err_cut_07";
+            std::cout << "  0.7 cut q2 file loading for q2 bin  " << q2 << std::endl;
+        }
+        else if (q2 >= 4 && q2 <= 8)
+        {
+            inputDirectory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/Final_cross_sections/FINAL_Grand_total/1d_sys_eff_err_cut_03";
+            std::cout << " 0.3 cut  q2 file loading for q2 bin  " << q2 << std::endl;
+        }
+        else
+        {
+            std::cerr << "Error: Q^2 value out of range!" << std::endl;
+            return 1; // Exit the program with an error
+        }
+
+        // Define the Q² directories to process
+        std::vector<std::string> q2_dirs = {"q2_20_24", "q2_24_30", "q2_30_35", "q2_35_42", "q2_42_50", "q2_50_60", "q2_60_70", "q2_70_80"};
+        // Define the W directories to process
+        std::vector<std::string> w_dirs = {
+            "w_140_145", "w_145_150", "w_150_155", "w_155_160",
+            "w_160_165", "w_165_170", "w_170_175", "w_175_180",
+            "w_180_185", "w_185_190", "w_190_195", "w_195_200",
+            "w_200_205", "w_205_210"};
+
+        // Cross-section file names to process
+        std::vector<std::string> cs_files = {"xsec1d_mpippr.dat", "xsec1d_mpimpr.dat", "xsec1d_mpippim.dat", "xsec1d_theta_pim.dat", "xsec1d_theta_pip.dat", "xsec1d_theta_pr.dat",
+                                             "xsec1d_psi_pim.dat", "xsec1d_psi_pip.dat", "xsec1d_psi_pr.dat"};
+
+        // if (q2 <= 5)
+        //     CLAS6 = true;
         std::string q2_path = inputDirectory + "/" + q2_dirs[q2 - 1];
+        std::string q2_path_clas6 = inputDirectory_clas6 + "/" + q2_dirs_clas6[q2 - 1];
+
         // std::cout << "Processing Q² directory: " << q2_path << std::endl;
 
         float q2_lower_lim = q2_low_values[q2];
@@ -1847,18 +1773,19 @@ int main(int argc, char **argv)
         float q2_bin_size = q2_binning_size[q2];
         float q2_mid_value = (q2_low_values[q2] + q2_up_values[q2]) / 2;
 
-        std::string directory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/Final_cross_sections/";
-        std::string mod_folder = "fid_loose_syst";
+        std::string directory = "/Users/krishnaneupane/Desktop/Desktop_backedup_at_icloud/For_analysis_note/";
+        std::string mod_folder = "";
+
         // Format filename with Q2 range
         std::stringstream filename;
-        filename << directory << "final_int_cs_part_" << mod_folder << "_cut_q2_" << q2_lower_lim << "_to_" << q2_upper_lim << ".csv";
+        filename << directory << "45nA_beam_curr_final_int_cs_part_" << mod_folder << "cut_q2_" << q2_lower_lim << "_to_" << q2_upper_lim << ".csv";
 
         // // Format filename with Q2 range
         // std::stringstream filename_1d;
         // filename_1d << directory << "final_1d_cs_part_" << mod_folder << "_cut_q2_" << q2_lower_lim << "_to_" << q2_upper_lim << ".csv";
         // Format filename with Q2 range
         std::stringstream filename_1d_bin;
-        filename_1d_bin << directory << "final_1d_bin_by_bin_cs_part_" << mod_folder << "_cut_q2_" << q2_lower_lim << "_to_" << q2_upper_lim << ".csv";
+        filename_1d_bin << directory << "45nA_beam_curr_final_1d_bin_by_bin_cs_part_" << mod_folder << "cut_q2_" << q2_lower_lim << "_to_" << q2_upper_lim << ".csv";
 
         std::ofstream file(filename.str()); // Open file
         // std::ofstream file_1d(filename_1d.str()); // Open file
@@ -1870,12 +1797,13 @@ int main(int argc, char **argv)
         // }
         // Writing the header
         // file << "W_bin,Q2_mid,Int,Int_err,Int_bc,Int_bc_err,CLAS6_CS,CLAS6_CS_err,Int_theta,Int_err_theta,Int_alpha,Int_err_alpha\n";
-        file << "W_bin,Q2_mid,Int,Int_th,Int_al\n";
+        file << "W_bin,Q2_mid,In_bc_corr,Int,Int_th,Int_al,hole_syst,hole_syst_per\n";
         // file_1d << "W_bin,Q2_mid,pPip,pipPim,pPim,thetaP,thetaPip,thetaPim,alphaP,alphaPip,alphaPim\n";
 
         std::ofstream file_1d_bin(filename_1d_bin.str()); // Open file
         // file_1d_bin << "W_bin,Q2_mid,Histogram,BinNumber,BinContent\n";
-        file_1d_bin << "W_bin,Q2_mid,Histogram,BinValue,BinNumber,BinContent,hole,hole_syst\n";
+        // file_1d_bin << "W_bin,Q2_mid,Histogram,BinValue,BinNumber,BinContent\n";
+        file_1d_bin << "W_bin,Q2_mid,Histogram,BinValue,BinNumber,CrossSection,hole_syst_val,hole_syst_per\n";
 
         // float ff_scale = (1 / (pow((1 + (q2_mid_value / 0.7)), (0.31660)))) / 0.46044672679; // form factor scale
         float ff_scale = (1 / (pow((1 + (q2_mid_value / 0.7)), (0.47189)))) / 0.35599; // form factor scale
@@ -1892,18 +1820,20 @@ int main(int argc, char **argv)
         {
 
             std::string w_path = q2_path + "/" + w_dirs[w - 8];
+            std::string w_path_clas6 = q2_path_clas6 + "/" + w_dirs_clas6[w - 8];
+
             // std::cout << "  Processing W directory: " << w_path << std::endl;
 
-            const Int_t ndims_5D = 5;
-            Int_t bins_5D[ndims_5D] = {15, 15, 10, 6, 10};
-            Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
-            Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
+            const Int_t ndims_5D = 4;
+            Int_t bins_5D[ndims_5D] = {22, 22, 10, 10};
+            Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 14.0;
+            Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 14.0;
 
             // Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 2 * Bin_size_pPip), (0.13957 + 0.13957) - 2 * Bin_size_pipPim, 0., 0., 0.};
             // Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 2 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 2 * Bin_size_pipPim), 180, 360, 360};
 
-            Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip), (0.13957 + 0.13957) - 4 * Bin_size_pipPim, 0., 0., 0.};
-            Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim), 180, 360, 360};
+            Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip), (0.13957 + 0.13957) - 4 * Bin_size_pipPim, 0., 0.};
+            Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim), 180, 360};
 
             // Double_t xmin_5D[5] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
             // Double_t xmax_5D[5] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
@@ -2038,83 +1968,135 @@ int main(int argc, char **argv)
 
             // h_th_pip_evt[no_w_bins] = (THnSparseD *)root_mcWt1->Get(Form(
             //     "THnSparse_7D_thrown_pip_evt/%s", name_evt));
+            Int_t *bins_prot_test = new Int_t[4];
+
+            //     for (Int_t pipP = 1; pipP <= pipP_max; pipP++)
+            //     {
+            //         for (Int_t pip_pim = 1; pip_pim <= pip_pim_max; pip_pim++)
+            for (Int_t pipP = 5; pipP <= pipP_max - 4; pipP++)
+            {
+                for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
+                {
+                    for (Int_t theta = 1; theta <= theta_max; theta++)
+                    {
+                        // for (Int_t phi = 1; phi <= phi_max; phi++)
+                        // {
+                        for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                        {
+                            int total_bin_content_pPip = 0;
+                            int total_bin_err_pPip = 0;
+
+                            // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                            // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
+
+                            total_bins_in_sim[q2 - 1][w - 8]++;
+
+                            bins_prot_test[0] = pipP;
+                            bins_prot_test[1] = pip_pim;
+                            bins_prot_test[2] = theta;
+                            // bins_prot_test[3] = phi;
+                            bins_prot_test[3] = alpha;
+
+                            if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test) > 0.)
+                            {
+
+                                eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test));
+                                ///// 2nd hist cd(2)
+                                d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test));
+
+                                eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+
+                                deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test),
+                                                         acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+                            }
+                        }
+                        // }
+                    }
+                }
+            }
 
             // ////////////////// EFF Cut TEST BEFORE ///////////////////////////////
             // // ////////////////// EFF Cut TEST BEFORE ///////////////////////////////
-            // // ////////////////// EFF Cut TEST BEFORE ///////////////////////////////
+            // // // ////////////////// EFF Cut TEST BEFORE ///////////////////////////////
             // ////////////////// EFF Cut TEST BEFORE ///////////////////////////////
-            // {
-            //     TCanvas *can_eff_checks_before = new TCanvas("eff_study_before", "eff_study_before", 900, 500);
-            //     can_eff_checks_before->Divide(2, 1);
-            //     can_eff_checks_before->cd(1);
-            //     gPad->SetBottomMargin(0.15); // More space for X labels
-            //     gPad->SetLeftMargin(0.1);    // More space for Y labels
-            //     gPad->SetRightMargin(0.15);
-            //     gPad->SetTopMargin(0.1);
-            //     // gPad->SetGrid();
-            //     // eff_before->SetTitle("Acceptance: 1.70 <= W < 1.75, 3.5 < Q^{2} < 4");
-            //     // eff_before->SetXTitle("A");
-            //     // eff_before->Draw("");
-            //     // // can_eff_checks_before->cd(2);
-            //     // // gPad->SetGrid();
-            //     // // d_eff_before->SetTitle("Efficiency Uncertainty #delta#epsilon ");
-            //     // // d_eff_before->SetXTitle("#delta#epsilon ");
-            //     // // d_eff_before->Draw("");
-            //     // can_eff_checks_before->cd(2);
-            //     gPad->SetGrid();
-            //     eff_threshold_cut_before->SetTitle("Acceptance error/ acceptance ");
-            //     eff_threshold_cut_before->GetXaxis()->SetTitleSize(0.02); // Adjust size for X-axis
-            //     eff_threshold_cut_before->SetTitleSize(0.04);             // Adjust size for the main title
-            //     eff_threshold_cut_before->SetXTitle("#delta A/A");
-            //     eff_threshold_cut_before->Draw("");
+            {
+                TCanvas *can_eff_checks_before = new TCanvas("eff_study_before", "eff_study_before", 900, 500);
+                can_eff_checks_before->Divide(2, 1);
+                can_eff_checks_before->cd(1);
+                gPad->SetBottomMargin(0.15); // More space for X labels
+                gPad->SetLeftMargin(0.1);    // More space for Y labels
+                gPad->SetRightMargin(0.15);
+                gPad->SetTopMargin(0.1);
+                // gPad->SetGrid();
+                // eff_before->SetTitle("Acceptance: 1.70 <= W < 1.75, 3.5 < Q^{2} < 4");
+                // eff_before->SetXTitle("A");
+                // eff_before->Draw("");
+                // // can_eff_checks_before->cd(2);
+                // // gPad->SetGrid();
+                // // d_eff_before->SetTitle("Efficiency Uncertainty #delta#epsilon ");
+                // // d_eff_before->SetXTitle("#delta#epsilon ");
+                // // d_eff_before->Draw("");
+                // can_eff_checks_before->cd(2);
+                gPad->SetGrid();
+                eff_threshold_cut_before->SetTitle("Acceptance error/ acceptance ");
+                eff_threshold_cut_before->GetXaxis()->SetTitleSize(0.02); // Adjust size for X-axis
+                eff_threshold_cut_before->SetTitleSize(0.04);             // Adjust size for the main title
+                eff_threshold_cut_before->SetXTitle("#delta A/A");
+                eff_threshold_cut_before->Draw("");
 
-            //     TLine *line3 = new TLine(0.7, 0, 0.7, 750);
-            //     line3->SetLineColor(kRed);
-            //     line3->SetLineStyle(1); // Solid line
-            //     line3->SetLineWidth(2); // Make it more visible
-            //     line3->Draw("same");
+                double line_x = (q2 <= 3) ? 0.7 : 0.3;
+                TLine *line3 = new TLine(line_x, 0, line_x, eff_threshold_cut_before->GetMaximum() * 0.7);
 
-            //     can_eff_checks_before->cd(2);
-            //     gPad->SetBottomMargin(0.15); // More space for X labels
-            //     gPad->SetLeftMargin(0.15);   // More space for Y labels
-            //     gPad->SetRightMargin(0.15);
-            //     gPad->SetTopMargin(0.1);
-            //     deff_vs_eff_before->SetYTitle("#delta A/A");
-            //     deff_vs_eff_before->SetXTitle("A");
-            //     deff_vs_eff_before->SetTitle("Acc. error / acc. vs. acceptance");
-            //     // deff_vs_eff_before->GetXaxis()->SetTitleSize(0.05); // Adjust size for X-axis
-            //     // deff_vs_eff_before->GetYaxis()->SetTitleSize(0.05); // Adjust size for Y-axis
-            //     deff_vs_eff_before->SetTitleSize(0.04);
-            //     deff_vs_eff_before->SetMinimum(1e-1);
-            //     deff_vs_eff_before->SetMaximum(1e2);
-            //     gPad->SetLogz(1);
-            //     deff_vs_eff_before->Draw("COLZ");
-            //     gPad->SetGrid();
+                line3->SetLineColor(kRed);
+                line3->SetLineStyle(1); // Solid line
+                line3->SetLineWidth(2); // Make it more visible
+                line3->Draw("same");
 
-            //     TLine *line = new TLine(0., 0.7, 0.4, 0.7);
-            //     line->SetLineColor(kRed);
-            //     line->SetLineStyle(1); // Solid line
-            //     line->SetLineWidth(2); // Make it more visible
-            //     line->Draw("same");
+                gStyle->SetPalette(kRainBow); // Set rainbow color palette
 
-            //     can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/before_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
-            //                                        q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
-            // }
+                can_eff_checks_before->cd(2);
+                gPad->SetBottomMargin(0.15); // More space for X labels
+                gPad->SetLeftMargin(0.15);   // More space for Y labels
+                gPad->SetRightMargin(0.15);
+                gPad->SetTopMargin(0.1);
+                deff_vs_eff_before->SetYTitle("#delta A/A");
+                deff_vs_eff_before->SetXTitle("A");
+                deff_vs_eff_before->SetTitle("Acc. error / acc. vs. acceptance");
+                // deff_vs_eff_before->GetXaxis()->SetTitleSize(0.05); // Adjust size for X-axis
+                // deff_vs_eff_before->GetYaxis()->SetTitleSize(0.05); // Adjust size for Y-axis
+                deff_vs_eff_before->SetTitleSize(0.04);
+                deff_vs_eff_before->SetMinimum(1e-1);
+                deff_vs_eff_before->SetMaximum(1e2);
+                gPad->SetLogz(1);
+                deff_vs_eff_before->Draw("COLZ");
+                gPad->SetGrid();
+
+                double line_x1 = (q2 <= 3) ? 0.7 : 0.3;
+                TLine *line = new TLine(0., line_x1, 0.4, line_x1);
+                line->SetLineColor(kRed);
+                line->SetLineStyle(1); // Solid line
+                line->SetLineWidth(2); // Make it more visible
+                line->Draw("same");
+
+                can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/4d_before_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
+                                                   q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
+            }
+
+            continue;
+            std::cout << "  is it printed ??? " << std::endl;
 
             set_all_errors(no_w_bins);
 
             set_eff_errors(Threshold_cuts[q2 - 1], no_w_bins);
-
-            // // // // ////eff_err_cut(Float_t eff_err_threshold, Float_t eff_threshold, Float_t rec_threshold, int no_w_bins);
-            // eff_err_cut(0.5, 0., 0., no_w_bins);
 
             {
 
                 // 1. faraday cup charge = 0.03790 ..C
                 h_exp_prot[no_w_bins]->Add(h_exp_prot_background[no_w_bins], -1.);
 
-                h_exp_prot[no_w_bins]->Scale(1. / 0.029113878); // from valerii
-                                                                //  // h_exp_prot[no_w_bins]->Scale(1. / 0.0290267); // this is my analysis output and correcting beam blocker issues
+                // h_exp_prot[no_w_bins]->Scale(1. * 0.99034 / 0.029113878);
+                h_exp_prot[no_w_bins]->Scale(1. * 0.99397 / 0.029113878); // from valerii
+                //  // h_exp_prot[no_w_bins]->Scale(1. / 0.0290267); // this is my analysis output and correcting beam blocker issues
                 //// h_exp_prot[no_w_bins]->Scale(1. / 0.02788674); // this is using clas12 root and correcting beam blocker issues
 
                 /// // 2.94703e+07 this is the faraday cup charge I got using golden criteria for pass2 runs, no correction applied
@@ -2155,7 +2137,7 @@ int main(int argc, char **argv)
                 hole_yield_simulation_prot[no_w_bins]->Add(acceptance_corrected_7D_simulation_prot[no_w_bins], -1);
                 hole_yield_simulation_prot[no_w_bins]->Scale(ff_scale);
 
-                Int_t *bins_prot = new Int_t[5];
+                Int_t *bins_prot = new Int_t[4];
 
                 //     for (Int_t pipP = 1; pipP <= pipP_max; pipP++)
                 //     {
@@ -2166,61 +2148,62 @@ int main(int argc, char **argv)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
-                            for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // {
+                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                             {
-                                for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                                int total_bin_content_pPip = 0;
+                                int total_bin_err_pPip = 0;
+
+                                // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                                // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
+
+                                total_bins_in_sim[q2 - 1][w - 8]++;
+
+                                bins_prot[0] = pipP;
+                                bins_prot[1] = pip_pim;
+                                bins_prot[2] = theta;
+                                // bins_prot[3] = phi;
+                                bins_prot[3] = alpha;
+
+                                // if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
+                                // {
+
+                                //     eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot));
+                                //     ///// 2nd hist cd(2)
+                                //     d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot));
+
+                                //     eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
+
+                                //     deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot),
+                                //                              acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
+
+                                //     // eff_threshold_cut_after->Fill(sqrt((h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot) - h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) *
+                                //     //                                    (h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))) /
+                                //     //                               ((h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))));
+                                // }
+
+                                if (acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
                                 {
-                                    int total_bin_content_pPip = 0;
-                                    int total_bin_err_pPip = 0;
-
-                                    // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
-                                    // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
-
-                                    total_bins_in_sim[q2 - 1][w - 8]++;
-
-                                    bins_prot[0] = pipP;
-                                    bins_prot[1] = pip_pim;
-                                    bins_prot[2] = theta;
-                                    bins_prot[3] = phi;
-                                    bins_prot[4] = alpha;
-
-                                    if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
-                                    {
-
-                                        eff_after->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot));
-                                        ///// 2nd hist cd(2)
-                                        d_eff_after->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot));
-
-                                        eff_threshold_cut_after->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
-
-                                        deff_vs_eff_after->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot),
-                                                                acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
-
-                                        // eff_threshold_cut_after->Fill(sqrt((h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot) - h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) *
-                                        //                                    (h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))) /
-                                        //                               ((h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))));
-                                    }
-
-                                    if (acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
-                                    {
-                                        filled_bins_in_sim[q2 - 1][w - 8]++;
-                                        bin_content_sum_acc_corrected_simu[0] += acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot);
-                                        bin_content_sum_acc_corrected_exp[0] += acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
-                                    }
-                                    else
-                                    {
-                                        holes_in_sim[q2 - 1][w - 8]++;
-                                    }
-                                    // // if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) != 0.)
-                                    // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins_prot)) << std::endl;
-                                    // how_many_bins = how_many_bins + 1;
-                                    if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) == 0.)
-                                        holes_in_exp[q2 - 1][w - 8] = holes_in_exp[q2 - 1][w - 8] + 1;
+                                    filled_bins_in_sim[q2 - 1][w - 8]++;
+                                    bin_content_sum_acc_corrected_simu[0] += acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot);
+                                    bin_content_sum_acc_corrected_exp[0] += acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
                                 }
+                                else
+                                {
+                                    holes_in_sim[q2 - 1][w - 8]++;
+                                }
+                                // // if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) != 0.)
+                                // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins_prot)) << std::endl;
+                                // how_many_bins = how_many_bins + 1;
+                                if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) == 0.)
+                                    holes_in_exp[q2 - 1][w - 8] = holes_in_exp[q2 - 1][w - 8] + 1;
                             }
+                            // }
                         }
                     }
                 }
+
                 holes_fraction_sim[q2 - 1][w - 8] = holes_in_sim[q2 - 1][w - 8] / total_bins_in_sim[q2 - 1][w - 8];
                 holes_fraction_exp[q2 - 1][w - 8] = holes_in_exp[q2 - 1][w - 8] / total_bins_in_sim[q2 - 1][w - 8];
 
@@ -2247,13 +2230,28 @@ int main(int argc, char **argv)
 
                 total_yield_exp_prot[no_w_bins]->Scale(0.755314965e-12);
                 total_yield_exp_prot[no_w_bins]->Scale(1. / flux(w_bin_for_flux, q2_mid_value));
-                // // std::cout << " flux  : " << flux(w_bin_for_flux, q2_mid_value) << "\n";
+                // // // std::cout << " flux  : " << flux(w_bin_for_flux, q2_mid_value) << "\n";
+                // double integral = 0.0;
+                // double binContentint = 0.0;
+                // int no_of_5d_bins = 0;
 
-                // 5 Projection and Normalization : 3 factors
+                // for (int i = 1; i <= total_yield_exp_prot[no_w_bins]->GetNbins(); ++i)
+                // {
+                //     binContentint = total_yield_exp_prot[no_w_bins]->GetBinContent(i) / (w_bin_size * q2_bin_size);
+                //     integral += binContentint;
+                //     no_of_5d_bins = no_of_5d_bins + 1;
+                // }
+
+                // std::cout << "no of 5D bins: " << no_of_5d_bins << std::endl;
+                // std::cout << "Integral 5D before bc: " << integral << std::endl;
+                // // 5 Projection and Normalization : 3 factors
+
                 TH1D *acceptance_corrected_inv_Ppip = acceptance_corrected_7D_prot[no_w_bins]->Projection(0);
                 TH1D *acceptance_corrected_inv_pip_pim = acceptance_corrected_7D_prot[no_w_bins]->Projection(1);
                 TH1D *acceptance_corrected_theta_prot = acceptance_corrected_7D_prot[no_w_bins]->Projection(2);
-                TH1D *acceptance_corrected_alpha_prot = acceptance_corrected_7D_prot[no_w_bins]->Projection(4);
+                TH1D *acceptance_corrected_alpha_prot = acceptance_corrected_7D_prot[no_w_bins]->Projection(3);
+
+                // std::cout << "   no fo bins exp  " << h_exp_prot->GetNbinsX() << std::endl;
 
                 Float_t factor_inv_mass = acceptance_corrected_inv_Ppip->GetBinWidth(5);
                 Float_t factor_inv_mass_pip_pim = acceptance_corrected_inv_pip_pim->GetBinWidth(5);
@@ -2267,7 +2265,7 @@ int main(int argc, char **argv)
                 Int_2_acc_corr[w - 8] = acceptance_corrected_inv_pip_pim->Integral();
                 acceptance_corrected_inv_pip_pim->IntegralAndError(1, acceptance_corrected_inv_pip_pim->GetNbinsX(), Int_err_2_acc_corr[w - 8]);
 
-                // std::cout << " Int_1_acc_corr .......... " << Int_1_acc_corr[w - 8] << "\n";
+                std::cout << " Int_1_acc_corr before bc " << Int_1_acc_corr[w - 8] << "\n";
                 // std::cout << " Int_2_acc_corr .......... " << Int_2_acc_corr[w - 8] << "\n";
 
                 acceptance_corrected_inv_Ppip->Scale(1. / factor_inv_mass);
@@ -2301,7 +2299,7 @@ int main(int argc, char **argv)
                 TH1D *total_yield_with_hole_filled_inv_pip_pim = total_yield_exp_prot[no_w_bins]->Projection(1);
 
                 TH1D *total_yield_with_hole_filled_theta_prot = total_yield_exp_prot[no_w_bins]->Projection(2);
-                TH1D *total_yield_with_hole_filled_alpha_prot = total_yield_exp_prot[no_w_bins]->Projection(4);
+                TH1D *total_yield_with_hole_filled_alpha_prot = total_yield_exp_prot[no_w_bins]->Projection(3);
 
                 total_yield_with_hole_filled_inv_Ppip->Scale(1. / w_bin_size / q2_bin_size);
                 total_yield_with_hole_filled_inv_pip_pim->Scale(1. / w_bin_size / q2_bin_size);
@@ -2309,7 +2307,7 @@ int main(int argc, char **argv)
                 Int_1[w - 8] = total_yield_with_hole_filled_inv_Ppip->Integral();
                 total_yield_with_hole_filled_inv_Ppip->IntegralAndError(1, total_yield_with_hole_filled_inv_Ppip->GetNbinsX(), Int_err_1[w - 8]);
                 // std::cout << " Int_1 final bin " << total_yield_with_hole_filled_inv_Ppip->GetNbinsX() << "\n";
-                // std::cout << " Int_1  " << Int_1[w - 8] << "\n";
+                std::cout << " Int_1  " << Int_1[w - 8] << "\n";
                 // std::cout << " Int_1 err  " << Int_err_1[w - 8] << "\n";
 
                 Int_2[w - 8] = total_yield_with_hole_filled_inv_pip_pim->Integral();
@@ -2347,63 +2345,54 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_pPip = new TH1D("h_bin_cent_corr_pPip", "h_bin_cent_corr_pPip", acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
                 for (Int_t j = 1; j <= acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(); j++)
                 {
-                    if (j >= 5 && j <= 11)
-                    {
-                        temp_bin_cent_corr_pPip = bin_centering_corr_m_pPip[q2 - 1][w - 8][j - 5];
+                    temp_bin_cent_corr_pPip = bin_centering_corr_w_q2[q2 - 1][w - 8];
 
-                        // temp_bin_cent_corr_pPip = bin_centering_corr_m_pPip[q2 - 1][w - 8][j - 3] * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
-                        // std::cout << " for  bin no = " << j << " bin content inv_Ppip  before " << acceptance_corrected_inv_Ppip->GetBinContent(j) << "   corr is  :  " << temp_bin_cent_corr_pPip << std::endl;
+                    // if (j >= 5 && j <= 18)
+                    // {
+                    //     // temp_bin_cent_corr_pPip = bin_centering_corr_m_pPip[q2 - 1][w - 8][j - 5];
+                    //     temp_bin_cent_corr_pPip = bin_centering_corr_w_q2[q2 - 1][w - 8];
+                    //     // temp_bin_cent_corr_pPip = bin_centering_corr_m_pPip[q2 - 1][w - 8][j - ] * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    //     // std::cout << " for  bin no = " << j << " bin content inv_Ppip  before " << acceptance_corrected_inv_Ppip->GetBinContent(j) << "   corr is  :  " << temp_bin_cent_corr_pPip << std::endl;
 
-                        // std::cout << "  w is " << w_bin_for_flux << "  q2 is "
-                        //           << q2_mid_value << "  inv mass bin j is " << j << "   m_pPip_corr, w_corr, q2_corr, are : " << bin_centering_corr_m_pPip[q2 - 1][w - 8][j - 3] << " , " << (bin_centering_corr_w[q2 - 1][w - 8])
-                        //           << " , " << (bin_centering_corr_q2[q2 - 1][w - 8]) << std::flush;
-                    }
-                    else
-                        temp_bin_cent_corr_pPip = 1.0;
-                    // std::cout << "   total bin centering corr " << temp_bin_cent_corr_pPip << std::endl;
+                    //     // std::cout << "  w is " << w_bin_for_flux << "  q2 is "
+                    //     //           << q2_mid_value << "  inv mass bin j is " << j << "   m_pPip_corr, w_corr, q2_corr, are : " << bin_centering_corr_m_pPip[q2 - 1][w - 8][j - 3] << " , " << (bin_centering_corr_w[q2 - 1][w - 8])
+                    //     //           << " , " << (bin_centering_corr_q2[q2 - 1][w - 8]) << std::flush;
+                    // }
+                    // else
+                    //     temp_bin_cent_corr_pPip = 1.0;
+                    // // std::cout << "   total bin centering corr " << temp_bin_cent_corr_pPip << std::endl;
 
                     h_bin_cent_corr_pPip->SetBinContent(j, temp_bin_cent_corr_pPip);
                     h_bin_cent_corr_pPip->SetBinError(j, 0.);
                 }
-
+                double integral_after_bc = 0.0;
+                double binContentint_after_bc = 0.0;
+                int no_of_5d_bins_after_bc = 0;
+                float w_q2_bc_scle = bin_centering_corr_w_q2[q2 - 1][w - 8];
+                total_yield_exp_prot[no_w_bins]->Scale(w_q2_bc_scle);
+                for (int i = 1; i <= total_yield_exp_prot[no_w_bins]->GetNbins(); ++i)
+                {
+                    binContentint_after_bc = total_yield_exp_prot[no_w_bins]->GetBinContent(i) / (w_bin_size * q2_bin_size);
+                    integral_after_bc += binContentint_after_bc;
+                    no_of_5d_bins_after_bc = no_of_5d_bins_after_bc + 1;
+                }
+                std::cout << "no of 5D after bins: " << no_of_5d_bins_after_bc << std::endl;
+                std::cout << "Integral 5D after bc: " << integral_after_bc << std::endl;
                 // Clone the histogram
                 // h_bin_cent_corr_pPip->Draw("same");
                 TH1D *total_yield_with_hole_filled_inv_Ppip_modified = (TH1D *)total_yield_with_hole_filled_inv_Ppip->Clone();
-                // Modify the cloned histogram
-                total_yield_with_hole_filled_inv_Ppip_modified->Multiply(h_bin_cent_corr_pPip);
-                total_yield_with_hole_filled_inv_Ppip_modified->SetTitle("");
-                // total_yield_with_hole_filled_inv_Ppip_modified->SetTitle(
-                //     "M(#pi^{+}p')");
-                total_yield_with_hole_filled_inv_Ppip_modified->SetMinimum(0.);
-                total_yield_with_hole_filled_inv_Ppip_modified->GetXaxis()->SetRange(5, 11);
-                total_yield_with_hole_filled_inv_Ppip_modified->SetXTitle("M#pi^{+}p'(GeV)");
-                total_yield_with_hole_filled_inv_Ppip_modified->SetYTitle("#Delta#sigma/#DeltaM_{p'#pi^{+}}[#mub/GeV]");
-                total_yield_with_hole_filled_inv_Ppip_modified->Draw("E ");
-                total_yield_with_hole_filled_inv_Ppip_modified->SetMaximum(1.6 * total_yield_with_hole_filled_inv_Ppip->GetMaximum());
-                total_yield_with_hole_filled_inv_Ppip_modified->SetMinimum(0);
-
-                total_yield_with_hole_filled_inv_Ppip_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_inv_Ppip_modified->SetMarkerColor(4);
-                // Draw the modified histogram
-                total_yield_with_hole_filled_inv_Ppip_modified->Draw("Z same");
-                Int_1_bc_corr[w - 8] = total_yield_with_hole_filled_inv_Ppip_modified->Integral() * factor_inv_mass;
-                total_yield_with_hole_filled_inv_Ppip_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_Ppip_modified->GetNbinsX(), Int_err_1_bc_corr[w - 8]);
-                nine_1d_syst[w - 8][0] = total_yield_with_hole_filled_inv_Ppip_modified->Integral();
+                // // Modify the cloned histogram
+                // total_yield_with_hole_filled_inv_Ppip_modified->Multiply(h_bin_cent_corr_pPip);
                 TH1D *acceptance_corrected_inv_Ppip_modified = (TH1D *)acceptance_corrected_inv_Ppip->Clone();
-                // acceptance_corrected_inv_Ppip_modified->SetName("acceptance_corrected_inv_Ppip_modified");
-                // Modify the cloned histogram
-                acceptance_corrected_inv_Ppip_modified->Multiply(h_bin_cent_corr_pPip);
-                acceptance_corrected_inv_Ppip_modified->SetMarkerStyle(20);
-                acceptance_corrected_inv_Ppip_modified->SetMarkerColor(7);
-                acceptance_corrected_inv_Ppip_modified->GetXaxis()->SetRange(5, 11);
 
-                // Draw the modified histogram
-                // acceptance_corrected_inv_Ppip_modified->Draw("Z same");
+                acceptance_corrected_inv_Ppip_modified->Multiply(h_bin_cent_corr_pPip);
 
                 // Loop over bins and store data
-                for (int bin = 5; bin <= 11; ++bin)
+                for (int bin = 5; bin <= 18; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_Ppip_modified->GetBinContent(bin);
+                    double binErr = total_yield_with_hole_filled_inv_Ppip_modified->GetBinError(bin);
+
                     double inv_pPip_mid = (total_yield_with_hole_filled_inv_Ppip_modified->GetXaxis()->GetBinLowEdge(bin));
                     //  +
                     //                        total_yield_with_hole_filled_inv_Ppip_modified->GetXaxis()->GetBinUpEdge(bin)) /
@@ -2411,15 +2400,63 @@ int main(int argc, char **argv)
 
                     double binContent_acc = acceptance_corrected_inv_Ppip->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_inv_Ppip->GetBinContent(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_inv_Ppip_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_inv_Ppip_modified->SetBinError(bin, new_bin_err);
+
                     file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPip" << "," << inv_pPip_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
 
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPip" << "," << inv_pPip_mid << "," << bin << "," << binContent << "\n";
+                    //          ///////////////////// TO incluse eff err cut systematics /////////////////
+                    // int bin = h_w_int_bc_corr->FindBin(w_bin_for_flux);
+                    // double original_error = Int_err_bc_corr[w - 8];
+                    // double empty_cell_contribution = h_empty_cell_contribution->GetBinContent(bin);
+                    // double int_hole_error = 0.5 * empty_cell_contribution;
+                    // // Compute the total error using quadrature sum
+                    // double total_error = sqrt(original_error * original_error + int_hole_error * int_hole_error);
+
+                    // ///////////////////// dome incluse eff err cut systematics /////////////////
+
+                    // // h_w_int_bc_corr->SetBinError(h_w_int_bc_corr->FindBin(w_bin_for_flux), Int_err_bc_corr[w - 8]);
+                    // // Set the computed error to the corresponding bin
+                    // h_w_int_bc_corr->SetBinError(bin, total_error);
+                    //         // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPip" << "," << inv_pPip_mid << "," << bin << "," << binContent << "\n";
                 }
-                // std::cout << "     q2 mid  value " << q2_mid_value << std::endl;
-                total_yield_with_hole_filled_inv_Ppip->SetMarkerStyle(24);
-                total_yield_with_hole_filled_inv_Ppip->GetXaxis()->SetRange(5, 11);
-                total_yield_with_hole_filled_inv_Ppip->SetMarkerColor(4);
-                total_yield_with_hole_filled_inv_Ppip->Draw("Z same ");
+                acceptance_corrected_inv_Ppip_modified->SetMarkerStyle(20);
+                acceptance_corrected_inv_Ppip_modified->SetMarkerColor(7);
+                acceptance_corrected_inv_Ppip_modified->GetXaxis()->SetRange(5, 18);
+                acceptance_corrected_inv_Ppip_modified->SetLineColor(7);
+
+                // Draw the modified histogram
+                acceptance_corrected_inv_Ppip_modified->SetTitle("");
+                // total_yield_with_hole_filled_inv_Ppip_modified->SetTitle(
+                //     "M(#pi^{+}p')");
+                acceptance_corrected_inv_Ppip_modified->SetMinimum(0.);
+                acceptance_corrected_inv_Ppip_modified->GetXaxis()->SetRange(5, 18);
+                acceptance_corrected_inv_Ppip_modified->SetXTitle("M#pi^{+}p'(GeV)");
+                acceptance_corrected_inv_Ppip_modified->SetYTitle("#Delta#sigma/#DeltaM_{#pi^{+}p'}[#mub/GeV]");
+                // acceptance_corrected_inv_Ppip_modified->Draw("E ");
+                acceptance_corrected_inv_Ppip_modified->SetMaximum(1.7 * total_yield_with_hole_filled_inv_Ppip_modified->GetMaximum());
+                acceptance_corrected_inv_Ppip_modified->SetMinimum(0);
+                acceptance_corrected_inv_Ppip_modified->Draw("Z ");
+
+                total_yield_with_hole_filled_inv_Ppip_modified->SetMarkerStyle(20);
+                // total_yield_with_hole_filled_inv_Ppip_modified->GetXaxis()->SetRange(5, 18);
+
+                total_yield_with_hole_filled_inv_Ppip_modified->SetMarkerColor(4);
+                // Draw the modified histogram
+                total_yield_with_hole_filled_inv_Ppip_modified->Draw("Z same");
+                Int_1_bc_corr[w - 8] = total_yield_with_hole_filled_inv_Ppip_modified->Integral() * factor_inv_mass;
+                total_yield_with_hole_filled_inv_Ppip_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_Ppip_modified->GetNbinsX(), Int_err_1_bc_corr[w - 8]);
+                nine_1d_syst[w - 8][0] = total_yield_with_hole_filled_inv_Ppip_modified->Integral();
+                // acceptance_corrected_inv_Ppip_modified->SetName("acceptance_corrected_inv_Ppip_modified");
+                // Modify the cloned histogram
+
+                std::cout << "    Int_1_bc_corr " << Int_1_bc_corr[w - 8] << std::endl;
+                // total_yield_with_hole_filled_inv_Ppip->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_inv_Ppip->GetXaxis()->SetRange(5, 18);
+                // total_yield_with_hole_filled_inv_Ppip->SetMarkerColor(4);
+                // total_yield_with_hole_filled_inv_Ppip->Draw("Z same ");
                 // // // // /////////////////////////// Done! Bin centering corrections  m_pPip ////////////////////////
                 // // // // /////////////////////////// Done! Bin centering corrections  m_pPip ////////////////////////
 
@@ -2430,94 +2467,64 @@ int main(int argc, char **argv)
 
                 auto legend = new TLegend(0.7, 0.7, 0.95, 0.95);
                 legend->SetNColumns(1); // Set the legend to have 2 columns
-                legend->AddEntry(total_yield_with_hole_filled_inv_Ppip_modified, "With BC Corr", "ep");
-                // legend->AddEntry(acceptance_corrected_inv_Ppip_modified, "With Hole", "ep");
-                legend->AddEntry(total_yield_with_hole_filled_inv_Ppip, "Without BC Corr", "ep");
+                legend->AddEntry(total_yield_with_hole_filled_inv_Ppip_modified, "Hole Filled", "ep");
+                legend->AddEntry(acceptance_corrected_inv_Ppip_modified, "With Hole", "ep");
+                // legend->AddEntry(total_yield_with_hole_filled_inv_Ppip, "Without BC Corr", "ep");
 
-                // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path = w_path + "/" + cs_files[0]; // Adjust W directory logic
-                //     CrossSectionData cs_data = readCrossSections(cs_file_path);
-                //     // double bin_edges[15]; // 7 bins need 8 edges
-                //     // for (int i = 0; i < 15; ++i)
-                //     // {
-                //     //     bin_edges[i] = cs_data.w_values[i]; // Assign W values as bin edges
-                //     // }
-                //     // bin_edges[15] = cs_data.w_values[6] + (cs_data.w_values[6] - cs_data.w_values[5]); // Extra bin width
+                // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path = w_path_clas6 + "/" + cs_files_clas6[0]; // Adjust W directory logic
+                    CrossSectionData cs_data = readCrossSections(cs_file_path);
+                    // Create TGraphErrors
+                    TGraphErrors *graph = new TGraphErrors(7);
+                    for (int i = 0; i < 7; ++i)
+                    {
+                        graph->SetPoint(i, cs_data.w_values[i], cs_data.cross_sections[i]);
+                        graph->SetPointError(i, 0, cs_data.errors[i]);
+                    }
 
-                //     // // Create histogram with custom bin edges
-                //     // TH1F *h_syst_err_contribution = new TH1F("h_syst_err_contribution", "Systematic Uncertainty",
-                //     //                                          15, bin_edges);
+                    graph->SetMarkerStyle(20);
+                    graph->SetMarkerColor(6);
+                    graph->SetLineColor(6);
+                    graph->Draw("P same");
+                    // Add legend entry
+                    legend->AddEntry(graph, "CLAS6", "ep");
+                }
 
-                //     // // Fill histogram
-                //     // for (int i = 5; i < 11; ++i)
-                //     // {
-                //     //     int bin = h_syst_err_contribution->FindBin(cs_data.w_values[i]);
-                //     //     h_syst_err_contribution->SetBinContent(bin, cs_data.cross_sections[i]);
-                //     //     std::cout << "W: " << cs_data.w_values[i] << " -> Bin: " << bin << " -> Content: "
-                //     //               << h_syst_err_contribution->GetBinContent(bin) << std::endl;
-                //     // }
+                // legend->AddEntry(graph, "Syst", "L");}
+                if (q2 < 0)
+                {
+                    std::string cs_file_path = w_path + "/" + cs_files[0]; // Adjust W directory logic
+                    CrossSectionData cs_data = readCrossSections(cs_file_path);
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
+                    for (Int_t j = 1; j <= acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(); j++)
+                    {
+                        // std::cout << " for  bin no = " << j << " cs_data.cross_sections[j - 5]  " << cs_data.cross_sections[j - 5] << std::endl;
 
-                //     // // Styling the histogram
-                //     // h_syst_err_contribution->SetFillColor(kGray);
-                //     // h_syst_err_contribution->SetFillStyle(3001);
-                //     // h_syst_err_contribution->SetLineColor(kBlack);
-                //     // h_syst_err_contribution->Draw("HIST SAME"); // Use "HIST SAME" instead of "L SAME"
+                        if (j >= 5 && j <= 18)
+                        {
+                            temp_val = cs_data.cross_sections[j - 5];
+                            // std::cout << " for  bin no = " << j << " cs_data.cross_sections[j - 5]  " << cs_data.cross_sections[j - 5] << std::endl;
+                        }
+                        else
+                            temp_val = 10.0;
 
-                //     // // Add legend entry
-                //     // legend->AddEntry(h_syst_err_contribution, "CLAS6 Sys. Unc.", "f");
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
 
-                //     // std::string cs_file_path = w_path + "/" + cs_files[0]; // Adjust W directory logic
-                //     // CrossSectionData cs_data = readCrossSections(cs_file_path);
-                //     // // TH1F *h_1dsyst_err_contribution = new TH1F("h_syst_err_contribution", "h_syst_err_contribution", 15, 1.4, 2.15);
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
 
-                //     // // Create TGraphErrors
-                //     // TGraphErrors *graph = new TGraphErrors(7);
-                //     // for (int i = 1; i <= 7; ++i)
-                //     // {
-                //     //     // graph->SetPoint(i, cs_data.w_values[i], cs_data.errors[i]); // Use the 3rd column instead
-                //     //     // graph->SetPoint(i, cs_data.w_values[i], cs_data.extra_column[i]); // Use the 3rd column instead
-                //     //     graph->SetPoint(i, cs_data.w_values[i], cs_data.cross_sections[i]);
-                //     //     graph->SetPointError(i, 0, cs_data.errors[i]);
-                //     // }
-                //     // // graph->SetFillColor(kGray); // Set gray fill color
-                //     // // graph->SetFillStyle(3001);  // Semi-transparent fill
-                //     // // graph->Draw("E3 same");     // "E3" draws error bands as a filled histogram
-
-                //     // // graph->SetMarkerStyle(24);
-                //     // // graph->SetMarkerColor(3);
-                //     // graph->SetLineColor(3);
-                //     // graph->Draw("L same");
-                //     // // legend->AddEntry(graph, "Syst", "L");
-
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_inv_Ppip->GetXaxis()->GetNbins(); j++)
-                //     {
-
-                //         if (j >= 5 && j <= 11)
-                //         {
-                //             temp_val = cs_data.cross_sections[j - 5];
-                //             // std::cout << " for  bin no = " << j << " cs_data.cross_sections[j - 5]  " << cs_data.cross_sections[j - 5] << std::endl;
-                //         }
-                //         else
-                //             temp_val = 10.0;
-
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
-
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
-
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                //     legend->AddEntry(h_1d_final_syst_err, "Tot. syst.", "L");
-                // }
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                    legend->AddEntry(h_1d_final_syst_err, "Tot. syst.", "L");
+                }
                 legend->Draw();
                 // for (int i = 0; i < 15; i++)
                 // {
@@ -2542,10 +2549,12 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_pipPim = new TH1D("h_bin_cent_corr_pipPim", "h_bin_cent_corr_pipPim", acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(), xmin_5D[1], xmax_5D[1]);
                 for (Int_t j = 1; j <= acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(); j++)
                 {
-                    if (j >= 5 && j <= 11)
-                        temp_bin_cent_corr_pipPim = (bin_centering_corr_m_pipPim[q2 - 1][w - 8][j - 5]); //// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
-                    else
-                        temp_bin_cent_corr_pipPim = 1.0;
+                    temp_bin_cent_corr_pipPim = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+
+                    // if (j >= 5 && j <= 18)
+                    //     temp_bin_cent_corr_pipPim = (bin_centering_corr_m_pipPim[q2 - 1][w - 8][j - 5]); //// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    // else
+                    //     temp_bin_cent_corr_pipPim = 1.0;
 
                     h_bin_cent_corr_pipPim->SetBinContent(j, temp_bin_cent_corr_pipPim);
                     h_bin_cent_corr_pipPim->SetBinError(j, 0.);
@@ -2555,103 +2564,121 @@ int main(int argc, char **argv)
                 TH1D *total_yield_with_hole_filled_inv_pip_pim_modified = (TH1D *)total_yield_with_hole_filled_inv_pip_pim->Clone();
                 // Modify the cloned histogram
                 total_yield_with_hole_filled_inv_pip_pim_modified->Multiply(h_bin_cent_corr_pipPim);
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetMarkerColor(4);
+                TH1D *acceptance_corrected_inv_pip_pim_modified = (TH1D *)acceptance_corrected_inv_pip_pim->Clone();
+                acceptance_corrected_inv_pip_pim_modified->Multiply(h_bin_cent_corr_pipPim);
 
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetTitle("");
-                // "M(#pi^{+}#pi^{-})");
-                // total_yield_with_hole_filled_inv_pip_pim_modified->SetStats(0);
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetXTitle(
-                    "M#pi^{+}#pi^{-} (GeV)");
-                // acceptance_corrected_inv_pip_pim->Fit("pol4");
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetMinimum(0.);
-                total_yield_with_hole_filled_inv_pip_pim_modified->GetXaxis()->SetRange(5, 11);
-
-                total_yield_with_hole_filled_inv_pip_pim_modified->Draw("Z");
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetYTitle("#Delta#sigma/#DeltaM_{#pi^{+}#pi^{-}}[#mub/GeV]");
-
-                total_yield_with_hole_filled_inv_pip_pim->SetMarkerStyle(24);
-                total_yield_with_hole_filled_inv_pip_pim->GetXaxis()->SetRange(5, 11);
-                total_yield_with_hole_filled_inv_pip_pim->SetMarkerColor(4);
-                total_yield_with_hole_filled_inv_pip_pim->Draw("Z same ");
-                // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_pip_pim = w_path + "/" + cs_files[2]; // Adjust W directory logic
-                //     CrossSectionData cs_data_pip_pim = readCrossSections(cs_file_path_pip_pim);
-
-                //     // // // Create TGraphErrors
-                //     // TGraphErrors *graph_pip_pim = new TGraphErrors(7);
-                //     // for (int i = 0; i < 7; ++i)
-                //     // {
-                //     //     graph_pip_pim->SetPoint(i, cs_data_pip_pim.w_values[i], cs_data_pip_pim.cross_sections[i]);
-                //     //     graph_pip_pim->SetPointError(i, 0, cs_data_pip_pim.errors[i]);
-                //     // }
-
-                //     // // graph_pip_pim->SetMarkerStyle(20);
-                //     // // graph_pip_pim->SetMarkerColor(6);
-                //     // graph_pip_pim->SetLineColor(6);
-                //     // graph_pip_pim->Draw("L same");
-
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(), xmin_5D[1], xmax_5D[1]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(); j++)
-                //     {
-
-                //         if (j >= 5 && j <= 11)
-                //         {
-                //             temp_val = cs_data_pip_pim.cross_sections[j - 5];
-                //         }
-                //         else
-                //             temp_val = 10.0;
-
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
-
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
-
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
-
-                // Draw the modified histogram
-                Int_2_bc_corr[w - 8] = total_yield_with_hole_filled_inv_pip_pim_modified->Integral() * factor_inv_mass;
-                total_yield_with_hole_filled_inv_pip_pim_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_pip_pim_modified->GetNbinsX(), Int_err_2_bc_corr[w - 8]); /// this is prolom
-                nine_1d_syst[w - 8][1] = total_yield_with_hole_filled_inv_pip_pim_modified->Integral();
-
-                int nBins = total_yield_with_hole_filled_inv_pip_pim_modified->GetNbinsX(); // Get number of bins
                 // Loop over bins and store data
-                for (int bin = 5; bin <= 11; ++bin)
+                for (int bin = 5; bin <= 18; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_pip_pim_modified->GetBinContent(bin);
                     double inv_pipPim_mid = (total_yield_with_hole_filled_inv_pip_pim_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                                  //  total_yield_with_hole_filled_inv_pip_pim_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                                  // 2.0;
 
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pipPim" << "," << inv_pipPim_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pipPim" << "," << inv_pipPim_mid << "," << bin << "," << binContent << "\n";
 
                     // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pipPim" << "," << bin << "," << binContent << "\n";
 
-                    // double binContent_acc = acceptance_corrected_inv_pip_pim->GetBinContent(bin);
-                    // double binContent_hole_filled = total_yield_with_hole_filled_inv_pip_pim->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pipPim" << "," << inv_pipPim_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+                    double binContent_acc = acceptance_corrected_inv_pip_pim->GetBinContent(bin);
+                    double binContent_hole_filled = total_yield_with_hole_filled_inv_pip_pim->GetBinContent(bin);
+
+                    double binErr = total_yield_with_hole_filled_inv_pip_pim_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_inv_pip_pim_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_inv_pip_pim_modified->SetBinError(bin, new_bin_err);
+
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pipPim" << "," << inv_pipPim_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
                 }
-                TH1D *acceptance_corrected_inv_pip_pim_modified = (TH1D *)acceptance_corrected_inv_pip_pim->Clone();
-                // acceptance_corrected_inv_Ppip_modified->SetName("acceptance_corrected_inv_Ppip_modified");
-                // Modify the cloned histogram
-                acceptance_corrected_inv_pip_pim_modified->Multiply(h_bin_cent_corr_pipPim);
+
+                acceptance_corrected_inv_pip_pim_modified->SetMaximum(1.7 * total_yield_with_hole_filled_inv_pip_pim->GetMaximum());
+                acceptance_corrected_inv_pip_pim_modified->SetMinimum(0);
+
                 acceptance_corrected_inv_pip_pim_modified->SetMarkerStyle(20);
                 acceptance_corrected_inv_pip_pim_modified->SetMarkerColor(7);
                 // Draw the modified histogram
-                acceptance_corrected_inv_pip_pim_modified->GetXaxis()->SetRange(5, 11);
-                // acceptance_corrected_inv_pip_pim_modified->Draw("Z same");
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetMaximum(1.6 * total_yield_with_hole_filled_inv_pip_pim->GetMaximum());
-                total_yield_with_hole_filled_inv_pip_pim_modified->SetMinimum(0);
+                acceptance_corrected_inv_pip_pim_modified->SetLineColor(7);
+                acceptance_corrected_inv_pip_pim_modified->GetXaxis()->SetRange(5, 18);
+                acceptance_corrected_inv_pip_pim_modified->SetTitle("");
+                // "M(#pi^{+}#pi^{-})");
+                // total_yield_with_hole_filled_inv_pip_pim_modified->SetStats(0);
+                acceptance_corrected_inv_pip_pim_modified->SetYTitle("#Delta#sigma/#DeltaM_{#pi^{+}#pi^{-}}[#mub/GeV]");
+
+                acceptance_corrected_inv_pip_pim_modified->SetXTitle(
+                    "M#pi^{+}#pi^{-} (GeV)");
+                // acceptance_corrected_inv_pip_pim->Fit("pol4");
+                acceptance_corrected_inv_pip_pim_modified->SetMinimum(0.);
+                acceptance_corrected_inv_pip_pim_modified->Draw("Z");
+                total_yield_with_hole_filled_inv_pip_pim_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_inv_pip_pim_modified->SetMarkerColor(4);
+
+                // total_yield_with_hole_filled_inv_pip_pim_modified->GetXaxis()->SetRange(5, 18);
+
+                total_yield_with_hole_filled_inv_pip_pim_modified->Draw("Z same");
+
+                // total_yield_with_hole_filled_inv_pip_pim->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_inv_pip_pim->GetXaxis()->SetRange(5, 18);
+                // total_yield_with_hole_filled_inv_pip_pim->SetMarkerColor(4);
+                // total_yield_with_hole_filled_inv_pip_pim->Draw("Z same ");
+                // // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_pip_pim = w_path_clas6 + "/" + cs_files_clas6[2]; // Adjust W directory logic
+                    CrossSectionData cs_data_pip_pim = readCrossSections(cs_file_path_pip_pim);
+
+                    // // Create TGraphErrors
+                    TGraphErrors *graph_pip_pim = new TGraphErrors(7);
+                    for (int i = 0; i < 7; ++i)
+                    {
+                        graph_pip_pim->SetPoint(i, cs_data_pip_pim.w_values[i], cs_data_pip_pim.cross_sections[i]);
+                        graph_pip_pim->SetPointError(i, 0, cs_data_pip_pim.errors[i]);
+                    }
+
+                    graph_pip_pim->SetMarkerStyle(20);
+                    graph_pip_pim->SetMarkerColor(6);
+                    graph_pip_pim->SetLineColor(6);
+                    graph_pip_pim->Draw("P same");
+                }
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_pip_pim = w_path + "/" + cs_files[2]; // Adjust W directory logic
+                    CrossSectionData cs_data_pip_pim = readCrossSections(cs_file_path_pip_pim);
+
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(), xmin_5D[1], xmax_5D[1]);
+                    for (Int_t j = 1; j <= acceptance_corrected_inv_pip_pim->GetXaxis()->GetNbins(); j++)
+                    {
+
+                        if (j >= 5 && j <= 18)
+                        {
+                            temp_val = cs_data_pip_pim.cross_sections[j - 5];
+                        }
+                        else
+                            temp_val = 10.0;
+
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
+
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
+
+                // Draw the modified histogram
+                Int_2_bc_corr[w - 8] = total_yield_with_hole_filled_inv_pip_pim_modified->Integral() * factor_inv_mass;
+                total_yield_with_hole_filled_inv_pip_pim_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_pip_pim_modified->GetNbinsX(), Int_err_2_bc_corr[w - 8]); /// this is prolom
+                nine_1d_syst[w - 8][1] = total_yield_with_hole_filled_inv_pip_pim_modified->Integral();
+
+                // int nBins = total_yield_with_hole_filled_inv_pip_pim_modified->GetNbinsX(); // Get number of bins
+
+                // acceptance_corrected_inv_Ppip_modified->SetName("acceptance_corrected_inv_Ppip_modified");
+                // Modify the cloned histogram
 
                 // // // float estimate = 0;
                 // // // estimate = total_yield_with_hole_filled_inv_pip_pim->Integral(0, -1);
@@ -2670,7 +2697,8 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_th_prot = new TH1D("h_bin_cent_corr_th_prot", "h_bin_cent_corr_th_prot", acceptance_corrected_theta_prot->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
                 for (Int_t j = 1; j <= acceptance_corrected_theta_prot->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_th_prot = (bin_centering_corr_th_prot[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_th_prot = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+                    // temp_bin_cent_corr_th_prot = (bin_centering_corr_th_prot[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
                     h_bin_cent_corr_th_prot->SetBinContent(j, temp_bin_cent_corr_th_prot);
                     h_bin_cent_corr_th_prot->SetBinError(j, 0.);
                     // std::cout << "  w is " << w_bin_for_flux << "  q2 is "
@@ -2682,8 +2710,9 @@ int main(int argc, char **argv)
 
                 TH1D *total_yield_with_hole_filled_theta_prot_modified = (TH1D *)total_yield_with_hole_filled_theta_prot->Clone();
                 total_yield_with_hole_filled_theta_prot_modified->Multiply(h_bin_cent_corr_th_prot);
-
                 nine_1d_syst[w - 8][3] = total_yield_with_hole_filled_theta_prot_modified->Integral();
+                TH1D *acceptance_corrected_theta_prot_modified = (TH1D *)acceptance_corrected_theta_prot->Clone();
+                acceptance_corrected_theta_prot_modified->Multiply(h_bin_cent_corr_th_prot);
 
                 // Loop over bins and store data
                 for (int bin = 1; bin <= 10; ++bin)
@@ -2692,77 +2721,89 @@ int main(int argc, char **argv)
                     double theta_prot_mid = (total_yield_with_hole_filled_theta_prot_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                                 //  total_yield_with_hole_filled_theta_prot_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                                 // 2.0;
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaP" << "," << theta_prot_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaP" << "," << theta_prot_mid << "," << bin << "," << binContent << "\n";
 
                     // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaP" << "," << bin << "," << binContent << "\n";
 
                     double binContent_acc = acceptance_corrected_theta_prot->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_theta_prot->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaP" << "," << theta_prot_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+
+                    double binErr = total_yield_with_hole_filled_theta_prot_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_theta_prot_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_theta_prot_modified->SetBinError(bin, new_bin_err);
+
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaP" << "," << theta_prot_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
                 }
 
-                total_yield_with_hole_filled_theta_prot_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_theta_prot_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_theta_prot_modified->SetTitle("");
+                acceptance_corrected_theta_prot_modified->SetTitle("");
                 // total_yield_with_hole_filled_theta_prot_modified->SetTitle("#Theta_{p'}");
-                total_yield_with_hole_filled_theta_prot_modified->SetXTitle("#Theta_{p'}(deg)");
+                acceptance_corrected_theta_prot_modified->SetXTitle("#Theta_{p'}(deg)");
                 // acceptance_corrected_theta_prot->Fit("pol4");
                 // total_yield_with_hole_filled_theta_prot_modified->SetStats(0);
-                total_yield_with_hole_filled_theta_prot_modified->SetMinimum(0.);
-                total_yield_with_hole_filled_theta_prot_modified->Draw("Z");
-                total_yield_with_hole_filled_theta_prot_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{p})[#mub/rad]"); //("Yield/d(-cos#theta)");
 
-                TH1D *acceptance_corrected_theta_prot_modified = (TH1D *)acceptance_corrected_theta_prot->Clone();
-                acceptance_corrected_theta_prot_modified->Multiply(h_bin_cent_corr_th_prot);
+                acceptance_corrected_theta_prot_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{p'})[#mub/rad]"); //("Yield/d(-cos#theta)");
+                acceptance_corrected_theta_prot_modified->SetLineColor(7);
 
                 acceptance_corrected_theta_prot_modified->SetMarkerStyle(20);
                 acceptance_corrected_theta_prot_modified->SetMarkerColor(7);
-                // acceptance_corrected_theta_prot_modified->Draw("Z same");
-                total_yield_with_hole_filled_theta_prot_modified->SetMaximum(1.8 * total_yield_with_hole_filled_theta_prot->GetMaximum());
-                total_yield_with_hole_filled_theta_prot_modified->SetMinimum(0);
+                acceptance_corrected_theta_prot_modified->Draw("Z");
+                acceptance_corrected_theta_prot_modified->SetMaximum(1.7 * total_yield_with_hole_filled_theta_prot->GetMaximum());
+                acceptance_corrected_theta_prot_modified->SetMinimum(0);
 
-                total_yield_with_hole_filled_theta_prot->SetMarkerStyle(24);
-                total_yield_with_hole_filled_theta_prot->SetMarkerColor(4);
-                total_yield_with_hole_filled_theta_prot->Draw("Z same ");
-                // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_th_prot = w_path + "/" + cs_files[5]; // Adjust W directory logic
-                //     CrossSectionData cs_data_th_prot = readCrossSections(cs_file_path_th_prot);
+                total_yield_with_hole_filled_theta_prot_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_theta_prot_modified->SetMarkerColor(4);
+                total_yield_with_hole_filled_theta_prot_modified->SetMinimum(0.);
+                total_yield_with_hole_filled_theta_prot_modified->Draw("Z same");
 
-                //     // // Create TGraphErrors
-                //     // TGraphErrors *graph_th_prot = new TGraphErrors(10);
-                //     // for (int i = 0; i < 10; ++i)
-                //     // {
-                //     //     graph_th_prot->SetPoint(i, cs_data_th_prot.w_values[i], cs_data_th_prot.cross_sections[i]);
-                //     //     graph_th_prot->SetPointError(i, 0, cs_data_th_prot.errors[i]);
-                //     // }
+                // total_yield_with_hole_filled_theta_prot->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_theta_prot->SetMarkerColor(4);
+                // total_yield_with_hole_filled_theta_prot->Draw("Z same ");
+                // // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_th_prot = w_path_clas6 + "/" + cs_files_clas6[5]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_prot = readCrossSections(cs_file_path_th_prot);
 
-                //     // graph_th_prot->SetMarkerStyle(20);
-                //     // graph_th_prot->SetMarkerColor(6);
-                //     // graph_th_prot->SetLineColor(6);
-                //     // graph_th_prot->Draw("P same");
+                    // Create TGraphErrors
+                    TGraphErrors *graph_th_prot = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_th_prot->SetPoint(i, cs_data_th_prot.w_values[i], cs_data_th_prot.cross_sections[i]);
+                        graph_th_prot->SetPointError(i, 0, cs_data_th_prot.errors[i]);
+                    }
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_prot->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_theta_prot->GetXaxis()->GetNbins(); j++)
-                //     {
+                    graph_th_prot->SetMarkerStyle(20);
+                    graph_th_prot->SetMarkerColor(6);
+                    graph_th_prot->SetLineColor(6);
+                    graph_th_prot->Draw("P same");
+                }
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_th_prot = w_path + "/" + cs_files[5]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_prot = readCrossSections(cs_file_path_th_prot);
 
-                //         temp_val = cs_data_th_prot.cross_sections[j - 1];
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_prot->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
+                    for (Int_t j = 1; j <= acceptance_corrected_theta_prot->GetXaxis()->GetNbins(); j++)
+                    {
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                        temp_val = cs_data_th_prot.cross_sections[j - 1];
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
 
                 can1->cd(9);
                 gPad->SetBottomMargin(0.2); // More space for X labels
@@ -2775,10 +2816,11 @@ int main(int argc, char **argv)
 
                 TH1D *h_bin_cent_corr_alpha_prot;
                 Double_t temp_bin_cent_corr_alpha_prot;
-                h_bin_cent_corr_alpha_prot = new TH1D("h_bin_cent_corr_alpha_prot", "h_bin_cent_corr_alpha_prot", acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
+                h_bin_cent_corr_alpha_prot = new TH1D("h_bin_cent_corr_alpha_prot", "h_bin_cent_corr_alpha_prot", acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
                 for (Int_t j = 1; j <= acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_alpha_prot = (bin_centering_corr_alpha_prot[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    // temp_bin_cent_corr_alpha_prot = (bin_centering_corr_alpha_prot[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_alpha_prot = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
 
                     h_bin_cent_corr_alpha_prot->SetBinContent(j, temp_bin_cent_corr_alpha_prot);
                     h_bin_cent_corr_alpha_prot->SetBinError(j, 0.);
@@ -2787,28 +2829,10 @@ int main(int argc, char **argv)
                 // h_bin_cent_corr_alpha_prot->Draw("same");
                 TH1D *total_yield_with_hole_filled_alpha_prot_modified = (TH1D *)total_yield_with_hole_filled_alpha_prot->Clone();
                 total_yield_with_hole_filled_alpha_prot_modified->Multiply(h_bin_cent_corr_alpha_prot);
-                total_yield_with_hole_filled_alpha_prot_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_alpha_prot_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_prot_modified->SetTitle("");
-                total_yield_with_hole_filled_alpha_prot_modified->SetYTitle("#Delta#sigma/d#alpha_{p}[#mub/rad]");
-                // total_yield_with_hole_filled_alpha_prot_modified->SetTitle(
-                //     "#alpha_{p'}");
-                // total_yield_with_hole_filled_alpha_prot_modified->SetStats(0);
-                total_yield_with_hole_filled_alpha_prot_modified->SetXTitle("#alpha_{p'}(deg)");
-                // acceptance_corrected_alpha_prot->Fit("pol4");
-                total_yield_with_hole_filled_alpha_prot_modified->Draw("Z");
 
                 TH1D *acceptance_corrected_alpha_prot_modified = (TH1D *)acceptance_corrected_alpha_prot->Clone();
                 acceptance_corrected_alpha_prot_modified->Multiply(h_bin_cent_corr_alpha_prot);
-                acceptance_corrected_alpha_prot_modified->SetMarkerStyle(20);
-                acceptance_corrected_alpha_prot_modified->SetMarkerColor(7);
-                // acceptance_corrected_alpha_prot_modified->Draw("Z same");
-                total_yield_with_hole_filled_alpha_prot_modified->SetMaximum(1.6 * total_yield_with_hole_filled_alpha_prot->GetMaximum());
-                total_yield_with_hole_filled_alpha_prot_modified->SetMinimum(0);
 
-                // Int_1_alpha[w - 8] = total_yield_with_hole_filled_alpha_prot_modified->Integral() * factor_alpha_angle;
-                // total_yield_with_hole_filled_alpha_prot_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_prot_modified->GetNbinsX(), Int_err_1_alpha[w - 8]);
-                nine_1d_syst[w - 8][6] = total_yield_with_hole_filled_alpha_prot_modified->Integral();
                 // Loop over bins and store data
                 for (int bin = 1; bin <= 10; ++bin)
                 {
@@ -2816,54 +2840,89 @@ int main(int argc, char **argv)
                     double alpha_prot_mid = (total_yield_with_hole_filled_alpha_prot_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                                 //  total_yield_with_hole_filled_alpha_prot_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                                 // 2.0;
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaP" << "," << alpha_prot_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaP" << "," << alpha_prot_mid << "," << bin << "," << binContent << "\n";
                     double binContent_acc = acceptance_corrected_alpha_prot->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_alpha_prot->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaP" << "," << alpha_prot_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+
+                    double binErr = total_yield_with_hole_filled_alpha_prot_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_alpha_prot_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_alpha_prot_modified->SetBinError(bin, new_bin_err);
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaP" << "," << alpha_prot_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
                 }
-                total_yield_with_hole_filled_alpha_prot->SetMarkerStyle(24);
-                total_yield_with_hole_filled_alpha_prot->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_prot->Draw("Z same ");
-                // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_al_prot = w_path + "/" + cs_files[8]; // Adjust W directory logic
-                //     CrossSectionData cs_data_al_prot = readCrossSections(cs_file_path_al_prot);
+                acceptance_corrected_alpha_prot_modified->SetTitle("");
+                acceptance_corrected_alpha_prot_modified->SetYTitle("#Delta#sigma/d#alpha_{p'}[#mub/rad]");
+                acceptance_corrected_alpha_prot_modified->SetLineColor(7);
+                acceptance_corrected_alpha_prot_modified->SetMarkerStyle(20);
+                acceptance_corrected_alpha_prot_modified->SetMarkerColor(7);
+                acceptance_corrected_alpha_prot_modified->SetXTitle("#alpha_{p'}(deg)");
 
-                //     // // Create TGraphErrors
-                //     // TGraphErrors *graph_al_prot = new TGraphErrors(10);
-                //     // for (int i = 0; i < 10; ++i)
-                //     // {
-                //     //     graph_al_prot->SetPoint(i, cs_data_al_prot.w_values[i], cs_data_al_prot.cross_sections[i]);
-                //     //     graph_al_prot->SetPointError(i, 0, cs_data_al_prot.errors[i]);
-                //     // }
+                acceptance_corrected_alpha_prot_modified->Draw("Z");
+                total_yield_with_hole_filled_alpha_prot_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_alpha_prot_modified->SetMarkerColor(4);
 
-                //     // graph_al_prot->SetMarkerStyle(20);
-                //     // graph_al_prot->SetMarkerColor(6);
-                //     // graph_al_prot->SetLineColor(6);
-                //     // graph_al_prot->Draw("P same");
+                // total_yield_with_hole_filled_alpha_prot_modified->SetTitle(
+                //     "#alpha_{p'}");
+                // total_yield_with_hole_filled_alpha_prot_modified->SetStats(0);
+                // acceptance_corrected_alpha_prot->Fit("pol4");
+                total_yield_with_hole_filled_alpha_prot_modified->Draw("Z same");
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(); j++)
-                //     {
-                //         // std::cout << " for  bin no = " << j << " cs_data.cross_sections[j - 5]  " << cs_data_al_prot.cross_sections[j] << std::endl;
+                acceptance_corrected_alpha_prot_modified->SetMaximum(1.7 * total_yield_with_hole_filled_alpha_prot_modified->GetMaximum());
+                acceptance_corrected_alpha_prot_modified->SetMinimum(0);
 
-                //         temp_val = cs_data_al_prot.cross_sections[j - 1];
+                // Int_1_alpha[w - 8] = total_yield_with_hole_filled_alpha_prot_modified->Integral() * factor_alpha_angle;
+                // total_yield_with_hole_filled_alpha_prot_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_prot_modified->GetNbinsX(), Int_err_1_alpha[w - 8]);
+                nine_1d_syst[w - 8][6] = total_yield_with_hole_filled_alpha_prot_modified->Integral();
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                // total_yield_with_hole_filled_alpha_prot->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_alpha_prot->SetMarkerColor(4);
+                // total_yield_with_hole_filled_alpha_prot->Draw("Z same ");
+                // // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_al_prot = w_path_clas6 + "/" + cs_files_clas6[8]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_prot = readCrossSections(cs_file_path_al_prot);
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                    // Create TGraphErrors
+                    TGraphErrors *graph_al_prot = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_al_prot->SetPoint(i, cs_data_al_prot.w_values[i], cs_data_al_prot.cross_sections[i]);
+                        graph_al_prot->SetPointError(i, 0, cs_data_al_prot.errors[i]);
+                    }
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    graph_al_prot->SetMarkerStyle(20);
+                    graph_al_prot->SetMarkerColor(6);
+                    graph_al_prot->SetLineColor(6);
+                    graph_al_prot->Draw("P same");
+                }
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_al_prot = w_path + "/" + cs_files[8]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_prot = readCrossSections(cs_file_path_al_prot);
+
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
+                    for (Int_t j = 1; j <= acceptance_corrected_alpha_prot->GetXaxis()->GetNbins(); j++)
+                    {
+                        // std::cout << " for  bin no = " << j << " cs_data.cross_sections[j - 5]  " << cs_data_al_prot.cross_sections[j] << std::endl;
+
+                        temp_val = cs_data_al_prot.cross_sections[j - 1];
+
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
+
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
                 // // // float estimate2 = 0;
                 // // // estimate2 = total_yield_with_hole_filled_alpha_prot->Integral(0, -1);
                 // // // std::cout << " total from alpha_prot: " << estimate2 << "\n";
@@ -2873,7 +2932,9 @@ int main(int argc, char **argv)
                 h_exp_pip[no_w_bins]->Add(h_exp_pip_background[no_w_bins], -1.);
 
                 // faraday cup charge
-                h_exp_pip[no_w_bins]->Scale(1. / 0.029113878); // from valerii
+                // h_exp_pip[no_w_bins]->Scale(1. * 0.99034 / 0.029113878);
+
+                h_exp_pip[no_w_bins]->Scale(1. * 0.99397 / 0.029113878); // from valerii
                 // h_exp_pip[no_w_bins]->Scale(1. / 0.0290267);   // this is my analysis output and correcting beam blocker issues
                 // h_exp_pip[no_w_bins]->Scale(1. / 0.02788674);  // this is using clas12 root and correcting beam blocker issues
 
@@ -2908,30 +2969,30 @@ int main(int argc, char **argv)
                 hole_yield_simulation_pip[no_w_bins]->Add(acceptance_corrected_7D_simulation_pip[no_w_bins], -1);
                 hole_yield_simulation_pip[no_w_bins]->Scale(ff_scale);
 
-                Int_t *bins_pip = new Int_t[5];
+                Int_t *bins_pip = new Int_t[4];
 
-                for (Int_t pimP = 1; pimP <= pimP_max; pimP++)
+                for (Int_t pimP = 5; pimP <= pimP_max - 4; pimP++)
                 {
-                    for (Int_t pip_pim = 1; pip_pim <= pip_pim_max; pip_pim++)
+                    for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
-                            for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // {
+                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                             {
-                                for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                                bins_pip[0] = pimP;
+                                bins_pip[1] = pip_pim;
+                                bins_pip[2] = theta;
+                                // bins_pip[3] = phi;
+                                bins_pip[3] = alpha;
+                                if (acceptance_corrected_7D_simulation_pip[no_w_bins]->GetBinContent(bins_pip) > 0.)
                                 {
-                                    bins_pip[0] = pimP;
-                                    bins_pip[1] = pip_pim;
-                                    bins_pip[2] = theta;
-                                    bins_pip[3] = phi;
-                                    bins_pip[4] = alpha;
-                                    if (acceptance_corrected_7D_simulation_pip[no_w_bins]->GetBinContent(bins_pip) > 0.)
-                                    {
-                                        bin_content_sum_acc_corrected_simu[1] += acceptance_corrected_7D_simulation_pip[no_w_bins]->GetBinContent(bins_pip);
+                                    bin_content_sum_acc_corrected_simu[1] += acceptance_corrected_7D_simulation_pip[no_w_bins]->GetBinContent(bins_pip);
 
-                                        bin_content_sum_acc_corrected_exp[1] += acceptance_corrected_7D_pip[no_w_bins]->GetBinContent(bins_pip);
-                                    }
+                                    bin_content_sum_acc_corrected_exp[1] += acceptance_corrected_7D_pip[no_w_bins]->GetBinContent(bins_pip);
                                 }
+                                // }
                             }
                         }
                     }
@@ -2955,7 +3016,7 @@ int main(int argc, char **argv)
 
                 TH1D *acceptance_corrected_inv_Ppim = acceptance_corrected_7D_pip[no_w_bins]->Projection(0);
                 TH1D *acceptance_corrected_theta_pip = acceptance_corrected_7D_pip[no_w_bins]->Projection(2);
-                TH1D *acceptance_corrected_alpha_pip = acceptance_corrected_7D_pip[no_w_bins]->Projection(4);
+                TH1D *acceptance_corrected_alpha_pip = acceptance_corrected_7D_pip[no_w_bins]->Projection(3);
 
                 total_yield_exp_pip[no_w_bins]->Scale(0.755314965e-12);
                 total_yield_exp_pip[no_w_bins]->Scale(1. / flux(w_bin_for_flux, q2_mid_value));
@@ -2968,7 +3029,7 @@ int main(int argc, char **argv)
 
                 TH1D *total_yield_with_hole_filled_inv_Ppim = total_yield_exp_pip[no_w_bins]->Projection(0);
                 TH1D *total_yield_with_hole_filled_theta_pip = total_yield_exp_pip[no_w_bins]->Projection(2);
-                TH1D *total_yield_with_hole_filled_alpha_pip = total_yield_exp_pip[no_w_bins]->Projection(4);
+                TH1D *total_yield_with_hole_filled_alpha_pip = total_yield_exp_pip[no_w_bins]->Projection(3);
 
                 TH1D *h_cos_th_pip;
                 Double_t temp_pip;
@@ -3023,10 +3084,11 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_pPim = new TH1D("h_bin_cent_corr_pPim", "h_bin_cent_corr_pPim", acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
                 for (Int_t j = 1; j <= acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(); j++)
                 {
-                    if (j >= 5 && j <= 11)
-                        temp_bin_cent_corr_pPim = (bin_centering_corr_m_pPim[q2 - 1][w - 8][j - 5]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
-                    else
-                        temp_bin_cent_corr_pPim = 1.0;
+                    // if (j >= 5 && j <= 18)
+                    //     temp_bin_cent_corr_pPim = (bin_centering_corr_m_pPim[q2 - 1][w - 8][j - 5]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_pPim = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+                    // else
+                    //     temp_bin_cent_corr_pPim = 1.0;
                     h_bin_cent_corr_pPim->SetBinContent(j, temp_bin_cent_corr_pPim);
                     h_bin_cent_corr_pPim->SetBinError(j, 0.);
                 }
@@ -3035,93 +3097,109 @@ int main(int argc, char **argv)
                 TH1D *total_yield_with_hole_filled_inv_pPim_modified = (TH1D *)total_yield_with_hole_filled_inv_Ppim->Clone();
                 // Modify the cloned histogram
                 total_yield_with_hole_filled_inv_pPim_modified->Multiply(h_bin_cent_corr_pPim);
-                total_yield_with_hole_filled_inv_pPim_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_inv_pPim_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_inv_pPim_modified->SetTitle("");
-                // total_yield_with_hole_filled_inv_Ppim->SetTitle("M(#pi^{-}p')");
-                total_yield_with_hole_filled_inv_pPim_modified->SetStats(0);
-                total_yield_with_hole_filled_inv_pPim_modified->SetMinimum(0.);
-                total_yield_with_hole_filled_inv_pPim_modified->SetXTitle("M#pi^{-}p'(GeV)");
-                // acceptance_corrected_inv_Ppim_modified->Fit("pol4");
-                total_yield_with_hole_filled_inv_pPim_modified->GetXaxis()->SetRange(5, 11);
-                total_yield_with_hole_filled_inv_pPim_modified->Draw("Z");
-                total_yield_with_hole_filled_inv_pPim_modified->SetYTitle("#Delta#sigma/#DeltaM_{p'#pi^{-}}[#mub/GeV]");
-                Int_3_bc_corr[w - 8] = total_yield_with_hole_filled_inv_pPim_modified->Integral() * factor_inv_mass;
-                total_yield_with_hole_filled_inv_pPim_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_pPim_modified->GetNbinsX(), Int_err_3_bc_corr[w - 8]);
-                nine_1d_syst[w - 8][2] = total_yield_with_hole_filled_inv_pPim_modified->Integral();
-                // Loop over bins and store data
-                for (int bin = 5; bin <= 11; ++bin)
+
+                TH1D *acceptance_corrected_inv_pPim_modified = (TH1D *)acceptance_corrected_inv_Ppim->Clone();
+                // Modify the cloned histogram
+                acceptance_corrected_inv_pPim_modified->Multiply(h_bin_cent_corr_pPim);
+
+                for (int bin = 5; bin <= 18; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_pPim_modified->GetBinContent(bin);
                     double inv_pPim_mid = (total_yield_with_hole_filled_inv_pPim_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                             //    total_yield_with_hole_filled_inv_pPim_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                             //   2.0;
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPim" << "," << inv_pPim_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPim" << "," << inv_pPim_mid << "," << bin << "," << binContent << "\n";
                     double binContent_acc = acceptance_corrected_inv_Ppim->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_inv_Ppim->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPim" << "," << inv_pPim_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
-                }
 
-                std::cout << "int 3 bc corr : " << Int_3_bc_corr[w - 8] << std::endl;
-                TH1D *acceptance_corrected_inv_pPim_modified = (TH1D *)acceptance_corrected_inv_Ppim->Clone();
-                // Modify the cloned histogram
-                acceptance_corrected_inv_pPim_modified->Multiply(h_bin_cent_corr_pPim);
+                    double binErr = total_yield_with_hole_filled_inv_pPim_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_inv_pPim_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_inv_pPim_modified->SetBinError(bin, new_bin_err);
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "pPim" << "," << inv_pPim_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+                }
+                acceptance_corrected_inv_pPim_modified->SetLineColor(7);
+                acceptance_corrected_inv_pPim_modified->SetTitle("");
+                // total_yield_with_hole_filled_inv_Ppim->SetTitle("M(#pi^{-}p')");
+                acceptance_corrected_inv_pPim_modified->SetStats(0);
+                acceptance_corrected_inv_pPim_modified->SetMinimum(0.);
+                acceptance_corrected_inv_pPim_modified->SetXTitle("M#pi^{-}p'(GeV)");
                 acceptance_corrected_inv_pPim_modified->SetMarkerStyle(20);
                 acceptance_corrected_inv_pPim_modified->SetMarkerColor(7);
+                acceptance_corrected_inv_pPim_modified->SetYTitle("#Delta#sigma/#DeltaM_{#pi^{-}p'}[#mub/GeV]");
+
                 // Draw the modified histogram
-                acceptance_corrected_inv_pPim_modified->GetXaxis()->SetRange(5, 11);
-                // acceptance_corrected_inv_pPim_modified->Draw("Z same");
-                total_yield_with_hole_filled_inv_pPim_modified->SetMaximum(1.6 * total_yield_with_hole_filled_inv_Ppim->GetMaximum());
-                total_yield_with_hole_filled_inv_pPim_modified->SetMinimum(0);
+                acceptance_corrected_inv_pPim_modified->GetXaxis()->SetRange(5, 18);
+                acceptance_corrected_inv_pPim_modified->Draw("Z");
+                total_yield_with_hole_filled_inv_pPim_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_inv_pPim_modified->SetMarkerColor(4);
 
-                total_yield_with_hole_filled_inv_Ppim->SetMarkerStyle(24);
-                total_yield_with_hole_filled_inv_Ppim->GetXaxis()->SetRange(5, 11);
-                total_yield_with_hole_filled_inv_Ppim->SetMarkerColor(4);
-                total_yield_with_hole_filled_inv_Ppim->Draw("Z same ");
+                // acceptance_corrected_inv_Ppim_modified->Fit("pol4");
+                // acceptance_corrected_inv_pPim_modified->GetXaxis()->SetRange(5, 18);
+                total_yield_with_hole_filled_inv_pPim_modified->Draw("Z same");
+                Int_3_bc_corr[w - 8] = total_yield_with_hole_filled_inv_pPim_modified->Integral() * factor_inv_mass;
+                total_yield_with_hole_filled_inv_pPim_modified->IntegralAndError(1, total_yield_with_hole_filled_inv_pPim_modified->GetNbinsX(), Int_err_3_bc_corr[w - 8]);
+                nine_1d_syst[w - 8][2] = total_yield_with_hole_filled_inv_pPim_modified->Integral();
+                // Loop over bins and store data
+                std::cout << "int 3 bc corr : " << Int_3_bc_corr[w - 8] << std::endl;
+
+                acceptance_corrected_inv_pPim_modified->SetMaximum(1.7 * total_yield_with_hole_filled_inv_pPim_modified->GetMaximum());
+                acceptance_corrected_inv_pPim_modified->SetMinimum(0);
+
+                // total_yield_with_hole_filled_inv_Ppim->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_inv_Ppim->GetXaxis()->SetRange(5, 18);
+                // total_yield_with_hole_filled_inv_Ppim->SetMarkerColor(4);
+                // total_yield_with_hole_filled_inv_Ppim->Draw("Z same ");
                 // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path = w_path + "/" + cs_files[1]; // Adjust W directory logic
-                //     CrossSectionData cs_data_pPim = readCrossSections(cs_file_path);
+                if (CLAS6)
+                {
+                    std::string cs_file_path = w_path_clas6 + "/" + cs_files_clas6[1]; // Adjust W directory logic
+                    CrossSectionData cs_data_pPim = readCrossSections(cs_file_path);
 
-                //     //     // Create TGraphErrors
-                //     //     TGraphErrors *graph = new TGraphErrors(7);
-                //     //     for (int i = 0; i < 7; ++i)
-                //     //     {
-                //     //         graph->SetPoint(i, cs_data_pPim.w_values[i], cs_data_pPim.cross_sections[i]);
-                //     //         graph->SetPointError(i, 0, cs_data_pPim.errors[i]);
-                //     //     }
+                    // Create TGraphErrors
+                    TGraphErrors *graph = new TGraphErrors(7);
+                    for (int i = 0; i < 7; ++i)
+                    {
+                        graph->SetPoint(i, cs_data_pPim.w_values[i], cs_data_pPim.cross_sections[i]);
+                        graph->SetPointError(i, 0, cs_data_pPim.errors[i]);
+                    }
 
-                //     //     graph->SetMarkerStyle(20);
-                //     //     graph->SetMarkerColor(6);
-                //     //     graph->SetLineColor(6);
-                //     //     graph->Draw("P same");
+                    graph->SetMarkerStyle(20);
+                    graph->SetMarkerColor(6);
+                    graph->SetLineColor(6);
+                    graph->Draw("P same");
+                }
+                if (q2 < 0)
+                {
+                    std::string cs_file_path = w_path + "/" + cs_files[1]; // Adjust W directory logic
+                    CrossSectionData cs_data_pPim = readCrossSections(cs_file_path);
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(); j++)
-                //     {
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(), xmin_5D[0], xmax_5D[0]);
+                    for (Int_t j = 1; j <= acceptance_corrected_inv_Ppim->GetXaxis()->GetNbins(); j++)
+                    {
 
-                //         if (j >= 5 && j <= 11)
-                //         {
-                //             temp_val = cs_data_pPim.cross_sections[j - 5];
-                //         }
-                //         else
-                //             temp_val = 10.0;
+                        if (j >= 5 && j <= 18)
+                        {
+                            temp_val = cs_data_pPim.cross_sections[j - 5];
+                        }
+                        else
+                            temp_val = 10.0;
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
 
                 can1->cd(5);
                 gPad->SetBottomMargin(0.2); // More space for X labels
@@ -3137,7 +3215,9 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_th_pip = new TH1D("h_bin_cent_corr_th_pip", "h_bin_cent_corr_th_pip", acceptance_corrected_theta_pip->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
                 for (Int_t j = 1; j <= acceptance_corrected_theta_pip->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_th_pip = (bin_centering_corr_th_pip[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_th_pip = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+
+                    // temp_bin_cent_corr_th_pip = (bin_centering_corr_th_pip[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
                     h_bin_cent_corr_th_pip->SetBinContent(j, temp_bin_cent_corr_th_pip);
                     h_bin_cent_corr_th_pip->SetBinError(j, 0.);
                 }
@@ -3145,6 +3225,9 @@ int main(int argc, char **argv)
                 // h_bin_cent_corr_th_pip->Draw("same");
                 TH1D *total_yield_with_hole_filled_theta_pip_modified = (TH1D *)total_yield_with_hole_filled_theta_pip->Clone();
                 total_yield_with_hole_filled_theta_pip_modified->Multiply(h_bin_cent_corr_th_pip);
+                TH1D *acceptance_corrected_theta_pip_modified = (TH1D *)acceptance_corrected_theta_pip->Clone();
+                acceptance_corrected_theta_pip_modified->Multiply(h_bin_cent_corr_th_pip);
+
                 nine_1d_syst[w - 8][4] = total_yield_with_hole_filled_theta_pip_modified->Integral();
                 for (int bin = 1; bin <= 10; ++bin)
                 {
@@ -3152,75 +3235,87 @@ int main(int argc, char **argv)
                     double theta_pip_mid = (total_yield_with_hole_filled_theta_pip_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                               // total_yield_with_hole_filled_theta_pip_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                               //    2.0;
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPip" << "," << theta_pip_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPip" << "," << theta_pip_mid << "," << bin << "," << binContent << "\n";
                     double binContent_acc = acceptance_corrected_theta_pip->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_theta_pip->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPip" << "," << theta_pip_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+
+                    double binErr = total_yield_with_hole_filled_theta_pip_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_theta_pip_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_theta_pip_modified->SetBinError(bin, new_bin_err);
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPip" << "," << theta_pip_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
                 }
-                total_yield_with_hole_filled_theta_pip_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_theta_pip_modified->SetMarkerColor(4);
-
-                total_yield_with_hole_filled_theta_pip_modified->SetTitle("");
-                // total_yield_with_hole_filled_theta_pip_modified->SetTitle(
-                //     "#Theta_{#pi^{+}}");
-                total_yield_with_hole_filled_theta_pip_modified->SetStats(0);
-                total_yield_with_hole_filled_theta_pip_modified->SetXTitle("#Theta_{#pi^{+}}(deg)");
-                total_yield_with_hole_filled_theta_pip_modified->Draw("Z");
-                total_yield_with_hole_filled_theta_pip_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{#pi^{+}})[#mub/rad]");
-
-                TH1D *acceptance_corrected_theta_pip_modified = (TH1D *)acceptance_corrected_theta_pip->Clone();
-                acceptance_corrected_theta_pip_modified->Multiply(h_bin_cent_corr_th_pip);
 
                 acceptance_corrected_theta_pip_modified->SetMarkerStyle(20);
                 acceptance_corrected_theta_pip_modified->SetMarkerColor(7);
-                // acceptance_corrected_theta_pip_modified->Draw("Z same");
-                total_yield_with_hole_filled_theta_pip_modified->SetMaximum(1.6 * total_yield_with_hole_filled_theta_pip->GetMaximum());
-                total_yield_with_hole_filled_theta_pip_modified->SetMinimum(0);
+                acceptance_corrected_theta_pip_modified->SetLineColor(7);
 
-                total_yield_with_hole_filled_theta_pip->SetMarkerStyle(24);
-                total_yield_with_hole_filled_theta_pip->SetMarkerColor(4);
-                total_yield_with_hole_filled_theta_pip->Draw("Z same ");
+                acceptance_corrected_theta_pip_modified->Draw("Z ");
+                acceptance_corrected_theta_pip_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{#pi^{+}})[#mub/rad]");
+
+                acceptance_corrected_theta_pip_modified->SetMaximum(1.7 * total_yield_with_hole_filled_theta_pip_modified->GetMaximum());
+                acceptance_corrected_theta_pip_modified->SetMinimum(0);
+                acceptance_corrected_theta_pip_modified->SetTitle("");
+                // total_yield_with_hole_filled_theta_pip_modified->SetTitle(
+                //     "#Theta_{#pi^{+}}");
+                acceptance_corrected_theta_pip_modified->SetStats(0);
+                acceptance_corrected_theta_pip_modified->SetXTitle("#Theta_{#pi^{+}}(deg)");
+
+                total_yield_with_hole_filled_theta_pip_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_theta_pip_modified->SetMarkerColor(4);
+
+                total_yield_with_hole_filled_theta_pip_modified->Draw("Z same");
+
+                // total_yield_with_hole_filled_theta_pip->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_theta_pip->SetMarkerColor(4);
+                // total_yield_with_hole_filled_theta_pip->Draw("Z same ");
                 // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_th_pip = w_path + "/" + cs_files[4]; // Adjust W directory logic
-                //     CrossSectionData cs_data_th_pip = readCrossSections(cs_file_path_th_pip);
+                if (CLAS6)
+                {
+                    std::string cs_file_path_th_pip = w_path_clas6 + "/" + cs_files_clas6[4]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_pip = readCrossSections(cs_file_path_th_pip);
 
-                //     //     // Create TGraphErrors
-                //     //     TGraphErrors *graph_th_pip = new TGraphErrors(10);
-                //     //     for (int i = 0; i < 10; ++i)
-                //     //     {
-                //     //         graph_th_pip->SetPoint(i, cs_data_th_pip.w_values[i], cs_data_th_pip.cross_sections[i]);
-                //     //         graph_th_pip->SetPointError(i, 0, cs_data_th_pip.errors[i]);
-                //     //     }
+                    // Create TGraphErrors
+                    TGraphErrors *graph_th_pip = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_th_pip->SetPoint(i, cs_data_th_pip.w_values[i], cs_data_th_pip.cross_sections[i]);
+                        graph_th_pip->SetPointError(i, 0, cs_data_th_pip.errors[i]);
+                    }
 
-                //     //     graph_th_pip->SetMarkerStyle(20);
-                //     //     graph_th_pip->SetMarkerColor(6);
-                //     //     graph_th_pip->SetLineColor(6);
-                //     //     graph_th_pip->Draw("P same");
+                    graph_th_pip->SetMarkerStyle(20);
+                    graph_th_pip->SetMarkerColor(6);
+                    graph_th_pip->SetLineColor(6);
+                    graph_th_pip->Draw("P same");
+                }
 
-                //     /////////////// Syst //////////////////
+                /////////////// Syst //////////////////
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_th_pip = w_path + "/" + cs_files[4]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_pip = readCrossSections(cs_file_path_th_pip);
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_pip->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_theta_pip->GetXaxis()->GetNbins(); j++)
-                //     {
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_pip->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
+                    for (Int_t j = 1; j <= acceptance_corrected_theta_pip->GetXaxis()->GetNbins(); j++)
+                    {
 
-                //         temp_val = cs_data_th_pip.cross_sections[j - 1];
+                        temp_val = cs_data_th_pip.cross_sections[j - 1];
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
 
                 can1->cd(8);
                 gPad->SetBottomMargin(0.2); // More space for X labels
@@ -3233,10 +3328,12 @@ int main(int argc, char **argv)
 
                 TH1D *h_bin_cent_corr_alpha_pip;
                 Double_t temp_bin_cent_corr_alpha_pip;
-                h_bin_cent_corr_alpha_pip = new TH1D("h_bin_cent_corr_alpha_pip", "h_bin_cent_corr_alpha_pip", acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
+                h_bin_cent_corr_alpha_pip = new TH1D("h_bin_cent_corr_alpha_pip", "h_bin_cent_corr_alpha_pip", acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
                 for (Int_t j = 1; j <= acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_alpha_pip = (bin_centering_corr_alpha_pip[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_alpha_pip = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+
+                    // temp_bin_cent_corr_alpha_pip = (bin_centering_corr_alpha_pip[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
                     // std::cout << "  alpha corr val for bin centering is : " << 1 / (bin_centering_corr_alpha_pip[q2 - 1][w - 8][j]) * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8])) << std::endl;
                     h_bin_cent_corr_alpha_pip->SetBinContent(j, temp_bin_cent_corr_alpha_pip);
                     h_bin_cent_corr_alpha_pip->SetBinError(j, 0.);
@@ -3245,91 +3342,106 @@ int main(int argc, char **argv)
                 // h_bin_cent_corr_alpha_pip->Draw("same");
                 TH1D *total_yield_with_hole_filled_alpha_pip_modified = (TH1D *)total_yield_with_hole_filled_alpha_pip->Clone();
                 total_yield_with_hole_filled_alpha_pip_modified->Multiply(h_bin_cent_corr_alpha_pip); //// multiply.............?????
-                total_yield_with_hole_filled_alpha_pip_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_alpha_pip_modified->SetMaximum(1.6 * total_yield_with_hole_filled_alpha_pip->GetMaximum());
-                total_yield_with_hole_filled_alpha_pip_modified->SetMinimum(0);
-                total_yield_with_hole_filled_alpha_pip_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_pip_modified->SetTitle("");
-                // total_yield_with_hole_filled_alpha_pip->SetTitle(
-                //     "#alpha_{#pi^{+}}");
-                total_yield_with_hole_filled_alpha_pip_modified->SetStats(0);
-                total_yield_with_hole_filled_alpha_pip_modified->SetXTitle(" #alpha_{#pi^{+}}(deg)");
-                total_yield_with_hole_filled_alpha_pip_modified->Draw("Z");
-                total_yield_with_hole_filled_alpha_pip_modified->SetYTitle("#Delta#sigma/d#alpha_{#pi^{+}}[#mub/rad]s");
+                TH1D *acceptance_corrected_alpha_pip_modified = (TH1D *)acceptance_corrected_alpha_pip->Clone();
+                acceptance_corrected_alpha_pip_modified->Multiply(h_bin_cent_corr_alpha_pip);
 
-                // Int_2_alpha[w - 8] = total_yield_with_hole_filled_alpha_pip_modified->Integral() * factor_alpha_angle;
-                // total_yield_with_hole_filled_alpha_pip_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_pip_modified->GetNbinsX(), Int_err_2_alpha[w - 8]);
-                nine_1d_syst[w - 8][7] = total_yield_with_hole_filled_alpha_pip_modified->Integral();
                 for (int bin = 1; bin <= 10; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_alpha_pip_modified->GetBinContent(bin);
                     double alpha_pip_mid = (total_yield_with_hole_filled_alpha_pip_modified->GetXaxis()->GetBinLowEdge(bin)); // +
                                                                                                                               // total_yield_with_hole_filled_alpha_pip_modified->GetXaxis()->GetBinUpEdge(bin)) /
                                                                                                                               //    2.0;
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPip" << "," << alpha_pip_mid << "," << bin << "," << binContent << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPip" << "," << alpha_pip_mid << "," << bin << "," << binContent << "\n";
                     double binContent_acc = acceptance_corrected_alpha_pip->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_alpha_pip->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPip" << "," << alpha_pip_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+
+                    double binErr = total_yield_with_hole_filled_alpha_pip_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_alpha_pip_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_alpha_pip_modified->SetBinError(bin, new_bin_err);
+
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPip" << "," << alpha_pip_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
                 }
-                TH1D *acceptance_corrected_alpha_pip_modified = (TH1D *)acceptance_corrected_alpha_pip->Clone();
-                acceptance_corrected_alpha_pip_modified->Multiply(h_bin_cent_corr_alpha_pip);
+                acceptance_corrected_alpha_pip_modified->SetLineColor(7);
                 acceptance_corrected_alpha_pip_modified->SetMarkerStyle(20);
                 acceptance_corrected_alpha_pip_modified->SetMarkerColor(7);
-                // acceptance_corrected_alpha_pip_modified->Draw("Z same");
+                acceptance_corrected_alpha_pip_modified->SetMaximum(1.7 * total_yield_with_hole_filled_alpha_pip->GetMaximum());
+                acceptance_corrected_alpha_pip_modified->SetMinimum(0);
+                acceptance_corrected_alpha_pip_modified->SetTitle("");
+                // total_yield_with_hole_filled_alpha_pip->SetTitle(
+                //     "#alpha_{#pi^{+}}");
+                acceptance_corrected_alpha_pip_modified->SetStats(0);
+                acceptance_corrected_alpha_pip_modified->SetYTitle("#Delta#sigma/d#alpha_{#pi^{+}}[#mub/rad]");
+                acceptance_corrected_alpha_pip_modified->SetXTitle(" #alpha_{#pi^{+}}(deg)");
 
-                total_yield_with_hole_filled_alpha_pip->SetMarkerStyle(24);
-                total_yield_with_hole_filled_alpha_pip->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_pip->Draw("Z same ");
+                acceptance_corrected_alpha_pip_modified->Draw("Z");
+                total_yield_with_hole_filled_alpha_pip_modified->SetMarkerColor(4);
+                total_yield_with_hole_filled_alpha_pip_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_alpha_pip_modified->Draw("Z same");
 
-                // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_al_pip = w_path + "/" + cs_files[7]; // Adjust W directory logic
-                //     CrossSectionData cs_data_al_pip = readCrossSections(cs_file_path_al_pip);
+                // Int_2_alpha[w - 8] = total_yield_with_hole_filled_alpha_pip_modified->Integral() * factor_alpha_angle;
+                // total_yield_with_hole_filled_alpha_pip_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_pip_modified->GetNbinsX(), Int_err_2_alpha[w - 8]);
+                nine_1d_syst[w - 8][7] = total_yield_with_hole_filled_alpha_pip_modified->Integral();
 
-                //     //     // Create TGraphErrors
-                //     //     TGraphErrors *graph_al_pip = new TGraphErrors(10);
-                //     //     for (int i = 0; i < 10; ++i)
-                //     //     {
-                //     //         graph_al_pip->SetPoint(i, cs_data_al_pip.w_values[i], cs_data_al_pip.cross_sections[i]);
-                //     //         graph_al_pip->SetPointError(i, 0, cs_data_al_pip.errors[i]);
-                //     //     }
+                // total_yield_with_hole_filled_alpha_pip->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_alpha_pip->SetMarkerColor(4);
+                // total_yield_with_hole_filled_alpha_pip->Draw("Z same ");
 
-                //     //     graph_al_pip->SetMarkerStyle(20);
-                //     //     graph_al_pip->SetMarkerColor(6);
-                //     //     graph_al_pip->SetLineColor(6);
-                //     //     graph_al_pip->Draw("P same");
-                //     // }
+                // // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_al_pip = w_path_clas6 + "/" + cs_files_clas6[7]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_pip = readCrossSections(cs_file_path_al_pip);
 
-                //     /////////////// Syst //////////////////
+                    // Create TGraphErrors
+                    TGraphErrors *graph_al_pip = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_al_pip->SetPoint(i, cs_data_al_pip.w_values[i], cs_data_al_pip.cross_sections[i]);
+                        graph_al_pip->SetPointError(i, 0, cs_data_al_pip.errors[i]);
+                    }
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(); j++)
-                //     {
+                    graph_al_pip->SetMarkerStyle(20);
+                    graph_al_pip->SetMarkerColor(6);
+                    graph_al_pip->SetLineColor(6);
+                    graph_al_pip->Draw("P same");
+                }
 
-                //         temp_val = cs_data_al_pip.cross_sections[j - 1];
+                /////////////// Syst //////////////////
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_al_pip = w_path + "/" + cs_files[7]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_pip = readCrossSections(cs_file_path_al_pip);
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
+                    for (Int_t j = 1; j <= acceptance_corrected_alpha_pip->GetXaxis()->GetNbins(); j++)
+                    {
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                        temp_val = cs_data_al_pip.cross_sections[j - 1];
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
+
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
             }
             {
 
                 h_exp_pim[no_w_bins]->Add(h_exp_pim_background[no_w_bins], -1.);
 
                 // // // // faraday cup charge
-                h_exp_pim[no_w_bins]->Scale(1. / 0.029113878); // from valerii
+                // h_exp_pim[no_w_bins]->Scale(1. * 0.99034 / 0.029113878);
+                h_exp_pim[no_w_bins]->Scale(1. * 0.99397 / 0.029113878); // from valerii
                 // // // // h_exp_pim[no_w_bins]->Scale(1. / 0.0290267); // this is my analysis output and correcting beam blocker issues
                 // // // // h_exp_pim[no_w_bins]->Scale(1. / 0.02788674); // this is using clas12 root and correcting beam blocker issues
 
@@ -3364,33 +3476,33 @@ int main(int argc, char **argv)
                 hole_yield_simulation_pim[no_w_bins]->Add(acceptance_corrected_7D_simulation_pim[no_w_bins], -1);
                 hole_yield_simulation_pim[no_w_bins]->Scale(ff_scale);
 
-                Int_t *bins_pim = new Int_t[5];
+                Int_t *bins_pim = new Int_t[4];
                 // for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                 // {
-                for (Int_t pimP = 1; pimP <= pimP_max; pimP++)
+                for (Int_t pimP = 5; pimP <= pimP_max - 4; pimP++)
                 {
-                    for (Int_t pip_pim = 1; pip_pim <= pip_pim_max; pip_pim++)
+                    for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
-                            for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // for (Int_t phi = 1; phi <= phi_max; phi++)
+                            // {
+                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                             {
-                                for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+
+                                bins_pim[0] = pimP;
+                                bins_pim[1] = pip_pim;
+                                bins_pim[2] = theta;
+                                // bins_pim[3] = phi;
+                                bins_pim[3] = alpha;
+
+                                if (acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim) > 0.)
                                 {
 
-                                    bins_pim[0] = pimP;
-                                    bins_pim[1] = pip_pim;
-                                    bins_pim[2] = theta;
-                                    bins_pim[3] = phi;
-                                    bins_pim[4] = alpha;
-
-                                    if (acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim) > 0.)
-                                    {
-
-                                        bin_content_sum_acc_corrected_simu[2] += acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim);
-                                        bin_content_sum_acc_corrected_exp[2] += acceptance_corrected_7D_pim[no_w_bins]->GetBinContent(bins_pim);
-                                    }
+                                    bin_content_sum_acc_corrected_simu[2] += acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim);
+                                    bin_content_sum_acc_corrected_exp[2] += acceptance_corrected_7D_pim[no_w_bins]->GetBinContent(bins_pim);
                                 }
+                                // }
                             }
                         }
                     }
@@ -3418,13 +3530,13 @@ int main(int argc, char **argv)
                 total_yield_exp_pim[no_w_bins]->Scale(1. / flux(w_bin_for_flux, q2_mid_value));
 
                 TH1D *acceptance_corrected_theta_pim = acceptance_corrected_7D_pim[no_w_bins]->Projection(2);
-                TH1D *acceptance_corrected_alpha_pim = acceptance_corrected_7D_pim[no_w_bins]->Projection(4);
+                TH1D *acceptance_corrected_alpha_pim = acceptance_corrected_7D_pim[no_w_bins]->Projection(3);
 
                 Float_t factor_alpha_angle = PI * acceptance_corrected_alpha_pim->GetBinWidth(5) / 180;
                 // std::cout << "scale factor_alpha_ angle : " << factor_alpha_angle << std::endl;
 
                 TH1D *total_yield_with_hole_filled_theta_pim = total_yield_exp_pim[no_w_bins]->Projection(2);
-                TH1D *total_yield_with_hole_filled_alpha_pim = total_yield_exp_pim[no_w_bins]->Projection(4);
+                TH1D *total_yield_with_hole_filled_alpha_pim = total_yield_exp_pim[no_w_bins]->Projection(3);
 
                 TH1D *h_cos_th_pim;
                 Double_t temp_pim;
@@ -3466,7 +3578,8 @@ int main(int argc, char **argv)
                 h_bin_cent_corr_th_pim = new TH1D("h_bin_cent_corr_th_pim", "h_bin_cent_corr_th_pim", acceptance_corrected_theta_pim->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
                 for (Int_t j = 1; j <= acceptance_corrected_theta_pim->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_th_pim = (bin_centering_corr_th_pim[q2 - 1][w - 8][j]); ////// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_th_pim = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+                    // temp_bin_cent_corr_th_pim = (bin_centering_corr_th_pim[q2 - 1][w - 8][j]); ////// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
                     h_bin_cent_corr_th_pim->SetBinContent(j, temp_bin_cent_corr_th_pim);
                     h_bin_cent_corr_th_pim->SetBinError(j, 0.);
                 }
@@ -3475,6 +3588,8 @@ int main(int argc, char **argv)
                 TH1D *total_yield_with_hole_filled_theta_pim_modified = (TH1D *)total_yield_with_hole_filled_theta_pim->Clone();
                 total_yield_with_hole_filled_theta_pim_modified->Multiply(h_bin_cent_corr_th_pim);
                 nine_1d_syst[w - 8][5] = total_yield_with_hole_filled_theta_pim_modified->Integral();
+                TH1D *acceptance_corrected_theta_pim_modified = (TH1D *)acceptance_corrected_theta_pim->Clone();
+                acceptance_corrected_theta_pim_modified->Multiply(h_bin_cent_corr_th_pim);
                 for (int bin = 1; bin <= 10; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_theta_pim_modified->GetBinContent(bin);
@@ -3484,70 +3599,82 @@ int main(int argc, char **argv)
 
                     double binContent_acc = acceptance_corrected_theta_pim->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_theta_pim->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPim" << "," << theta_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
 
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPim" << "," << theta_mid << "," << bin << "," << binContent << "\n";
+                    double binErr = total_yield_with_hole_filled_theta_pim_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_theta_pim_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_theta_pim_modified->SetBinError(bin, new_bin_err);
+
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPim" << "," << theta_mid << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "thetaPim" << "," << theta_mid << "," << bin << "," << binContent << "\n";
                 }
+                acceptance_corrected_theta_pim_modified->SetLineColor(7);
+                acceptance_corrected_theta_pim_modified->SetMarkerStyle(20);
+                acceptance_corrected_theta_pim_modified->SetMarkerColor(7);
+                acceptance_corrected_theta_pim_modified->Draw("Z ");
+
+                acceptance_corrected_theta_pim_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{#pi^{-}})[#mub/rad])");
+
+                acceptance_corrected_theta_pim_modified->SetMaximum(1.7 * total_yield_with_hole_filled_theta_pim->GetMaximum());
+                acceptance_corrected_theta_pim_modified->SetMinimum(0);
+                acceptance_corrected_theta_pim_modified->SetTitle("");
+                acceptance_corrected_theta_pim_modified->SetStats(0);
+                acceptance_corrected_theta_pim_modified->SetXTitle("#Theta_{#pi^{-}}(deg)");
 
                 total_yield_with_hole_filled_theta_pim_modified->SetMarkerStyle(20);
                 total_yield_with_hole_filled_theta_pim_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_theta_pim_modified->SetMaximum(1.6 * total_yield_with_hole_filled_theta_pim->GetMaximum());
-                total_yield_with_hole_filled_theta_pim_modified->SetMinimum(0);
-                total_yield_with_hole_filled_theta_pim_modified->SetTitle("");
-                total_yield_with_hole_filled_theta_pim_modified->SetStats(0);
-                total_yield_with_hole_filled_theta_pim_modified->SetXTitle("#Theta_{#pi^{-}}(deg)");
-                total_yield_with_hole_filled_theta_pim_modified->Draw("Z");
-                total_yield_with_hole_filled_theta_pim_modified->SetYTitle("#Delta#sigma/d(-cos#theta_{#pi^{-}})[#mub/rad])");
+                total_yield_with_hole_filled_theta_pim_modified->Draw("Z same");
 
-                TH1D *acceptance_corrected_theta_pim_modified = (TH1D *)acceptance_corrected_theta_pim->Clone();
-                acceptance_corrected_theta_pim_modified->Multiply(h_bin_cent_corr_th_pim);
-                acceptance_corrected_theta_pim_modified->SetMarkerStyle(20);
-                acceptance_corrected_theta_pim_modified->SetMarkerColor(7);
-                // acceptance_corrected_theta_pim_modified->Draw("Z same");
+                // total_yield_with_hole_filled_theta_pim->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_theta_pim->SetMarkerColor(4);
+                // total_yield_with_hole_filled_theta_pim->Draw("Z same ");
+                // // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_th_pim = w_path_clas6 + "/" + cs_files_clas6[3]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_pim = readCrossSections(cs_file_path_th_pim);
 
-                total_yield_with_hole_filled_theta_pim->SetMarkerStyle(24);
-                total_yield_with_hole_filled_theta_pim->SetMarkerColor(4);
-                total_yield_with_hole_filled_theta_pim->Draw("Z same ");
-                // // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_th_pim = w_path + "/" + cs_files[3]; // Adjust W directory logic
-                //     CrossSectionData cs_data_th_pim = readCrossSections(cs_file_path_th_pim);
+                    // Create TGraphErrors
+                    TGraphErrors *graph_th_pim = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_th_pim->SetPoint(i, cs_data_th_pim.w_values[i], cs_data_th_pim.cross_sections[i]);
+                        graph_th_pim->SetPointError(i, 0, cs_data_th_pim.errors[i]);
+                    }
 
-                //     //     // Create TGraphErrors
-                //     //     TGraphErrors *graph_th_pim = new TGraphErrors(10);
-                //     //     for (int i = 0; i < 10; ++i)
-                //     //     {
-                //     //         graph_th_pim->SetPoint(i, cs_data_th_pim.w_values[i], cs_data_th_pim.cross_sections[i]);
-                //     //         graph_th_pim->SetPointError(i, 0, cs_data_th_pim.errors[i]);
-                //     //     }
+                    graph_th_pim->SetMarkerStyle(20);
+                    graph_th_pim->SetMarkerColor(6);
+                    graph_th_pim->SetLineColor(6);
+                    graph_th_pim->Draw("P same");
+                }
+                /////////////// Syst //////////////////
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_th_pim = w_path + "/" + cs_files[3]; // Adjust W directory logic
+                    CrossSectionData cs_data_th_pim = readCrossSections(cs_file_path_th_pim);
 
-                //     //     graph_th_pim->SetMarkerStyle(20);
-                //     //     graph_th_pim->SetMarkerColor(6);
-                //     //     graph_th_pim->SetLineColor(6);
-                //     //     graph_th_pim->Draw("P same");
-                //     /////////////// Syst //////////////////
+                    TH1D *h_1d_final_syst_err;
+                    Double_t temp_val;
+                    h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_pim->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
+                    for (Int_t j = 1; j <= acceptance_corrected_theta_pim->GetXaxis()->GetNbins(); j++)
+                    {
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_theta_pim->GetXaxis()->GetNbins(), xmin_5D[2], xmax_5D[2]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_theta_pim->GetXaxis()->GetNbins(); j++)
-                //     {
+                        temp_val = cs_data_th_pim.cross_sections[j - 1];
 
-                //         temp_val = cs_data_th_pim.cross_sections[j - 1];
+                        h_1d_final_syst_err->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err->SetBinError(j, 0.);
+                    }
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                    // Set histogram color and style
+                    h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
-
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    // Draw the histogram
+                    h_1d_final_syst_err->Draw("same");
+                }
                 // // // // // float estimate_theta_pim = 0;
                 // // // // // estimate_theta_pim = total_yield_with_hole_filled_theta_pim->Integral(0, -1);
                 // // // // // std::cout << " total from theta-pim: " << estimate_theta_pim << "\n";
@@ -3562,38 +3689,21 @@ int main(int argc, char **argv)
 
                 TH1D *h_bin_cent_corr_alpha_pim;
                 Double_t temp_bin_cent_corr_alpha_pim;
-                h_bin_cent_corr_alpha_pim = new TH1D("h_bin_cent_corr_alpha_pim", "h_bin_cent_corr_alpha_pim", acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
+                h_bin_cent_corr_alpha_pim = new TH1D("h_bin_cent_corr_alpha_pim", "h_bin_cent_corr_alpha_pim", acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
                 for (Int_t j = 1; j <= acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(); j++)
                 {
-                    temp_bin_cent_corr_alpha_pim = (bin_centering_corr_alpha_pim[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
+                    temp_bin_cent_corr_alpha_pim = (bin_centering_corr_w_q2[q2 - 1][w - 8]);
+                    // temp_bin_cent_corr_alpha_pim = (bin_centering_corr_alpha_pim[q2 - 1][w - 8][j]); ///// * ((bin_centering_corr_w[q2 - 1][w - 8]) * (bin_centering_corr_q2[q2 - 1][w - 8]));
                     h_bin_cent_corr_alpha_pim->SetBinContent(j, temp_bin_cent_corr_alpha_pim);
                     h_bin_cent_corr_alpha_pim->SetBinError(j, 0.);
                 }
                 // Clone the histogram
                 // h_bin_cent_corr_alpha_pim->Draw("same");
-
-                ///////////////////// dome incluse eff err cut systematics /////////////////
-
-                // h_w_int_bc_corr->SetBinError(h_w_int_bc_corr->FindBin(w_bin_for_flux), Int_err_bc_corr[w - 8]);
-                // Set the computed error to the corresponding bin
-                // h_w_int_bc_corr->SetBinError(bin, total_error);
-
                 TH1D *total_yield_with_hole_filled_alpha_pim_modified = (TH1D *)total_yield_with_hole_filled_alpha_pim->Clone();
                 total_yield_with_hole_filled_alpha_pim_modified->Multiply(h_bin_cent_corr_alpha_pim);
-                total_yield_with_hole_filled_alpha_pim_modified->SetMarkerStyle(20);
-                total_yield_with_hole_filled_alpha_pim_modified->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_pim_modified->SetMaximum(1.6 * total_yield_with_hole_filled_alpha_pim->GetMaximum());
-                total_yield_with_hole_filled_alpha_pim_modified->SetTitle("");
-                total_yield_with_hole_filled_alpha_pim_modified->SetStats(0);
-                total_yield_with_hole_filled_alpha_pim_modified->SetXTitle(" #alpha_{#pi^{-}}(deg)");
-                total_yield_with_hole_filled_alpha_pim_modified->Draw("Z");
-                total_yield_with_hole_filled_alpha_pim_modified->SetYTitle("#Delta#sigma/d#alpha_{#pi^{-}}[#mub/rad]");
-                total_yield_with_hole_filled_alpha_pim_modified->SetMinimum(0);
 
-                // Int_3_alpha[w - 8] = total_yield_with_hole_filled_alpha_pim_modified->Integral() * factor_alpha_angle;
-                // total_yield_with_hole_filled_alpha_pim_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_pim_modified->GetNbinsX(), Int_err_3_alpha[w - 8]);
-                nine_1d_syst[w - 8][8] = total_yield_with_hole_filled_alpha_pim_modified->Integral();
-
+                TH1D *acceptance_corrected_alpha_pim_modified = (TH1D *)acceptance_corrected_alpha_pim->Clone();
+                acceptance_corrected_alpha_pim_modified->Multiply(h_bin_cent_corr_alpha_pim);
                 for (int bin = 1; bin <= 10; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_alpha_pim_modified->GetBinContent(bin);
@@ -3602,60 +3712,86 @@ int main(int argc, char **argv)
                                                                                                                           //    2.0;
                     double binContent_acc = acceptance_corrected_alpha_pim->GetBinContent(bin);
                     double binContent_hole_filled = total_yield_with_hole_filled_alpha_pim->GetBinContent(bin);
-                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPim" << alpha_mid << "," << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
-                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPim" << "," << alpha_mid << "," << bin << "," << binContent << "\n";
-                }
 
-                TH1D *acceptance_corrected_alpha_pim_modified = (TH1D *)acceptance_corrected_alpha_pim->Clone();
-                acceptance_corrected_alpha_pim_modified->Multiply(h_bin_cent_corr_alpha_pim);
+                    double binErr = total_yield_with_hole_filled_alpha_pim_modified->GetBinError(bin);
+                    double hole_err = (binContent_hole_filled - binContent_acc) / 2.0;
+                    float new_bin_err = sqrt(hole_err * hole_err + binErr * binErr);
+                    total_yield_with_hole_filled_alpha_pim_modified->SetBinError(bin, new_bin_err);
+                    // acceptance_corrected_alpha_pim_modified->SetBinError(bin, new_bin_err);
+
+                    file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPim" << alpha_mid << "," << "," << bin << "," << binContent << "," << (binContent_hole_filled - binContent_acc) / 2.0 << "," << (binContent_hole_filled - binContent_acc) / (2.0 * binContent) * 100 << "\n";
+                    // file_1d_bin << w * 0.05 + 1.025 << "," << q2_mid_value << "," << "alphaPim" << "," << alpha_mid << "," << bin << "," << binContent << "\n";
+                }
+                acceptance_corrected_alpha_pim_modified->SetLineColor(7);
                 acceptance_corrected_alpha_pim_modified->SetMarkerStyle(20);
                 acceptance_corrected_alpha_pim_modified->SetMarkerColor(7);
-                // acceptance_corrected_alpha_pim_modified->Draw("Z same");
+                acceptance_corrected_alpha_pim_modified->SetMaximum(1.7 * total_yield_with_hole_filled_alpha_pim->GetMaximum());
+                acceptance_corrected_alpha_pim_modified->SetTitle("");
+                acceptance_corrected_alpha_pim_modified->SetStats(0);
+                acceptance_corrected_alpha_pim_modified->SetXTitle(" #alpha_{#pi^{-}}(deg)");
+                acceptance_corrected_alpha_pim_modified->SetYTitle("#Delta#sigma/d#alpha_{#pi^{-}}[#mub/rad]");
+                acceptance_corrected_alpha_pim_modified->SetMinimum(0);
 
-                total_yield_with_hole_filled_alpha_pim->SetMarkerStyle(24);
-                total_yield_with_hole_filled_alpha_pim->SetMarkerColor(4);
-                total_yield_with_hole_filled_alpha_pim->Draw("Z same ");
-                // // /////////////////////// CLAS6 CS ////////////////////////
-                // if (CLAS6)
-                // {
-                //     std::string cs_file_path_al_pim = w_path + "/" + cs_files[6]; // Adjust W directory logic
-                //     CrossSectionData cs_data_al_pim = readCrossSections(cs_file_path_al_pim);
+                acceptance_corrected_alpha_pim_modified->Draw("Z");
 
-                //     //     // Create TGraphErrors
-                //     //     TGraphErrors *graph_al_pim = new TGraphErrors(10);
-                //     //     for (int i = 0; i < 10; ++i)
-                //     //     {
-                //     //         graph_al_pim->SetPoint(i, cs_data_al_pim.w_values[i], cs_data_al_pim.cross_sections[i]);
-                //     //         graph_al_pim->SetPointError(i, 0, cs_data_al_pim.errors[i]);
-                //     //     }
+                total_yield_with_hole_filled_alpha_pim_modified->SetMarkerStyle(20);
+                total_yield_with_hole_filled_alpha_pim_modified->SetMarkerColor(4);
 
-                //     //     graph_al_pim->SetMarkerStyle(20);
-                //     //     graph_al_pim->SetMarkerColor(6);
-                //     //     graph_al_pim->SetLineColor(6);
-                //     //     graph_al_pim->Draw("P same");
+                total_yield_with_hole_filled_alpha_pim_modified->Draw("Z same");
 
-                //     /////////////// Syst //////////////////
+                // Int_3_alpha[w - 8] = total_yield_with_hole_filled_alpha_pim_modified->Integral() * factor_alpha_angle;
+                // total_yield_with_hole_filled_alpha_pim_modified->IntegralAndError(1, total_yield_with_hole_filled_alpha_pim_modified->GetNbinsX(), Int_err_3_alpha[w - 8]);
+                nine_1d_syst[w - 8][8] = total_yield_with_hole_filled_alpha_pim_modified->Integral();
 
-                //     TH1D *h_1d_final_syst_err;
-                //     Double_t temp_val;
-                //     h_1d_final_syst_err = new TH1D("h_1d_final_syst_err", "h_1d_final_syst_err", acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(), xmin_5D[4], xmax_5D[4]);
-                //     for (Int_t j = 1; j <= acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(); j++)
-                //     {
+                // total_yield_with_hole_filled_alpha_pim->SetMarkerStyle(24);
+                // total_yield_with_hole_filled_alpha_pim->SetMarkerColor(4);
+                // total_yield_with_hole_filled_alpha_pim->Draw("Z same ");
+                // /////////////////////// CLAS6 CS ////////////////////////
+                if (CLAS6)
+                {
+                    std::string cs_file_path_al_pim = w_path_clas6 + "/" + cs_files_clas6[6]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_pim = readCrossSections(cs_file_path_al_pim);
 
-                //         temp_val = cs_data_al_pim.cross_sections[j - 1];
+                    // Create TGraphErrors
+                    TGraphErrors *graph_al_pim = new TGraphErrors(10);
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        graph_al_pim->SetPoint(i, cs_data_al_pim.w_values[i], cs_data_al_pim.cross_sections[i]);
+                        graph_al_pim->SetPointError(i, 0, cs_data_al_pim.errors[i]);
+                    }
 
-                //         h_1d_final_syst_err->SetBinContent(j, temp_val);
-                //         h_1d_final_syst_err->SetBinError(j, 0.);
-                //     }
+                    graph_al_pim->SetMarkerStyle(20);
+                    graph_al_pim->SetMarkerColor(6);
+                    graph_al_pim->SetLineColor(6);
+                    graph_al_pim->Draw("P same");
+                }
 
-                //     // Set histogram color and style
-                //     h_1d_final_syst_err->SetFillColor(kGray);  // Gray fill color
-                //     h_1d_final_syst_err->SetFillStyle(3001);   // Semi-transparent fill
-                //     h_1d_final_syst_err->SetLineColor(kBlack); // Black outline
+                /////////////// Syst //////////////////
+                if (q2 < 0)
+                {
+                    std::string cs_file_path_al_pim = w_path + "/" + cs_files[6]; // Adjust W directory logic
+                    CrossSectionData cs_data_al_pim = readCrossSections(cs_file_path_al_pim);
 
-                //     // Draw the histogram
-                //     h_1d_final_syst_err->Draw("same");
-                // }
+                    TH1D *h_1d_final_syst_err_al_pim;
+                    Double_t temp_val;
+                    h_1d_final_syst_err_al_pim = new TH1D("h_1d_final_syst_err_al_pim", "h_1d_final_syst_err_al_pim", acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(), xmin_5D[3], xmax_5D[3]);
+                    for (Int_t j = 1; j <= acceptance_corrected_alpha_pim->GetXaxis()->GetNbins(); j++)
+                    {
+
+                        temp_val = cs_data_al_pim.cross_sections[j - 1];
+
+                        h_1d_final_syst_err_al_pim->SetBinContent(j, temp_val);
+                        h_1d_final_syst_err_al_pim->SetBinError(j, 0.);
+                    }
+
+                    // Set histogram color and style
+                    h_1d_final_syst_err_al_pim->SetFillColor(kGray);  // Gray fill color
+                    h_1d_final_syst_err_al_pim->SetFillStyle(3001);   // Semi-transparent fill
+                    h_1d_final_syst_err_al_pim->SetLineColor(kBlack); // Black outline
+
+                    // Draw the histogram
+                    h_1d_final_syst_err_al_pim->Draw("same");
+                }
             }
             // }
 
@@ -3678,18 +3814,18 @@ int main(int argc, char **argv)
             Int_alpha[w - 8] = (Int_1_alpha[w - 8] + Int_2_alpha[w - 8] + Int_3_alpha[w - 8]) / 3.;
             Int_err_alpha[w - 8] = (Int_err_1_alpha[w - 8] + Int_err_2_alpha[w - 8] + Int_err_3_alpha[w - 8]) / 3.;
 
-            // // // // // // // // Construct the full path where you want to save the files
-            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/final_nine_1D_cs_bc_corr_%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
+            // // // // // // // // // Construct the full path where you want to save the files
+            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/only_1_beam_curent_final_nine_1D_cs_with_syst%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
                               q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             // // delete can1;
             file << w * 0.05 + 1.025 << ","
                  << q2_mid_value << ","
-                 << Int_bc_corr[w - 8] << "\n";
-            //  << Int[w - 8] << ","
-            //  << Int_theta[w - 8] << ","
-            //  << Int_alpha[w - 8] << "," << "\n";
-            //  << (Int[w - 8] - Int_acc_corr[w - 8]) / 2.0 << ","
-            //  << (Int[w - 8] - Int_acc_corr[w - 8]) / (2.0 * Int[w - 8]) * 100 << "\n"; ///// for hole filling syst
+                 << Int_bc_corr[w - 8] << ","
+                 << Int[w - 8] << ","
+                 << Int_theta[w - 8] << ","
+                 << Int_alpha[w - 8] << ","
+                 << (Int[w - 8] - Int_acc_corr[w - 8]) / 2.0 << ","
+                 << (Int[w - 8] - Int_acc_corr[w - 8]) / (2.0 * Int[w - 8]) * 100 << "\n"; ///// for hole filling syst
             // ","
             //  << Int_err_bc_corr[w - 8] << ","
             //  << clas6_cs[q2 - 1][w - 8] << ","
@@ -3723,6 +3859,12 @@ int main(int argc, char **argv)
             h_w_int_acc_corr->Fill(w_bin_for_flux, Int_acc_corr[w - 8]);
             h_w_int_acc_corr->SetBinError(h_w_int_acc_corr->FindBin(w_bin_for_flux), Int_err_acc_corr[w - 8]);
 
+            ///////////////////// dome incluse eff err cut systematics /////////////////
+
+            // h_w_int_bc_corr->SetBinError(h_w_int_bc_corr->FindBin(w_bin_for_flux), Int_err_bc_corr[w - 8]);
+            // Set the computed error to the corresponding bin
+            // h_w_int_bc_corr->SetBinError(bin, total_error);
+
             h_w_int_bc_corr->Fill(w_bin_for_flux, Int_bc_corr[w - 8]);
 
             // h_empty_cell_contribution->Fill(w_bin_for_flux, empty_cell_contribution[w - 8]);
@@ -3735,18 +3877,27 @@ int main(int argc, char **argv)
             std::cout << "  int cs " << Int[w - 8] << "  syst " << Final_syst_val[q2 - 1][w - 8] << "  syst % is  " << Final_syst_val[q2 - 1][w - 8] / Int[w - 8] * 100 << std::endl;
 
             ///////////////////// TO incluse eff err cut systematics /////////////////
-            int bin = h_w_int_bc_corr->FindBin(w_bin_for_flux);
+            int bin = h_w_int->FindBin(w_bin_for_flux);
             double original_error = Int_err_bc_corr[w - 8];
             double empty_cell_contribution = h_empty_cell_contribution->GetBinContent(bin);
             double int_hole_error = 0.5 * empty_cell_contribution;
             // Compute the total error using quadrature sum
             double total_error = sqrt(original_error * original_error + int_hole_error * int_hole_error);
+            h_w_int->SetBinError(bin, total_error);
 
-            ///////////////////// dome incluse eff err cut systematics /////////////////
+            ///////////////////// TO incluse eff err cut systematics /////////////////
+            int bin1 = h_w_int_bc_corr->FindBin(w_bin_for_flux);
+            double original_error1 = Int_err_acc_corr[w - 8];
+            double empty_cell_contribution1 = h_empty_cell_contribution->GetBinContent(bin1);
+            double int_hole_error1 = 0.5 * empty_cell_contribution1;
+            // Compute the total error using quadrature sum
+            double total_error1 = sqrt(original_error1 * original_error1 + int_hole_error1 * int_hole_error1);
+            h_w_int_bc_corr->SetBinError(bin, total_error1);
+
+            ///////////////////// done incluse eff err cut systematics /////////////////
 
             // h_w_int_bc_corr->SetBinError(h_w_int_bc_corr->FindBin(w_bin_for_flux), Int_err_bc_corr[w - 8]);
             // Set the computed error to the corresponding bin
-            h_w_int_bc_corr->SetBinError(bin, total_error);
 
             h_w_int_clas6->Fill(w_bin_for_flux, clas6_cs[q2 - 1][w - 8]);
             h_w_int_clas6->SetBinError(h_w_int_clas6->FindBin(w_bin_for_flux), clas6_cs_err[q2 - 1][w - 8]);
@@ -3812,7 +3963,7 @@ int main(int argc, char **argv)
         gStyle->SetLegendFont(22);
         gStyle->SetLegendTextSize(0.025);
         gStyle->SetMarkerStyle(20);
-        gStyle->SetMarkerSize(1.6);
+        gStyle->SetMarkerSize(1.9);
         // gStyle->SetMarkerColor(4);
         gStyle->SetErrorX(0);
         TCanvas *can2 = new TCanvas("int_cs", "int_cs", 1400, 1000);
@@ -3838,9 +3989,11 @@ int main(int argc, char **argv)
             float w_value = 1.0 + w * 0.05 + 0.05 / 2;
             // std::cout << "w value  " << w_value << "\n";
             // std::cout << Int_err[w - 8] << ", " << std::flush;
+            // h_w_int->SetLineColor(2);
+            // h_w_int->SetLineWidth(2);
 
             h_w_int->SetMarkerStyle(20);
-            h_w_int->SetMarkerColor(1);
+            h_w_int->SetMarkerColor(2);
             h_w_int->GetXaxis()->SetTitle("W, GeV");
             // h_w_int->GetXaxis()->SetNdivisions(16);
             h_w_int->GetXaxis()->SetLabelSize(0.04);
@@ -3854,7 +4007,12 @@ int main(int argc, char **argv)
             h_w_int->GetYaxis()->SetTitle("#sigma, #mub");
             // h_w_int->Draw("e1pX0");
             h_w_int->Draw("e1pX0");
-
+            h_w_int_acc_corr->SetMarkerStyle(20);
+            h_w_int_acc_corr->SetMarkerColor(7);
+            // h_w_int_acc_corr->GetXaxis()->SetNdivisions(24);
+            // h_w_int_acc_corr->SetAxisRange(1.4, 1.9, "X");
+            h_w_int_acc_corr->Draw("e1pX0 same");
+            // h_w_int_acc_corr->SetLineColor(7);
             // h_w_int->SetMaximum((h_w_int->GetMaximum()) / 0.97);
             // h_w_int->SetMinimum(0.0);
 
@@ -3883,14 +4041,19 @@ int main(int argc, char **argv)
             h_syst_err_contribution->Draw("hist same ");
             // h_syst_err_contribution->Draw("p same"); // Draw markers
 
+            // h_w_int_bc_corr->SetLineWidth(4);
             h_w_int_bc_corr->SetMarkerStyle(20);
-            h_w_int_bc_corr->SetMarkerColor(2);
+            h_w_int_bc_corr->SetMarkerColor(kBlue);
+            h_w_int_bc_corr->SetLineColor(kBlue);
             h_w_int_bc_corr->Draw("e1pX0 same");
 
-            if (CLAS6)
+            if (q2 <= 5)
             {
+                // h_w_int_clas6->SetLineWidth(4);
                 h_w_int_clas6->SetMarkerStyle(20);
                 h_w_int_clas6->SetMarkerColor(3);
+                // h_w_int_clas6->SetLineColor(3);
+
                 h_w_int_clas6->Draw("e1pX0 same");
             }
             // // h_w_int_clas6->Draw("hist same");
@@ -3919,14 +4082,8 @@ int main(int argc, char **argv)
             // // h_w_int_alpha->SetAxisRange(1.4, 2.1, "X");
             // h_w_int_alpha->Draw("e1pX0 same");
 
-            h_w_int_acc_corr->SetMarkerStyle(20);
-            h_w_int_acc_corr->SetMarkerColor(7);
-            // h_w_int_acc_corr->GetXaxis()->SetNdivisions(24);
-            // h_w_int_acc_corr->SetAxisRange(1.4, 1.9, "X");
-            h_w_int_acc_corr->Draw("e1pX0 same");
-
             auto legend = new TLegend(0.1, 0.65, 0.3, 0.9);
-            if (CLAS6)
+            if (q2 <= 5)
                 legend->AddEntry(h_w_int_clas6, "CLAS6", "ep");
             legend->AddEntry(h_w_int_bc_corr, "CLAS12 BC Corr ", "ep");
             legend->AddEntry(h_w_int, "CLAS12 ", "ep");
@@ -3948,7 +4105,7 @@ int main(int argc, char **argv)
             //           // << " theta " << Int_err_theta[w -8] << " alpha " << Int_err_alpha[w -8] << " clas6:  " << clas6_cs_err[q2-1][w -8]
             //           << "\n";
         }
-        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/final_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
+        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/one_beam_curr_final_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
                           q2_lower_lim, q2_upper_lim));
 
         // delete h_w_int;
@@ -3956,6 +4113,7 @@ int main(int argc, char **argv)
         // delete h_w_int_bc_corr;
         // delete h_w_int_acc_corr;
         // delete can2;
+        // }
     }
 
     return 0;
@@ -3964,12 +4122,12 @@ int main(int argc, char **argv)
 // The subroutine sets errors to data, empt.targ., fermicorr and model histograms
 void set_all_errors(int no_w_bins)
 {
-    Int_t *bins = new Int_t[5];
+    Int_t *bins = new Int_t[4];
 
     Int_t o_max = pipP_max;
     Int_t p_max = pipP_max;
     Int_t r_max = theta_max;
-    Int_t t_max = phi_max;
+    // Int_t t_max = phi_max;
     Int_t y_max = alpha_max;
 
     // if ((i == 0) || (i == 1))
@@ -4000,150 +4158,150 @@ void set_all_errors(int no_w_bins)
         {
             for (Int_t r = 1; r <= r_max; r++)
             {
-                for (Int_t t = 1; t <= t_max; t++)
+                // for (Int_t t = 1; t <= t_max; t++)
+                // {
+                for (Int_t y = 1; y <= y_max; y++)
                 {
-                    for (Int_t y = 1; y <= y_max; y++)
+                    bins[0] = o;
+                    bins[1] = p;
+                    bins[2] = r;
+                    // bins[3] = t;
+                    bins[3] = y;
+                    // how_many_bins = how_many_bins + 1;
+
+                    // // Setting errors to data hists
+                    if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
                     {
-                        bins[0] = o;
-                        bins[1] = p;
-                        bins[2] = r;
-                        bins[3] = t;
-                        bins[4] = y;
-                        // how_many_bins = how_many_bins + 1;
+                        h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
+                        // h_exp_prot[no_w_bins]->SetBinError(bins, (0.0));
 
-                        // // Setting errors to data hists
-                        if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
-                            // h_exp_prot[no_w_bins]->SetBinError(bins, (0.0));
+                        // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
 
-                            // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
+                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 1.)
+                        //     how_many_ones = how_many_ones + 1;
+                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                        //     how_many_highers = how_many_highers + 1;
+                    }
+                    else
+                    {
+                        h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
+                        h_exp_prot[no_w_bins]->SetBinContent(bins, 0.0);
+                        // h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
+                        // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
 
-                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 1.)
-                            //     how_many_ones = how_many_ones + 1;
-                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
-                            //     how_many_highers = how_many_highers + 1;
-                        }
-                        else
-                        {
-                            h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
-                            h_exp_prot[no_w_bins]->SetBinContent(bins, 0.0);
-                            // h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
-                            // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
-
-                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 0.)
-                            //     how_many_zeros = how_many_zeros + 1;
-                            // h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
-                        };
-
-                        if (h_exp_pip[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_pip[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip[no_w_bins]->GetBinContent(bins))));
-                            // h_exp_pip[no_w_bins]->SetBinError(bins, (0.0));
-                        }
-                        else
-                        {
-                            h_exp_pip[no_w_bins]->SetBinError(bins, 0.);
-                            h_exp_pip[no_w_bins]->SetBinContent(bins, 0.0);
-                        };
-
-                        if (h_exp_pim[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_pim[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim[no_w_bins]->GetBinContent(bins))));
-                            // h_exp_pim[no_w_bins]->SetBinError(bins, (0.0));
-
-                            // eff_threshold_cut->Fill(h_exp_pim[no_w_bins]->GetBinContent(bins)); /// this is only checking for
-                            // the yield filling this is not for the threshold cut histogram beware of that.
-                        }
-                        else
-                        {
-                            h_exp_pim[no_w_bins]->SetBinError(bins, 0.);
-                            // h_exp_pim[no_w_bins]->SetBinContent(bins, 0.0);
-                        };
-
-                        // Setting errors to empty target hists
-                        if (h_empty_prot[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_empty_prot[no_w_bins]->SetBinError(bins, (sqrt(h_empty_prot[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_empty_prot[no_w_bins]->SetBinError(bins, 0.);
-                        };
-
-                        if (h_empty_pip[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_empty_pip[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pip[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_empty_pip[no_w_bins]->SetBinError(bins, 0.);
-                        };
-
-                        if (h_empty_pim[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_empty_pim[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pim[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_empty_pim[no_w_bins]->SetBinError(bins, 0.);
-                        };
-
-                        // Setting errors to h_exp_background hists
-                        if (h_exp_prot_background[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_prot_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot_background[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_exp_prot_background[no_w_bins]->SetBinError(bins, 0.);
-                            h_exp_prot_background[no_w_bins]->SetBinContent(bins, 0.);
-                        };
-
-                        if (h_exp_pip_background[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_pip_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip_background[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_exp_pip_background[no_w_bins]->SetBinError(bins, 0.);
-                            h_exp_pip_background[no_w_bins]->SetBinContent(bins, 0.);
-                        };
-
-                        if (h_exp_pim_background[no_w_bins]->GetBinContent(bins) > 0.)
-                        {
-                            h_exp_pim_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim_background[no_w_bins]->GetBinContent(bins))));
-                        }
-                        else
-                        {
-                            h_exp_pim_background[no_w_bins]->SetBinError(bins, 0.);
-                            h_exp_pim_background[no_w_bins]->SetBinContent(bins, 0.);
-                        };
-
-                        // // Setting errors to simu hist hists
-                        // if (h_simu_prot[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                        // {
-                        //     h_simu_prot[no_w_bins]->SetBinError(bins, 0.);
-                        // };
-
-                        // if (h_simu_pip[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                        // {
-                        //     h_simu_pip[no_w_bins]->SetBinError(bins, 0.);
-                        // };
-
-                        // if (h_simu_pim[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                        // {
-                        //     h_simu_pim[no_w_bins]->SetBinError(bins, 0.);
-                        // };
-                        // // // //Setting errors to model hists
-                        // // // h_model_1[i]->SetBinError(bins, 0.);
-                        // // // h_model_2[i]->SetBinError(bins, 0.);
-                        // // // h_model_3[i]->SetBinError(bins, 0.);
+                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 0.)
+                        //     how_many_zeros = how_many_zeros + 1;
+                        // h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
                     };
+
+                    if (h_exp_pip[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_exp_pip[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip[no_w_bins]->GetBinContent(bins))));
+                        // h_exp_pip[no_w_bins]->SetBinError(bins, (0.0));
+                    }
+                    else
+                    {
+                        h_exp_pip[no_w_bins]->SetBinError(bins, 0.);
+                        h_exp_pip[no_w_bins]->SetBinContent(bins, 0.0);
+                    };
+
+                    if (h_exp_pim[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_exp_pim[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim[no_w_bins]->GetBinContent(bins))));
+                        // h_exp_pim[no_w_bins]->SetBinError(bins, (0.0));
+
+                        // eff_threshold_cut->Fill(h_exp_pim[no_w_bins]->GetBinContent(bins)); /// this is only checking for
+                        // the yield filling this is not for the threshold cut histogram beware of that.
+                    }
+                    else
+                    {
+                        h_exp_pim[no_w_bins]->SetBinError(bins, 0.);
+                        // h_exp_pim[no_w_bins]->SetBinContent(bins, 0.0);
+                    };
+
+                    // Setting errors to empty target hists
+                    if (h_empty_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_empty_prot[no_w_bins]->SetBinError(bins, (sqrt(h_empty_prot[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_empty_prot[no_w_bins]->SetBinError(bins, 0.);
+                    };
+
+                    if (h_empty_pip[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_empty_pip[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pip[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_empty_pip[no_w_bins]->SetBinError(bins, 0.);
+                    };
+
+                    if (h_empty_pim[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_empty_pim[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pim[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_empty_pim[no_w_bins]->SetBinError(bins, 0.);
+                    };
+
+                    // Setting errors to h_exp_background hists
+                    if (h_exp_prot_background[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_exp_prot_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot_background[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_exp_prot_background[no_w_bins]->SetBinError(bins, 0.);
+                        h_exp_prot_background[no_w_bins]->SetBinContent(bins, 0.);
+                    };
+
+                    if (h_exp_pip_background[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_exp_pip_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip_background[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_exp_pip_background[no_w_bins]->SetBinError(bins, 0.);
+                        h_exp_pip_background[no_w_bins]->SetBinContent(bins, 0.);
+                    };
+
+                    if (h_exp_pim_background[no_w_bins]->GetBinContent(bins) > 0.)
+                    {
+                        h_exp_pim_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim_background[no_w_bins]->GetBinContent(bins))));
+                    }
+                    else
+                    {
+                        h_exp_pim_background[no_w_bins]->SetBinError(bins, 0.);
+                        h_exp_pim_background[no_w_bins]->SetBinContent(bins, 0.);
+                    };
+
+                    // // Setting errors to simu hist hists
+                    // if (h_simu_prot[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                    // {
+                    //     h_simu_prot[no_w_bins]->SetBinError(bins, 0.);
+                    // };
+
+                    // if (h_simu_pip[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                    // {
+                    //     h_simu_pip[no_w_bins]->SetBinError(bins, 0.);
+                    // };
+
+                    // if (h_simu_pim[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                    // {
+                    //     h_simu_pim[no_w_bins]->SetBinError(bins, 0.);
+                    // };
+                    // // // //Setting errors to model hists
+                    // // // h_model_1[i]->SetBinError(bins, 0.);
+                    // // // h_model_2[i]->SetBinError(bins, 0.);
+                    // // // h_model_3[i]->SetBinError(bins, 0.);
                 };
+                // };
             };
         };
     };
@@ -4157,12 +4315,12 @@ void set_all_errors(int no_w_bins)
 // The subroutine sets correct errors to the efficiency histograms
 void set_eff_errors(float eff_err_threshold, int no_w_bins)
 {
-    Int_t *bins = new Int_t[5];
+    Int_t *bins = new Int_t[4];
 
     Int_t o_max = pipP_max;
     Int_t p_max = pipP_max;
     Int_t r_max = theta_max;
-    Int_t t_max = phi_max;
+    // Int_t t_max = phi_max;
     Int_t y_max = alpha_max;
 
     // if ((i == 0) || (i == 1))
@@ -4193,15 +4351,15 @@ void set_eff_errors(float eff_err_threshold, int no_w_bins)
         {
             for (Int_t r = 0; r <= r_max; r++)
             {
-                for (Int_t t = 0; t <= t_max; t++)
+                // for (Int_t t = 0; t <= t_max; t++)
                 {
                     for (Int_t y = 0; y <= y_max; y++)
                     {
                         bins[0] = o;
                         bins[1] = p;
                         bins[2] = r;
-                        bins[3] = t;
-                        bins[4] = y;
+                        // bins[3] = t;
+                        bins[3] = y;
 
                         /*Long64_t tmp_rec1_bin = h_simu_prot[no_w_bins]->GetBin(bins);
                     Long64_t tmp_rec2_bin = h_simu_pip[no_w_bins]->GetBin(bins);
@@ -4319,7 +4477,7 @@ void set_eff_errors(float eff_err_threshold, int no_w_bins)
 void eff_err_cut(Float_t eff_err_threshold, Float_t eff_threshold, Float_t rec_threshold, int no_w_bins)
 {
 
-    Int_t *bins = new Int_t[5];
+    Int_t *bins = new Int_t[4];
 
     Int_t o_max = pipP_max ;
     Int_t p_max = pipP_max ;

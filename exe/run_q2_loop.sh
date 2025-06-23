@@ -2,16 +2,17 @@
 
 # Loop over Q² values from 1 to 8
 for ((q2=1; q2<=8; q2++)); do
-    echo "Compiling mPim_cs_50_MeV_W_bin.cxx..."
-    g++ mPim_cs_50_MeV_W_bin.cxx -o cs_measure `root-config --cflags --libs`
-    
-    if [ $? -ne 0 ]; then
+    echo "Compilinng..."
+  ###g++ mPim_cs_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`
+  g++ 5D_cs_more_inv_bins_mPim_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`    
+  ###g++ Modified_cs_with_14_inv_mass_bins.cpp -o cs_measure_m `root-config --cflags --libs`    
+if [ $? -ne 0 ]; then
         echo "Compilation failed. Exiting..."
         exit 1
     fi
 
     echo "Running cs_measure for Q² = $q2..."
-    ./cs_measure $q2  # Pass Q² as an argument to the program
+    ./cs_measure_m $q2  # Pass Q² as an argument to the program
     
     echo "Finished Q² = $q2"
     echo "--------------------------------"
