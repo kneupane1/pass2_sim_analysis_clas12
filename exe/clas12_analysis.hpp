@@ -134,7 +134,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 }
 
                 // if (mc_event->W_mc() < 3.0 && mc_event->W_mc() > 1.0 && mc_event->Q2_mc() < 12.0 && mc_event->Q2_mc() > 1.0)
-                // if (mc_event->W_mc() <= 2.15 && mc_event->W_mc() > 1.35 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.95)
+                if (mc_event->W_mc() <= 2.15 && mc_event->W_mc() > 1.35 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.95)
                 {
 
                         // // Retrieve the number of protons and pions in the event
@@ -780,7 +780,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                                 // {
 
                                                                                                                 _hists->Fill_MMSQ_mPim(event);
-                                                                                                                std::cout << " filling signal" << std::endl;
 
                                                                                                                 _hists->Fill_histSevenD_prot(event);
                                                                                                                 _hists->Fill_histSevenD_pip(event);
