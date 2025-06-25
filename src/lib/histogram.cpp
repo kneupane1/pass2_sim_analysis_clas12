@@ -1319,10 +1319,17 @@ void Histogram::Fill_histSevenD_prot_evt(const std::shared_ptr<Reaction> &_e)
                         {
                                 TThread::Lock();
                                 if (!_bkg)
+                                {
                                         h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, _e->weight() * _e->weight());
+                                        // std::cout << "  signal !!" << std::endl;
+                                }
                                 else
+                                {
                                         h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
-                                // else
+
+                                        // std::cout << "  background !!" << std::endl;
+
+                                } // else
                                 //         h_5dim_prot_evt[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)]->Fill(x, pow(_e->weight(), 2) * background_fact[0][int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
 
                                 // sevenDHist_prot[int((_e->Q2() - 1.0)/1.0)][int((_e->W()-1.0)/0.05)] -> Sumw2();

@@ -17,4 +17,5 @@ exe/nine_diff_with_hole_filling.cpp
 exe/raw_yields.cpp
 exe/pid_cuts_using_root.cpp
 final_root_plots.cpp
+src/energy_loss_corr.cpp
 plots/
