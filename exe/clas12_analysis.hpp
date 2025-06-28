@@ -462,7 +462,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                         event->SetPip(pip_index);
                 }
 
-                ///////////////////////////////////  Now start cutting on our kinamatics and selecting twoPion events for analysis //////////////
+                ////////////////////////////////  Now start cutting on our kinamatics and selecting twoPion events for analysis //////////////
                 // if (event->W() > 1. && event->W() <= 3.0 && event->Q2() <= 12.0 && event->Q2() >= 1.)
                 if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
                 {
@@ -821,18 +821,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         // // // //         twopi++;
                                                                                                         // // // // // First, check if the index is for proton or pip, then use it as needed
 
-                                                                                                        // dt_proton->dt_calc(proton_part_idx);
+                                                                                                        dt_proton->dt_calc(proton_part_idx);
 
-                                                                                                        // // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
-                                                                                                        // _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
-                                                                                                        // _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
-                                                                                                        // // }
+                                                                                                        // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
+                                                                                                        _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
+                                                                                                        _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
+                                                                                                        // }
 
-                                                                                                        // // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
-                                                                                                        // dt_pip->dt_calc(pip_part_idx);
-                                                                                                        // // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
-                                                                                                        // _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
-                                                                                                        // _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
+                                                                                                        // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
+                                                                                                        dt_pip->dt_calc(pip_part_idx);
+                                                                                                        // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
+                                                                                                        _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
+                                                                                                        _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
 
                                                                                                         // _hists->Fill_2_Combi(event);
                                                                                                         // _hists->Fill_MMSQ_mPim_2_comb(event);
