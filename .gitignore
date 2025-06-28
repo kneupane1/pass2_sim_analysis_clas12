@@ -19,3 +19,11 @@ exe/pid_cuts_using_root.cpp
 final_root_plots.cpp
 src/energy_loss_corr.cpp
 plots/
+exe/accep
+exe/5D_cs_more_inv_bins_mPim_50_MeV_W_bin.cxx
+exe/cs_measure_m
+exe/merge_bins
+exe/merged_output.root
+exe/merging_two_inv_mass_bins.cpp
+exe/Modified_cs_with_14_inv_mass_bins.cpp
+exe/run_q2_loop.sh

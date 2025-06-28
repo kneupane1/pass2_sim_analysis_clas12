@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Loop over Q² values from 1 to 8
-for ((q2=1; q2<=8; q2++)); do
+for ((q2=1; q2<=3; q2++)); do
     echo "Compilinng..."
-  ###g++ mPim_cs_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`
-  g++ 5D_cs_more_inv_bins_mPim_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`    
-  ###g++ Modified_cs_with_14_inv_mass_bins.cpp -o cs_measure_m `root-config --cflags --libs`    
+  g++ mPim_cs_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`
+ ###g++ 5D_cs_more_inv_bins_mPim_50_MeV_W_bin.cxx -o cs_measure_m `root-config --cflags --libs`    
+ ### g++ Modified_cs_with_14_inv_mass_bins.cpp -o cs_measure_m `root-config --cflags --libs`    
 if [ $? -ne 0 ]; then
         echo "Compilation failed. Exiting..."
         exit 1

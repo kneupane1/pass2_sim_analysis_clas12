@@ -1588,12 +1588,15 @@ int main(int argc, char **argv)
 
     //////////////  FINAL VERSION FOR CROSS-SECTION PLOTS ////////////////
     std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/resIncl_pass2_3_empty_target_runs_new_inv_mas_bins_5D_mPim_topo_for_cs.root";
-    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/pass2_45nA_mPim_topo_for_cs_741_files_new_inv_binning_5D_mid_fiducial_cuts_05_06_2025.root";
+    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/pass2_45nA_mPim_topo_for_cs_741_files_new_inv_binning_5D_mid_fiducial_cuts_05_06_2025.root";
     std::string inFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/resIncl_pass2_all_126_golden_runs_new_inv_mas_bins_5D_mPim_topo_for_cs.root";
     std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/resIncl_pass2_all_126_golden_runs_new_inv_mas_bins_5D_mPim_topo_for_bck.root"; /// bad for pim loose background thnsparse, filled twice
-    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/pass2_45nA_mPim_topo_for_bkg_741_files_new_inv_binning_5D_mid_fiducial_cuts_05_06_2025.root";
+    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/June_2025/pass2_45nA_mPim_topo_for_bkg_741_files_new_inv_binning_5D_mid_fiducial_cuts_05_06_2025.root";
 
     //////////////
+
+    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/out_sub_range_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_bg_45nA_MERGED_946_jobs.root";
+    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/out_sub_range_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_bg_45nA_bkg_MARGED_946_files.root";
 
     // // After submission  aayo new background!!!!!!!!!!
 
@@ -2068,7 +2071,7 @@ int main(int argc, char **argv)
                 line->SetLineWidth(2); // Make it more visible
                 line->Draw("same");
 
-                can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5d_before_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
+                can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5d_combined_before_eff_threshold_cut_wt_cs_205_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
                                                    q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             }
 
@@ -2970,14 +2973,14 @@ int main(int argc, char **argv)
                 deff_vs_eff_after->Draw("COLZ");
                 gPad->SetGrid();
 
-                double line_x1 = (q2 <= 3) ? 0.7 : 0.3;
+                double line_x1 = (q2 <= 3) ? 0.7 : 0.7;
                 TLine *line = new TLine(0., line_x1, 0.4, line_x1);
                 line->SetLineColor(kRed);
                 line->SetLineStyle(1); // Solid line
                 line->SetLineWidth(2); // Make it more visible
                 line->Draw("same");
 
-                can_eff_checks_after->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5d_after_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
+                can_eff_checks_after->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5d_combined_after_eff_threshold_cut_wt_cs_205_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
                                                   q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             }
 
@@ -3866,7 +3869,7 @@ int main(int argc, char **argv)
             Int_err_alpha[w - 8] = (Int_err_1_alpha[w - 8] + Int_err_2_alpha[w - 8] + Int_err_3_alpha[w - 8]) / 3.;
 
             // // // // // // // // // Construct the full path where you want to save the files
-            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/5D_new_inv_bins_final_nine_1D_cs_with_syst%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
+            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/5D_combined_new_inv_bins_final_nine_1D_cs_with_syst%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
                               q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             // // delete can1;
             file << w * 0.05 + 1.025 << ","
@@ -4156,7 +4159,7 @@ int main(int argc, char **argv)
             //           // << " theta " << Int_err_theta[w -8] << " alpha " << Int_err_alpha[w -8] << " clas6:  " << clas6_cs_err[q2-1][w -8]
             //           << "\n";
         }
-        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5D_new_inv_bins_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
+        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5D_sub_205_files_new_inv_bins_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
                           q2_lower_lim, q2_upper_lim));
 
         // delete h_w_int;

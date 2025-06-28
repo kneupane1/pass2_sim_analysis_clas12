@@ -1342,11 +1342,11 @@ THnSparseD *h_rec_pim_sig2[W_bins_no];
 THnSparseD *h_th_pim_evt[W_bins_no]; // same as the h_rec_pim_sig2 just weight is 1 here
 THnSparseD *h_rec_pim_evt[W_bins_no];
 
-Int_t pipP_max = 22;
-Int_t pimP_max = 22;
-Int_t pip_pim_max = 22;
+Int_t pipP_max = 11;
+Int_t pimP_max = 11;
+Int_t pip_pim_max = 11;
 Int_t theta_max = 10;
-// Int_t phi_max = 6;
+Int_t phi_max = 6;
 Int_t alpha_max = 10;
 
 float bin_content_sum_acc_corrected_simu[3];
@@ -1471,9 +1471,9 @@ float total_bins_in_sim[9][15];
 
 //////// float Threshold_cuts[9] = {0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85};
 // float Threshold_cuts[9] = {0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55};
-// float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7};
+float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7};
 // float Threshold_cuts[9] = {0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4};
-float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
+// float Threshold_cuts[9] = {0.7, 0.7, 0.7, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
 // float Threshold_cuts[9] = {20.7, 20.7, 20.7, 20.3, 20.3, 20.3, 20.3, 20.3, 20.3};
 
 int n = 10;
@@ -1586,12 +1586,12 @@ int main(int argc, char **argv)
 {
     suppressWarnings();
 
-    //////////////  FINAL VERSION FOR CROSS-SECTION PLOTS ////////////////
-    std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_3_empty_target_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
-    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_mPim_topo_for_cs_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
-    std::string inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
-    std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_bkg_file.root";
-    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_bkg_files_for_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
+    // //////////////  FINAL VERSION FOR CROSS-SECTION PLOTS ////////////////
+    // std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_3_empty_target_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
+    // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_mPim_topo_for_cs_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
+    // std::string inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_mPim_topo_for_cs.root";
+    // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/resIncl_pass2_all_126_runs_new_inv_mas_bins_bkg_file.root";
+    // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/May_2025/pass2_45nA_bkg_files_for_741_files_new_inv_binning_mid_fiducial_cuts_05_06_2025.root";
 
     // // //////////////////// merged files in simulations //////////////// this is befor final modification on th fiducial cuts /// this did not worked at all
     // // std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/Used_for_cs/MERGED_FILES_SIM/pass2_merged_917files_good_wt_for_final_cs.root";
@@ -1610,6 +1610,13 @@ int main(int argc, char **argv)
 
     // std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/After_Submission/resIncl_pass2_all_126_runs_NEW_background_THNSparse_with_new_mid_fiducial_cuts.root";
     // std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/After_Submission/pass2_741_files_NEW_BKG_with_new_mid_fiducial_cuts_03_19_2025.root";
+
+    //////////////  FINAL VERSION FOR CROSS-SECTION PLOTS ////////////////
+    std::string em_inFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/resIncl_pass2_3_empty_runs_Merged_7_inv_bins_5D_mPim_topo_for_cs.root";
+    std::string mcFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/out_marged_range_Pass2_sim_twoPi_rga_fall2018_tor-1_sol-1_flagrad_2_bg_45_only_7inv_bins.root";
+    std::string inFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/resIncl_pass2_all_126_golden_runs_Merged_7_inv_bins_5D_mPim_topo_for_cs.root";
+    std::string background_inFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/resIncl_pass2_3_bkg_files_Merged_7_inv_bins_5D_mPim_topo_for_cs.root";
+    std::string background_mcFileName = "/Users/krishnaneupane/Downloads/2025/July_2025/out_merged_range_Pass2_sim_bg_45_only_7inv_bins_mc_BKG_merged_output.root";
 
     /////////// Arjuns cross-sections ////////////
     /////////// Arjuns cross-sections ////////////
@@ -1824,16 +1831,16 @@ int main(int argc, char **argv)
 
             // std::cout << "  Processing W directory: " << w_path << std::endl;
 
-            const Int_t ndims_5D = 4;
-            Int_t bins_5D[ndims_5D] = {22, 22, 10, 10};
-            Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 14.0;
-            Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 14.0;
+            const Int_t ndims_5D = 5;
+            Int_t bins_5D[ndims_5D] = {11, 11, 10, 6, 10};
+            Double_t Bin_size_pPip = ((1.0 + 0.05 * w + 0.025 - MASS_PIM) - (0.938272 + 0.13957)) / 7.0;
+            Double_t Bin_size_pipPim = ((1.0 + 0.05 * w + 0.025 - MASS_P) - (0.13957 + 0.13957)) / 7.0;
 
             // Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 2 * Bin_size_pPip), (0.13957 + 0.13957) - 2 * Bin_size_pipPim, 0., 0., 0.};
             // Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 2 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 2 * Bin_size_pipPim), 180, 360, 360};
 
-            Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 4 * Bin_size_pPip), (0.13957 + 0.13957) - 4 * Bin_size_pipPim, 0., 0.};
-            Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 4 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 4 * Bin_size_pipPim), 180, 360};
+            Double_t xmin_5D[ndims_5D] = {((0.938272 + 0.13957) - 2 * Bin_size_pPip), (0.13957 + 0.13957) - 2 * Bin_size_pipPim, 0., 0., 0.};
+            Double_t xmax_5D[ndims_5D] = {((1.0 + 0.05 * w + 0.025 - MASS_PIM) + 2 * Bin_size_pPip), ((1.0 + 0.05 * w + 0.025 - MASS_P) + 2 * Bin_size_pipPim), 180, 360, 360};
 
             // Double_t xmin_5D[5] = {(0.938272 + 0.13957), (0.13957 + 0.13957), 0., 0., 0.};
             // Double_t xmax_5D[5] = {(1.0 + 0.05 * w + 0.025 - MASS_PIM), (1.0 + 0.05 * w + 0.025 - MASS_P), 180, 360, 360};
@@ -1973,44 +1980,44 @@ int main(int argc, char **argv)
             //     for (Int_t pipP = 1; pipP <= pipP_max; pipP++)
             //     {
             //         for (Int_t pip_pim = 1; pip_pim <= pip_pim_max; pip_pim++)
-            for (Int_t pipP = 5; pipP <= pipP_max - 4; pipP++)
+            for (Int_t pipP = 3; pipP <= pipP_max - 2; pipP++)
             {
-                for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
+                for (Int_t pip_pim = 3; pip_pim <= pip_pim_max - 2; pip_pim++)
                 {
                     for (Int_t theta = 1; theta <= theta_max; theta++)
                     {
-                        // for (Int_t phi = 1; phi <= phi_max; phi++)
-                        // {
-                        for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                        for (Int_t phi = 1; phi <= phi_max; phi++)
                         {
-                            int total_bin_content_pPip = 0;
-                            int total_bin_err_pPip = 0;
-
-                            // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
-                            // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
-
-                            total_bins_in_sim[q2 - 1][w - 8]++;
-
-                            bins_prot_test[0] = pipP;
-                            bins_prot_test[1] = pip_pim;
-                            bins_prot_test[2] = theta;
-                            // bins_prot_test[3] = phi;
-                            bins_prot_test[3] = alpha;
-
-                            if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test) > 0.)
+                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                             {
+                                int total_bin_content_pPip = 0;
+                                int total_bin_err_pPip = 0;
 
-                                eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test));
-                                ///// 2nd hist cd(2)
-                                d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test));
+                                // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                                // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
 
-                                eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+                                total_bins_in_sim[q2 - 1][w - 8]++;
 
-                                deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test),
-                                                         acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+                                bins_prot_test[0] = pipP;
+                                bins_prot_test[1] = pip_pim;
+                                bins_prot_test[2] = theta;
+                                // bins_prot_test[3] = phi;
+                                bins_prot_test[3] = alpha;
+
+                                if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test) > 0.)
+                                {
+
+                                    eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test));
+                                    ///// 2nd hist cd(2)
+                                    d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test));
+
+                                    eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+
+                                    deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test),
+                                                             acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot_test) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot_test)));
+                                }
                             }
                         }
-                        // }
                     }
                 }
             }
@@ -2078,12 +2085,12 @@ int main(int argc, char **argv)
                 line->SetLineWidth(2); // Make it more visible
                 line->Draw("same");
 
-                can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/4d_before_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
+                can_eff_checks_before->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/5d_merged_before_eff_threshold_cut_wt_cs_741_files_%.1f<=Q2<=%.1f_GeV2_%.2f<=W<=%.2f_GeV.png",
                                                    q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             }
 
-            continue;
-            std::cout << "  is it printed ??? " << std::endl;
+            // continue;
+            // std::cout << "  is it printed ??? " << std::endl;
 
             set_all_errors(no_w_bins);
 
@@ -2142,64 +2149,64 @@ int main(int argc, char **argv)
                 //     for (Int_t pipP = 1; pipP <= pipP_max; pipP++)
                 //     {
                 //         for (Int_t pip_pim = 1; pip_pim <= pip_pim_max; pip_pim++)
-                for (Int_t pipP = 5; pipP <= pipP_max - 4; pipP++)
+                for (Int_t pipP = 3; pipP <= pipP_max - 2; pipP++)
                 {
-                    for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
+                    for (Int_t pip_pim = 3; pip_pim <= pip_pim_max - 2; pip_pim++)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
-                            // for (Int_t phi = 1; phi <= phi_max; phi++)
-                            // {
-                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                            for (Int_t phi = 1; phi <= phi_max; phi++)
                             {
-                                int total_bin_content_pPip = 0;
-                                int total_bin_err_pPip = 0;
-
-                                // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
-                                // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
-
-                                total_bins_in_sim[q2 - 1][w - 8]++;
-
-                                bins_prot[0] = pipP;
-                                bins_prot[1] = pip_pim;
-                                bins_prot[2] = theta;
-                                // bins_prot[3] = phi;
-                                bins_prot[3] = alpha;
-
-                                // if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
-                                // {
-
-                                //     eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot));
-                                //     ///// 2nd hist cd(2)
-                                //     d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot));
-
-                                //     eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
-
-                                //     deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot),
-                                //                              acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
-
-                                //     // eff_threshold_cut_after->Fill(sqrt((h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot) - h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) *
-                                //     //                                    (h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))) /
-                                //     //                               ((h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))));
-                                // }
-
-                                if (acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
+                                for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                                 {
-                                    filled_bins_in_sim[q2 - 1][w - 8]++;
-                                    bin_content_sum_acc_corrected_simu[0] += acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot);
-                                    bin_content_sum_acc_corrected_exp[0] += acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                                    int total_bin_content_pPip = 0;
+                                    int total_bin_err_pPip = 0;
+
+                                    // total_bin_content_pPip = total_bin_content_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                                    // total_bin_err_pPip = total_bin_err_pPip + acceptance_corrected_7D_prot[no_w_bins]->GetBinError(bins_prot);
+
+                                    total_bins_in_sim[q2 - 1][w - 8]++;
+
+                                    bins_prot[0] = pipP;
+                                    bins_prot[1] = pip_pim;
+                                    bins_prot[2] = theta;
+                                    // bins_prot[3] = phi;
+                                    bins_prot[3] = alpha;
+
+                                    // if (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
+                                    // {
+
+                                    //     eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot));
+                                    //     ///// 2nd hist cd(2)
+                                    //     d_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot));
+
+                                    //     eff_threshold_cut_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
+
+                                    //     deff_vs_eff_before->Fill(acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot),
+                                    //                              acceptance_7D_hist_prot[no_w_bins]->GetBinError(bins_prot) / (acceptance_7D_hist_prot[no_w_bins]->GetBinContent(bins_prot)));
+
+                                    //     // eff_threshold_cut_after->Fill(sqrt((h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot) - h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) *
+                                    //     //                                    (h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))) /
+                                    //     //                               ((h_rec_prot_evt[no_w_bins]->GetBinContent(bins_prot)) / (h_th_prot_evt[no_w_bins]->GetBinContent(bins_prot))));
+                                    // }
+
+                                    if (acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot) > 0.)
+                                    {
+                                        filled_bins_in_sim[q2 - 1][w - 8]++;
+                                        bin_content_sum_acc_corrected_simu[0] += acceptance_corrected_7D_simulation_prot[no_w_bins]->GetBinContent(bins_prot);
+                                        bin_content_sum_acc_corrected_exp[0] += acceptance_corrected_7D_prot[no_w_bins]->GetBinContent(bins_prot);
+                                    }
+                                    else
+                                    {
+                                        holes_in_sim[q2 - 1][w - 8]++;
+                                    }
+                                    // // if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) != 0.)
+                                    // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins_prot)) << std::endl;
+                                    // how_many_bins = how_many_bins + 1;
+                                    if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) == 0.)
+                                        holes_in_exp[q2 - 1][w - 8] = holes_in_exp[q2 - 1][w - 8] + 1;
                                 }
-                                else
-                                {
-                                    holes_in_sim[q2 - 1][w - 8]++;
-                                }
-                                // // if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) != 0.)
-                                // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins_prot)) << std::endl;
-                                // how_many_bins = how_many_bins + 1;
-                                if (h_exp_prot[no_w_bins]->GetBinContent(bins_prot) == 0.)
-                                    holes_in_exp[q2 - 1][w - 8] = holes_in_exp[q2 - 1][w - 8] + 1;
                             }
-                            // }
                         }
                     }
                 }
@@ -2388,7 +2395,7 @@ int main(int argc, char **argv)
                 acceptance_corrected_inv_Ppip_modified->Multiply(h_bin_cent_corr_pPip);
 
                 // Loop over bins and store data
-                for (int bin = 5; bin <= 18; ++bin)
+                for (int bin = 3; bin <= 9; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_Ppip_modified->GetBinContent(bin);
                     double binErr = total_yield_with_hole_filled_inv_Ppip_modified->GetBinError(bin);
@@ -2568,7 +2575,7 @@ int main(int argc, char **argv)
                 acceptance_corrected_inv_pip_pim_modified->Multiply(h_bin_cent_corr_pipPim);
 
                 // Loop over bins and store data
-                for (int bin = 5; bin <= 18; ++bin)
+                for (int bin = 3; bin <= 9; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_pip_pim_modified->GetBinContent(bin);
                     double inv_pipPim_mid = (total_yield_with_hole_filled_inv_pip_pim_modified->GetXaxis()->GetBinLowEdge(bin)); // +
@@ -2973,7 +2980,7 @@ int main(int argc, char **argv)
 
                 for (Int_t pimP = 5; pimP <= pimP_max - 4; pimP++)
                 {
-                    for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
+                    for (Int_t pip_pim = 3; pip_pim <= pip_pim_max - 2; pip_pim++)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
@@ -3102,7 +3109,7 @@ int main(int argc, char **argv)
                 // Modify the cloned histogram
                 acceptance_corrected_inv_pPim_modified->Multiply(h_bin_cent_corr_pPim);
 
-                for (int bin = 5; bin <= 18; ++bin)
+                for (int bin = 3; bin <= 9; ++bin)
                 {
                     double binContent = total_yield_with_hole_filled_inv_pPim_modified->GetBinContent(bin);
                     double inv_pPim_mid = (total_yield_with_hole_filled_inv_pPim_modified->GetXaxis()->GetBinLowEdge(bin)); // +
@@ -3479,30 +3486,30 @@ int main(int argc, char **argv)
                 Int_t *bins_pim = new Int_t[4];
                 // for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                 // {
-                for (Int_t pimP = 5; pimP <= pimP_max - 4; pimP++)
+                for (Int_t pimP = 3; pimP <= pimP_max - 2; pimP++)
                 {
-                    for (Int_t pip_pim = 5; pip_pim <= pip_pim_max - 4; pip_pim++)
+                    for (Int_t pip_pim = 3; pip_pim <= pip_pim_max - 2; pip_pim++)
                     {
                         for (Int_t theta = 1; theta <= theta_max; theta++)
                         {
-                            // for (Int_t phi = 1; phi <= phi_max; phi++)
-                            // {
-                            for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
+                            for (Int_t phi = 1; phi <= phi_max; phi++)
                             {
-
-                                bins_pim[0] = pimP;
-                                bins_pim[1] = pip_pim;
-                                bins_pim[2] = theta;
-                                // bins_pim[3] = phi;
-                                bins_pim[3] = alpha;
-
-                                if (acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim) > 0.)
+                                for (Int_t alpha = 1; alpha <= alpha_max; alpha++)
                                 {
 
-                                    bin_content_sum_acc_corrected_simu[2] += acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim);
-                                    bin_content_sum_acc_corrected_exp[2] += acceptance_corrected_7D_pim[no_w_bins]->GetBinContent(bins_pim);
+                                    bins_pim[0] = pimP;
+                                    bins_pim[1] = pip_pim;
+                                    bins_pim[2] = theta;
+                                    // bins_pim[3] = phi;
+                                    bins_pim[3] = alpha;
+
+                                    if (acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim) > 0.)
+                                    {
+
+                                        bin_content_sum_acc_corrected_simu[2] += acceptance_corrected_7D_simulation_pim[no_w_bins]->GetBinContent(bins_pim);
+                                        bin_content_sum_acc_corrected_exp[2] += acceptance_corrected_7D_pim[no_w_bins]->GetBinContent(bins_pim);
+                                    }
                                 }
-                                // }
                             }
                         }
                     }
@@ -3815,7 +3822,7 @@ int main(int argc, char **argv)
             Int_err_alpha[w - 8] = (Int_err_1_alpha[w - 8] + Int_err_2_alpha[w - 8] + Int_err_3_alpha[w - 8]) / 3.;
 
             // // // // // // // // // Construct the full path where you want to save the files
-            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/only_1_beam_curent_final_nine_1D_cs_with_syst%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
+            can1->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/1_D_CS/merged_7_inv_bins_final_nine_1D_cs_with_syst%s_%.1f<=Q2<=%.1f GeV2_%.3f<=W<=%.3f GeV.png", mod_folder.c_str(),
                               q2_lower_lim, q2_upper_lim, (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05)));
             // // delete can1;
             file << w * 0.05 + 1.025 << ","
@@ -4105,7 +4112,7 @@ int main(int argc, char **argv)
             //           // << " theta " << Int_err_theta[w -8] << " alpha " << Int_err_alpha[w -8] << " clas6:  " << clas6_cs_err[q2-1][w -8]
             //           << "\n";
         }
-        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/one_beam_curr_final_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
+        can2->SaveAs(Form("/Users/krishnaneupane/Downloads/2024/CS_measurement/merged_inv_7_bins_final_int_cs_with_syst%s_%.1f<=Q2<=%.1f_GeV2.png", mod_folder.c_str(),
                           q2_lower_lim, q2_upper_lim));
 
         // delete h_w_int;
@@ -4127,7 +4134,7 @@ void set_all_errors(int no_w_bins)
     Int_t o_max = pipP_max;
     Int_t p_max = pipP_max;
     Int_t r_max = theta_max;
-    // Int_t t_max = phi_max;
+    Int_t t_max = phi_max;
     Int_t y_max = alpha_max;
 
     // if ((i == 0) || (i == 1))
@@ -4158,150 +4165,150 @@ void set_all_errors(int no_w_bins)
         {
             for (Int_t r = 1; r <= r_max; r++)
             {
-                // for (Int_t t = 1; t <= t_max; t++)
-                // {
-                for (Int_t y = 1; y <= y_max; y++)
+                for (Int_t t = 1; t <= t_max; t++)
                 {
-                    bins[0] = o;
-                    bins[1] = p;
-                    bins[2] = r;
-                    // bins[3] = t;
-                    bins[3] = y;
-                    // how_many_bins = how_many_bins + 1;
-
-                    // // Setting errors to data hists
-                    if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                    for (Int_t y = 1; y <= y_max; y++)
                     {
-                        h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
-                        // h_exp_prot[no_w_bins]->SetBinError(bins, (0.0));
+                        bins[0] = o;
+                        bins[1] = p;
+                        bins[2] = r;
+                        // bins[3] = t;
+                        bins[3] = y;
+                        // how_many_bins = how_many_bins + 1;
 
-                        // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
+                        // // Setting errors to data hists
+                        if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
+                            // h_exp_prot[no_w_bins]->SetBinError(bins, (0.0));
 
-                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 1.)
-                        //     how_many_ones = how_many_ones + 1;
-                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
-                        //     how_many_highers = how_many_highers + 1;
-                    }
-                    else
-                    {
-                        h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
-                        h_exp_prot[no_w_bins]->SetBinContent(bins, 0.0);
-                        // h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
-                        // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
+                            // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
 
-                        // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 0.)
-                        //     how_many_zeros = how_many_zeros + 1;
-                        // h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
+                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 1.)
+                            //     how_many_ones = how_many_ones + 1;
+                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                            //     how_many_highers = how_many_highers + 1;
+                        }
+                        else
+                        {
+                            h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
+                            h_exp_prot[no_w_bins]->SetBinContent(bins, 0.0);
+                            // h_exp_prot[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot[no_w_bins]->GetBinContent(bins))));
+                            // std::cout << "Bin content of h_exp_prot is: " << (h_exp_prot[no_w_bins]->GetBinContent(bins)) << "  Bin err is: " << (h_exp_prot[no_w_bins]->GetBinError(bins)) << std::endl;
+
+                            // if (h_exp_prot[no_w_bins]->GetBinContent(bins) == 0.)
+                            //     how_many_zeros = how_many_zeros + 1;
+                            // h_exp_prot[no_w_bins]->SetBinError(bins, 0.);
+                        };
+
+                        if (h_exp_pip[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_pip[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip[no_w_bins]->GetBinContent(bins))));
+                            // h_exp_pip[no_w_bins]->SetBinError(bins, (0.0));
+                        }
+                        else
+                        {
+                            h_exp_pip[no_w_bins]->SetBinError(bins, 0.);
+                            h_exp_pip[no_w_bins]->SetBinContent(bins, 0.0);
+                        };
+
+                        if (h_exp_pim[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_pim[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim[no_w_bins]->GetBinContent(bins))));
+                            // h_exp_pim[no_w_bins]->SetBinError(bins, (0.0));
+
+                            // eff_threshold_cut->Fill(h_exp_pim[no_w_bins]->GetBinContent(bins)); /// this is only checking for
+                            // the yield filling this is not for the threshold cut histogram beware of that.
+                        }
+                        else
+                        {
+                            h_exp_pim[no_w_bins]->SetBinError(bins, 0.);
+                            // h_exp_pim[no_w_bins]->SetBinContent(bins, 0.0);
+                        };
+
+                        // Setting errors to empty target hists
+                        if (h_empty_prot[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_empty_prot[no_w_bins]->SetBinError(bins, (sqrt(h_empty_prot[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_empty_prot[no_w_bins]->SetBinError(bins, 0.);
+                        };
+
+                        if (h_empty_pip[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_empty_pip[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pip[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_empty_pip[no_w_bins]->SetBinError(bins, 0.);
+                        };
+
+                        if (h_empty_pim[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_empty_pim[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pim[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_empty_pim[no_w_bins]->SetBinError(bins, 0.);
+                        };
+
+                        // Setting errors to h_exp_background hists
+                        if (h_exp_prot_background[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_prot_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot_background[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_exp_prot_background[no_w_bins]->SetBinError(bins, 0.);
+                            h_exp_prot_background[no_w_bins]->SetBinContent(bins, 0.);
+                        };
+
+                        if (h_exp_pip_background[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_pip_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip_background[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_exp_pip_background[no_w_bins]->SetBinError(bins, 0.);
+                            h_exp_pip_background[no_w_bins]->SetBinContent(bins, 0.);
+                        };
+
+                        if (h_exp_pim_background[no_w_bins]->GetBinContent(bins) > 0.)
+                        {
+                            h_exp_pim_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim_background[no_w_bins]->GetBinContent(bins))));
+                        }
+                        else
+                        {
+                            h_exp_pim_background[no_w_bins]->SetBinError(bins, 0.);
+                            h_exp_pim_background[no_w_bins]->SetBinContent(bins, 0.);
+                        };
+
+                        // // Setting errors to simu hist hists
+                        // if (h_simu_prot[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                        // {
+                        //     h_simu_prot[no_w_bins]->SetBinError(bins, 0.);
+                        // };
+
+                        // if (h_simu_pip[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                        // {
+                        //     h_simu_pip[no_w_bins]->SetBinError(bins, 0.);
+                        // };
+
+                        // if (h_simu_pim[no_w_bins]->GetBinContent(bins) <= 0.)
+
+                        // {
+                        //     h_simu_pim[no_w_bins]->SetBinError(bins, 0.);
+                        // };
+                        // // // //Setting errors to model hists
+                        // // // h_model_1[i]->SetBinError(bins, 0.);
+                        // // // h_model_2[i]->SetBinError(bins, 0.);
+                        // // // h_model_3[i]->SetBinError(bins, 0.);
                     };
-
-                    if (h_exp_pip[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_exp_pip[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip[no_w_bins]->GetBinContent(bins))));
-                        // h_exp_pip[no_w_bins]->SetBinError(bins, (0.0));
-                    }
-                    else
-                    {
-                        h_exp_pip[no_w_bins]->SetBinError(bins, 0.);
-                        h_exp_pip[no_w_bins]->SetBinContent(bins, 0.0);
-                    };
-
-                    if (h_exp_pim[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_exp_pim[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim[no_w_bins]->GetBinContent(bins))));
-                        // h_exp_pim[no_w_bins]->SetBinError(bins, (0.0));
-
-                        // eff_threshold_cut->Fill(h_exp_pim[no_w_bins]->GetBinContent(bins)); /// this is only checking for
-                        // the yield filling this is not for the threshold cut histogram beware of that.
-                    }
-                    else
-                    {
-                        h_exp_pim[no_w_bins]->SetBinError(bins, 0.);
-                        // h_exp_pim[no_w_bins]->SetBinContent(bins, 0.0);
-                    };
-
-                    // Setting errors to empty target hists
-                    if (h_empty_prot[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_empty_prot[no_w_bins]->SetBinError(bins, (sqrt(h_empty_prot[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_empty_prot[no_w_bins]->SetBinError(bins, 0.);
-                    };
-
-                    if (h_empty_pip[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_empty_pip[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pip[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_empty_pip[no_w_bins]->SetBinError(bins, 0.);
-                    };
-
-                    if (h_empty_pim[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_empty_pim[no_w_bins]->SetBinError(bins, (sqrt(h_empty_pim[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_empty_pim[no_w_bins]->SetBinError(bins, 0.);
-                    };
-
-                    // Setting errors to h_exp_background hists
-                    if (h_exp_prot_background[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_exp_prot_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_prot_background[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_exp_prot_background[no_w_bins]->SetBinError(bins, 0.);
-                        h_exp_prot_background[no_w_bins]->SetBinContent(bins, 0.);
-                    };
-
-                    if (h_exp_pip_background[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_exp_pip_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pip_background[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_exp_pip_background[no_w_bins]->SetBinError(bins, 0.);
-                        h_exp_pip_background[no_w_bins]->SetBinContent(bins, 0.);
-                    };
-
-                    if (h_exp_pim_background[no_w_bins]->GetBinContent(bins) > 0.)
-                    {
-                        h_exp_pim_background[no_w_bins]->SetBinError(bins, (sqrt(h_exp_pim_background[no_w_bins]->GetBinContent(bins))));
-                    }
-                    else
-                    {
-                        h_exp_pim_background[no_w_bins]->SetBinError(bins, 0.);
-                        h_exp_pim_background[no_w_bins]->SetBinContent(bins, 0.);
-                    };
-
-                    // // Setting errors to simu hist hists
-                    // if (h_simu_prot[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                    // {
-                    //     h_simu_prot[no_w_bins]->SetBinError(bins, 0.);
-                    // };
-
-                    // if (h_simu_pip[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                    // {
-                    //     h_simu_pip[no_w_bins]->SetBinError(bins, 0.);
-                    // };
-
-                    // if (h_simu_pim[no_w_bins]->GetBinContent(bins) <= 0.)
-
-                    // {
-                    //     h_simu_pim[no_w_bins]->SetBinError(bins, 0.);
-                    // };
-                    // // // //Setting errors to model hists
-                    // // // h_model_1[i]->SetBinError(bins, 0.);
-                    // // // h_model_2[i]->SetBinError(bins, 0.);
-                    // // // h_model_3[i]->SetBinError(bins, 0.);
                 };
-                // };
             };
         };
     };
@@ -4320,7 +4327,7 @@ void set_eff_errors(float eff_err_threshold, int no_w_bins)
     Int_t o_max = pipP_max;
     Int_t p_max = pipP_max;
     Int_t r_max = theta_max;
-    // Int_t t_max = phi_max;
+    Int_t t_max = phi_max;
     Int_t y_max = alpha_max;
 
     // if ((i == 0) || (i == 1))
@@ -4351,7 +4358,7 @@ void set_eff_errors(float eff_err_threshold, int no_w_bins)
         {
             for (Int_t r = 0; r <= r_max; r++)
             {
-                // for (Int_t t = 0; t <= t_max; t++)
+                for (Int_t t = 0; t <= t_max; t++)
                 {
                     for (Int_t y = 0; y <= y_max; y++)
                     {
