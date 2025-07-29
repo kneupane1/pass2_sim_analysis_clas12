@@ -503,7 +503,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 // if (event->W() > 1. && event->W() <= 3.0 && event->Q2() <= 12.0 && event->Q2() >= 1.)
                 if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
                 {
-                        bool has_misidentified_particle = false;
+                        // bool has_misidentified_particle = false;
 
                         // for (int part = 0; part < data->gpart(); part++)
                         // {
@@ -552,10 +552,44 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 {
 
                                         // Retrieve the number of protons and pions in the event
+                                        bool has_misidentified_particle = false;
 
                                         int num_protons = event->GetProtons().size();
                                         int num_pips = event->GetPips().size();
                                         int num_combinations = 0;
+
+                                        for (size_t i = 0; i < num_protons; ++i)
+                                        {
+                                                for (size_t j = 0; j < num_pips; ++j)
+                                                {
+                                                        // Electron is always index 0
+                                                        int ele_index = 0;
+
+                                                        // Get proton and pip indices from current i, j loop
+                                                        int prot_index = event->GetProtonIndices()[i];
+                                                        int pip_index = event->GetPipIndices()[j];
+
+                                                        // Only check e, p, and π⁺
+                                                        std::vector<int> important_indices = {ele_index, prot_index, pip_index};
+
+                                                        for (int idx : important_indices)
+                                                        {
+                                                                int rec_pid = data->pid(idx);
+                                                                int mc_idx = data->rectoGen_mcindex(idx);
+
+                                                                if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                {
+                                                                        int true_pid = data->mc_pid(mc_idx);
+
+                                                                        if (rec_pid != true_pid)
+                                                                        {
+                                                                                has_misidentified_particle = true;
+                                                                                break; // one mis-ID is enough
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                        }
                                         // std::cout << "  .......................   Insside .................... " << std::endl;
                                         // std::cout << "  event number  " << current_event << "   Number of particles: " << data->gpart() << std::endl;
                                         // std::cout << std::endl;
@@ -746,33 +780,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                         ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                         {
-
-                                                                                // Electron is always index 0
-                                                                                int ele_index = 0;
-
-                                                                                // Get proton and pip indices from current i, j loop
-                                                                                int prot_index = event->GetProtonIndices()[i];
-                                                                                int pip_index = event->GetPipIndices()[j];
-
-                                                                                // Only check e, p, and π⁺
-                                                                                std::vector<int> important_indices = {ele_index, prot_index, pip_index};
-
-                                                                                for (int idx : important_indices)
-                                                                                {
-                                                                                        int rec_pid = data->pid(idx);
-                                                                                        int mc_idx = data->rectoGen_mcindex(idx);
-
-                                                                                        if (mc_idx >= 0 && mc_idx < data->mc_npart())
-                                                                                        {
-                                                                                                int true_pid = data->mc_pid(mc_idx);
-
-                                                                                                if (rec_pid != true_pid)
-                                                                                                {
-                                                                                                        has_misidentified_particle = true;
-                                                                                                        break; // one mis-ID is enough
-                                                                                                }
-                                                                                        }
-                                                                                }
 
                                                                                 two_pion_mPim_events++;
                                                                                 entries_in_this_event++;
