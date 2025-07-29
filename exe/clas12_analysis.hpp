@@ -505,21 +505,21 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 {
                         bool has_misidentified_particle = false;
 
-                        for (int part = 0; part < data->gpart(); part++)
-                        {
-                                int rec_pid = data->pid(part);
-                                int mc_idx = data->rectoGen_mcindex(part);
+                        // for (int part = 0; part < data->gpart(); part++)
+                        // {
+                        //         int rec_pid = data->pid(part);
+                        //         int mc_idx = data->rectoGen_mcindex(part);
 
-                                if (mc_idx >= 0 && mc_idx < data->mc_npart())
-                                {
-                                        int true_pid = data->mc_pid(mc_idx);
-                                        if (rec_pid != true_pid)
-                                        {
-                                                has_misidentified_particle = true;
-                                                break; // one is enough to tag this event
-                                        }
-                                }
-                        }
+                        //         if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                        //         {
+                        //                 int true_pid = data->mc_pid(mc_idx);
+                        //                 if (rec_pid != true_pid)
+                        //                 {
+                        //                         has_misidentified_particle = true;
+                        //                         break; // one is enough to tag this event
+                        //                 }
+                        //         }
+                        // }
 
                         events_passes_w_q2_cuts++;
                         {
@@ -735,6 +735,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         {
                                                 for (size_t j = 0; j < num_pips; ++j)
                                                 {
+
                                                         if (!(proton_cdfd_cut == true || pip_cdfd_cut == true))
                                                         {
                                                                 // Exclude the case where the same particle is assigned as both proton and pip
@@ -745,6 +746,33 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                         ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                         {
+
+                                                                                // Electron is always index 0
+                                                                                int ele_index = 0;
+
+                                                                                // Get proton and pip indices from current i, j loop
+                                                                                int prot_index = event->GetProtonIndices()[i];
+                                                                                int pip_index = event->GetPipIndices()[j];
+
+                                                                                // Only check e, p, and π⁺
+                                                                                std::vector<int> important_indices = {ele_index, prot_index, pip_index};
+
+                                                                                for (int idx : important_indices)
+                                                                                {
+                                                                                        int rec_pid = data->pid(idx);
+                                                                                        int mc_idx = data->rectoGen_mcindex(idx);
+
+                                                                                        if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                                        {
+                                                                                                int true_pid = data->mc_pid(mc_idx);
+
+                                                                                                if (rec_pid != true_pid)
+                                                                                                {
+                                                                                                        has_misidentified_particle = true;
+                                                                                                        break; // one mis-ID is enough
+                                                                                                }
+                                                                                        }
+                                                                                }
 
                                                                                 two_pion_mPim_events++;
                                                                                 entries_in_this_event++;
@@ -802,7 +830,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 //     (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
                                                                                 //     (event->MM2_mprot() < 0.79 || event->MM2_mprot() > 1.025))
                                                                                 {
-                                                                                        if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                        // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                         {
                                                                                                 if (has_misidentified_particle == false)
                                                                                                 {
