@@ -413,6 +413,10 @@ Histogram::Histogram(const std::string &output_file)
         inv_mass_pPim = std::make_shared<TH1D>("pPim_mass", "Prot-Pim mass", bins, 0.75, 2.25);
         inv_mass_pipPim = std::make_shared<TH1D>("pipPim_mass", "Pip-Pim mass", bins, 0.0, 1.5);
 
+        inv_mass_pPip_misid = std::make_shared<TH1D>("pPip_mass_missid", "Prot-Pip mass", bins, 1.0, 2.25);
+        inv_mass_pPim_misid = std::make_shared<TH1D>("pPim_mass_missid", "Prot-Pim mass", bins, 0.75, 2.25);
+        inv_mass_pipPim_misid = std::make_shared<TH1D>("pipPim_mass_missid", "Pip-Pim mass", bins, 0.0, 1.5);
+
         theta_Prot_cm = std::make_shared<TH1D>("theta_prot_cm", "theta prot cm", bins, 0.0, 180.0);
         theta_Pip_cm = std::make_shared<TH1D>("theta_pip_cm", "theta pip cm", bins, 0.0, 180.0);
         theta_Pim_cm = std::make_shared<TH1D>("theta_pim_cm", "theta pim cm", bins, 0.0, 180.0);
@@ -486,8 +490,14 @@ Histogram::Histogram(const std::string &output_file)
         W_P2pi_hist = std::make_shared<TH1D>("W_P2pi", "W_P2pi", bins, zero, w_max);
 
         Q2_hist = std::make_shared<TH1D>("Q2", "Q2", bins, zero, q2_max);
+
         W_vs_q2 = std::make_shared<TH2D>("W_vs_q2", "W_vs_q2", bins, w_min, w_max,
                                          bins, q2_min, q2_max);
+
+        W_hist_misid = std::make_shared<TH1D>("W_misID", "W_misid", bins, w_min, w_max);
+        Q2_hist_misid = std::make_shared<TH1D>("Q2_misid", "Q2_misid", bins, zero, q2_max);
+        W_vs_q2_misid = std::make_shared<TH2D>("W_vs_q2_misid", "W_vs_q2_misid", bins, w_min, w_max,
+                                               bins, q2_min, q2_max);
 
         W_thrown = std::make_shared<TH1D>("W_thrown", "W_thrown", bins, w_min, w_max);
         Q2_thrown = std::make_shared<TH1D>("Q2_thrown", "Q2_thrown", bins, q2_min, q2_max);
@@ -562,6 +572,13 @@ Histogram::Histogram(const std::string &output_file)
                                                -0.4, 0.4);
         MM2_twoPi_mPim = std::make_shared<TH1D>("MMSQ_e#pi^{+}pX", "MMSQ: expecting #pi^{-}", bins,
                                                 -0.4, 0.4);
+
+        MM2_twoPi_mPim_misid = std::make_shared<TH1D>("MMSQ_e#pi^{+}pX misID", "MMSQ: expecting #pi^{-} misID", bins,
+                                                      -0.4, 0.4);
+
+        MM2_twoPi_mPim_mis_and_good_id = std::make_shared<TH1D>("MMSQ_mPim_all", "MMSQ mPim all", bins,
+                                                                -0.4, 0.4);
+
         MM2_twoPi_missingPip = std::make_shared<TH1D>(
             "e#pi^{-}pX", "MMSQ: expecting #pi^{+}", bins, -0.4, 0.6);
 
@@ -2826,6 +2843,29 @@ void Histogram::Fill_cdfd_pip(float dp, float dth, float dphi, const std::shared
         dth_pip_cdfd_hist->Fill(dth, _e->weight());
         dphi_pip_cdfd_hist->Fill(dphi, _e->weight());
 }
+void Histogram::Fill_mmsq_all(const std::shared_ptr<Reaction> &_e)
+{
+        TThread::Lock(); // Lock the thread to ensure exclusive access to the histograms
+        MM2_twoPi_mPim_mis_and_good_id->Fill(_e->MM2_mPim(), _e->weight());
+        TThread::UnLock();
+}
+
+void Histogram::Fill_WvsQ2_misid(const std::shared_ptr<Reaction> &_e)
+{
+        short sec = _e->sec();
+        TThread::Lock(); // Lock the thread to ensure exclusive access to the histograms
+        {
+                W_vs_q2_misid->Fill(_e->W(), _e->Q2(), _e->weight());
+                W_hist_misid->Fill(_e->W(), _e->weight());
+                Q2_hist_misid->Fill(_e->Q2(), _e->weight());
+                MM2_twoPi_mPim_misid->Fill(_e->MM2_mPim(), _e->weight());
+
+                inv_mass_pPip_misid->Fill(_e->inv_Ppip(), _e->weight());
+                inv_mass_pPim_misid->Fill(_e->inv_Ppim(), _e->weight());
+                inv_mass_pipPim_misid->Fill(_e->inv_pip_pim(), _e->weight());
+        }
+        TThread::UnLock();
+}
 void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
 {
         short sec = _e->sec();
@@ -2838,9 +2878,9 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 // weight_hist->Fill(_e->weight());
                 weight_hist->Fill(_e->weight());
 
-                // inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
-                // inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
-                // inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
+                inv_mass_pPip->Fill(_e->inv_Ppip(), _e->weight());
+                inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
+                inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
 
                 // theta_Prot_cm->Fill(_e->prot_theta(), _e->weight());
                 // theta_Pip_cm->Fill(_e->pip_theta(), _e->weight());
@@ -2882,7 +2922,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 W_vs_MM2->Fill(_e->W(), _e->MM2_mPim(), _e->weight());
                 TThread::UnLock(); // Unlock after the operation
         }
-        // }
+
         /*
         if (_e->TwoPion_exclusive())
         {
@@ -3171,6 +3211,37 @@ void Histogram::Write_WvsQ2()
         // //         // gStyle->SetOptFit(01);
         // //         W_sec[i]->Write();
         // // }
+
+        ///////////////////////// MIssId//////////////////////////
+        auto MissId = RootOutputFile->mkdir("MissId");
+        MissId->cd();
+
+        MM2_twoPi_mPim_mis_and_good_id->SetXTitle("MMSQ mPim (GeV^{2})");
+        if (MM2_twoPi_mPim_mis_and_good_id->GetEntries())
+                MM2_twoPi_mPim_mis_and_good_id->Write();
+
+        W_vs_q2_misid->SetXTitle("W (GeV)");
+        W_vs_q2_misid->SetYTitle("Q^{2} (GeV^{2})");
+        W_vs_q2_misid->SetOption("COLZ1");
+        if (W_vs_q2_misid->GetEntries())
+                W_vs_q2_misid->Write();
+
+        W_hist_misid->SetXTitle("W (GeV)");
+        if (W_hist_misid->GetEntries())
+                W_hist_misid->Write();
+
+        Q2_hist_misid->SetXTitle("Q^{2} (GeV^{2})");
+        if (Q2_hist_misid->GetEntries())
+                Q2_hist_misid->Write();
+        MM2_twoPi_mPim_misid->SetXTitle("MMSQ mPim (GeV^{2})");
+        if (MM2_twoPi_mPim_misid->GetEntries())
+                MM2_twoPi_mPim_misid->Write();
+        inv_mass_pPip_misid->SetXTitle("Mass (GeV)");
+        inv_mass_pPip_misid->Write();
+        inv_mass_pPim_misid->SetXTitle("Mass (GeV)");
+        inv_mass_pPim_misid->Write();
+        inv_mass_pipPim_misid->SetXTitle("Mass (GeV)");
+        inv_mass_pipPim_misid->Write();
 
         ///////////////////////// numner of photoelectrons in HTCC //////////////////////////
         auto nphe_htcc_sec = RootOutputFile->mkdir("nphe_htcc_sec");

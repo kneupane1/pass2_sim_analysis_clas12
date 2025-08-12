@@ -776,49 +776,82 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 entries_in_this_event++;
 
                                                                                 //////////////////////////////////////////// MisIdentification ////////////////
-                                                                                bool has_misidentified_particle = false;
 
-                                                                                for (int part = 0; part < data->gpart(); part++)
+                                                                                // optional counters if you want to track unmatched separately
+                                                                                int unmatched_e = 0, unmatched_p = 0, unmatched_pip = 0;
+
+                                                                                auto misid_at_index = [&](int idx, int *unmatched_counter = nullptr)
                                                                                 {
-                                                                                        total_particles++;
-                                                                                        int rec_pid = data->pid(part);
-                                                                                        int mc_idx = data->rectoGen_mcindex(part);
+                                                                                        int mc_idx = data->rectoGen_mcindex(idx);
 
-                                                                                        if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                                        // If there's no MC match, decide policy:
+                                                                                        // Count as mis-ID (return true), or track separately.
+                                                                                        if (mc_idx < 0 || mc_idx >= data->mc_npart())
                                                                                         {
-                                                                                                int true_pid = data->mc_pid(mc_idx);
-                                                                                                // std::cout << rec_pid << std::endl;
-
-                                                                                                // Only check for e, p, π⁺, π⁻
-                                                                                                // if (std::abs(true_pid) == ELECTRON || true_pid == PROTON || true_pid == PIP || true_pid == PIM)
-                                                                                                // if (((rec_pid == ELECTRON) || (rec_pid == PROTON) || (rec_pid == PIP)) == true)
-                                                                                                // if (data->charge(part) == 0)
-                                                                                                // if (((true_pid == ELECTRON)) == true)
-                                                                                                if (((rec_pid == ELECTRON)) == true)
-                                                                                                // if (data->gpart() > 4)
-                                                                                                {
-                                                                                                        if (rec_pid != true_pid)
-                                                                                                        {
-                                                                                                                total_misid_particles++;
-                                                                                                                if (rec_pid == ELECTRON)
-                                                                                                                        mis_electron++;
-                                                                                                                else if (rec_pid == PROTON)
-                                                                                                                        mis_proton++;
-                                                                                                                else if (rec_pid == PIP)
-                                                                                                                        mis_pip++;
-                                                                                                                else if (rec_pid == PIM)
-                                                                                                                        mis_pim++;
-                                                                                                                has_misidentified_particle = true;
-                                                                                                                break; // one is enough
-                                                                                                        }
-                                                                                                }
-                                                                                                // else
-                                                                                                // {
-
-                                                                                                //         misid_other_particles++;
-                                                                                                // }
+                                                                                                if (unmatched_counter)
+                                                                                                        (*unmatched_counter)++;
+                                                                                                // Choose one:
+                                                                                                // return true;   // treat unmatched as mis-ID
+                                                                                                return false; // or: exclude unmatched from mis-ID but report separately
                                                                                         }
-                                                                                }
+
+                                                                                        int rec_pid = data->pid(idx);
+                                                                                        int true_pid = data->mc_pid(mc_idx);
+
+                                                                                        // mis-ID if they don't match
+                                                                                        return rec_pid != true_pid;
+                                                                                };
+
+                                                                                // electron is always 0 in your reco bank
+                                                                                bool mis_e = misid_at_index(0, &unmatched_e);
+                                                                                bool mis_p = misid_at_index(proton_part_idx, &unmatched_p);
+                                                                                bool mis_pip = misid_at_index(pip_part_idx, &unmatched_pip);
+
+                                                                                bool has_misidentified_particle = (mis_e || mis_p || mis_pip);
+
+                                                                                // bool has_misidentified_particle = false;
+
+                                                                                // for (int part = 0; part < data->gpart(); part++)
+                                                                                // {
+                                                                                //         total_particles++;
+                                                                                //         int rec_pid = data->pid(part);
+                                                                                //         int mc_idx = data->rectoGen_mcindex(part);
+
+                                                                                //         if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                                //         {
+                                                                                //                 int true_pid = data->mc_pid(mc_idx);
+                                                                                //                 // std::cout << rec_pid << std::endl;
+
+                                                                                //                 // Only check for e, p, π⁺, π⁻
+                                                                                //                 // if (std::abs(true_pid) == ELECTRON || true_pid == PROTON || true_pid == PIP || true_pid == PIM)
+                                                                                //                 if (((rec_pid == ELECTRON) || (rec_pid == PROTON) || (rec_pid == PIP)) == true)
+                                                                                //                 // if (data->charge(part) == 0)
+                                                                                //                 // if (((true_pid == ELECTRON)) == true)
+                                                                                //                 // if (((rec_pid == ELECTRON)) == true)
+                                                                                //                 // if (data->gpart() > 4)
+                                                                                //                 {
+                                                                                //         if (rec_pid != true_pid)
+                                                                                //         {
+                                                                                //                 total_misid_particles++;
+                                                                                //                 if (rec_pid == ELECTRON)
+                                                                                //                         mis_electron++;
+                                                                                //                 else if (rec_pid == PROTON)
+                                                                                //                         mis_proton++;
+                                                                                //                 else if (rec_pid == PIP)
+                                                                                //                         mis_pip++;
+                                                                                //                 else if (rec_pid == PIM)
+                                                                                //                         mis_pim++;
+                                                                                //                 has_misidentified_particle = true;
+                                                                                //                 break; // one is enough
+                                                                                //         }
+                                                                                // }
+                                                                                //  // else
+                                                                                //                 // {
+
+                                                                                //                 //         misid_other_particles++;
+                                                                                //                 // }
+                                                                                //         }
+                                                                                // }
 
                                                                                 // // // Electron is always index 0
                                                                                 // int ele_index = 0;
@@ -888,7 +921,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                                 // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                                 // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
-                                                                                // if (num_combinations == 2)
+                                                                                // if (num_combinations >= 2)
                                                                                 // if (event->MM2_mPim() < -0.1)
                                                                                 // if (dv2_Prot >= 0.0005 && dv2_Prot < 0.001)
                                                                                 // if (event->MM2_mPim() > -0.1 && event->MM2_mPim() < 0.1)
@@ -905,7 +938,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 {
                                                                                         // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                         {
+
+                                                                                                _hists->Fill_mmsq_all(event);
                                                                                                 if (has_misidentified_particle == true)
+                                                                                                {
+                                                                                                        _hists->Fill_WvsQ2_misid(event);
+                                                                                                }
+                                                                                                else
                                                                                                 {
                                                                                                         // if (dv2_Prot > 0.01)
                                                                                                         // {
@@ -924,7 +963,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         //         // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
 
                                                                                                         //         {
-                                                                                                        _hists->Fill_WvsQ2(event);
+                                                                                                        // _hists->Fill_WvsQ2(event);
 
                                                                                                         // _hists->FillHists_electron_with_cuts(data, event);
 

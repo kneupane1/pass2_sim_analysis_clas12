@@ -543,6 +543,11 @@ protected:
     TH1D_ptr inv_mass_pPip;
     TH1D_ptr inv_mass_pPim;
     TH1D_ptr inv_mass_pipPim;
+
+    TH1D_ptr inv_mass_pPip_misid;
+    TH1D_ptr inv_mass_pPim_misid;
+    TH1D_ptr inv_mass_pipPim_misid;
+
     TH1D_ptr theta_Prot_cm;
     TH1D_ptr theta_Pip_cm;
     TH1D_ptr theta_Pim_cm;
@@ -614,6 +619,9 @@ protected:
     TH1D_ptr Q2_hist;
     TH2D_ptr W_vs_q2;
     TH1D_ptr W_P2pi_hist;
+    TH1D_ptr W_hist_misid;
+    TH1D_ptr Q2_hist_misid;
+    TH2D_ptr W_vs_q2_misid;
 
     TH1D_ptr W_thrown;
     TH2D_ptr W_vs_Q2_thrown;
@@ -772,6 +780,9 @@ protected:
     TH1D_ptr MM_twoPi_excl;
 
     TH1D_ptr MM2_twoPi_mPim;
+    TH1D_ptr MM2_twoPi_mPim_misid;
+    TH1D_ptr MM2_twoPi_mPim_mis_and_good_id;
+
     TH1D_ptr MM_twoPi_mPim;
     TH1D_ptr MM2_mPim_twoPi_sec[num_sectors];
     TH1D_ptr MM2_twoPi_missingPip;
@@ -1028,6 +1039,7 @@ public:
     // W and Q^2
     void makeHists_sector();
     void Fill_WvsQ2(const std::shared_ptr<Reaction> &_e);
+    void Fill_WvsQ2_misid(const std::shared_ptr<Reaction> &_e);
     // void Fill_WvsQ2(const std::shared_ptr<MCReaction> &_e);
     void Fill_WvsQ2_singlePi(const std::shared_ptr<Reaction> &_e);
     void Fill_WvsQ2_Npip(const std::shared_ptr<Reaction> &_e);
@@ -1039,6 +1051,7 @@ public:
     void Fill_W_vs_Q2_all_sec();
     void Fill_W_vs_Q2_thrown();
     void Fill_inv_mass_hist();
+    void Fill_mmsq_all(const std::shared_ptr<Reaction> &_e);
 
     // void makeHistMMSQ_mPim_3D();
     // void Fill_MMSQ_mPim_3D(const std::shared_ptr<Reaction> &_e);
