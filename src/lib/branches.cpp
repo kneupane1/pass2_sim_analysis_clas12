@@ -492,14 +492,14 @@ void Branches12::initMC()
         _tree->SetBranchAddress("mc_vz", &_mc_vz);
         _tree->SetBranchAddress("mc_vt", &_mc_vt);
 
-        _tree->SetBranchAddress("gentoRec_mc_pid", &_gentoRec_mc_pid);
-        _tree->SetBranchAddress("gentoRec_rec_pid", &_gentoRec_rec_pid);
+        // _tree->SetBranchAddress("gentoRec_mc_pid", &_gentoRec_mc_pid);
+        // _tree->SetBranchAddress("gentoRec_rec_pid", &_gentoRec_rec_pid);
 
-        _tree->SetBranchAddress("rectoGen_mc_pid", &_rectoGen_mc_pid);
-        _tree->SetBranchAddress("rectoGen_rec_pid", &_rectoGen_rec_pid);
+        // _tree->SetBranchAddress("rectoGen_mc_pid", &_rectoGen_mc_pid);
+        // _tree->SetBranchAddress("rectoGen_rec_pid", &_rectoGen_rec_pid);
 
-        _tree->SetBranchAddress("rectoGen_pindex", &_rectoGen_pindex);
-        _tree->SetBranchAddress("rectoGen_mcindex", &_rectoGen_mcindex);
+        // _tree->SetBranchAddress("rectoGen_pindex", &_rectoGen_pindex);
+        // _tree->SetBranchAddress("rectoGen_mcindex", &_rectoGen_mcindex);
 }
 // Add these getter methods
 int Branches12::getRun() { return _run; }
@@ -1017,50 +1017,50 @@ float Branches12::mc_vt(int i)
                 return _mc_vt->at(i);
 }
 
-int Branches12::gentoRec_mc_pid(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _gentoRec_mc_pid->at(i);
-}
-int Branches12::gentoRec_rec_pid(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _gentoRec_rec_pid->at(i);
-}
+// int Branches12::gentoRec_mc_pid(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _gentoRec_mc_pid->at(i);
+// }
+// int Branches12::gentoRec_rec_pid(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _gentoRec_rec_pid->at(i);
+// }
 
-int Branches12::rectoGen_mc_pid(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _rectoGen_mc_pid->at(i);
-}
-int Branches12::rectoGen_rec_pid(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _rectoGen_rec_pid->at(i);
-}
+// int Branches12::rectoGen_mc_pid(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _rectoGen_mc_pid->at(i);
+// }
+// int Branches12::rectoGen_rec_pid(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _rectoGen_rec_pid->at(i);
+// }
 
-int Branches12::rectoGen_pindex(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _rectoGen_pindex->at(i);
-}
-int Branches12::rectoGen_mcindex(int i)
-{
-        if (i >= _mc_npart)
-                return -9999;
-        else
-                return _rectoGen_mcindex->at(i);
-}
+// int Branches12::rectoGen_pindex(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _rectoGen_pindex->at(i);
+// }
+// int Branches12::rectoGen_mcindex(int i)
+// {
+//         if (i >= _mc_npart)
+//                 return -9999;
+//         else
+//                 return _rectoGen_mcindex->at(i);
+// }
 
 float Branches12::ec_tot_energy(int i)
 {

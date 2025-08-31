@@ -622,6 +622,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         double dp_Pip = NAN;
                                         double dtheta_Pip = NAN;
                                         double dphi_Pip = NAN;
+                                        // --- new: per-species drop sets
+                                        std::unordered_set<int> drop_proton_idx;
+                                        std::unordered_set<int> drop_pip_idx;
 
                                         // Loop over particles to check proton and pip
                                         for (int part1 = 0; part1 < data->gpart(); part1++)
@@ -687,6 +690,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         // if (dp_Prot > -0.2 && dp_Prot < -0.02 && dtheta_Prot > -2 && dtheta_Prot < 2 && dphi_Prot > -7.5 && dphi_Prot < 2.5)
                                                                                         {
                                                                                                 proton_cdfd_cut = true;
+                                                                                                // ADD (keep FD, drop CD)
+                                                                                                int idxFD = isFD1 ? part1 : part2; // which of (part1,part2) is FD
+                                                                                                int idxCD = isCD1 ? part1 : part2; // which of (part1,part2) is CD
+                                                                                                drop_proton_idx.insert(idxCD);     // mark CD proton to skip later
+                                                                                                (void)idxFD;                       // silence unused warning if compiled with -Wall
                                                                                                 //  // } else {  // Fill histograms
                                                                                                 // dp_prot_cdfd_hist->Fill(dp_Prot, event->weight());
                                                                                                 // dth_prot_cdfd_hist->Fill(dtheta_Prot, event->weight());
@@ -744,6 +752,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         // if (dp_Pip > -0.1 && dp_Pip < 0.0 && dtheta_Pip > -2 && dtheta_Pip < 2 && dphi_Pip > -7.5 && dphi_Pip < 2.5)
                                                                                         {
                                                                                                 pip_cdfd_cut = true;
+                                                                                                // ADD (keep FD, drop CD)
+                                                                                                int idxFD = isFD1 ? part1 : part2; // which of (part1,part2) is FD
+                                                                                                int idxCD = isCD1 ? part1 : part2; // which of (part1,part2) is CD
+                                                                                                drop_pip_idx.insert(idxCD);        // mark CD pip to skip later
+                                                                                                (void)idxFD;                       // silence unused warning
+
                                                                                                 // // } else {  // Fill histograms
                                                                                                 //                     dp_pip_cdfd_hist->Fill(dp_Pip, event->weight());
                                                                                                 // dth_pip_cdfd_hist->Fill(dtheta_Pip, event->weight());
@@ -760,8 +774,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         {
                                                 for (size_t j = 0; j < num_pips; ++j)
                                                 {
-
-                                                        if (!(proton_cdfd_cut == true || pip_cdfd_cut == true))
+                                                        /////// to remove both cdfd tracks when they are detected in both cd and fd tracks
+                                                        // if (!(proton_cdfd_cut == true || pip_cdfd_cut == true))
                                                         {
                                                                 // Exclude the case where the same particle is assigned as both proton and pip
                                                                 if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
@@ -769,6 +783,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         int proton_part_idx = event->GetProtonIndices()[i];
                                                                         int pip_part_idx = event->GetPipIndices()[j];
 
+                                                                        /////////////// removing CD tracks from CD FD match
+                                                                        if (drop_proton_idx.count(proton_part_idx) || drop_pip_idx.count(pip_part_idx))
+                                                                                continue; // ADD to remove cd tracks which also has fd tracks
                                                                         ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                         {
 
@@ -777,81 +794,81 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                                 //////////////////////////////////////////// MisIdentification ////////////////
 
-                                                                                // optional counters if you want to track unmatched separately
-                                                                                int unmatched_e = 0, unmatched_p = 0, unmatched_pip = 0;
+                                                                                // // optional counters if you want to track unmatched separately
+                                                                                // int unmatched_e = 0, unmatched_p = 0, unmatched_pip = 0;
 
-                                                                                auto misid_at_index = [&](int idx, int *unmatched_counter = nullptr)
-                                                                                {
-                                                                                        int mc_idx = data->rectoGen_mcindex(idx);
-
-                                                                                        // If there's no MC match, decide policy:
-                                                                                        // Count as mis-ID (return true), or track separately.
-                                                                                        if (mc_idx < 0 || mc_idx >= data->mc_npart())
-                                                                                        {
-                                                                                                if (unmatched_counter)
-                                                                                                        (*unmatched_counter)++;
-                                                                                                // Choose one:
-                                                                                                // return true;   // treat unmatched as mis-ID
-                                                                                                return false; // or: exclude unmatched from mis-ID but report separately
-                                                                                        }
-
-                                                                                        int rec_pid = data->pid(idx);
-                                                                                        int true_pid = data->mc_pid(mc_idx);
-
-                                                                                        // mis-ID if they don't match
-                                                                                        return rec_pid != true_pid;
-                                                                                };
-
-                                                                                // electron is always 0 in your reco bank
-                                                                                bool mis_e = misid_at_index(0, &unmatched_e);
-                                                                                bool mis_p = misid_at_index(proton_part_idx, &unmatched_p);
-                                                                                bool mis_pip = misid_at_index(pip_part_idx, &unmatched_pip);
-
-                                                                                bool has_misidentified_particle = (mis_e || mis_p || mis_pip);
-
-                                                                                // bool has_misidentified_particle = false;
-
-                                                                                // for (int part = 0; part < data->gpart(); part++)
+                                                                                // auto misid_at_index = [&](int idx, int *unmatched_counter = nullptr)
                                                                                 // {
-                                                                                //         total_particles++;
-                                                                                //         int rec_pid = data->pid(part);
-                                                                                //         int mc_idx = data->rectoGen_mcindex(part);
+                                                                                //         int mc_idx = data->rectoGen_mcindex(idx);
 
-                                                                                //         if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                                //         // If there's no MC match, decide policy:
+                                                                                //         // Count as mis-ID (return true), or track separately.
+                                                                                //         if (mc_idx < 0 || mc_idx >= data->mc_npart())
                                                                                 //         {
-                                                                                //                 int true_pid = data->mc_pid(mc_idx);
-                                                                                //                 // std::cout << rec_pid << std::endl;
-
-                                                                                //                 // Only check for e, p, π⁺, π⁻
-                                                                                //                 // if (std::abs(true_pid) == ELECTRON || true_pid == PROTON || true_pid == PIP || true_pid == PIM)
-                                                                                //                 if (((rec_pid == ELECTRON) || (rec_pid == PROTON) || (rec_pid == PIP)) == true)
-                                                                                //                 // if (data->charge(part) == 0)
-                                                                                //                 // if (((true_pid == ELECTRON)) == true)
-                                                                                //                 // if (((rec_pid == ELECTRON)) == true)
-                                                                                //                 // if (data->gpart() > 4)
-                                                                                //                 {
-                                                                                //         if (rec_pid != true_pid)
-                                                                                //         {
-                                                                                //                 total_misid_particles++;
-                                                                                //                 if (rec_pid == ELECTRON)
-                                                                                //                         mis_electron++;
-                                                                                //                 else if (rec_pid == PROTON)
-                                                                                //                         mis_proton++;
-                                                                                //                 else if (rec_pid == PIP)
-                                                                                //                         mis_pip++;
-                                                                                //                 else if (rec_pid == PIM)
-                                                                                //                         mis_pim++;
-                                                                                //                 has_misidentified_particle = true;
-                                                                                //                 break; // one is enough
+                                                                                //                 if (unmatched_counter)
+                                                                                //                         (*unmatched_counter)++;
+                                                                                //                 // Choose one:
+                                                                                //                 // return true;   // treat unmatched as mis-ID
+                                                                                //                 return false; // or: exclude unmatched from mis-ID but report separately
                                                                                 //         }
-                                                                                // }
-                                                                                //  // else
-                                                                                //                 // {
 
-                                                                                //                 //         misid_other_particles++;
-                                                                                //                 // }
-                                                                                //         }
-                                                                                // }
+                                                                                //         int rec_pid = data->pid(idx);
+                                                                                //         int true_pid = data->mc_pid(mc_idx);
+
+                                                                                //         // mis-ID if they don't match
+                                                                                //         return rec_pid != true_pid;
+                                                                                // };
+
+                                                                                // // electron is always 0 in your reco bank
+                                                                                // bool mis_e = misid_at_index(0, &unmatched_e);
+                                                                                // bool mis_p = misid_at_index(proton_part_idx, &unmatched_p);
+                                                                                // bool mis_pip = misid_at_index(pip_part_idx, &unmatched_pip);
+
+                                                                                // bool has_misidentified_particle = (mis_e || mis_p || mis_pip);
+
+                                                                                // // bool has_misidentified_particle = false;
+
+                                                                                // // for (int part = 0; part < data->gpart(); part++)
+                                                                                // // {
+                                                                                // //         total_particles++;
+                                                                                // //         int rec_pid = data->pid(part);
+                                                                                // //         int mc_idx = data->rectoGen_mcindex(part);
+
+                                                                                // //         if (mc_idx >= 0 && mc_idx < data->mc_npart())
+                                                                                // //         {
+                                                                                // //                 int true_pid = data->mc_pid(mc_idx);
+                                                                                // //                 // std::cout << rec_pid << std::endl;
+
+                                                                                // //                 // Only check for e, p, π⁺, π⁻
+                                                                                // //                 // if (std::abs(true_pid) == ELECTRON || true_pid == PROTON || true_pid == PIP || true_pid == PIM)
+                                                                                // //                 if (((rec_pid == ELECTRON) || (rec_pid == PROTON) || (rec_pid == PIP)) == true)
+                                                                                // //                 // if (data->charge(part) == 0)
+                                                                                // //                 // if (((true_pid == ELECTRON)) == true)
+                                                                                // //                 // if (((rec_pid == ELECTRON)) == true)
+                                                                                // //                 // if (data->gpart() > 4)
+                                                                                // //                 {
+                                                                                // //         if (rec_pid != true_pid)
+                                                                                // //         {
+                                                                                // //                 total_misid_particles++;
+                                                                                // //                 if (rec_pid == ELECTRON)
+                                                                                // //                         mis_electron++;
+                                                                                // //                 else if (rec_pid == PROTON)
+                                                                                // //                         mis_proton++;
+                                                                                // //                 else if (rec_pid == PIP)
+                                                                                // //                         mis_pip++;
+                                                                                // //                 else if (rec_pid == PIM)
+                                                                                // //                         mis_pim++;
+                                                                                // //                 has_misidentified_particle = true;
+                                                                                // //                 break; // one is enough
+                                                                                // //         }
+                                                                                // // }
+                                                                                // //  // else
+                                                                                // //                 // {
+
+                                                                                // //                 //         misid_other_particles++;
+                                                                                // //                 // }
+                                                                                // //         }
+                                                                                // // }
 
                                                                                 // // // Electron is always index 0
                                                                                 // int ele_index = 0;
@@ -940,119 +957,119 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         {
 
                                                                                                 _hists->Fill_mmsq_all(event);
-                                                                                                if (has_misidentified_particle == true)
-                                                                                                {
-                                                                                                        _hists->Fill_WvsQ2_misid(event);
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                        // if (dv2_Prot > 0.01)
-                                                                                                        // {
-                                                                                                        // _hists->FillHists_electron_with_cuts(data, event);
+                                                                                                // if (has_misidentified_particle == true)
+                                                                                                // {
+                                                                                                //         _hists->Fill_WvsQ2_misid(event);
+                                                                                                // }
+                                                                                                // else
+                                                                                                // {
+                                                                                                // if (dv2_Prot > 0.01)
+                                                                                                // {
+                                                                                                // _hists->FillHists_electron_with_cuts(data, event);
 
-                                                                                                        // /// // event->EffCorrFactor(*event->GetProtons()[i], *event->GetPips()[j]);
-                                                                                                        // //// // event->weight();
+                                                                                                // /// // event->EffCorrFactor(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                                                                // //// // event->weight();
 
-                                                                                                        // // if (num_combinations == 1)
-                                                                                                        // // {
-                                                                                                        // _hists->Fill_all_Combi(event);
-                                                                                                        ///// _hists->Fill_MMSQ_mPim(event);
+                                                                                                // // if (num_combinations == 1)
+                                                                                                // // {
+                                                                                                // _hists->Fill_all_Combi(event);
+                                                                                                ///// _hists->Fill_MMSQ_mPim(event);
 
-                                                                                                        //         // if (event->Fixed_MM_cut())
-                                                                                                        //         // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                        //         // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
+                                                                                                //         // if (event->Fixed_MM_cut())
+                                                                                                //         // if (MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                //         // if ((data->p(event->GetProtonIndices()[i]) > 3.0) || (data->p(event->GetPipIndices()[j]) > 3.0))
 
-                                                                                                        //         {
-                                                                                                        // _hists->Fill_WvsQ2(event);
+                                                                                                //         {
+                                                                                                // _hists->Fill_WvsQ2(event);
 
-                                                                                                        // _hists->FillHists_electron_with_cuts(data, event);
+                                                                                                // _hists->FillHists_electron_with_cuts(data, event);
 
-                                                                                                        two_pion_mPim_events++;
-                                                                                                        // {
-                                                                                                        // _hists->Fill_MMSQ_mPim(event);
-                                                                                                        // if (entries_in_this_event == 1)
-                                                                                                        _hists->Fill_WvsQ2(event);
+                                                                                                two_pion_mPim_events++;
+                                                                                                // {
+                                                                                                // _hists->Fill_MMSQ_mPim(event);
+                                                                                                // if (entries_in_this_event == 1)
+                                                                                                _hists->Fill_WvsQ2(event);
 
-                                                                                                        // std::cout << event->weight() << std::endl;
-                                                                                                        // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                        // {
+                                                                                                // std::cout << event->weight() << std::endl;
+                                                                                                // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // {
 
-                                                                                                        _hists->Fill_MMSQ_mPim(event);
+                                                                                                _hists->Fill_MMSQ_mPim(event);
 
-                                                                                                        _hists->Fill_histSevenD_prot(event);
-                                                                                                        _hists->Fill_histSevenD_pip(event);
-                                                                                                        _hists->Fill_histSevenD_pim(event);
-                                                                                                        _hists->Fill_histSevenD_prot_evt(event);
-                                                                                                        _hists->Fill_histSevenD_pip_evt(event);
-                                                                                                        _hists->Fill_histSevenD_pim_evt(event);
+                                                                                                _hists->Fill_histSevenD_prot(event);
+                                                                                                _hists->Fill_histSevenD_pip(event);
+                                                                                                _hists->Fill_histSevenD_pim(event);
+                                                                                                _hists->Fill_histSevenD_prot_evt(event);
+                                                                                                _hists->Fill_histSevenD_pip_evt(event);
+                                                                                                _hists->Fill_histSevenD_pim_evt(event);
 
-                                                                                                        // }
-                                                                                                        // if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                        // {
-                                                                                                        //         _hists->Fill_MMSQ_mPim_1_comb(event);
+                                                                                                // }
+                                                                                                // if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // {
+                                                                                                //         _hists->Fill_MMSQ_mPim_1_comb(event);
 
-                                                                                                        // _hists->Fill_histSevenD_prot_tight(event);
-                                                                                                        // _hists->Fill_histSevenD_pip_tight(event);
-                                                                                                        // _hists->Fill_histSevenD_pim_tight(event);
-                                                                                                        // _hists->Fill_histSevenD_prot_evt_tight(event);
-                                                                                                        // _hists->Fill_histSevenD_pip_evt_tight(event);
-                                                                                                        // _hists->Fill_histSevenD_pim_evt_tight(event);
-                                                                                                        // // // }
-                                                                                                        // // // if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                        // // // {
-                                                                                                        // // //         _hists->Fill_MMSQ_mPim_2_comb(event);
+                                                                                                // _hists->Fill_histSevenD_prot_tight(event);
+                                                                                                // _hists->Fill_histSevenD_pip_tight(event);
+                                                                                                // _hists->Fill_histSevenD_pim_tight(event);
+                                                                                                // _hists->Fill_histSevenD_prot_evt_tight(event);
+                                                                                                // _hists->Fill_histSevenD_pip_evt_tight(event);
+                                                                                                // _hists->Fill_histSevenD_pim_evt_tight(event);
+                                                                                                // // // }
+                                                                                                // // // if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // // // {
+                                                                                                // // //         _hists->Fill_MMSQ_mPim_2_comb(event);
 
-                                                                                                        // _hists->Fill_histSevenD_prot_loose(event);
-                                                                                                        // _hists->Fill_histSevenD_pip_loose(event);
-                                                                                                        // _hists->Fill_histSevenD_pim_loose(event);
-                                                                                                        // _hists->Fill_histSevenD_prot_evt_loose(event);
-                                                                                                        // _hists->Fill_histSevenD_pip_evt_loose(event);
-                                                                                                        // _hists->Fill_histSevenD_pim_evt_loose(event);
-                                                                                                        // // }
+                                                                                                // _hists->Fill_histSevenD_prot_loose(event);
+                                                                                                // _hists->Fill_histSevenD_pip_loose(event);
+                                                                                                // _hists->Fill_histSevenD_pim_loose(event);
+                                                                                                // _hists->Fill_histSevenD_prot_evt_loose(event);
+                                                                                                // _hists->Fill_histSevenD_pip_evt_loose(event);
+                                                                                                // _hists->Fill_histSevenD_pim_evt_loose(event);
+                                                                                                // // }
 
-                                                                                                        // //         }
-                                                                                                        // // }
-                                                                                                        // //         else if (event->TwoPion_missingPip())
-                                                                                                        // //                 miss_pip++;
-                                                                                                        // //         else if (event->TwoPion_missingProt())
-                                                                                                        // //                 miss_prot++;
+                                                                                                // //         }
+                                                                                                // // }
+                                                                                                // //         else if (event->TwoPion_missingPip())
+                                                                                                // //                 miss_pip++;
+                                                                                                // //         else if (event->TwoPion_missingProt())
+                                                                                                // //                 miss_prot++;
 
-                                                                                                        // // //         //{
-                                                                                                        // // // //         twopi++;
-                                                                                                        // // // // // First, check if the index is for proton or pip, then use it as needed
+                                                                                                // // //         //{
+                                                                                                // // // //         twopi++;
+                                                                                                // // // // // First, check if the index is for proton or pip, then use it as needed
 
-                                                                                                        dt_proton->dt_calc(proton_part_idx);
+                                                                                                dt_proton->dt_calc(proton_part_idx);
 
-                                                                                                        // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
-                                                                                                        _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
-                                                                                                        _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
-                                                                                                        // }
+                                                                                                // _hists->Fill_MomVsBeta(data, proton_part_idx, event);
+                                                                                                _hists->Fill_deltat_prot_after_cut(data, dt_proton, proton_part_idx, event);
+                                                                                                _hists->FillHists_prot_pid_with_cuts(data, event, proton_part_idx, *event->GetProtons()[i]);
+                                                                                                // }
 
-                                                                                                        // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
-                                                                                                        dt_pip->dt_calc(pip_part_idx);
-                                                                                                        // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
-                                                                                                        _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
-                                                                                                        _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
+                                                                                                // std::cout << "   pip_part_idx  " << pip_part_idx << std::endl;
+                                                                                                dt_pip->dt_calc(pip_part_idx);
+                                                                                                // _hists->Fill_MomVsBeta(data, pip_part_idx, event);
+                                                                                                _hists->Fill_deltat_pip_after_cut(data, dt_pip, pip_part_idx, event);
+                                                                                                _hists->FillHists_pip_pid_with_cuts(data, event, pip_part_idx, *event->GetPips()[j]);
 
-                                                                                                        // _hists->Fill_2_Combi(event);
-                                                                                                        // _hists->Fill_MMSQ_mPim_2_comb(event);
+                                                                                                // _hists->Fill_2_Combi(event);
+                                                                                                // _hists->Fill_MMSQ_mPim_2_comb(event);
 
-                                                                                                        // _hists->Fill_3_Combi(dv2_Pip, event);
-                                                                                                        // _hists->Fill_MMSQ_mPim_3_comb(dv2_Pip, event);
+                                                                                                // _hists->Fill_3_Combi(dv2_Pip, event);
+                                                                                                // _hists->Fill_MMSQ_mPim_3_comb(dv2_Pip, event);
 
-                                                                                                        // // ///////////
-                                                                                                        // _hists->Fill_WvsQ2(event);
-                                                                                                        // // // std::cout << " proton velocity : " << event->GetProtons()[i]->Px() << std::endl;
+                                                                                                // // ///////////
+                                                                                                // _hists->Fill_WvsQ2(event);
+                                                                                                // // // std::cout << " proton velocity : " << event->GetProtons()[i]->Px() << std::endl;
 
-                                                                                                        // // _hists->Fill_4_or_more_Combi(dv2_Prot, event);
-                                                                                                        // // _hists->Fill_MMSQ_mPim_4_or_more_comb(dv2_Prot, event);
+                                                                                                // // _hists->Fill_4_or_more_Combi(dv2_Prot, event);
+                                                                                                // // _hists->Fill_MMSQ_mPim_4_or_more_comb(dv2_Prot, event);
 
-                                                                                                        // // _hists->Fill_deltaP_prot(event, proton_dps[i].second);
-                                                                                                        // // _hists->Fill_deltaP_pip(event, pip_dps[j].second);
-                                                                                                        // // _hists->Fill_deltaP_sum_twoPi(event, proton_dps[i].second + pip_dps[j].second);
-                                                                                                        // }
-                                                                                                        // }
-                                                                                                }
+                                                                                                // // _hists->Fill_deltaP_prot(event, proton_dps[i].second);
+                                                                                                // // _hists->Fill_deltaP_pip(event, pip_dps[j].second);
+                                                                                                // // _hists->Fill_deltaP_sum_twoPi(event, proton_dps[i].second + pip_dps[j].second);
+                                                                                                // }
+                                                                                                // }
+                                                                                                // }
                                                                                         }
                                                                                 }
                                                                         }
