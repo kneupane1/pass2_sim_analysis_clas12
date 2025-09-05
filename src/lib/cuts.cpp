@@ -1294,9 +1294,9 @@ bool Pass2_Cuts::Hadron_Delta_vz_cut(int i, std::string condition)
         return dvz > -20 && dvz < 20;
 
         // if (condition == "tight")
-        {
-                return dvz > -20 && dvz < 20;
-        }
+        // {
+        //         return dvz > -20 && dvz < 20;
+        // }
 
         // else if (condition == "loose")
         // {
