@@ -315,7 +315,7 @@ protected:
     //////////////////////////////////////////////////
     int inv_mass_binning(float inv_mass, float inv_pPip_llim, float bin_size_inv)
     {
-        for (int i = 0; i < 11; ++i)
+        for (int i = 0; i < 14; ++i)
         {
             float lower_limit = inv_pPip_llim + i * bin_size_inv;
             float upper_limit = inv_pPip_llim + (i + 1) * bin_size_inv;
@@ -406,6 +406,7 @@ protected:
     /////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////
+    static const short invM_bin = 14;
 
     static const short w_bin = 16;
     THnSparse *threeDHist[q2_bin][w_bin];
@@ -441,41 +442,41 @@ protected:
     TH1D_ptr w_gen_hist[q2_bin][w_bin];
     TH1D_ptr q2_gen_hist[q2_bin][w_bin];
 
-    TH1D_ptr w_gen_hist_inv_pPip[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_inv_pPip[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_inv_pPip[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_inv_pPip[q2_bin][w_bin][invM_bin];
 
-    TH1D_ptr w_gen_hist_inv_pPim[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_inv_pPim[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_inv_pPim[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_inv_pPim[q2_bin][w_bin][invM_bin];
 
-    TH1D_ptr w_gen_hist_inv_pipPim[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_inv_pipPim[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_inv_pipPim[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_inv_pipPim[q2_bin][w_bin][invM_bin];
 
-    TH1D_ptr inv_pPip_hist[q2_bin][w_bin][11];
-    TH1D_ptr inv_pPim_hist[q2_bin][w_bin][11];
-    TH1D_ptr inv_pipPim_hist[q2_bin][w_bin][11];
+    TH1D_ptr inv_pPip_hist[q2_bin][w_bin][invM_bin];
+    TH1D_ptr inv_pPim_hist[q2_bin][w_bin][invM_bin];
+    TH1D_ptr inv_pipPim_hist[q2_bin][w_bin][invM_bin];
     // TH1D *histogram = new TH1D("histogram", "Title", 100, 0, 100);
 
-    TH1D_ptr w_gen_hist_th_prot[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_th_prot[q2_bin][w_bin][11];
-    TH1D_ptr w_gen_hist_th_pip[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_th_pip[q2_bin][w_bin][11];
-    TH1D_ptr w_gen_hist_th_pim[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_th_pim[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_th_prot[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_th_prot[q2_bin][w_bin][invM_bin];
+    TH1D_ptr w_gen_hist_th_pip[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_th_pip[q2_bin][w_bin][invM_bin];
+    TH1D_ptr w_gen_hist_th_pim[q2_bin][w_bin][invM_bin];
+    TH1D_ptr q2_gen_hist_th_pim[q2_bin][w_bin][invM_bin];
 
-    TH1D_ptr prot_theta_hist[q2_bin][w_bin][11];
-    TH1D_ptr pip_theta_hist[q2_bin][w_bin][11];
-    TH1D_ptr pim_theta_hist[q2_bin][w_bin][11];
+    TH1D_ptr prot_theta_hist[q2_bin][w_bin][10];
+    TH1D_ptr pip_theta_hist[q2_bin][w_bin][10];
+    TH1D_ptr pim_theta_hist[q2_bin][w_bin][10];
 
-    TH1D_ptr w_gen_hist_al_prot[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_al_prot[q2_bin][w_bin][11];
-    TH1D_ptr w_gen_hist_al_pip[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_al_pip[q2_bin][w_bin][11];
-    TH1D_ptr w_gen_hist_al_pim[q2_bin][w_bin][11];
-    TH1D_ptr q2_gen_hist_al_pim[q2_bin][w_bin][11];
+    TH1D_ptr w_gen_hist_al_prot[q2_bin][w_bin][10];
+    TH1D_ptr q2_gen_hist_al_prot[q2_bin][w_bin][10];
+    TH1D_ptr w_gen_hist_al_pip[q2_bin][w_bin][10];
+    TH1D_ptr q2_gen_hist_al_pip[q2_bin][w_bin][10];
+    TH1D_ptr w_gen_hist_al_pim[q2_bin][w_bin][10];
+    TH1D_ptr q2_gen_hist_al_pim[q2_bin][w_bin][10];
 
-    TH1D_ptr prot_alpha_hist[q2_bin][w_bin][11];
-    TH1D_ptr pip_alpha_hist[q2_bin][w_bin][11];
-    TH1D_ptr pim_alpha_hist[q2_bin][w_bin][11];
+    TH1D_ptr prot_alpha_hist[q2_bin][w_bin][10];
+    TH1D_ptr pip_alpha_hist[q2_bin][w_bin][10];
+    TH1D_ptr pim_alpha_hist[q2_bin][w_bin][10];
 
     static const short W_BIN_CHECK_NUM = 11;
 
