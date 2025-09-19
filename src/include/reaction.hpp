@@ -324,6 +324,11 @@ public:
         void CalcMissMassPimSwapped();
 
         void CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector &pip, const TLorentzVector &pim);
+        // In Reaction (header)
+        void CalcMissMassExclHybrid(const TLorentzVector &prot_reco,
+                                    const TLorentzVector &pip_reco,
+                                    const TLorentzVector &pim_truth);
+
         float MM_mPim();
         float MM2_mPim();
         float MM2_mPim_swapped();
@@ -651,6 +656,8 @@ private:
         std::unique_ptr<TLorentzVector> _elec_mc;
         std::unique_ptr<TLorentzVector> _gamma_mc;
         std::unique_ptr<TLorentzVector> _other_mc;
+
+        // std::unique_ptr<TLorentzVector> _pimUnSmearMC;
 
         // std::unique_ptr<TLorentzVector> _prot_mc;
         // std::unique_ptr<TLorentzVector> _pip_mc;

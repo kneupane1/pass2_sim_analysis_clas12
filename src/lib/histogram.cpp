@@ -580,7 +580,7 @@ Histogram::Histogram(const std::string &output_file)
                                                                 -0.4, 0.4);
 
         MM2_twoPi_missingPip = std::make_shared<TH1D>(
-            "e#pi^{-}pX", "MMSQ: expecting #pi^{+}", bins, -0.4, 0.6);
+            "e#pi^{-}pX", "MMSQ: expecting #pi^{+}", bins, -0.4, 0.4);
 
         MM2_twoPi_missingProt = std::make_shared<TH1D>(
             "e#pi^{-}#pi^{+}X", "MMSQ: expecting proton", bins, 0.6, 1.3);
@@ -650,371 +650,371 @@ void Histogram::Write()
         // THnSparse   7D HIST ///////
         // THnSparse   7D HIST ///////
 
-        //         std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
-        //         TDirectory *THnSparse_7D_prot_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_prot");
-        //         THnSparse_7D_prot_folder->cd();
-        //         writeHists7D_prot();
+        std::cerr << BOLDBLUE << " Hists_7D()" << DEF << std::endl;
+        TDirectory *THnSparse_7D_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot");
+        THnSparse_7D_prot_folder->cd();
+        writeHists7D_prot();
 
-        //         TDirectory *THnSparse_7D_thrown_prot_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
-        //         THnSparse_7D_thrown_prot_folder->cd();
-        //         writeHists7D_thrown_prot();
+        TDirectory *THnSparse_7D_thrown_prot_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot");
+        THnSparse_7D_thrown_prot_folder->cd();
+        writeHists7D_thrown_prot();
 
-        //         TDirectory *THnSparse_7D_prot_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_prot_evt");
-        //         THnSparse_7D_prot_evt_folder->cd();
-        //         writeHists7D_prot_evt();
+        TDirectory *THnSparse_7D_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_prot_evt");
+        THnSparse_7D_prot_evt_folder->cd();
+        writeHists7D_prot_evt();
 
-        //         TDirectory *THnSparse_7D_thrown_prot_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
-        //         THnSparse_7D_thrown_prot_evt_folder->cd();
-        //         writeHists7D_thrown_prot_evt();
+        TDirectory *THnSparse_7D_thrown_prot_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_prot_evt");
+        THnSparse_7D_thrown_prot_evt_folder->cd();
+        writeHists7D_thrown_prot_evt();
 
-        //         TDirectory *THnSparse_7D_pim_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_pim");
-        //         THnSparse_7D_pim_folder->cd();
-        //         writeHists7D_pim();
-        //         TDirectory *THnSparse_7D_thrown_pim_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
-        //         THnSparse_7D_thrown_pim_folder->cd();
-        //         writeHists7D_thrown_pim();
+        TDirectory *THnSparse_7D_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim");
+        THnSparse_7D_pim_folder->cd();
+        writeHists7D_pim();
+        TDirectory *THnSparse_7D_thrown_pim_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim");
+        THnSparse_7D_thrown_pim_folder->cd();
+        writeHists7D_thrown_pim();
 
-        //         TDirectory *THnSparse_7D_pim_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_pim_evt");
-        //         THnSparse_7D_pim_evt_folder->cd();
-        //         writeHists7D_pim_evt();
+        TDirectory *THnSparse_7D_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pim_evt");
+        THnSparse_7D_pim_evt_folder->cd();
+        writeHists7D_pim_evt();
 
-        //         TDirectory *THnSparse_7D_thrown_pim_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
-        //         THnSparse_7D_thrown_pim_evt_folder->cd();
-        //         writeHists7D_thrown_pim_evt();
+        TDirectory *THnSparse_7D_thrown_pim_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pim_evt");
+        THnSparse_7D_thrown_pim_evt_folder->cd();
+        writeHists7D_thrown_pim_evt();
 
-        //         TDirectory *THnSparse_7D_pip_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_pip");
-        //         THnSparse_7D_pip_folder->cd();
-        //         writeHists7D_pip();
-        //         TDirectory *THnSparse_7D_thrown_pip_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
-        //         THnSparse_7D_thrown_pip_folder->cd();
-        //         writeHists7D_thrown_pip();
+        TDirectory *THnSparse_7D_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip");
+        THnSparse_7D_pip_folder->cd();
+        writeHists7D_pip();
+        TDirectory *THnSparse_7D_thrown_pip_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip");
+        THnSparse_7D_thrown_pip_folder->cd();
+        writeHists7D_thrown_pip();
 
-        //         TDirectory *THnSparse_7D_pip_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_pip_evt");
-        //         THnSparse_7D_pip_evt_folder->cd();
-        //         writeHists7D_pip_evt();
+        TDirectory *THnSparse_7D_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_pip_evt");
+        THnSparse_7D_pip_evt_folder->cd();
+        writeHists7D_pip_evt();
 
-        //         TDirectory *THnSparse_7D_thrown_pip_evt_folder =
-        //             RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
-        //         THnSparse_7D_thrown_pip_evt_folder->cd();
-        //         writeHists7D_thrown_pip_evt();
-        //         /*
-        //                                         ///////////////////  tight cuts /////////////////
-
-        //                                         std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
-        //                                         TDirectory *THnSparse_7D_prot_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_prot_tight");
-        //                                         THnSparse_7D_prot_folder_tight->cd();
-        //                                         writeHists7D_prot_tight();
-
-        //                                         TDirectory *THnSparse_7D_prot_evt_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
-        //                                         THnSparse_7D_prot_evt_folder_tight->cd();
-        //                                         writeHists7D_prot_evt_tight();
-
-        //                                         TDirectory *THnSparse_7D_pim_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pim_tight");
-        //                                         THnSparse_7D_pim_folder_tight->cd();
-        //                                         writeHists7D_pim_tight();
-
-        //                                         TDirectory *THnSparse_7D_pim_evt_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
-        //                                         THnSparse_7D_pim_evt_folder_tight->cd();
-        //                                         writeHists7D_pim_evt_tight();
-
-        //                                         TDirectory *THnSparse_7D_pip_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pip_tight");
-        //                                         THnSparse_7D_pip_folder_tight->cd();
-        //                                         writeHists7D_pip_tight();
-
-        //                                         TDirectory *THnSparse_7D_pip_evt_folder_tight =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
-        //                                         THnSparse_7D_pip_evt_folder_tight->cd();
-        //                                         writeHists7D_pip_evt_tight();
-
-        //                                         ///////////////////  loose cuts /////////////////
-
-        //                                         std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
-        //                                         TDirectory *THnSparse_7D_prot_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_prot_loose");
-        //                                         THnSparse_7D_prot_folder_loose->cd();
-        //                                         writeHists7D_prot_loose();
-
-        //                                         TDirectory *THnSparse_7D_prot_evt_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
-        //                                         THnSparse_7D_prot_evt_folder_loose->cd();
-        //                                         writeHists7D_prot_evt_loose();
-
-        //                                         TDirectory *THnSparse_7D_pim_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pim_loose");
-        //                                         THnSparse_7D_pim_folder_loose->cd();
-        //                                         writeHists7D_pim_loose();
-
-        //                                         TDirectory *THnSparse_7D_pim_evt_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
-        //                                         THnSparse_7D_pim_evt_folder_loose->cd();
-        //                                         writeHists7D_pim_evt_loose();
-
-        //                                         TDirectory *THnSparse_7D_pip_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pip_loose");
-        //                                         THnSparse_7D_pip_folder_loose->cd();
-        //                                         writeHists7D_pip_loose();
-
-        //                                         TDirectory *THnSparse_7D_pip_evt_folder_loose =
-        //                                             RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
-        //                                         THnSparse_7D_pip_evt_folder_loose->cd();
-        //                                         writeHists7D_pip_evt_loose();
-        //                                 */
-        // // // // ////////// bin centering corr
-        // // // // ////////// bin centering corr
-        // // // // // ////////// bin centering corr
-        // // // // // ////////// bin centering corr
-
-        TDirectory *TH1D_thrown_w_gen_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
-        TH1D_thrown_w_gen_folder->cd();
-        writeHists1D_thrown_w_gen();
-
-        TDirectory *TH1D_thrown_q2_gen_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
-        TH1D_thrown_q2_gen_folder->cd();
-        writeHists1D_thrown_q2_gen();
-
-        TDirectory *TH1D_thrown_w_gen_inv_pPip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPip_folder");
-        TH1D_thrown_w_gen_inv_pPip_folder->cd();
-        writeHists1D_thrown_w_gen_inv_pPip();
-
-        TDirectory *TH1D_thrown_q2_gen_inv_pPip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPip_folder");
-        TH1D_thrown_q2_gen_inv_pPip_folder->cd();
-        writeHists1D_thrown_q2_gen_inv_pPip();
-
-        TDirectory *TH1D_thrown_w_gen_inv_pPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPim_folder");
-        TH1D_thrown_w_gen_inv_pPim_folder->cd();
-        writeHists1D_thrown_w_gen_inv_pPim();
-
-        TDirectory *TH1D_thrown_q2_gen_inv_pPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPim_folder");
-        TH1D_thrown_q2_gen_inv_pPim_folder->cd();
-        writeHists1D_thrown_q2_gen_inv_pPim();
-
-        TDirectory *TH1D_thrown_w_gen_inv_pipPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pipPim_folder");
-        TH1D_thrown_w_gen_inv_pipPim_folder->cd();
-        writeHists1D_thrown_w_gen_inv_pipPim();
-
-        TDirectory *TH1D_thrown_q2_gen_inv_pipPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pipPim_folder");
-        TH1D_thrown_q2_gen_inv_pipPim_folder->cd();
-        writeHists1D_thrown_q2_gen_inv_pipPim();
-
-        TDirectory *TH1D_thrown_protPip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
-        TH1D_thrown_protPip_folder->cd();
-        writeHists1D_thrown_protPip();
-
-        TDirectory *TH1D_thrown_protPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
-        TH1D_thrown_protPim_folder->cd();
-        writeHists1D_thrown_protPim();
-
-        TDirectory *TH1D_thrown_pipPim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
-        TH1D_thrown_pipPim_folder->cd();
-        writeHists1D_thrown_pipPim();
-
-        // /// theta
-
-        TDirectory *TH1D_thrown_w_gen_th_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_prot_folder");
-        TH1D_thrown_w_gen_th_prot_folder->cd();
-        writeHists1D_thrown_w_gen_th_prot();
-
-        TDirectory *TH1D_thrown_q2_gen_th_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_prot_folder");
-        TH1D_thrown_q2_gen_th_prot_folder->cd();
-        writeHists1D_thrown_q2_gen_th_prot();
-
-        TDirectory *TH1D_thrown_w_gen_th_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pip_folder");
-        TH1D_thrown_w_gen_th_pip_folder->cd();
-        writeHists1D_thrown_w_gen_th_pip();
-
-        TDirectory *TH1D_thrown_q2_gen_th_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pip_folder");
-        TH1D_thrown_q2_gen_th_pip_folder->cd();
-        writeHists1D_thrown_q2_gen_th_pip();
-
-        TDirectory *TH1D_thrown_w_gen_th_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pim_folder");
-        TH1D_thrown_w_gen_th_pim_folder->cd();
-        writeHists1D_thrown_w_gen_th_pim();
-
-        TDirectory *TH1D_thrown_q2_gen_th_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pim_folder");
-        TH1D_thrown_q2_gen_th_pim_folder->cd();
-        writeHists1D_thrown_q2_gen_th_pim();
-
-        TDirectory *TH1D_thrown_th_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_th_prot_folder");
-        TH1D_thrown_th_prot_folder->cd();
-        writeHists1D_thrown_th_prot();
-
-        TDirectory *TH1D_thrown_th_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_th_pip_folder");
-        TH1D_thrown_th_pip_folder->cd();
-        writeHists1D_thrown_th_pip();
-
-        TDirectory *TH1D_thrown_th_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_th_pim_folder");
-        TH1D_thrown_th_pim_folder->cd();
-        writeHists1D_thrown_th_pim();
-
-        // // ///// alpha
-
-        TDirectory *TH1D_thrown_w_gen_al_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_prot_folder");
-        TH1D_thrown_w_gen_al_prot_folder->cd();
-        writeHists1D_thrown_w_gen_al_prot();
-
-        TDirectory *TH1D_thrown_q2_gen_al_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_prot_folder");
-        TH1D_thrown_q2_gen_al_prot_folder->cd();
-        writeHists1D_thrown_q2_gen_al_prot();
-
-        TDirectory *TH1D_thrown_w_gen_al_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pip_folder");
-        TH1D_thrown_w_gen_al_pip_folder->cd();
-        writeHists1D_thrown_w_gen_al_pip();
-
-        TDirectory *TH1D_thrown_q2_gen_al_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pip_folder");
-        TH1D_thrown_q2_gen_al_pip_folder->cd();
-        writeHists1D_thrown_q2_gen_al_pip();
-
-        TDirectory *TH1D_thrown_w_gen_al_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pim_folder");
-        TH1D_thrown_w_gen_al_pim_folder->cd();
-        writeHists1D_thrown_w_gen_al_pim();
-
-        TDirectory *TH1D_thrown_q2_gen_al_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pim_folder");
-        TH1D_thrown_q2_gen_al_pim_folder->cd();
-        writeHists1D_thrown_q2_gen_al_pim();
-
-        TDirectory *TH1D_thrown_alpha_prot_folder =
-            RootOutputFile->mkdir("TH1D_thrown_alpha_prot_folder");
-        TH1D_thrown_alpha_prot_folder->cd();
-        writeHists1D_thrown_alpha_prot();
-
-        TDirectory *TH1D_thrown_alpha_pip_folder =
-            RootOutputFile->mkdir("TH1D_thrown_alpha_pip_folder");
-        TH1D_thrown_alpha_pip_folder->cd();
-        writeHists1D_thrown_alpha_pip();
-
-        TDirectory *TH1D_thrown_alpha_pim_folder =
-            RootOutputFile->mkdir("TH1D_thrown_alpha_pim_folder");
-        TH1D_thrown_alpha_pim_folder->cd();
-        writeHists1D_thrown_alpha_pim();
-
-        // std::cerr << BOLDBLUE << "WBinCheck()" << DEF << std::endl;
-        // TDirectory *WBinCheck_folder = RootOutputFile->mkdir("WBinCheck");
-        // WBinCheck_folder->cd();
-        // Write_WBinCheck();
-
-        /////////////////// PID CHECKS //////////////////////
-        /////////////////// PID CHECKS //////////////////////
-        /////////////////// PID CHECKS //////////////////////
-        /////////////////// PID CHECKS //////////////////////
+        TDirectory *THnSparse_7D_thrown_pip_evt_folder =
+            RootOutputFile->mkdir("THnSparse_7D_thrown_pip_evt");
+        THnSparse_7D_thrown_pip_evt_folder->cd();
+        writeHists7D_thrown_pip_evt();
         /*
-                std::cerr
-                    << BOLDBLUE << "WvsQ2()" << DEF << std::endl;
-                TDirectory *WvsQ2_folder = RootOutputFile->mkdir("W vs Q2");
-                WvsQ2_folder->cd();
-                Write_WvsQ2();
+ //                                         ///////////////////  tight cuts /////////////////
 
-                // std::cerr << BOLDBLUE << "write_hist_x_mu()" << DEF << std::endl;
-                // TDirectory *hists_x_mu = RootOutputFile->mkdir("hists_x_mu");
-                // hists_x_mu->cd();
-                // write_hist_x_mu();
+ //                                         std::cerr << BOLDBLUE << " Hists_7D() tight " << DEF << std::endl;
+ //                                         TDirectory *THnSparse_7D_prot_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_prot_tight");
+ //                                         THnSparse_7D_prot_folder_tight->cd();
+ //                                         writeHists7D_prot_tight();
 
-                // std::cerr << BOLDBLUE << "Write_MomVsBeta()" << DEF << std::endl;
-                // TDirectory *Write_MomVsBeta_folder = RootOutputFile->mkdir("Mom Vs Beta");
-                // Write_MomVsBeta_folder->cd();
-                // Write_MomVsBeta();
+ //                                         TDirectory *THnSparse_7D_prot_evt_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_prot_evt_tight");
+ //                                         THnSparse_7D_prot_evt_folder_tight->cd();
+ //                                         writeHists7D_prot_evt_tight();
 
-                std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
-                TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
-                Electron_Cuts->cd();
-                Write_Electron_cuts();
+ //                                         TDirectory *THnSparse_7D_pim_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pim_tight");
+ //                                         THnSparse_7D_pim_folder_tight->cd();
+ //                                         writeHists7D_pim_tight();
 
-                std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
-                TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
-                Hadrons_Cuts->cd();
-                Write_Hadrons_cuts();
+ //                                         TDirectory *THnSparse_7D_pim_evt_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pim_evt_tight");
+ //                                         THnSparse_7D_pim_evt_folder_tight->cd();
+ //                                         writeHists7D_pim_evt_tight();
 
-                // std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
-                // TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
-                // Write_deltat_folder->cd();
-                // Write_deltat();
+ //                                         TDirectory *THnSparse_7D_pip_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pip_tight");
+ //                                         THnSparse_7D_pip_folder_tight->cd();
+ //                                         writeHists7D_pip_tight();
 
-                // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3D()" << DEF << std::endl;
-                // TDirectory *MMSQ_mPim_folder_3D = RootOutputFile->mkdir("MMSQ_mPim_3D");
-                // MMSQ_mPim_folder_3D->cd();
-                // writeMMSQ_mPim_3D();
+ //                                         TDirectory *THnSparse_7D_pip_evt_folder_tight =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pip_evt_tight");
+ //                                         THnSparse_7D_pip_evt_folder_tight->cd();
+ //                                         writeHists7D_pip_evt_tight();
 
-                std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
-                TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
-                MMSQ_mPim_folder->cd();
-                writeMMSQ_mPim();
+ //                                         ///////////////////  loose cuts /////////////////
 
-                // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
-                // TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
-                // MMSQ_mPim_folder_1_combi->cd();
-                // writeMMSQ_mPim_1_comb();
+ //                                         std::cerr << BOLDBLUE << " Hists_7D() loose " << DEF << std::endl;
+ //                                         TDirectory *THnSparse_7D_prot_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_prot_loose");
+ //                                         THnSparse_7D_prot_folder_loose->cd();
+ //                                         writeHists7D_prot_loose();
 
-                // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
-                // TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
-                // MMSQ_mPim_folder_2_combi->cd();
-                // writeMMSQ_mPim_2_comb();
+ //                                         TDirectory *THnSparse_7D_prot_evt_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_prot_evt_loose");
+ //                                         THnSparse_7D_prot_evt_folder_loose->cd();
+ //                                         writeHists7D_prot_evt_loose();
 
-                // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
-                // TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
-                // MMSQ_mPim_folder_3_combi->cd();
-                // writeMMSQ_mPim_3_comb();
+ //                                         TDirectory *THnSparse_7D_pim_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pim_loose");
+ //                                         THnSparse_7D_pim_folder_loose->cd();
+ //                                         writeHists7D_pim_loose();
 
-                // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
-                // TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
-                // MMSQ_mPim_folder_4_or_more_combi->cd();
-                // writeMMSQ_mPim_4_or_more_comb();
+ //                                         TDirectory *THnSparse_7D_pim_evt_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pim_evt_loose");
+ //                                         THnSparse_7D_pim_evt_folder_loose->cd();
+ //                                         writeHists7D_pim_evt_loose();
 
-                // std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
-                // TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
-                // Inv_Mass_and_Alpha_cm->cd();
-                // write_Inv_Mass_hist();
+ //                                         TDirectory *THnSparse_7D_pip_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pip_loose");
+ //                                         THnSparse_7D_pip_folder_loose->cd();
+ //                                         writeHists7D_pip_loose();
 
-                // std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
-                // TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
-                // Write_deltaP_folder->cd();
-                // Write_deltaP();
-                // // // //
-                // // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
-                // // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
-                // // // // theta_pim_measured->cd();
-                // // // // write_hist_theta_pim_measured();
-        */
+ //                                         TDirectory *THnSparse_7D_pip_evt_folder_loose =
+ //                                             RootOutputFile->mkdir("THnSparse_7D_pip_evt_loose");
+ //                                         THnSparse_7D_pip_evt_folder_loose->cd();
+ //                                         writeHists7D_pip_evt_loose();
+ //
+ // // // // ////////// bin centering corr
+ // // // // ////////// bin centering corr
+ // // // // // ////////// bin centering corr
+ // // // // // ////////// bin centering corr
+
+ TDirectory *TH1D_thrown_w_gen_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_folder");
+ TH1D_thrown_w_gen_folder->cd();
+ writeHists1D_thrown_w_gen();
+
+ TDirectory *TH1D_thrown_q2_gen_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_folder");
+ TH1D_thrown_q2_gen_folder->cd();
+ writeHists1D_thrown_q2_gen();
+
+ TDirectory *TH1D_thrown_w_gen_inv_pPip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPip_folder");
+ TH1D_thrown_w_gen_inv_pPip_folder->cd();
+ writeHists1D_thrown_w_gen_inv_pPip();
+
+ TDirectory *TH1D_thrown_q2_gen_inv_pPip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPip_folder");
+ TH1D_thrown_q2_gen_inv_pPip_folder->cd();
+ writeHists1D_thrown_q2_gen_inv_pPip();
+
+ TDirectory *TH1D_thrown_w_gen_inv_pPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pPim_folder");
+ TH1D_thrown_w_gen_inv_pPim_folder->cd();
+ writeHists1D_thrown_w_gen_inv_pPim();
+
+ TDirectory *TH1D_thrown_q2_gen_inv_pPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pPim_folder");
+ TH1D_thrown_q2_gen_inv_pPim_folder->cd();
+ writeHists1D_thrown_q2_gen_inv_pPim();
+
+ TDirectory *TH1D_thrown_w_gen_inv_pipPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_inv_pipPim_folder");
+ TH1D_thrown_w_gen_inv_pipPim_folder->cd();
+ writeHists1D_thrown_w_gen_inv_pipPim();
+
+ TDirectory *TH1D_thrown_q2_gen_inv_pipPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_inv_pipPim_folder");
+ TH1D_thrown_q2_gen_inv_pipPim_folder->cd();
+ writeHists1D_thrown_q2_gen_inv_pipPim();
+
+ TDirectory *TH1D_thrown_protPip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_protPip_folder");
+ TH1D_thrown_protPip_folder->cd();
+ writeHists1D_thrown_protPip();
+
+ TDirectory *TH1D_thrown_protPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_protPim_folder");
+ TH1D_thrown_protPim_folder->cd();
+ writeHists1D_thrown_protPim();
+
+ TDirectory *TH1D_thrown_pipPim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_pipPim_folder");
+ TH1D_thrown_pipPim_folder->cd();
+ writeHists1D_thrown_pipPim();
+
+ // /// theta
+
+ TDirectory *TH1D_thrown_w_gen_th_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_th_prot_folder");
+ TH1D_thrown_w_gen_th_prot_folder->cd();
+ writeHists1D_thrown_w_gen_th_prot();
+
+ TDirectory *TH1D_thrown_q2_gen_th_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_prot_folder");
+ TH1D_thrown_q2_gen_th_prot_folder->cd();
+ writeHists1D_thrown_q2_gen_th_prot();
+
+ TDirectory *TH1D_thrown_w_gen_th_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pip_folder");
+ TH1D_thrown_w_gen_th_pip_folder->cd();
+ writeHists1D_thrown_w_gen_th_pip();
+
+ TDirectory *TH1D_thrown_q2_gen_th_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pip_folder");
+ TH1D_thrown_q2_gen_th_pip_folder->cd();
+ writeHists1D_thrown_q2_gen_th_pip();
+
+ TDirectory *TH1D_thrown_w_gen_th_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_th_pim_folder");
+ TH1D_thrown_w_gen_th_pim_folder->cd();
+ writeHists1D_thrown_w_gen_th_pim();
+
+ TDirectory *TH1D_thrown_q2_gen_th_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_th_pim_folder");
+ TH1D_thrown_q2_gen_th_pim_folder->cd();
+ writeHists1D_thrown_q2_gen_th_pim();
+
+ TDirectory *TH1D_thrown_th_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_th_prot_folder");
+ TH1D_thrown_th_prot_folder->cd();
+ writeHists1D_thrown_th_prot();
+
+ TDirectory *TH1D_thrown_th_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_th_pip_folder");
+ TH1D_thrown_th_pip_folder->cd();
+ writeHists1D_thrown_th_pip();
+
+ TDirectory *TH1D_thrown_th_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_th_pim_folder");
+ TH1D_thrown_th_pim_folder->cd();
+ writeHists1D_thrown_th_pim();
+
+ // // ///// alpha
+
+ TDirectory *TH1D_thrown_w_gen_al_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_al_prot_folder");
+ TH1D_thrown_w_gen_al_prot_folder->cd();
+ writeHists1D_thrown_w_gen_al_prot();
+
+ TDirectory *TH1D_thrown_q2_gen_al_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_prot_folder");
+ TH1D_thrown_q2_gen_al_prot_folder->cd();
+ writeHists1D_thrown_q2_gen_al_prot();
+
+ TDirectory *TH1D_thrown_w_gen_al_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pip_folder");
+ TH1D_thrown_w_gen_al_pip_folder->cd();
+ writeHists1D_thrown_w_gen_al_pip();
+
+ TDirectory *TH1D_thrown_q2_gen_al_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pip_folder");
+ TH1D_thrown_q2_gen_al_pip_folder->cd();
+ writeHists1D_thrown_q2_gen_al_pip();
+
+ TDirectory *TH1D_thrown_w_gen_al_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_w_gen_al_pim_folder");
+ TH1D_thrown_w_gen_al_pim_folder->cd();
+ writeHists1D_thrown_w_gen_al_pim();
+
+ TDirectory *TH1D_thrown_q2_gen_al_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_q2_gen_al_pim_folder");
+ TH1D_thrown_q2_gen_al_pim_folder->cd();
+ writeHists1D_thrown_q2_gen_al_pim();
+
+ TDirectory *TH1D_thrown_alpha_prot_folder =
+     RootOutputFile->mkdir("TH1D_thrown_alpha_prot_folder");
+ TH1D_thrown_alpha_prot_folder->cd();
+ writeHists1D_thrown_alpha_prot();
+
+ TDirectory *TH1D_thrown_alpha_pip_folder =
+     RootOutputFile->mkdir("TH1D_thrown_alpha_pip_folder");
+ TH1D_thrown_alpha_pip_folder->cd();
+ writeHists1D_thrown_alpha_pip();
+
+ TDirectory *TH1D_thrown_alpha_pim_folder =
+     RootOutputFile->mkdir("TH1D_thrown_alpha_pim_folder");
+ TH1D_thrown_alpha_pim_folder->cd();
+ writeHists1D_thrown_alpha_pim();
+
+ // std::cerr << BOLDBLUE << "WBinCheck()" << DEF << std::endl;
+ // TDirectory *WBinCheck_folder = RootOutputFile->mkdir("WBinCheck");
+ // WBinCheck_folder->cd();
+ // Write_WBinCheck();
+*/
+        /////////////////// PID CHECKS //////////////////////
+        /////////////////// PID CHECKS //////////////////////
+        /////////////////// PID CHECKS //////////////////////
+        /////////////////// PID CHECKS //////////////////////
+
+        std::cerr
+            << BOLDBLUE << "WvsQ2()" << DEF << std::endl;
+        TDirectory *WvsQ2_folder = RootOutputFile->mkdir("W vs Q2");
+        WvsQ2_folder->cd();
+        Write_WvsQ2();
+
+        // std::cerr << BOLDBLUE << "write_hist_x_mu()" << DEF << std::endl;
+        // TDirectory *hists_x_mu = RootOutputFile->mkdir("hists_x_mu");
+        // hists_x_mu->cd();
+        // write_hist_x_mu();
+
+        // std::cerr << BOLDBLUE << "Write_MomVsBeta()" << DEF << std::endl;
+        // TDirectory *Write_MomVsBeta_folder = RootOutputFile->mkdir("Mom Vs Beta");
+        // Write_MomVsBeta_folder->cd();
+        // Write_MomVsBeta();
+
+        std::cerr << BOLDBLUE << "Write_Electron_cuts()" << DEF << std::endl;
+        TDirectory *Electron_Cuts = RootOutputFile->mkdir("Electron_Cuts");
+        Electron_Cuts->cd();
+        Write_Electron_cuts();
+
+        std::cerr << BOLDBLUE << "Write_Hadrons_cuts()" << DEF << std::endl;
+        TDirectory *Hadrons_Cuts = RootOutputFile->mkdir("Hadrons_Cuts");
+        Hadrons_Cuts->cd();
+        Write_Hadrons_cuts();
+
+        // std::cerr << BOLDBLUE << "Write_deltat()" << DEF << std::endl;
+        // TDirectory *Write_deltat_folder = RootOutputFile->mkdir("Delta_t");
+        // Write_deltat_folder->cd();
+        // Write_deltat();
+
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3D()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_3D = RootOutputFile->mkdir("MMSQ_mPim_3D");
+        // MMSQ_mPim_folder_3D->cd();
+        // writeMMSQ_mPim_3D();
+
+        std::cerr << BOLDBLUE << "Write_MMSQ_mPim()" << DEF << std::endl;
+        TDirectory *MMSQ_mPim_folder = RootOutputFile->mkdir("MMSQ_mPim");
+        MMSQ_mPim_folder->cd();
+        writeMMSQ_mPim();
+
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_1_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_1_combi = RootOutputFile->mkdir("MMSQ_mPim_1_combi");
+        // MMSQ_mPim_folder_1_combi->cd();
+        // writeMMSQ_mPim_1_comb();
+
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_2_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_2_combi = RootOutputFile->mkdir("MMSQ_mPim_2_combi");
+        // MMSQ_mPim_folder_2_combi->cd();
+        // writeMMSQ_mPim_2_comb();
+
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_3_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_3_combi = RootOutputFile->mkdir("MMSQ_mPim_3_combi");
+        // MMSQ_mPim_folder_3_combi->cd();
+        // writeMMSQ_mPim_3_comb();
+
+        // std::cerr << BOLDBLUE << "Write_MMSQ_mPim_4_or_more_combi()" << DEF << std::endl;
+        // TDirectory *MMSQ_mPim_folder_4_or_more_combi = RootOutputFile->mkdir("MMSQ_mPim_4_or_more_combi");
+        // MMSQ_mPim_folder_4_or_more_combi->cd();
+        // writeMMSQ_mPim_4_or_more_comb();
+
+        // std::cerr << BOLDBLUE << "Inv_Mass_and_Alpha_cm()" << DEF << std::endl;
+        // TDirectory *Inv_Mass_and_Alpha_cm = RootOutputFile->mkdir("Inv_Mass_and_Alpha_cm");
+        // Inv_Mass_and_Alpha_cm->cd();
+        // write_Inv_Mass_hist();
+
+        // std::cerr << BOLDBLUE << "Write_deltaP()" << DEF << std::endl;
+        // TDirectory *Write_deltaP_folder = RootOutputFile->mkdir("DelatP");
+        // Write_deltaP_folder->cd();
+        // Write_deltaP();
+        // // // //
+        // // // // std::cerr << BOLDBLUE << "write_hist_theta_pim_measured()" << DEF << std::endl;
+        // // // // TDirectory* theta_pim_measured = RootOutputFile->mkdir("theta_pim_measured");
+        // // // // theta_pim_measured->cd();
+        // // // // write_hist_theta_pim_measured();
+
         std::cerr << BOLDBLUE << "Done Writing!!!" << DEF << std::endl;
 }
 
@@ -1127,7 +1127,8 @@ void Histogram::Fill_MMSQ_mPim(const std::shared_ptr<Reaction> &_e)
 {
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                MMSQ_mPim_hist[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                // MMSQ_mPim_hist[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
+                MMSQ_mPim_hist[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight() * background_fact_sim[int((_e->W() - 1.0) / 0.05) - 8][q2_bining(_e->Q2()) - 1]);
                 // // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 // //         MMSQ_mPim_hist_with_cut[q2_bining(_e->Q2())][int((_e->W() - 1.4) / 0.05)]->Fill(_e->MM2_mPim(), _e->weight());
 
@@ -2923,8 +2924,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 TThread::UnLock(); // Unlock after the operation
         }
 
-        /*
-        if (_e->TwoPion_exclusive())
+        // if (_e->TwoPion_exclusive())
         {
                 // MM_twoPi->Fill(_e->MM2_mPim(), _e->weight());
 
@@ -2946,7 +2946,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e)
                 MM2_twoPi_missingProt->Fill(_e->MM2_mprot(), _e->weight());
                 //}
         }
-        */
+
         /*
         if (sec > 0 && sec <= 6)
         {
@@ -3164,29 +3164,29 @@ void Histogram::Write_WvsQ2()
         auto mmsq_4_topology = RootOutputFile->mkdir("mmsq_4_topology");
         mmsq_4_topology->cd();
 
-        // MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
-        // if (MM2_twoPi_excl->GetEntries())
-        //         MM2_twoPi_excl->Write();
+        MM2_twoPi_excl->SetXTitle("MMSQ Excl (GeV^{2})");
+        if (MM2_twoPi_excl->GetEntries())
+                MM2_twoPi_excl->Write();
 
-        // MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
-        // if (MM_twoPi_excl->GetEntries())
-        //         MM_twoPi_excl->Write();
+        MM_twoPi_excl->SetXTitle("MM Excl (GeV)");
+        if (MM_twoPi_excl->GetEntries())
+                MM_twoPi_excl->Write();
 
         MM2_twoPi_mPim->SetXTitle("MMSQ mPim (GeV^{2})");
         if (MM2_twoPi_mPim->GetEntries())
                 MM2_twoPi_mPim->Write();
 
-        // MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
-        // if (MM2_twoPi_missingPip->GetEntries())
-        //         MM2_twoPi_missingPip->Write();
+        MM2_twoPi_missingPip->SetXTitle("MM2 mPip (GeV^{2})");
+        if (MM2_twoPi_missingPip->GetEntries())
+                MM2_twoPi_missingPip->Write();
 
-        // MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
-        // if (MM2_twoPi_missingProt->GetEntries())
-        //         MM2_twoPi_missingProt->Write();
+        MM2_twoPi_missingProt->SetXTitle("MM2 mProt (GeV^{2})");
+        if (MM2_twoPi_missingProt->GetEntries())
+                MM2_twoPi_missingProt->Write();
 
-        // // missing_Energy_hist->SetXTitle("me (GeV)");
-        // // if (missing_Energy_hist->GetEntries())
-        // //         missing_Energy_hist->Write();
+        // missing_Energy_hist->SetXTitle("me (GeV)");
+        // if (missing_Energy_hist->GetEntries())
+        //         missing_Energy_hist->Write();
 
         // // MM_twoPi_mPim->SetXTitle("MM mPim (GeV^{2})");
         // // if (MM_twoPi_mPim->GetEntries())

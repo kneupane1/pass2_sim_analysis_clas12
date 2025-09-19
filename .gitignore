@@ -28,3 +28,5 @@ exe/merging_two_inv_mass_bins.cpp
 exe/Modified_cs_with_14_inv_mass_bins.cpp
 exe/run_q2_loop.sh
 exe/how_to_use_recMatch.sh
+exe/yields_checks
+exe/new_CS_inv_splitted_14_bins.cpp

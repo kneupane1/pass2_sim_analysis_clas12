@@ -773,6 +773,7 @@ void Reaction::SetOther(int i)
 void Reaction::CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip)
 {
         auto mm_mpim = std::make_unique<TLorentzVector>();
+        auto mm_mprot = std::make_unique<TLorentzVector>();
 
         *mm_mpim += (*_gamma + *_target);
         *mm_mpim -= prot;
@@ -836,9 +837,50 @@ void Reaction::CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector
                 *mm_mprot += (*_gamma + *_target);
                 *mm_mprot -= pip;
                 *mm_mprot -= pim;
+
                 _MM2_mprot = mm_mprot->M2();
                 // }
         }
+}
+
+// ///////////////////////////////////
+// In Reaction (source)
+void Reaction::CalcMissMassExclHybrid(const TLorentzVector &prot,
+                                      const TLorentzVector &pip,
+                                      const TLorentzVector &pim_truth)
+{
+        auto mm_mpim = std::make_unique<TLorentzVector>();
+        auto mm_mpip = std::make_unique<TLorentzVector>();
+        auto mm_mprot = std::make_unique<TLorentzVector>();
+        auto mm_excl = std::make_unique<TLorentzVector>();
+
+        // Exclusive (using truth π-)
+        *mm_excl += (*_gamma + *_target);
+        *mm_excl -= prot;
+        *mm_excl -= pip;
+        *mm_excl -= pim_truth;
+        _MM_exclusive = mm_excl->M();
+        _MM2_exclusive = mm_excl->M2();
+        _excl_Energy = mm_excl->E();
+
+        // Missing-π− (unchanged: it never subtracts π−)
+        *mm_mpim += (*_gamma + *_target);
+        *mm_mpim -= prot;
+        *mm_mpim -= pip;
+        _MM_mPim = mm_mpim->M();
+        _MM2_mPim = mm_mpim->M2();
+
+        // Missing-π+ (uses π−; OK to mix reco π+ and truth π−)
+        *mm_mpip += (*_gamma + *_target);
+        *mm_mpip -= prot;
+        *mm_mpip -= pim_truth;
+        _MM2_mpip = mm_mpip->M2();
+
+        // Missing-proton (uses π− truth + π+ reco)
+        *mm_mprot += (*_gamma + *_target);
+        *mm_mprot -= pip;
+        *mm_mprot -= pim_truth;
+        _MM2_mprot = mm_mprot->M2();
 }
 
 float Reaction::MM_mPim()
@@ -1509,10 +1551,49 @@ void MCReaction::SetMCPip(int i)
 void MCReaction::SetMCPim(int i)
 {
         auto pionm_mc = std::make_unique<TLorentzVector>();
-        pionm_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_PIM);
-        _pim_mc.push_back(std::move(pionm_mc));
-        _pim_mc_indices.push_back(i);
-        // std::cout << "mc_pim  index  " << i << std::endl;
+        auto _pimUnSmearMC = std::make_unique<TLorentzVector>();
+
+        // pionm_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_PIM);
+        // _pim_mc.push_back(std::move(pionm_mc));
+        // _pim_mc_indices.push_back(i);
+        // // std::cout << "mc_pim  index  " << i << std::endl;
+
+        // // /////////////////////////////////     SMEARING PART  /////////////////////////////
+        _pim_status = 3000;
+
+        // if (_mc)
+        // {
+        _pimUnSmearMC->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_PIM);
+
+        double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, W_unsmear, pSmear, thetaSmear,
+            phiSmear;
+
+        pUnSmear = _pimUnSmearMC->P();
+
+        thetaUnSmear = _pimUnSmearMC->Theta() * 180 / PI;
+
+        if (_pimUnSmearMC->Phi() > 0)
+                phiUnSmear = _pimUnSmearMC->Phi() * 180 / PI;
+        else if (_pimUnSmearMC->Phi() < 0)
+                phiUnSmear = (_pimUnSmearMC->Phi() + 2 * PI) * 180 / PI;
+
+        // Generate new values
+        Reaction::SmearingFunc(PIM, _pim_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+        _pxPrimeSmear = _pimUnSmearMC->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                        sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+        _pyPrimeSmear = _pimUnSmearMC->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                        sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+        _pzPrimeSmear = _pimUnSmearMC->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+
+        // _pimSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM);  // smeared
+        // _pim->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM); // smeared
+
+        pionm_mc->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM); // smeared
+
+        _pim_mc.push_back(std::move(pionm_mc)); // Add pim to the vector
+        _pim_mc_indices.push_back(i);           // Store the index
+        // }
 }
 // void MCReaction::SetMCOther(int i) {
 //   _other_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i),
