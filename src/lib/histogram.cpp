@@ -267,6 +267,18 @@ Histogram::Histogram(const std::string &output_file)
                                 // std::cout << " 1..... w is : " << w << "  q2 is  :  " << q2 << "  bin size is : " << Bin_size_pPip
                                 //           << "  xi is : " << xi
                                 //           << "  name is : " << name_pPip << std::endl;
+
+                                auto name_mm2_inv_pPip = Form("h_mm2_mPim_inv_pPip_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPip<=%.3f GeV",
+                                                              (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+
+                                auto name_mm2_inv_pPim = Form("h_mm2_mPim_inv_pPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pPim<=%.3f GeV",
+                                                              (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pPip, xmax_pPip);
+
+                                auto name_mm2_inv_pipPim = Form("h_mm2_mPim_inv_pipPim_%.1f<=Q2<=%.1f GeV2_%.2f<=W<=%.2f GeV_%.3f<=M_pipPi<=%.3f GeV",
+                                                                (q2_lower_lim), (q2_upper_lim), (1.0 + 0.05 * w), (1.0 + 0.05 * w + 0.05), xmin_pipPim, xmax_pipPim);
+                                mm2_mPim_hist_inv_pPip[q2][w][xi] = std::make_shared<TH1D>(name_mm2_inv_pPip, name_mm2_inv_pPip, 100, -0.4, 0.4);
+                                mm2_mPim_hist_inv_pPim[q2][w][xi] = std::make_shared<TH1D>(name_mm2_inv_pPim, name_mm2_inv_pPim, 100, -0.4, 0.4);
+                                mm2_mPim_hist_inv_pipPim[q2][w][xi] = std::make_shared<TH1D>(name_mm2_inv_pipPim, name_mm2_inv_pipPim, 100, -0.4, 0.4);
                         }
 
                         for (int ti = 0; ti < 10; ti++)
@@ -934,6 +946,22 @@ void Histogram::Write()
  // WBinCheck_folder->cd();
  // Write_WBinCheck();
 */
+
+        TDirectory *Hists1D_mm2_mPim_inv_pPip_folder =
+            RootOutputFile->mkdir("Hists1D_mm2_mPim_inv_pPip_folder");
+        Hists1D_mm2_mPim_inv_pPip_folder->cd();
+        writeHists1D_mm2_mPim_inv_pPip();
+
+        TDirectory *Hists1D_mm2_mPim_inv_pPim_folder =
+            RootOutputFile->mkdir("Hists1D_mm2_mPim_inv_pPim_folder");
+        Hists1D_mm2_mPim_inv_pPim_folder->cd();
+        writeHists1D_mm2_mPim_inv_pPim();
+
+        TDirectory *Hists1D_mm2_mPim_inv_pipPim_folder =
+            RootOutputFile->mkdir("Hists1D_mm2_mPim_inv_pipPim_folder");
+        Hists1D_mm2_mPim_inv_pipPim_folder->cd();
+        writeHists1D_mm2_mPim_inv_pipPim();
+
         /////////////////// PID CHECKS //////////////////////
         /////////////////// PID CHECKS //////////////////////
         /////////////////// PID CHECKS //////////////////////
@@ -2827,6 +2855,82 @@ void Histogram::writeHists1D_thrown_alpha_pim()
                 }
         }
 }
+//////////////////////////////////////////  mmsq 3-d part   //////////////////////////////////
+//////////////////////////////////////////  mmsq 3-d part   //////////////////////////////////
+//////////////////////////////////////////  mmsq 3-d part   //////////////////////////////////
+//////////////////////////////////////////  mmsq 3-d part   //////////////////////////////////
+
+void Histogram::Fill_hist1D_mm2_mPim_inv_mass(const std::shared_ptr<Reaction> &_e)
+{
+        // inv_mass_pPim->Fill(_e->inv_Ppim(), _e->weight());
+
+        if (_e->W() <= 2.2 && _e->W() >= 1.4)
+        {
+
+                if (_e->Q2() >= 2.0 && _e->Q2() <= 9.0)
+                {
+                        // inv_mass_pipPim->Fill(_e->inv_pip_pim(), _e->weight());
+
+                        int inv_pPip_bin_val = inv_binning(_e->W(), _e->inv_Ppip(), 1);
+                        if (inv_pPip_bin_val != -1)
+                        {
+                                mm2_mPim_hist_inv_pPip[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)][inv_pPip_bin_val]->Fill(_e->MM2_mPim(), _e->weight());
+                        }
+
+                        int inv_pPim_bin_val = inv_binning(_e->W(), _e->inv_Ppim(), 1);
+                        if (inv_pPim_bin_val != -1)
+                        {
+                                mm2_mPim_hist_inv_pPim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)][inv_pPim_bin_val]->Fill(_e->MM2_mPim(), _e->weight());
+                        }
+                        int inv_pipPim_bin_val = inv_binning(_e->W(), _e->inv_pip_pim(), 0);
+                        if (inv_pipPim_bin_val != -1)
+                        {
+                                mm2_mPim_hist_inv_pipPim[q2_bining(_e->Q2())][int((_e->W() - 1.0) / 0.05)][inv_pipPim_bin_val]->Fill(_e->MM2_mPim(), _e->weight());
+                        }
+                }
+        }
+}
+
+void Histogram::writeHists1D_mm2_mPim_inv_pPip()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 14; xi++)
+                        {
+                                mm2_mPim_hist_inv_pPip[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_mm2_mPim_inv_pPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 14; xi++)
+                        {
+                                mm2_mPim_hist_inv_pPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+void Histogram::writeHists1D_mm2_mPim_inv_pipPim()
+{
+        for (size_t q2 = 1; q2 < q2_bin_size; q2++)
+        {
+                for (size_t w = w_lower_bin; w < w_higher_bin; w++)
+                {
+                        for (size_t xi = 0; xi < 14; xi++)
+                        {
+                                mm2_mPim_hist_inv_pipPim[q2][w][xi]->Write();
+                        }
+                }
+        }
+}
+
 ///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
 ///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////
 ///////////////////////////////////////////  w-q2 and fundamental part //////////////////////////////////////////////////

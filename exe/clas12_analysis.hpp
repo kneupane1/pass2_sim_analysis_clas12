@@ -941,8 +941,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                 //                  pow(v_swapped_z_Pip - v_original_z_Pip, 2);
 
                                                                                 // std::cout << "  event->GetProtonIndices()[i]  : " << event->GetProtonIndices()[i] << "  Pip index  : " << event->GetPipIndices()[j] << std::endl;
-                                                                                event->CalcMissMassExclHybrid(*event->GetProtons()[i], *event->GetPips()[j], *mc_event->GetMcPims()[0]);
-                                                                                // event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
+                                                                                // event->CalcMissMassExclHybrid(*event->GetProtons()[i], *event->GetPips()[j], *mc_event->GetMcPims()[0]);
+                                                                                event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
                                                                                 event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
 
                                                                                 // event->CalcMissMassPimSwapped();
@@ -956,9 +956,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                                 // /////////////sim
                                                                                 // _hists->Fill_MMSQ_mPim_1_comb(event);
-                                                                                if ((event->MM2_exclusive() < -0.004 || event->MM2_exclusive() > 0.002) &&
-                                                                                    (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
-                                                                                    (event->MM2_mprot() < 0.79 || event->MM2_mprot() > 1.025))
+                                                                                // if ((event->MM2_exclusive() < -0.004 || event->MM2_exclusive() > 0.002) &&
+                                                                                //     (event->MM2_mpip() < -0.024 || event->MM2_mpip() > 0.079) &&
+                                                                                //     (event->MM2_mprot() < 0.79 || event->MM2_mprot() > 1.025))
                                                                                 {
                                                                                         // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                         {
@@ -1000,6 +1000,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                 // std::cout << event->weight() << std::endl;
                                                                                                 // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                                 // {
+                                                                                                _hists->Fill_hist1D_mm2_mPim_inv_mass(event);
 
                                                                                                 _hists->Fill_MMSQ_mPim(event);
 
@@ -1104,9 +1105,4 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         // // std::cout << "  first entry only " << first_entries << "  % is : " << (first_entries) / (float)(two_pion_mPim_events) * 100 << std::endl;
         // // std::cout << "  second entry only " << second_entries << "  % is : " << (second_entries) / (float)(two_pion_mPim_events) * 100 << std::endl;
         // // std::cout << "  third entry only " << third_entries << "  % is : " << (third_entries) / (float)(two_pion_mPim_events) * 100 << std::endl;
-        // // std::cout << "  four or more entries only " << four_or_more_entries << "  % is : " << (four_or_more_entries) / (float)(two_pion_mPim_events) * 100 << std::endl;
-
-        // // Return the total number of events
-        return num_of_events;
-}
-#endif
+        // // std::cout << "  four or more entries only " << four_or_more_entries << "  % is : " << (four_or_more_entries

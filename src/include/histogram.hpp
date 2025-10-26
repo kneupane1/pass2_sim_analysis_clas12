@@ -478,6 +478,10 @@ protected:
     TH1D_ptr pip_alpha_hist[q2_bin][w_bin][10];
     TH1D_ptr pim_alpha_hist[q2_bin][w_bin][10];
 
+    TH1D_ptr mm2_mPim_hist_inv_pPip[q2_bin][w_bin][invM_bin];
+    TH1D_ptr mm2_mPim_hist_inv_pPim[q2_bin][w_bin][invM_bin];
+    TH1D_ptr mm2_mPim_hist_inv_pipPim[q2_bin][w_bin][invM_bin];
+
     static const short W_BIN_CHECK_NUM = 11;
 
     // std::string W_BIN_CHECK_NAME[W_BIN_CHECK_NUM] = {" All_W_range "," <1.30W<1.35 ",     " 1.35<W<1.40 ",
@@ -1036,6 +1040,12 @@ public:
     void writeHists1D_thrown_alpha_pip();
     void writeHists1D_thrown_alpha_pim();
     double CosTheta(int theta_bin_);
+
+    void Fill_hist1D_mm2_mPim_inv_mass(const std::shared_ptr<Reaction> &_e);
+
+    void writeHists1D_mm2_mPim_inv_pPip();
+    void writeHists1D_mm2_mPim_inv_pPim();
+    void writeHists1D_mm2_mPim_inv_pipPim();
 
     // W and Q^2
     void makeHists_sector();

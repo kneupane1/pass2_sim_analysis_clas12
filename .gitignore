@@ -30,3 +30,11 @@ exe/run_q2_loop.sh
 exe/how_to_use_recMatch.sh
 exe/yields_checks
 exe/new_CS_inv_splitted_14_bins.cpp
+exe/accep
+exe/combine_q2
+exe/combine_q2_bins.cpp
+exe/twopeg_cs
+exe/twopeg_cs_compare.cpp
+exe/nine_1d_yields
+exe/5D_cs_more_inv_bins_mPim_50_MeV_W_bin.cxx
+exe/run_q2_loop.sh
