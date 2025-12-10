@@ -998,42 +998,41 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                 _hists->Fill_WvsQ2(event);
 
                                                                                                 // std::cout << event->weight() << std::endl;
-                                                                                                // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                // {
-                                                                                                _hists->Fill_hist1D_mm2_mPim_inv_mass(event);
+                                                                                                if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_hist1D_mm2_mPim_inv_mass(event);
 
-                                                                                                _hists->Fill_MMSQ_mPim(event);
+                                                                                                        _hists->Fill_MMSQ_mPim(event);
 
-                                                                                                _hists->Fill_histSevenD_prot(event);
-                                                                                                _hists->Fill_histSevenD_pip(event);
-                                                                                                _hists->Fill_histSevenD_pim(event);
-                                                                                                _hists->Fill_histSevenD_prot_evt(event);
-                                                                                                _hists->Fill_histSevenD_pip_evt(event);
-                                                                                                _hists->Fill_histSevenD_pim_evt(event);
+                                                                                                        _hists->Fill_histSevenD_prot(event);
+                                                                                                        _hists->Fill_histSevenD_pip(event);
+                                                                                                        _hists->Fill_histSevenD_pim(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt(event);
+                                                                                                }
+                                                                                                if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_MMSQ_mPim_1_comb(event);
 
-                                                                                                // }
-                                                                                                // if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                // {
-                                                                                                //         _hists->Fill_MMSQ_mPim_1_comb(event);
+                                                                                                        _hists->Fill_histSevenD_prot_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pip_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pim_tight(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt_tight(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt_tight(event);
+                                                                                                }
+                                                                                                if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                {
+                                                                                                        _hists->Fill_MMSQ_mPim_2_comb(event);
 
-                                                                                                // _hists->Fill_histSevenD_prot_tight(event);
-                                                                                                // _hists->Fill_histSevenD_pip_tight(event);
-                                                                                                // _hists->Fill_histSevenD_pim_tight(event);
-                                                                                                // _hists->Fill_histSevenD_prot_evt_tight(event);
-                                                                                                // _hists->Fill_histSevenD_pip_evt_tight(event);
-                                                                                                // _hists->Fill_histSevenD_pim_evt_tight(event);
-                                                                                                // // // }
-                                                                                                // // // if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
-                                                                                                // // // {
-                                                                                                // // //         _hists->Fill_MMSQ_mPim_2_comb(event);
-
-                                                                                                // _hists->Fill_histSevenD_prot_loose(event);
-                                                                                                // _hists->Fill_histSevenD_pip_loose(event);
-                                                                                                // _hists->Fill_histSevenD_pim_loose(event);
-                                                                                                // _hists->Fill_histSevenD_prot_evt_loose(event);
-                                                                                                // _hists->Fill_histSevenD_pip_evt_loose(event);
-                                                                                                // _hists->Fill_histSevenD_pim_evt_loose(event);
-                                                                                                // // }
+                                                                                                        _hists->Fill_histSevenD_prot_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pip_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pim_loose(event);
+                                                                                                        _hists->Fill_histSevenD_prot_evt_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pip_evt_loose(event);
+                                                                                                        _hists->Fill_histSevenD_pim_evt_loose(event);
+                                                                                                }
 
                                                                                                 // //         }
                                                                                                 // // }
