@@ -89,7 +89,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
         int events_with_non_zero_wt = 0, events_with_zero_wt = 0, events_passes_w_q2_cuts = 0;
 
         for (size_t current_event = 0; current_event < num_of_events; current_event++)
-        // for (size_t current_event = 0; current_event < 40; current_event++)
         {
                 prot = 0;
                 pip = 0;
@@ -140,7 +139,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 }
 
                 // // if (mc_event->W_mc() < 3.0 && mc_event->W_mc() > 1.0 && mc_event->Q2_mc() < 12.0 && mc_event->Q2_mc() > 1.0)
-                // if (mc_event->W_mc() <= 2.15 && mc_event->W_mc() > 1.35 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.95)
+                if (mc_event->W_mc() <= 2.15 && mc_event->W_mc() > 1.35 && mc_event->Q2_mc() < 9.0 && mc_event->Q2_mc() > 1.95)
                 {
 
                         // // Retrieve the number of protons and pions in the event
@@ -154,8 +153,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                 for (size_t j = 0; j < num_pips_mc; ++j)
                                 {
 
-                                        if (mc_event->GetProtonMcIndices()[i] == mc_event->GetPipMcIndices()[j])
-                                                no_prot_pip_mc++;
+                                        // if (mc_event->GetProtonMcIndices()[i] == mc_event->GetPipMcIndices()[j])
+                                        //         no_prot_pip_mc++;
 
                                         // Exclude the case where the same particle is assigned as both proton and pip
                                         if (mc_event->GetProtonMcIndices()[i] != mc_event->GetPipMcIndices()[j])
@@ -195,21 +194,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                 auto event = std::make_shared<Reaction>(data, beam_energy);
                 no_of_events++;
-                // // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
-                if (data->charge(0) == -1)
-                        _hists->FillHists_electron_cuts(data, event);
+                if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
+                        if (data->charge(0) == -1)
+                                _hists->FillHists_electron_cuts(data, event);
 
                 ///// auto cuts = std::make_unique<rga_Cuts>(data);
                 auto cuts = std::make_unique<Pass2_Cuts>(data);
 
                 if (!cuts->ElectronCuts("mid"))
                         continue;
-                // event->SetMomCorrElec();
 
                 // if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
-                // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
-                _hists->FillHists_electron_with_cuts(data, event);
+                if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() > 1.95)
+                        _hists->FillHists_electron_with_cuts(data, event);
 
                 // If we pass electron cuts the event is processed
                 elec++;
@@ -947,8 +945,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                                                 // event->CalcMissMassPimSwapped();
                                                                                 ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
-                                                                                // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
-                                                                                // ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                                                                                 // if (num_combinations >= 2)
                                                                                 // if (event->MM2_mPim() < -0.1)
                                                                                 // if (dv2_Prot >= 0.0005 && dv2_Prot < 0.001)
@@ -963,7 +959,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                         {
 
-                                                                                                _hists->Fill_mmsq_all(event);
+                                                                                                // _hists->Fill_mmsq_all(event);
                                                                                                 // if (has_misidentified_particle == true)
                                                                                                 // {
                                                                                                 //         _hists->Fill_WvsQ2_misid(event);
