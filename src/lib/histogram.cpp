@@ -1801,7 +1801,7 @@ void Histogram::Fill_histSevenD_prot_tight(const std::shared_ptr<Reaction> &_e)
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
 
@@ -1852,7 +1852,7 @@ void Histogram::Fill_histSevenD_prot_evt_tight(const std::shared_ptr<Reaction> &
         x[4] = _e->alpha_pippim_pipf();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
 
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
@@ -1896,7 +1896,7 @@ void Histogram::Fill_histSevenD_pip_tight(const std::shared_ptr<Reaction> &_e)
         x[4] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -1938,7 +1938,7 @@ void Histogram::Fill_histSevenD_pip_evt_tight(const std::shared_ptr<Reaction> &_
         x[4] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -1983,7 +1983,7 @@ void Histogram::Fill_histSevenD_pim_tight(const std::shared_ptr<Reaction> &_e)
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2028,7 +2028,7 @@ void Histogram::Fill_histSevenD_pim_evt_tight(const std::shared_ptr<Reaction> &_
         x[4] = _e->alpha_ppip_pipim();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_tight(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2079,7 +2079,7 @@ void Histogram::Fill_histSevenD_prot_loose(const std::shared_ptr<Reaction> &_e)
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2127,7 +2127,7 @@ void Histogram::Fill_histSevenD_prot_evt_loose(const std::shared_ptr<Reaction> &
         x[4] = _e->alpha_pippim_pipf();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
 
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
@@ -2171,7 +2171,7 @@ void Histogram::Fill_histSevenD_pip_loose(const std::shared_ptr<Reaction> &_e)
         x[4] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2213,7 +2213,7 @@ void Histogram::Fill_histSevenD_pip_evt_loose(const std::shared_ptr<Reaction> &_
         x[4] = _e->alpha_ppim_pipip();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2258,7 +2258,7 @@ void Histogram::Fill_histSevenD_pim_loose(const std::shared_ptr<Reaction> &_e)
 
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {
@@ -2303,7 +2303,7 @@ void Histogram::Fill_histSevenD_pim_evt_loose(const std::shared_ptr<Reaction> &_
         x[4] = _e->alpha_ppip_pipim();
         if (_e->W() <= 2.2 && _e->W() >= 1.4 && _e->Q2() >= 2.0 && _e->Q2() <= 9.0)
         {
-                // if (MM_cut(_e->W(), _e->Q2(), _e->MM2_mPim()))
+                if (MM_cut_loose(_e->W(), _e->Q2(), _e->MM2_mPim()))
                 {
                         /////  if (((_e->MM2_exclusive() < -0.004) || (_e->MM2_exclusive() > 0.002)) && ((_e->MM2_mpip() < -0.024) || (_e->MM2_mpip() > 0.079)) && ((_e->MM2_mprot() < 0.79) || (_e->MM2_mprot() > 1.025)))
                         {

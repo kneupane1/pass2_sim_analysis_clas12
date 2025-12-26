@@ -107,10 +107,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 ///////// This part is only for mc events /////////////
                 // if (_mc)
                 // {
-                // if (data->mc_weight() <= 0)
-                //         events_with_zero_wt++;
-                // if (data->mc_npart() < 1 || data->mc_weight() <= 0)
-                //         continue;
+                if (data->mc_weight() <= 0)
+                        events_with_zero_wt++;
+                if (data->mc_npart() < 1 || data->mc_weight() <= 0)
+                        continue;
                 // events_with_non_zero_wt++;
 
                 // Make a reaction class from the data given
@@ -337,7 +337,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                 std::vector<std::pair<int, double>> proton_dps; // Pair of (index, dp_prot)
                 std::vector<std::pair<int, double>> pip_dps;    // Pair of (index, dp_pip)
 
-                for (int part = 0; part < data->gpart(); part++)
+                for (int part = 1; part < data->gpart(); part++)
                 {
                         // std::cout << "  event number  " << current_event << "   rec pid : " << data->pid(part) << "   rectoGen_pindex : "
                         //           << data->rectoGen_pindex(part) << "   rectoGen_mcindex : " << data->rectoGen_mcindex(part) << std::endl;
@@ -359,8 +359,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                 // Check if the particle satisfies proton and/or pion conditions
                                                 if (cuts->IsProton(part, "mid"))
                                                 {
-                                                        prot_idx++;
-                                                        statusProt = abs(data->status(part));
+                                                        // prot_idx++;
+                                                        // statusProt = abs(data->status(part));
 
                                                         double dp_prot = pow(mc_event->prot_momX_mc_gen() - data->px(part), 2) +
                                                                          pow(mc_event->prot_momY_mc_gen() - data->py(part), 2) +
@@ -369,7 +369,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                         // _hists->Fill_deltat_prot_after_cut(data, dt, part, event);
                                                         // _hists->FillHists_prot_pid_with_cuts(data, event, part, *event->GetProtons()[prot_idx]);
-
                                                         // _hists->Fill_deltaP_ambi_prot(event, dp_prot);
                                                 }
 
@@ -580,7 +579,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         int num_protons = event->GetProtons().size();
                                         int num_pips = event->GetPips().size();
                                         int num_combinations = 0;
-
                                         // std::cout << "  .......................   Insside .................... " << std::endl;
                                         // std::cout << "  event number  " << current_event << "   Number of particles: " << data->gpart() << std::endl;
                                         // std::cout << std::endl;
@@ -683,12 +681,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used  if (dp_Prot > -0.3 && dp_Prot < 0.0 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -5 && dphi_Prot < 2)
 
                                                                                         /////////new mid//
-                                                                                        // if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
+                                                                                        if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
                                                                                         /////ltight
                                                                                         // if (dp_Prot > -0.3 && dp_Prot < 0.07 && dtheta_Prot > -4 && dtheta_Prot < 4 && dphi_Prot > -12.5 && dphi_Prot < 7.5)
                                                                                         ////// loose
                                                                                         // if (dp_Prot > -0.2 && dp_Prot < -0.02 && dtheta_Prot > -2 && dtheta_Prot < 2 && dphi_Prot > -7.5 && dphi_Prot < 2.5)
-                                                                                        if ((dp_Prot > -0.4 && dp_Prot < 0.3) && (dtheta_Prot > -10 && dtheta_Prot < 10) && (dphi_Prot > -22.5 && dphi_Prot < 17.5))
+                                                                                        // if ((dp_Prot > -0.4 && dp_Prot < 0.3) && (dtheta_Prot > -10 && dtheta_Prot < 10) && (dphi_Prot > -22.5 && dphi_Prot < 17.5))
                                                                                         {
                                                                                                 proton_cdfd_cut = true;
                                                                                                 // ADD (keep FD, drop CD)
@@ -749,13 +747,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used until march 11
                                                                                         // if (dp_Pip > -0.25 && dp_Pip < 0.0 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -5 && dphi_Pip < 2)
                                                                                         /////// NEW MID
-                                                                                        // if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
+                                                                                        if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
 
                                                                                         ///// NEW TIGHT
                                                                                         // if (dp_Pip > -0.2 && dp_Pip < 0.1 && dtheta_Pip > -4 && dtheta_Pip < 4 && dphi_Pip > -12.5 && dphi_Pip < 7.5)
                                                                                         /////// NEW LOOSE
                                                                                         // if (dp_Pip > -0.1 && dp_Pip < 0.0 && dtheta_Pip > -2 && dtheta_Pip < 2 && dphi_Pip > -7.5 && dphi_Pip < 2.5)
-                                                                                        if ((dp_Pip > -0.4 && dp_Pip < 0.3) && (dtheta_Pip > -10 && dtheta_Pip < 10) && (dphi_Pip > -22.5 && dphi_Pip < 17.5))
+                                                                                        // if ((dp_Pip > -0.4 && dp_Pip < 0.3) && (dtheta_Pip > -10 && dtheta_Pip < 10) && (dphi_Pip > -22.5 && dphi_Pip < 17.5))
                                                                                         {
                                                                                                 pip_cdfd_cut = true;
                                                                                                 // ADD (keep FD, drop CD)
@@ -790,10 +788,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         int proton_part_idx = event->GetProtonIndices()[i];
                                                                         int pip_part_idx = event->GetPipIndices()[j];
 
-                                                                        // /////////////// removing CD tracks from CD FD match
-                                                                        if (drop_proton_idx.count(proton_part_idx) || drop_pip_idx.count(pip_part_idx))
-                                                                                continue; // ADD to remove cd tracks which also has fd tracks
-                                                                        ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
+                                                                        // // /////////////// removing CD tracks from CD FD match
+                                                                        // if (drop_proton_idx.count(proton_part_idx) || drop_pip_idx.count(pip_part_idx))
+                                                                        //         continue; // ADD to remove cd tracks which also has fd tracks
+                                                                        // ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                         {
                                                                                 _hists->Fill_cdfd_pip(dp_Pip, dtheta_Pip, dphi_Pip, event);
                                                                                 _hists->Fill_cdfd_prot(dp_Prot, dtheta_Prot, dphi_Prot, event);
