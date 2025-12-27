@@ -374,8 +374,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
 
                                                 if (cuts->IsPip(part, "mid"))
                                                 {
-                                                        pip++;
-                                                        pip_idx++;
+                                                        // pip++;
+                                                        // pip_idx++;
 
                                                         double dp_pip = pow(mc_event->pip_momX_mc_gen() - data->px(part), 2) +
                                                                         pow(mc_event->pip_momY_mc_gen() - data->py(part), 2) +
@@ -594,21 +594,21 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                         ////////////  CONTROL OVER HAOW MANY Prot/Pip PER EVENT /////////
                                         // _hists->Fill_WvsQ2(event);
 
-                                        // First loop: count valid combinations
-                                        for (size_t i = 0; i < num_protons; ++i)
-                                        {
-                                                // std::cout << " prot dp inside loop : " << proton_dps[i].second << std::endl;
+                                        // // First loop: count valid combinations
+                                        // for (size_t i = 0; i < num_protons; ++i)
+                                        // {
+                                        //         // std::cout << " prot dp inside loop : " << proton_dps[i].second << std::endl;
 
-                                                for (size_t j = 0; j < num_pips; ++j)
-                                                {
-                                                        // std::cout << " pip dp inside loop   : " << pip_dps[j].second << std::endl;
+                                        //         for (size_t j = 0; j < num_pips; ++j)
+                                        //         {
+                                        //                 // std::cout << " pip dp inside loop   : " << pip_dps[j].second << std::endl;
 
-                                                        // if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
-                                                        {
-                                                                num_combinations++;
-                                                        }
-                                                }
-                                        }
+                                        //                 // if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
+                                        //                 {
+                                        //                         num_combinations++;
+                                        //                 }
+                                        //         }
+                                        // }
 
                                         ///////////////////////////////////////////////////
 
@@ -681,12 +681,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used  if (dp_Prot > -0.3 && dp_Prot < 0.0 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -5 && dphi_Prot < 2)
 
                                                                                         /////////new mid//
-                                                                                        if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
+                                                                                        // if (dp_Prot > -0.25 && dp_Prot < 0.02 && dtheta_Prot > -3 && dtheta_Prot < 3 && dphi_Prot > -10 && dphi_Prot < 5)
                                                                                         /////ltight
                                                                                         // if (dp_Prot > -0.3 && dp_Prot < 0.07 && dtheta_Prot > -4 && dtheta_Prot < 4 && dphi_Prot > -12.5 && dphi_Prot < 7.5)
                                                                                         ////// loose
                                                                                         // if (dp_Prot > -0.2 && dp_Prot < -0.02 && dtheta_Prot > -2 && dtheta_Prot < 2 && dphi_Prot > -7.5 && dphi_Prot < 2.5)
-                                                                                        // if ((dp_Prot > -0.4 && dp_Prot < 0.3) && (dtheta_Prot > -10 && dtheta_Prot < 10) && (dphi_Prot > -22.5 && dphi_Prot < 17.5))
+                                                                                        if ((dp_Prot > -0.4 && dp_Prot < 0.3) && (dtheta_Prot > -10 && dtheta_Prot < 10) && (dphi_Prot > -22.5 && dphi_Prot < 17.5))
                                                                                         {
                                                                                                 proton_cdfd_cut = true;
                                                                                                 // ADD (keep FD, drop CD)
@@ -747,13 +747,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                         ////// mostly used until march 11
                                                                                         // if (dp_Pip > -0.25 && dp_Pip < 0.0 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -5 && dphi_Pip < 2)
                                                                                         /////// NEW MID
-                                                                                        if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
+                                                                                        // if (dp_Pip > -0.15 && dp_Pip < 0.05 && dtheta_Pip > -3 && dtheta_Pip < 3 && dphi_Pip > -10 && dphi_Pip < 5)
 
                                                                                         ///// NEW TIGHT
                                                                                         // if (dp_Pip > -0.2 && dp_Pip < 0.1 && dtheta_Pip > -4 && dtheta_Pip < 4 && dphi_Pip > -12.5 && dphi_Pip < 7.5)
                                                                                         /////// NEW LOOSE
                                                                                         // if (dp_Pip > -0.1 && dp_Pip < 0.0 && dtheta_Pip > -2 && dtheta_Pip < 2 && dphi_Pip > -7.5 && dphi_Pip < 2.5)
-                                                                                        // if ((dp_Pip > -0.4 && dp_Pip < 0.3) && (dtheta_Pip > -10 && dtheta_Pip < 10) && (dphi_Pip > -22.5 && dphi_Pip < 17.5))
+                                                                                        if ((dp_Pip > -0.4 && dp_Pip < 0.3) && (dtheta_Pip > -10 && dtheta_Pip < 10) && (dphi_Pip > -22.5 && dphi_Pip < 17.5))
                                                                                         {
                                                                                                 pip_cdfd_cut = true;
                                                                                                 // ADD (keep FD, drop CD)
@@ -789,12 +789,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                         int pip_part_idx = event->GetPipIndices()[j];
 
                                                                         // // /////////////// removing CD tracks from CD FD match
-                                                                        // if (drop_proton_idx.count(proton_part_idx) || drop_pip_idx.count(pip_part_idx))
-                                                                        //         continue; // ADD to remove cd tracks which also has fd tracks
+                                                                        if (drop_proton_idx.count(proton_part_idx) || drop_pip_idx.count(pip_part_idx))
+                                                                                continue; // ADD to remove cd tracks which also has fd tracks
                                                                         // ///  // if ((best_proton_index != event->GetProtonIndices()[i]) || (best_pip_index != event->GetPipIndices()[j]))
                                                                         {
-                                                                                _hists->Fill_cdfd_pip(dp_Pip, dtheta_Pip, dphi_Pip, event);
-                                                                                _hists->Fill_cdfd_prot(dp_Prot, dtheta_Prot, dphi_Prot, event);
+                                                                                // _hists->Fill_cdfd_pip(dp_Pip, dtheta_Pip, dphi_Pip, event);
+                                                                                // _hists->Fill_cdfd_prot(dp_Prot, dtheta_Prot, dphi_Prot, event);
 
                                                                                 two_pion_possible_mPim_events++;
                                                                                 entries_in_this_event++;
@@ -992,7 +992,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                 _hists->Fill_WvsQ2(event);
 
                                                                                                 // std::cout << event->weight() << std::endl;
-                                                                                                if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // if (_hists->MM_cut(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                                 {
                                                                                                         _hists->Fill_hist1D_mm2_mPim_inv_mass(event);
 
@@ -1005,7 +1005,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         _hists->Fill_histSevenD_pip_evt(event);
                                                                                                         _hists->Fill_histSevenD_pim_evt(event);
                                                                                                 }
-                                                                                                if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // if (_hists->MM_cut_tight(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                                 {
                                                                                                         _hists->Fill_MMSQ_mPim_1_comb(event);
 
@@ -1016,7 +1016,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hi
                                                                                                         _hists->Fill_histSevenD_pip_evt_tight(event);
                                                                                                         _hists->Fill_histSevenD_pim_evt_tight(event);
                                                                                                 }
-                                                                                                if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
+                                                                                                // if (_hists->MM_cut_loose(event->W(), event->Q2(), event->MM2_mPim()))
                                                                                                 {
                                                                                                         _hists->Fill_MMSQ_mPim_2_comb(event);
 

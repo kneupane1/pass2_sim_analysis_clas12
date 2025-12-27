@@ -796,11 +796,6 @@ bool Pass2_Cuts::DC_fiducial_cut_XY_E(std::string condition)
 bool Pass2_Cuts::DC_fiducial_cut_XY_PIP(int i, int pid, std::string condition)
 {
         bool _dc_fid_cut = true;
-        // bool isinbending = true;
-        // new cut parameters for the linear cut based on x and y coordinates (inbending field):
-        // replace it in the function: bool DC_fiducial_cut_XY(int j, int region)
-        // (optimized for electrons, do not use it for hadrons)
-
         // maxparams_in[1][6][3][2] -> [pid][sec][regions][a,b]->a*x+b
 
         /// supergaus old mid cuts but new tight cuts
@@ -952,11 +947,6 @@ bool Pass2_Cuts::DC_fiducial_cut_XY_PIP(int i, int pid, std::string condition)
 bool Pass2_Cuts::DC_fiducial_cut_XY_PROT(int i, int pid, std::string condition)
 {
         bool _dc_fid_cut = true;
-        // bool isinbending = true;
-        // new cut parameters for the linear cut based on x and y coordinates (inbending field):
-        // replace it in the function: bool DC_fiducial_cut_XY(int j, int region)
-        // (optimized for electrons, do not use it for hadrons)
-
         // maxparams_in[1][6][3][2] -> [sec][regions][a,b]->a*x+b
 
         /// supergaus
